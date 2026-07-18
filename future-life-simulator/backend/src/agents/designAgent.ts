@@ -1,9 +1,40 @@
 import { config } from "../config/config.js";
 import { getOpenAIClient } from "./openaiClient.js";
-import type { ResearchReport, StoryDocument } from "../types.js";
+import type { ResearchReport, RuntimeConfig, StoryDocument } from "../types.js";
 
 const DESIGN_SYSTEM_PROMPT = `You are a story design AI responsible for transforming a
-study-abroad research report into the skeleton of an interactive text-adventure game.
+study-abroad research report into the skeleton of an interactive survival text-adventure game.
+
+[Core Game System]
+The player has three visible stats:
+- health: physical wellbeing, sleep, safety, food, fatigue, climate stress.
+- mood: loneliness, motivation, belonging, culture shock, academic confidence.
+- money: rent, food, transport, tuition pressure, part-time work, internships.
+
+Initial stats should usually be { "health": 70, "mood": 70, "money": 70 }.
+The frontend ends the game immediately if any stat reaches 0 or below. Therefore, choices must
+create meaningful pressure without being random punishment.
+
+[Stat Balance Rules]
+- Produce ${config.story.minNodes}-${config.story.maxNodes} total nodes/endings so the player has enough turns to feel pressure.
+- Every non-ending choice MUST include:
+  "stat_delta": { "health": number, "mood": number, "money": number }
+  "stat_reason": "short explanation grounded in the report"
+- Typical choice deltas should be between -20 and +12 per stat.
+- High-risk choices may include one -25 to -30 penalty, but compensate with a clear benefit in another stat.
+- At least 60% of choices should involve tradeoffs, not simply all-positive or all-negative outcomes.
+- Across the likely playthrough, cumulative pressure should be able to push one stat near 0 if the player repeatedly ignores that category.
+- Ground stat effects in city + major + grade specifics from report.gameplay_signals whenever available.
+- The story must make the selected profile feel different. A PhD story should include advisor,
+  research, funding, lab/community, publication or thesis pressure. An undergraduate story should
+  include dorm/campus/social adaptation, coursework, clubs, internships, and family budget pressure.
+  A CS story should differ from Business, Design, or Finance through projects, labs, interviews,
+  networking norms, tools, and local industry conditions.
+- Examples:
+  * Taking an unpaid networking event may cost money but raise mood/career confidence.
+  * Working too many shifts may raise money but reduce health and mood.
+  * Joining a student community may raise mood but cost time or money.
+  * Ignoring sleep during a CS lab deadline may protect academics short-term but damage health.
 
 [Step 1: Select a Narrative Framework]
 Choose the most suitable of the following three, and state your reasoning:
@@ -16,12 +47,16 @@ Choose the most suitable of the following three, and state your reasoning:
 
 [Step 2: Generate Node Content]
 - All stories begin with an "opening" node representing arrival.
-- Each node's scene_text should be 80-150 words: scene description plus emotional tone,
+- Each node's scene_text should be 130-220 words: scene description plus emotional tone,
   not preachy. Produce ${config.story.minNodes}-${config.story.maxNodes} total nodes/endings.
-- Must include at least one genuine "challenge" type node - the story cannot be entirely positive.
+- Each node should include concrete local details: neighborhood/campus/lab/commute/weather/social
+  setting, and at least one detail connected to the user's major or grade.
+- Must include multiple genuine "challenge" type nodes - the story cannot be entirely positive.
+- Challenge nodes should correspond to health/mood/money stressors from the research report.
 - Ending nodes must have a "tone" field: one of "hopeful", "bittersweet", "challenging".
-- Set has_image=true only on moments worth seeing (opening, key emotional turns, endings);
-  aim for roughly 3-4 image nodes total across nodes+endings, no more.
+- Set has_image=true on most visually meaningful moments: opening, city arrival, housing/commute,
+  academic/work scene, social/community scene, major challenge, and endings.
+  Aim for 6-8 image nodes total across nodes+endings.
 - If has_image is true, write an image_prompt: 20-40 word English description of scene,
   atmosphere, and character state (no detailed facial features). If has_image is false,
   image_prompt must be null.
@@ -35,7 +70,8 @@ Output strictly this JSON, no extra text:
   "framework_type": "convergence" | "diverging" | "turning_point",
   "framework_reason": "one sentence",
   "user_profile": { "country": "string", "city": "string", "grade": "string", "major": "string" },
-  "nodes": { "<node_id>": { "type": "string", "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "choices": [{ "text": "string", "next_node": "string" }] } },
+  "initial_stats": { "health": 70, "mood": 70, "money": 70 },
+  "nodes": { "<node_id>": { "type": "string", "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "choices": [{ "text": "string", "next_node": "string", "stat_delta": { "health": number, "mood": number, "money": number }, "stat_reason": "string" }] } },
   "endings": { "<node_id>": { "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "tone": "hopeful"|"bittersweet"|"challenging" } }
 }`;
 
@@ -49,12 +85,48 @@ function validateStory(doc: StoryDocument): void {
   if (!doc.story_id || !doc.framework_type || !doc.nodes || !doc.endings) {
     throw new Error("Design Agent output missing required top-level fields");
   }
+  if (!doc.initial_stats) {
+    throw new Error("Design Agent output missing initial_stats");
+  }
+  for (const stat of ["health", "mood", "money"] as const) {
+    if (typeof doc.initial_stats[stat] !== "number") {
+      throw new Error(`initial_stats.${stat} must be a number`);
+    }
+  }
   if (Object.keys(doc.endings).length === 0) {
     throw new Error("Design Agent output has no endings");
+  }
+  for (const [id, node] of Object.entries(doc.nodes)) {
+    if (!Array.isArray(node.choices) || node.choices.length === 0) {
+      throw new Error(`Node "${id}" must have at least one choice`);
+    }
+    for (const [index, choice] of node.choices.entries()) {
+      if (!choice.stat_delta) {
+        throw new Error(`Choice ${index + 1} in node "${id}" is missing stat_delta`);
+      }
+      for (const stat of ["health", "mood", "money"] as const) {
+        if (typeof choice.stat_delta[stat] !== "number") {
+          throw new Error(`Choice ${index + 1} in node "${id}" has invalid stat_delta.${stat}`);
+        }
+      }
+      if (!choice.stat_reason) {
+        throw new Error(`Choice ${index + 1} in node "${id}" is missing stat_reason`);
+      }
+    }
   }
   for (const [id, ending] of Object.entries(doc.endings)) {
     if (!["hopeful", "bittersweet", "challenging"].includes(ending.tone)) {
       throw new Error(`Ending "${id}" has invalid tone "${ending.tone}"`);
+    }
+  }
+}
+
+function normalizeStats(doc: StoryDocument): void {
+  doc.initial_stats ??= { health: 70, mood: 70, money: 70 };
+  for (const node of Object.values(doc.nodes)) {
+    for (const choice of node.choices ?? []) {
+      choice.stat_delta ??= { health: 0, mood: 0, money: 0 };
+      choice.stat_reason ??= "No stat rationale provided.";
     }
   }
 }
@@ -90,8 +162,12 @@ function repairDanglingLinks(doc: StoryDocument): void {
  */
 const MAX_ATTEMPTS = 4;
 
-export async function runDesignAgent(report: ResearchReport, storyId: string): Promise<StoryDocument> {
-  const client = getOpenAIClient();
+export async function runDesignAgent(
+  report: ResearchReport,
+  storyId: string,
+  runtimeConfig?: RuntimeConfig,
+): Promise<StoryDocument> {
+  const client = getOpenAIClient(runtimeConfig);
   const userInput = `Story ID to use: "${storyId}"\n\nResearch report:\n${JSON.stringify(report, null, 2)}`;
 
   const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
@@ -103,7 +179,7 @@ export async function runDesignAgent(report: ResearchReport, storyId: string): P
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     try {
       const completion = await client.chat.completions.create({
-        model: config.models.design,
+        model: runtimeConfig?.models.design ?? config.models.design,
         messages,
         response_format: { type: "json_object" },
       });
@@ -111,6 +187,7 @@ export async function runDesignAgent(report: ResearchReport, storyId: string): P
       let doc: StoryDocument;
       try {
         doc = JSON.parse(extractJson(raw)) as StoryDocument;
+        normalizeStats(doc);
         repairDanglingLinks(doc);
         validateStory(doc);
       } catch (validationErr) {

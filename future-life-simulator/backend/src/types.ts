@@ -5,6 +5,28 @@ export interface UserProfile {
   major: string;
 }
 
+export type Provider = "openai" | "relay";
+
+export interface RuntimeModels {
+  search: string;
+  design: string;
+  image: string;
+}
+
+export interface RuntimeFeatures {
+  enableLiveSearch: boolean;
+  enableImageGeneration: boolean;
+  maxImagesPerStory: number;
+}
+
+export interface RuntimeConfig {
+  provider: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  models: RuntimeModels;
+  features: RuntimeFeatures;
+}
+
 export interface ResearchReport {
   mode: "preset" | "live_search";
   location: { country: string; city: string };
@@ -21,14 +43,29 @@ export interface ResearchReport {
     climate: string;
     part_time_work: string;
   };
+  gameplay_signals?: {
+    health: string[];
+    mood: string[];
+    money: string[];
+    city_major_specific_challenges: string[];
+  };
 }
 
 export type FrameworkType = "convergence" | "diverging" | "turning_point";
 export type Tone = "hopeful" | "bittersweet" | "challenging";
+export type StatKey = "health" | "mood" | "money";
+
+export interface StatBlock {
+  health: number;
+  mood: number;
+  money: number;
+}
 
 export interface Choice {
   text: string;
   next_node: string;
+  stat_delta?: StatBlock;
+  stat_reason?: string;
 }
 
 export interface StoryNode {
@@ -53,6 +90,7 @@ export interface StoryDocument {
   framework_type: FrameworkType;
   framework_reason: string;
   user_profile: UserProfile;
+  initial_stats?: StatBlock;
   nodes: Record<string, StoryNode>;
   endings: Record<string, EndingNode>;
 }

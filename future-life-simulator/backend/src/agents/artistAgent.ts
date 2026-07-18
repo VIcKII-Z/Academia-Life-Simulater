@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "../config/config.js";
 import { getOpenAIClient } from "./openaiClient.js";
-import type { StoryDocument } from "../types.js";
+import type { RuntimeConfig, StoryDocument } from "../types.js";
 
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generated");
 
@@ -12,26 +12,28 @@ const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generate
  * nodes keep has_image as designed but simply have no image_url, and the frontend
  * renders a tone-based placeholder instead.
  */
-export async function runArtistAgent(doc: StoryDocument): Promise<StoryDocument> {
-  if (!config.features.enableImageGeneration) {
+export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: RuntimeConfig): Promise<StoryDocument> {
+  const imageGenerationEnabled =
+    runtimeConfig?.features.enableImageGeneration ?? config.features.enableImageGeneration;
+  if (!imageGenerationEnabled) {
     return doc;
   }
 
   await fs.mkdir(ASSETS_DIR, { recursive: true });
-  const client = getOpenAIClient();
+  const client = getOpenAIClient(runtimeConfig);
 
   const allEntries = [
     ...Object.entries(doc.nodes),
     ...Object.entries(doc.endings),
   ].filter(([, node]) => node.has_image && node.image_prompt);
 
-  const capped = allEntries.slice(0, config.features.maxImagesPerStory);
+  const capped = allEntries.slice(0, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
 
   for (const [nodeId, node] of capped) {
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
     const prompt = `${node.image_prompt}${toneSuffix}`;
     const result = await client.images.generate({
-      model: config.models.image,
+      model: runtimeConfig?.models.image ?? config.models.image,
       prompt,
       size: "1024x1024",
     });

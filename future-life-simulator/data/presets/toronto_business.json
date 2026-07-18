@@ -13,5 +13,28 @@
     "safety": "Toronto is generally safe with normal big-city precautions; downtown areas are busy but low-violent-crime relative to comparable-sized US cities.",
     "climate": "Cold, snowy winters from November to March and warm, pleasant summers; the winter adjustment is often cited as the most significant lifestyle change for new arrivals.",
     "part_time_work": "International students can work up to 24 hours per week off-campus during studies, which is generous and commonly used to gain local work experience and offset costs."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Cold winters and short daylight can reduce energy and make commuting harder.",
+      "Part-time work plus group projects can lead to sleep loss if overloaded.",
+      "Shared housing farther from campus may increase commute fatigue."
+    ],
+    "mood": [
+      "Toronto's multicultural community can improve belonging if the player joins clubs.",
+      "Competitive networking culture can feel stressful and socially draining.",
+      "Winter isolation is a real adaptation challenge for students from warmer climates."
+    ],
+    "money": [
+      "High rent creates constant budget pressure, especially downtown.",
+      "Part-time work and internships can improve finances and local experience.",
+      "Networking events, transit, winter clothing, and case competitions add hidden costs."
+    ],
+    "city_major_specific_challenges": [
+      "Choose between a downtown apartment near networking events and cheaper suburban housing.",
+      "Balance case competition preparation against paid work shifts.",
+      "Spend money on professional clothes and events to improve business career prospects.",
+      "Manage winter fatigue during midterms and internship recruitment season."
+    ]
   }
 }

@@ -1,6 +1,14 @@
 export interface Choice {
   text: string;
   next_node: string;
+  stat_delta?: StatBlock;
+  stat_reason?: string;
+}
+
+export interface StatBlock {
+  health: number;
+  mood: number;
+  money: number;
 }
 
 export interface StoryNode {
@@ -27,6 +35,46 @@ export interface StoryDocument {
   framework_type: "convergence" | "diverging" | "turning_point";
   framework_reason: string;
   user_profile: { country: string; city: string; grade: string; major: string };
+  initial_stats?: StatBlock;
   nodes: Record<string, StoryNode>;
   endings: Record<string, EndingNode>;
 }
+
+export type Provider = "openai" | "relay";
+
+export interface UserProfile {
+  country: string;
+  city: string;
+  grade: string;
+  major: string;
+}
+
+export interface RuntimeConfig {
+  provider: Provider;
+  apiKey: string;
+  baseURL?: string;
+  models: {
+    search: string;
+    design: string;
+    image: string;
+  };
+  features: {
+    enableLiveSearch: boolean;
+    enableImageGeneration: boolean;
+    maxImagesPerStory: number;
+  };
+}
+
+export interface AppConfig {
+  openai: {
+    baseURL: string;
+  };
+  models: RuntimeConfig["models"];
+  features: RuntimeConfig["features"];
+  story: {
+    minNodes: number;
+    maxNodes: number;
+  };
+}
+
+export type RunFiles = Record<string, unknown>;

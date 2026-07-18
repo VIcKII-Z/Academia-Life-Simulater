@@ -34,13 +34,13 @@ export const config = {
     // If false, Artist Agent is skipped entirely; nodes render with no image / a placeholder.
     enableImageGeneration: false,
     // Max number of images generated per story if enableImageGeneration is true.
-    maxImagesPerStory: 4,
+    maxImagesPerStory: 8,
   },
 
   // ---- Story generation tuning -----------------------------------
   story: {
-    minNodes: 5,
-    maxNodes: 8,
+    minNodes: 12,
+    maxNodes: 15,
   },
 } as const;
 

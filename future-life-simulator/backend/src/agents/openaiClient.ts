@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { config } from "../config/config.js";
+import type { RuntimeConfig } from "../types.js";
 
 /**
  * Shared OpenAI client factory.
@@ -17,7 +18,15 @@ import { config } from "../config/config.js";
  */
 let client: OpenAI | null = null;
 
-export function getOpenAIClient(): OpenAI {
+export function getOpenAIClient(runtimeConfig?: RuntimeConfig): OpenAI {
+  if (runtimeConfig?.apiKey) {
+    const baseURL =
+      runtimeConfig.provider === "relay"
+        ? runtimeConfig.baseURL?.trim() || undefined
+        : undefined;
+    return new OpenAI({ apiKey: runtimeConfig.apiKey, baseURL });
+  }
+
   if (client) return client;
 
   const baseURL = config.openai.baseURL || process.env.OPENAI_BASE_URL || undefined;

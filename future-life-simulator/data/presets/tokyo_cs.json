@@ -13,5 +13,28 @@
     "safety": "Tokyo is widely regarded as one of the safest large cities in the world, with low crime rates even late at night.",
     "climate": "Humid summers and mild winters; typhoon season in late summer can disrupt routines but is rarely dangerous if precautions are taken.",
     "part_time_work": "International students can legally work part-time up to 28 hours per week with proper permission, which helps offset living costs but adds pressure on an already heavy academic schedule."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Long train commutes and late lab work can reduce sleep and physical energy.",
+      "Humid summers and typhoon season can make daily routines more exhausting.",
+      "Convenience food is easy but relying on it during deadlines may hurt wellbeing."
+    ],
+    "mood": [
+      "Japanese language barriers can make errands and social life feel isolating.",
+      "A strong international student community can improve belonging if the player invests time.",
+      "Hierarchical lab culture may create anxiety around advisor communication."
+    ],
+    "money": [
+      "Tokyo rent is the dominant recurring pressure, especially near campus.",
+      "Part-time work can stabilize money but competes with CS graduate workload.",
+      "Tech internships and scholarships can relieve pressure if pursued early."
+    ],
+    "city_major_specific_challenges": [
+      "Choose between cheaper far-away housing and an expensive short commute near campus.",
+      "Balance a demanding AI lab deadline against part-time work income.",
+      "Decide whether to spend money on Japanese lessons to unlock better local opportunities.",
+      "Navigate a typhoon week while a project milestone and visa paperwork are due."
+    ]
   }
 }
