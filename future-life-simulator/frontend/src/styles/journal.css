@@ -1,0 +1,955 @@
+/* ============================================================
+   Future Life Simulator — "Travel Journal" theme
+   Warm, paper-like, cinematic. Used by the user-facing flow only.
+   See fls-design.md for the full design rationale.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap");
+
+:root {
+  --paper: #fcfaef;
+  --paper-deep: #f2ecd4;
+  --ink: #2c2418;
+  --ink-soft: #5b5142;
+  --gold: #b8863b;
+  --gold-soft: #e4c98a;
+  --terracotta: #c1683f;
+  --tone-hopeful: #4f7a5b;
+  --tone-bittersweet: #a5763f;
+  --tone-challenging: #a1453c;
+  --shadow: rgba(44, 36, 24, 0.18);
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Nunito Sans", system-ui, sans-serif;
+}
+
+.journal {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(184, 134, 59, 0.1), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(193, 104, 63, 0.1), transparent 45%),
+    repeating-linear-gradient(0deg, rgba(44, 36, 24, 0.015) 0px, rgba(44, 36, 24, 0.015) 1px, transparent 1px, transparent 3px),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px 64px;
+}
+
+.journal * {
+  box-sizing: border-box;
+}
+
+.journal h1,
+.journal h2,
+.journal h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+
+.journalTitleImage {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  image-rendering: pixelated;
+  margin: 0 auto 24px;
+}
+
+/* ---- Onboarding (API key entry) page — now shares the same cream
+   background as the rest of the app (--paper matches title.png/mascot.png's
+   background), so no separate override is needed here anymore; this class
+   is kept only in case the onboarding step ever needs its own tweaks. */
+.journal--onboarding {
+}
+
+/* ---- shared card shell ------------------------------------ */
+.journalCard {
+  width: 100%;
+  max-width: 560px;
+  background: #fffdf8;
+  border-radius: 18px;
+  border: 1px solid rgba(44, 36, 24, 0.08);
+  box-shadow: 0 18px 40px var(--shadow);
+  padding: 40px 36px;
+  position: relative;
+}
+
+.journalCard::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px dashed rgba(184, 134, 59, 0.35);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* ---- Passport entry ---------------------------------------- */
+.passportCard {
+  text-align: center;
+}
+
+.passportStamp {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+
+.passportCard p.lede {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 12px 0 24px;
+}
+
+/* ---- Relay vs. official OpenAI toggle ------------------------
+   A segmented, sliding toggle (not just two separate chip buttons) so it
+   reads clearly as an either/or choice rather than two independent options. */
+.providerToggle {
+  position: relative;
+  display: flex;
+  padding: 4px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 999px;
+  background: rgba(44, 36, 24, 0.04);
+}
+
+.providerToggle button {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 9px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.providerToggle button.active {
+  color: var(--ink);
+}
+
+/* Sliding highlight behind whichever button is active. */
+.providerToggle::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgba(44, 36, 24, 0.2);
+  transition: transform 0.2s ease;
+  z-index: 0;
+}
+
+.providerToggle:has(button:last-child.active)::before {
+  transform: translateX(100%);
+}
+
+.journalInput {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(44, 36, 24, 0.2);
+  background: var(--paper);
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.journalInput:focus {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 1px;
+}
+
+.journalHint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-align: left;
+  margin: -4px 0 18px;
+}
+
+.journalButton {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: var(--ink);
+  color: var(--paper);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.journalButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(44, 36, 24, 0.25);
+}
+
+.journalButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.journalButton.secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(44, 36, 24, 0.3);
+}
+
+.journalButtonRow {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.journalError {
+  background: rgba(161, 69, 60, 0.1);
+  color: var(--tone-challenging);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+/* ---- Quiz flow ---------------------------------------------- */
+.quizProgress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.quizDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(44, 36, 24, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.quizDot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+}
+
+.quizDot.done {
+  background: var(--terracotta);
+}
+
+.quizQuestion {
+  text-align: center;
+  animation: pageIn 0.35s ease;
+}
+
+.quizQuestion h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.quizQuestion p {
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+
+.quizChip {
+  display: inline-flex;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(44, 36, 24, 0.2);
+  background: var(--paper);
+  margin: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.quizChip:hover {
+  border-color: var(--gold);
+}
+
+.quizChip.selected {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.quizChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.quizDetailFields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.quizDetailFields label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.quizDetailFields .journalInput {
+  margin: 0;
+}
+
+.universitySuggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  margin: -4px 0 16px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.universitySuggestion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  background: var(--paper);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.universitySuggestion:hover {
+  border-color: var(--gold);
+  background: rgba(201, 155, 74, 0.08);
+}
+
+.universitySuggestionName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.universitySuggestionMeta {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.universityManualFallback {
+  margin-bottom: 8px;
+}
+
+/* ---- Multi-layer search accordion ------------------------------
+   Instead of paginating (one question replacing the previous one),
+   each answered layer collapses into a compact summary row and stays
+   visible while the next layer pops in below it — the whole
+   country -> city -> university -> degree -> major -> details chain
+   builds up on one continuously growing page, finalized together at
+   the end. */
+.quizStack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.quizStepDone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(184, 134, 59, 0.08);
+  border: 1px solid rgba(44, 36, 24, 0.08);
+  animation: pageIn 0.3s ease;
+}
+
+.quizStepDoneText {
+  font-size: 0.9rem;
+}
+
+.quizStepDoneLabel {
+  color: var(--ink-soft);
+  margin-right: 6px;
+}
+
+.quizStepDoneValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.quizStepEdit {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.quizStepEdit:hover {
+  text-decoration: underline;
+}
+
+.quizStepActive {
+  padding: 18px 4px 4px;
+  animation: pageIn 0.35s ease;
+}
+
+.quizStepActive h2 {
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.quizStepActive p {
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Dreaming loader ------------------------------------------ */
+.dreamingCard {
+  text-align: center;
+}
+
+.dreamingStamp {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  border: 3px double var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  animation: stampPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes stampPulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+.dreamingLine {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--ink);
+  min-height: 2.6em;
+  animation: pageIn 0.4s ease;
+}
+
+.dreamingSub {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+/* ---- Scene / playthrough --------------------------------------- */
+.sceneShell {
+  max-width: 680px;
+  width: 100%;
+  animation: pageIn 0.45s ease;
+}
+
+.polaroid {
+  background: #fffdf9;
+  padding: 14px 14px 40px;
+  box-shadow: 0 14px 30px var(--shadow);
+  border-radius: 4px;
+  transform: rotate(-1.5deg);
+  margin: 0 auto 22px;
+  max-width: 420px;
+  position: relative;
+}
+
+.polaroid:nth-of-type(even) {
+  transform: rotate(1.5deg);
+}
+
+.polaroid--hero {
+  max-width: 100%;
+  padding: 16px 16px 46px;
+  transform: rotate(-0.6deg);
+}
+
+.polaroid .tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 70px;
+  height: 22px;
+  background: rgba(228, 201, 138, 0.55);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.polaroidImageWrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.polaroid img {
+  width: 100%;
+  display: block;
+  border-radius: 2px;
+  animation: kenBurns 14s ease-in-out infinite alternate;
+}
+
+.polaroidVignette {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  box-shadow: inset 0 -40px 50px -20px rgba(44, 36, 24, 0.45);
+  pointer-events: none;
+}
+
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+
+.polaroid figcaption {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+
+/* ---- Full-bleed cinematic scene hero (used whenever a scene has an
+   image) — breaks out of the centered .journal container to span the
+   full viewport width for a more immersive, "you are there" feel. ---- */
+.sceneShell--immersive {
+  max-width: none;
+}
+
+.sceneHero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  height: min(78vh, 720px);
+  min-height: 360px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px var(--shadow);
+}
+
+.sceneHeroImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenBurns 16s ease-in-out infinite alternate;
+}
+
+.sceneHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 15, 8, 0.45) 0%, rgba(20, 15, 8, 0) 22%, rgba(20, 15, 8, 0.05) 55%, rgba(20, 15, 8, 0.85) 100%);
+  pointer-events: none;
+}
+
+.sceneHeroCaption {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: #fbf3e2;
+  letter-spacing: 0.03em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* the story/choices card slides up to overlap the bottom of the stat
+   strip (paper-on-paper, never on top of the photo itself) */
+.sceneCard--overlap {
+  max-width: 680px;
+  margin: -18px auto 0;
+  z-index: 3;
+  position: relative;
+}
+
+/* ---- Stat strip: a small pinned "ticket" of stat bars that sits below
+   the hero photo (never on top of it) so the picture stays fully clear
+   and immersive. ------------------------------------------------------ */
+.statStrip {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 18px;
+  background: #fffdf9;
+  border: 1px solid rgba(44, 36, 24, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 10px 22px var(--shadow);
+  padding: 16px 18px 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.statStrip--overlap {
+  margin-top: -34px;
+}
+
+@media (max-width: 560px) {
+  .statStrip--overlap {
+    margin-top: -22px;
+  }
+}
+
+/* ---- Stat bars (the "value of life") ---------------------------- */
+.statBars {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statBar {
+  display: grid;
+  grid-template-columns: 30px 64px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+}
+
+.statBarSticker {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 3px rgba(44, 36, 24, 0.25));
+}
+
+.statBarLabel {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.statBarTrack {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  border: 1px solid rgba(44, 36, 24, 0.12);
+  overflow: hidden;
+}
+
+.statBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.statBarValue {
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.statBar--low .statBarLabel,
+.statBar--low .statBarValue {
+  color: var(--tone-challenging);
+}
+
+.statBar--low .statBarTrack {
+  animation: lowPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes lowPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(161, 69, 60, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(161, 69, 60, 0.12); }
+}
+
+/* ---- Scene card + story text ------------------------------------ */
+.sceneCard {
+  position: relative;
+  padding-top: 46px;
+}
+
+.sceneQuoteMark {
+  position: absolute;
+  top: -6px;
+  left: 24px;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--gold-soft);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.storyText {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+/* ---- Fork-in-the-road choices ------------------------------------ */
+.forkWrapper {
+  margin-top: 24px;
+}
+
+.forkDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.forkDivider::before,
+.forkDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--gold-soft) 0, var(--gold-soft) 4px, transparent 4px, transparent 8px);
+}
+
+.choicePaths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.choicePaths--1 {
+  grid-template-columns: 1fr;
+}
+
+.choicePath {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  background: linear-gradient(180deg, #fffdf8, var(--paper-deep));
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 14px;
+  padding: 20px 16px 22px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.choicePath--left { transform: rotate(-1.4deg); }
+.choicePath--right { transform: rotate(1.4deg); }
+
+.choicePath:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 24px var(--shadow);
+  transform: translateY(-3px) rotate(0deg);
+}
+
+.choicePath:active {
+  transform: translateY(0) rotate(0deg) scale(0.98);
+}
+
+.choicePathArrow {
+  width: 40px;
+  height: 24px;
+  color: var(--terracotta);
+}
+
+.choicePathText {
+  line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+  .choicePaths {
+    grid-template-columns: 1fr;
+  }
+  .choicePath--left,
+  .choicePath--right {
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .sceneHero {
+    height: min(58vh, 480px);
+  }
+  .sceneCard--overlap {
+    margin-top: -36px;
+  }
+}
+
+/* ---- Postcard ending -------------------------------------------- */
+.postcard {
+  background: #fffdf9;
+  border-radius: 6px;
+  box-shadow: 0 20px 44px var(--shadow);
+  padding: 32px;
+  position: relative;
+  border: 1px solid rgba(44, 36, 24, 0.1);
+}
+
+.postcard::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(44, 36, 24, 0.12);
+  pointer-events: none;
+}
+
+.wax-seal {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: center;
+  line-height: 1.1;
+  padding: 6px;
+  margin: 0 auto 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.wax-seal.toneHopeful { background: var(--tone-hopeful); }
+.wax-seal.toneBittersweet { background: var(--tone-bittersweet); }
+.wax-seal.toneChallenging { background: var(--tone-challenging); }
+
+.postcard h2 {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.postmark {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.postcard p {
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.devLink {
+  position: fixed;
+  bottom: 14px;
+  right: 16px;
+  font-size: 0.7rem;
+  color: rgba(44, 36, 24, 0.35);
+  text-decoration: none;
+}
+
+.devLink:hover {
+  color: var(--ink-soft);
+}
+
+/* ---- Mid-flow API key editor -----------------------------------
+   Lets the player fix/swap their API key from any stage (quiz, error,
+   even mid-game) instead of being forced back to the very first
+   onboarding screen. */
+.apiKeyEditTrigger {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 248, 0.85);
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.apiKeyEditTrigger:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+.keyEditorOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 36, 24, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 30;
+}
+
+/* ---- "Reusing an existing story" banner ------------------------- */
+.reusedStoryBanner {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(79, 122, 91, 0.12);
+  color: var(--tone-hopeful);
+  border: 1px solid rgba(79, 122, 91, 0.3);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+}

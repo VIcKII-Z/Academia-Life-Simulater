@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { config } from "../config/config.js";
+import type { RuntimeConfig } from "../types.js";
 
 /**
  * Shared OpenAI client factory.
@@ -17,7 +18,20 @@ import { config } from "../config/config.js";
  */
 let client: OpenAI | null = null;
 
-export function getOpenAIClient(): OpenAI {
+export function getOpenAIClient(runtimeConfig?: RuntimeConfig): OpenAI {
+  if (runtimeConfig?.apiKey) {
+    // IMPORTANT: the OpenAI SDK falls back to process.env.OPENAI_BASE_URL
+    // whenever baseURL is undefined — passing `undefined` here does NOT mean
+    // "use the official API" if that env var happens to be set (e.g. to the
+    // relay, in backend/.env). So for provider "openai" we must explicitly
+    // pass the official URL to override any relay URL set via env/.env.
+    const baseURL =
+      runtimeConfig.provider === "relay"
+        ? runtimeConfig.baseURL?.trim() || undefined
+        : "https://api.openai.com/v1";
+    return new OpenAI({ apiKey: runtimeConfig.apiKey, baseURL });
+  }
+
   if (client) return client;
 
   const baseURL = config.openai.baseURL || process.env.OPENAI_BASE_URL || undefined;

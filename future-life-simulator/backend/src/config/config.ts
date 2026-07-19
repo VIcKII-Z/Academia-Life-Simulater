@@ -34,13 +34,16 @@ export const config = {
     // If false, Artist Agent is skipped entirely; nodes render with no image / a placeholder.
     enableImageGeneration: false,
     // Max number of images generated per story if enableImageGeneration is true.
-    maxImagesPerStory: 4,
+    maxImagesPerStory: 8,
   },
 
   // ---- Story generation tuning -----------------------------------
+  // TEMP: pinned to a single linear 10-node storyline (no branching tree)
+  // per current design direction. Restore a range (e.g. 12-15) and the
+  // branching prompt language in designAgent.ts to bring back a tree.
   story: {
-    minNodes: 5,
-    maxNodes: 8,
+    minNodes: 10,
+    maxNodes: 10,
   },
 } as const;
 
