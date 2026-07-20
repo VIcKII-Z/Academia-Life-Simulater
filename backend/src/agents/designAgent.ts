@@ -131,12 +131,10 @@ Choose the most suitable of the following three, and state your reasoning:
 - Must include multiple genuine "challenge" type nodes - the story cannot be entirely positive.
 - Challenge nodes should correspond to health/mood/money/school stressors from the research report.
 - Ending nodes must have a "tone" field: one of "hopeful", "bittersweet", "challenging".
-- Set has_image=true on most visually meaningful moments: opening, city arrival, housing/commute,
-  academic/work scene, social/community scene, major challenge, and the ending.
-  Aim for 6-8 image nodes total across nodes+endings (out of exactly ${targetNodeCount} total).
-- If has_image is true, write an image_prompt: 20-40 word English description of scene,
-  atmosphere, and character state (no detailed facial features). If has_image is false,
-  image_prompt must be null.
+- Set has_image=true for EVERY node and the ending, so all ${targetNodeCount} chapters have
+  a matching illustration.
+- For every node and ending, write an image_prompt: 20-40 word English description of scene,
+  atmosphere, character state, and visible environment (no detailed facial features, no text).
 - EVERY node AND every ending MUST include an "insight" field: a 1-2 sentence English
   educational "field note" (about 20-45 words) explaining WHY this situation or challenge
   realistically happens to study-abroad students with THIS specific country/city/major/grade,
@@ -174,9 +172,6 @@ function extractJson(text: string): string {
 }
 
 const STAT_KEYS = ["health", "mood", "money", "school"] as const;
-const MIN_RECOMMENDED_IMAGES = 6;
-const MAX_RECOMMENDED_IMAGES = 8;
-
 function validateStory(doc: StoryDocument): void {
   if (!doc.story_id || !doc.framework_type || !doc.nodes || !doc.endings) {
     throw new Error("Design Agent output missing required top-level fields");
@@ -282,9 +277,9 @@ function buildFallbackImagePrompt(
 }
 
 /**
- * The Design Agent is asked for 6-8 image nodes, but smaller/cheaper models
- * sometimes treat that as optional and mark only the opening or ending. Repair
- * the visual plan deterministically so Artist Agent has enough work to do.
+ * Every story chapter should be illustrated. Smaller/cheaper models sometimes
+ * forget image prompts on intermediate nodes, so repair the visual plan
+ * deterministically before Artist Agent runs.
  */
 function ensureImageCoverage(doc: StoryDocument, maxImagesPerStory: number): void {
   const entries = [
@@ -294,30 +289,13 @@ function ensureImageCoverage(doc: StoryDocument, maxImagesPerStory: number): voi
 
   if (entries.length === 0 || maxImagesPerStory <= 0) return;
 
-  const desiredImageCount = Math.min(entries.length, maxImagesPerStory, MAX_RECOMMENDED_IMAGES);
-  const minimumImageCount = Math.min(entries.length, maxImagesPerStory, MIN_RECOMMENDED_IMAGES);
+  const desiredImageCount = Math.min(entries.length, maxImagesPerStory);
   const existingImageCount = entries.filter(([, node]) => node.has_image && node.image_prompt).length;
-  if (existingImageCount >= minimumImageCount) return;
-
-  const candidateIds: string[] = [];
-  const addCandidate = (id: string | undefined): void => {
-    if (id && !candidateIds.includes(id)) candidateIds.push(id);
-  };
-
-  addCandidate("opening");
-  for (let index = 0; index < desiredImageCount; index++) {
-    const position =
-      desiredImageCount === 1 ? 0 : Math.round((index * (entries.length - 1)) / (desiredImageCount - 1));
-    addCandidate(entries[position]?.[0]);
-  }
-  for (const [id] of entries) addCandidate(id);
+  if (existingImageCount >= desiredImageCount) return;
 
   let imageCount = existingImageCount;
-  for (const id of candidateIds) {
+  for (const [id, node] of entries) {
     if (imageCount >= desiredImageCount) break;
-    const entry = entries.find(([entryId]) => entryId === id);
-    if (!entry) continue;
-    const [, node] = entry;
     if (node.has_image && node.image_prompt) continue;
 
     node.has_image = true;

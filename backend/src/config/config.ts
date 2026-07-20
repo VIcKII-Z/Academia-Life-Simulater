@@ -34,7 +34,8 @@ export const config = {
     // If false, Artist Agent is skipped entirely; nodes render with no image / a placeholder.
     enableImageGeneration: false,
     // Max number of images generated per story if enableImageGeneration is true.
-    maxImagesPerStory: 8,
+    // Story length is capped at 30, so this default allows every chapter to have an image.
+    maxImagesPerStory: 30,
   },
 
   // ---- Story generation tuning -----------------------------------

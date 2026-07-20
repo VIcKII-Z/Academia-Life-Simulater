@@ -18,7 +18,6 @@ app.use(express.json());
 
 const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
-const MIN_RECOMMENDED_IMAGES = 6;
 app.use("/assets", express.static(ASSETS_DIR));
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
@@ -167,14 +166,23 @@ function countGeneratedImages(story: unknown): number {
   ).length;
 }
 
+function countStoryChapters(story: unknown): number {
+  if (!story || typeof story !== "object") return 0;
+  const doc = story as {
+    nodes?: Record<string, unknown>;
+    endings?: Record<string, unknown>;
+  };
+  return Object.keys(doc.nodes ?? {}).length + Object.keys(doc.endings ?? {}).length;
+}
+
 function hasEnoughCachedImages(cached: unknown, rawRuntimeConfig: unknown): boolean {
   const raw = rawRuntimeConfig as { features?: Partial<RuntimeConfig["features"]> } | undefined;
   const enableImageGeneration = raw?.features?.enableImageGeneration ?? config.features.enableImageGeneration;
   if (!enableImageGeneration) return true;
 
   const maxImagesPerStory = raw?.features?.maxImagesPerStory ?? config.features.maxImagesPerStory;
-  const minimumImages = Math.min(maxImagesPerStory, MIN_RECOMMENDED_IMAGES);
-  return minimumImages <= 0 || countGeneratedImages(cached) >= minimumImages;
+  const requiredImages = Math.min(countStoryChapters(cached), maxImagesPerStory);
+  return requiredImages <= 0 || countGeneratedImages(cached) >= requiredImages;
 }
 
 app.get("/api/config", (_req, res) => {

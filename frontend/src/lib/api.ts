@@ -62,7 +62,7 @@ export function buildRuntimeConfig(overrides?: Partial<RuntimeConfig["models"]>)
     features: {
       enableLiveSearch: true,
       enableImageGeneration: true,
-      maxImagesPerStory: 8,
+      maxImagesPerStory: 30,
     },
   };
 }

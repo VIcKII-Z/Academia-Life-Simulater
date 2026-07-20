@@ -87,7 +87,7 @@ export default function DebugPage() {
       features: {
         enableLiveSearch: true,
         enableImageGeneration,
-        maxImagesPerStory: 8,
+        maxImagesPerStory: 30,
       },
     };
   }
@@ -246,7 +246,7 @@ export default function DebugPage() {
                 checked={enableImageGeneration}
                 onChange={(event) => setEnableImageGeneration(event.target.checked)}
               />
-              <span>Generate key scene images with Artist Agent</span>
+              <span>Generate chapter images with Artist Agent</span>
             </label>
 
             <div className="actionRow">

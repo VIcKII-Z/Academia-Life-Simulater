@@ -17,7 +17,8 @@ const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generate
 const STYLE_PREFIX =
   "Warm hand-drawn storybook illustration in soft watercolor and colored-pencil style, " +
   "gentle natural lighting, cozy muted earthy palette, delicate linework and fine detail, " +
-  "picture-book / graphic-novel aesthetic, tender and cinematic mood, subtle grain, " +
+  "consistent picture-book series aesthetic with the same recurring student protagonist, " +
+  "tender and cinematic mood, subtle grain, " +
   "no text, no captions, no watermark, no photorealism. Scene: ";
 
 /**
@@ -41,7 +42,8 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     ...Object.entries(doc.endings),
   ].filter(([, node]) => node.has_image && node.image_prompt);
 
-  const capped = allEntries.slice(0, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
+  const maxImages = runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory;
+  const capped = maxImages > 0 ? allEntries.slice(0, maxImages) : [];
 
   for (const [nodeId, node] of capped) {
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
