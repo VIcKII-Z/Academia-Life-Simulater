@@ -1,0 +1,761 @@
+{
+  "story_id": "christchurch_c837d2a7c136",
+  "framework_type": "convergence",
+  "framework_reason": "The study-abroad experience in Christchurch presents shared challenges like cultural adjustment, cost of living, and academic pressures faced by PhD students in HCI.",
+  "user_profile": {
+    "country": "New Zealand",
+    "city": "Christchurch",
+    "grade": "PhD",
+    "major": "HCI"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "arrival",
+      "scene_text": "**Arriving in Christchurch** feels surreal as the fresh air and vibrant culture envelop you. The University of Canterbury looms large in your imagination with the promise of groundbreaking research in Human-Computer Interaction. You seek to **acclimate quickly** to the varying climate and bustling campus life while managing your budget. With excitement and nervousness in equal measure, you prepare to dive into this new experience.",
+      "image_prompt": "A panoramic view of Christchurch city with the University of Canterbury in the background, fresh landscape, and students walking around.",
+      "has_image": true,
+      "insight": "Adjusting to a new city can be overwhelming for international students, especially in terms of budget planning and integrating into a new academic culture.",
+      "choices": [
+        {
+          "text": "Attend the university's orientation for international students.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 3,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Attending orientation helps in acclimating and building social connections.",
+          "recommended": true
+        },
+        {
+          "text": "Explore the city on your own without attending orientation.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -2,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Exploring without guidance can lead to feelings of isolation and health fatigue.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "academic",
+      "scene_text": "As you settle in, the **first semester** quickly approaches. Your focus shifts to **researching your thesis** topic. Finding guidance is crucial, and you consider scheduling a meeting with **Professor Saurabh Sinha**. However, the **pressure** of academic expectations weighs heavily, prompting you to balance your research proposals with your well-being.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Navigating academic pressures while establishing a research focus is common among PhD students experiencing transition to a new educational system.",
+      "choices": [
+        {
+          "text": "Request a meeting with Professor Sinha for guidance.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 2,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Seeking guidance from a mentor can positively impact academic progress.",
+          "recommended": true
+        },
+        {
+          "text": "Postpone meeting and focus on self-study.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Delaying mentorship can hinder academic progress and add unnecessary stress.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "social",
+      "scene_text": "After meeting your advisor, you feel inspired to join the **Design Society** to connect with fellow students. This vibrant network promises collaboration and support, but it comes with time costs and potential impacts on your studies. Balancing academic duties with social engagements will be the key to settling in this dynamic environment.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Joining student organizations fosters a sense of community, but it requires careful time management to ensure academic priorities are not compromised.",
+      "choices": [
+        {
+          "text": "Join the Design Society and attend the next meeting.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Joining a club enhances social engagement but may incur a membership fee.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize your studies and skip the meeting.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing solely on studies can lead to social isolation and reduced mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "financial",
+      "scene_text": "As you dive deeper into your research, the **cost of living** in Christchurch becomes increasingly apparent. Budgeting for accommodation, groceries, and transportation is vital. You explore options for part-time work that aligns with your studies but remember the limits imposed by your student visa.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Managing financial constraints is crucial for international students who must balance living costs with academic commitments.",
+      "choices": [
+        {
+          "text": "Apply for a part-time position at the university.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Part-time work can provide financial relief but may strain health due to time management.",
+          "recommended": true
+        },
+        {
+          "text": "Cut back on living expenses instead of working.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 5,
+            "school": 0
+          },
+          "stat_reason": "Reducing expenses may alleviate financial pressure but can affect mood and wellbeing.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "academic",
+      "scene_text": "With the semester in full swing, you prepare for your **PROD790 Product Design PhD** coursework while coping with your growing responsibilities. Your time is consumed with research and class discussions, yet feelings of **homesickness** creep in, reminding you of your previous life. Finding that balance between academics and mental health becomes paramount.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Coping with workloads while managing emotions like homesickness is a common challenge among PhD students in foreign educational settings.",
+      "choices": [
+        {
+          "text": "Schedule regular check-ins with counsel services.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Utilizing counseling services improves mental health and aids in coping with feelings of isolation.",
+          "recommended": true
+        },
+        {
+          "text": "Ignore your feelings and push through.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Ignoring emotional wellbeing can lead to decreased health and academic performance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "financial",
+      "scene_text": "With the challenges of balancing work and study mounting, **financial stability** emerges as a crucial aspect of your experience. Unexpected costs arise, compelling you to explore scholarship opportunities. Your academic advisor can help you navigate available resources, but applying for funding requires time and effort.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Financial stability is vital for PhD students who often navigate unexpected costs while managing their studies.",
+      "choices": [
+        {
+          "text": "Apply for a university scholarship.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 15,
+            "school": 0
+          },
+          "stat_reason": "Scholarships can ease financial burdens and provide a sense of achievement.",
+          "recommended": true
+        },
+        {
+          "text": "Seek advice for part-time projects instead.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 5,
+            "school": 5
+          },
+          "stat_reason": "Exploring work possibilities can provide practical skills and a sense of purpose.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "challenge",
+      "scene_text": "As your research progresses towards the **thesis proposal stage**, you encounter doubts about your project’s direction. Feedback from peers and from your advisor pushes you to refine your focus, yet the weight of maintaining high academic standards feels threatening. Navigating these uncertainties requires resilience and the ability to grasp constructive criticism.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "PhD students often face self-doubt as they refine their research focus, compounded by the need to meet high academic expectations.",
+      "choices": [
+        {
+          "text": "Reassess your thesis proposal and seek additional feedback.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Seeking feedback fosters improvement and boosts confidence in academic work.",
+          "recommended": true
+        },
+        {
+          "text": "Stick to your original proposal without further feedback.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Neglecting feedback can hinder development and lead to feelings of self-doubt.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "social",
+      "scene_text": "Refreshed from the feedback, you decide to attend the **Annual Product Design Showcase**. It’s an excellent opportunity to network and get inspired by fellow students' innovations. Engaging with the community can lighten the pressures of academia, but it may pull some focus from your current workload.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Attending networking events is a great way to connect while still balancing intense PhD workloads.",
+      "choices": [
+        {
+          "text": "Attend the showcase and network.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Networking can enhance career prospects, though it may involve costs.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the showcase in favor of studying.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Prioritizing studies is important, yet skipping social engagements can deepen feelings of isolation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "challenge",
+      "scene_text": "Post-showcase, excitement gives way to exhaustion. With looming deadlines, you must finalize your **thesis proposal** aimed at meeting high academic benchmarks. Realizing you might need extra motivation and support from peers, you weigh whether to risk personal time for collaborative study sessions.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Collaboration can foster creativity and motivation during crucial academic phases, but requires careful management of personal time.",
+      "choices": [
+        {
+          "text": "Organize collaborative study sessions with peers.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Collaboration can boost motivation and academic performance but may impact individual health.",
+          "recommended": true
+        },
+        {
+          "text": "Work independently to meet deadlines quickly.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "While independent effort can expedite results, it may lead to stress and fatigue.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "challenge",
+      "scene_text": "As you work through the thesis proposal, team dynamics add both excitement and frustration. With completed drafts, you face critiques from your advisor leading to a renewed focus required for **final submission**. The deadline approaches fast, and sustaining your well-being while meeting expectations becomes increasingly complex.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Balancing teamwork with individual expectations can create significant stress for students nearing academic deadlines.",
+      "choices": [
+        {
+          "text": "Share and discuss revisions with peers for ongoing improvement.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Engagement in constructive discussions can significantly enhance the quality of work.",
+          "recommended": true
+        },
+        {
+          "text": "Isolate yourself to focus exclusively on your draft.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Isolating oneself can hinder academic progress due to lack of diverse perspectives.",
+          "recommended": false
+        }
+      ]
+    },
+    "node11": {
+      "type": "academic",
+      "scene_text": "With consistent effort, the **feedback loop** with peers and your advisor begins to refine your proposal. As submission day approaches, the reality of your **academic journey** dawns upon you. Despite stress, feeling connected to your community provides a robust support system that helps maintain balance amid pressures.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Research communities are pivotal during PhD endeavors, offering crucial support to help alleviate academic pressure.",
+      "choices": [
+        {
+          "text": "Embrace your network and celebrate small victories.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 5,
+            "mood": 20,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Celebrating successes fosters motivation and positive mental health.",
+          "recommended": true
+        },
+        {
+          "text": "Stay laser-focused on deadlines, ignoring social events.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Hyper-focusing can lead to burnout, impacting overall productivity and mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node12": {
+      "type": "challenge",
+      "scene_text": "The big day arrives: it's time for your **thesis proposal defense**. Nerves flutter but confidence builds as your peers provide last-minute encouragement. This pivotal moment is crucial for your academic growth and will set the tone for your remaining years. You need to sustain your health and composure to successfully convey your research vision.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Thesis defenses are critical milestones in PhD programs, often accompanied by high levels of stress and anticipation.",
+      "choices": [
+        {
+          "text": "Practice relaxation techniques to manage stress.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Stress management strategies can boost performance during critical academic events.",
+          "recommended": true
+        },
+        {
+          "text": "Skip relaxation to focus on last-minute revisions.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Postponing self-care can lead to physical and mental fatigue.",
+          "recommended": false
+        }
+      ]
+    },
+    "node13": {
+      "type": "social",
+      "scene_text": "Defending your proposal is an exhilarating experience; while the feedback is constructive, it fuels your determination to succeed further. Post-defense, your advisor highlights the next steps in your academic journey while an invitation to network at the next **Design Society meeting** is extended, reinforcing your community ties.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Networking before and after significant academic events can create valuable connections that may enhance PhD experiences.",
+      "choices": [
+        {
+          "text": "Attend the Design Society meeting to continue networking.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Remaining active in the community encourages collaboration and support.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize focusing on your next research steps instead.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing solely on tasks can hinder community engagement, leading to potential isolation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node14": {
+      "type": "academic",
+      "scene_text": "With newfound clarity and support, you channel energy into refining your **research proposal**. Engaging in discussions with peers and receiving constructive insights strengthens your project. The **balance between community** and academia begins to feel more manageable, while your confidence in navigating life as a PhD student grows.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "PhD students often find that peer interactions greatly enrich their academic journeys, balancing professional obligations with social support.",
+      "choices": [
+        {
+          "text": "Intensify your research efforts to seek publishing opportunities.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Intensifying research efforts can open publishing doors, enhancing academic standing.",
+          "recommended": true
+        },
+        {
+          "text": "Take time off to relax and recuperate.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": -10,
+            "school": -5
+          },
+          "stat_reason": "Taking time to recharge can enhance overall health but may impact academic progress if prolonged.",
+          "recommended": false
+        }
+      ]
+    },
+    "node15": {
+      "type": "community",
+      "scene_text": "As you immerse yourself deeper into research, the opportunity to participate in local design competitions arises. Engaging in these events can broaden your **design perspective** and establish valuable connections within Christchurch's growing tech industry. You contemplate the allocation of time against your pressing academic commitments.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Participating in community events benefits both academic and professional growth, promoting a well-rounded PhD experience.",
+      "choices": [
+        {
+          "text": "Participate in the design competition to network.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Engaging in competitions fosters networking opportunities but requires hefty time and health investment.",
+          "recommended": true
+        },
+        {
+          "text": "Focus solely on academic work instead.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Prioritizing academics can lead to better grades but might limit networking opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node16": {
+      "type": "challenge",
+      "scene_text": "With the competition comes a mix of excitement and anxiety; your **work-life balance** is continually tested. Cultivating resilience amidst feedback and maintaining focus on personal health becomes essential. As you strive to balance these areas, the prospect of successfully presenting your research looms ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "PhD candidates often face challenges in balancing personal wellbeing and work commitments, needing resilience to navigate through.",
+      "choices": [
+        {
+          "text": "Practice self-care routines despite the demands.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Self-care can enhance overall wellbeing, though may require sacrificing some academic focus.",
+          "recommended": true
+        },
+        {
+          "text": "Push through and ignore self-care measures.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Neglecting self-care can lead to burnout, impacting both health and academic performance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node17": {
+      "type": "challenge",
+      "scene_text": "After many hours of refining, the competition arrives and all you can think about is how well it might validate your research efforts. Presenting well could ease future academic hurdles and open doors; however, the fear of judgment lingers in your mind. The outcome matters, but **handling pressure** is crucial too as your research journey is just beginning.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "The pressure during competitions can amplify stress but also leads to potential validation of academic efforts.",
+      "choices": [
+        {
+          "text": "Focus on your presentation and breathe through anxiety.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": 5,
+            "mood": 20,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Employing breathing techniques enhances performance under pressure.",
+          "recommended": true
+        },
+        {
+          "text": "Check your materials obsessively to feel prepared.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Overly focusing on details can cause stress and detract from overall wellbeing.",
+          "recommended": false
+        }
+      ]
+    },
+    "node18": {
+      "type": "challenge",
+      "scene_text": "Presenting well earns praise, and your confidence rises amidst a supportive crowd. However, post-event feedback highlights areas for improvement. Balancing constructive criticism with personal growth leads you to consider your **next steps** within the academic community. As you reflect, the importance of maintaining connections and working towards a thriving research career becomes apparent.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Constructive feedback can serve as a motivator for personal and academic growth overall in PhD programs.",
+      "choices": [
+        {
+          "text": "Reconnect with peers to gather feedback and collaborate.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Engaging with peers is critical for moving forward in academic and professional journeys.",
+          "recommended": true
+        },
+        {
+          "text": "Withdraw to evaluate feedback alone.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Withdrawing can reduce the chance of benefiting from collaborative learning.",
+          "recommended": false
+        }
+      ]
+    },
+    "node19": {
+      "type": "challenge",
+      "scene_text": "Entering the next semester, the renewed energy fuels planning your **doctoral thesis**. Building connections lays the groundwork for support, but self-doubt still emerges as a common companion. As you strategically navigate relationships and expectations, integrating feedback into your work will guide further progress.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Navigating relationships during academic transitions is challenging for PhD students and requires ongoing adjustments.",
+      "choices": [
+        {
+          "text": "Embrace the challenge of collaborating with associates.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Positive collaboration uplifts motivation and encourages productive participation.",
+          "recommended": true
+        },
+        {
+          "text": "Isolate yourself to focus on independent research.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Isolation may hinder academic opportunities and affect motivation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node20": {
+      "type": "challenge",
+      "scene_text": "As circumstances shift, your road to **thesis completion** requires navigating both academic work and emotional wellbeing. Dedicating attention to your mental health while contending with intense research will pay off. Your resilience and commitment to the program shape your journey ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Maintaining mental health is essential for PhD students facing high stress and emotional challenges throughout their studies.",
+      "choices": [
+        {
+          "text": "Join recovery workshops to maintain balance.",
+          "next_node": "node21",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Participating in workshops enhances wellbeing and improves academic outcomes.",
+          "recommended": true
+        },
+        {
+          "text": "Focus solely on your thesis and ignore self-care.",
+          "next_node": "node21",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Neglecting self-care can negatively impact overall performance and health.",
+          "recommended": false
+        }
+      ]
+    },
+    "node21": {
+      "type": "academic",
+      "scene_text": "The final semester arrives, marked by the **completion of your thesis**. The culmination of years of research fuels anticipation, although uncertainties about future career paths linger. Balancing the excitement of nearing graduation with preparation for your next steps solidifies both resilience and professional growth.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Navigating the transition from PhD completion to career opportunities is a pivotal phase for graduates in product design.",
+      "choices": [
+        {
+          "text": "Participate in career workshops offered at the university.",
+          "next_node": "node22",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Career workshops enhance readiness for job opportunities and transitions after graduation.",
+          "recommended": true
+        },
+        {
+          "text": "Focus entirely on finalizing your thesis.",
+          "next_node": "node22",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Concentrating solely on academia may inhibit networking opportunities critical for career progression.",
+          "recommended": false
+        }
+      ]
+    },
+    "node22": {
+      "type": "community",
+      "scene_text": "Your thesis defense day is here, bringing a **mix of emotions** from excitement to nervous tension. Surrounded by peers and faculty, you present your work with enthusiasm. Positive feedback validates your efforts and offers a moment of reflection on your time in Christchurch.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Thesis defenses represent significant academic milestones, often filled with a blend of emotions and transformative experiences.",
+      "choices": [
+        {
+          "text": "Celebrate with friends after the defense.",
+          "next_node": "node23",
+          "stat_delta": {
+            "health": 5,
+            "mood": 20,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Celebrating accomplishments enhances social connections and personal wellbeing.",
+          "recommended": true
+        },
+        {
+          "text": "Immediately begin job hunting post-defense.",
+          "next_node": "node23",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Jumping into job hunting may detract from time needed for self-care and celebration.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "The culmination of hard work has paid off as you become a **PhD graduate in Product Design**. Reflecting on your journey through cultural hurdles, academic triumphs, and community bonds highlights a transformative experience in Christchurch. Each challenge confronted has groomed you for the next chapter in life, whether in academia or industry.",
+      "image_prompt": "A joyful graduation scene with the graduate cap and gown amidst friends and family, showcasing success and achievement.",
+      "has_image": true,
+      "insight": "Graduating represents the successful navigation of academic and social challenges, preparing individuals for future career endeavors.",
+      "tone": "hopeful"
+    },
+    "node23": {
+      "scene_text": "The culmination of hard work has paid off as you become a **PhD graduate in Product Design**. Reflecting on your journey through cultural hurdles, academic triumphs, and community bonds highlights a transformative experience in Christchurch. Each challenge confronted has groomed you for the next chapter in life, whether in academia or industry.",
+      "image_prompt": "A joyful graduation scene with the graduate cap and gown amidst friends and family, showcasing success and achievement.",
+      "has_image": true,
+      "insight": "Graduating represents the successful navigation of academic and social challenges, preparing individuals for future career endeavors.",
+      "tone": "bittersweet"
+    }
+  }
+}

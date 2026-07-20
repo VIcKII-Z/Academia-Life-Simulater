@@ -1,0 +1,519 @@
+{
+  "story_id": "visby_8bd2433f6b08",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living combined with academic pressures creates a shared challenge for students abroad in Visby.",
+  "user_profile": {
+    "country": "Sweden",
+    "city": "Visby",
+    "grade": "Graduate",
+    "major": "MA in Game Design"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "narrative",
+      "scene_text": "You arrive in **Visby**, filled with excitement and a hint of anxiety. The ancient architecture surrounded by breathtaking landscapes makes the city feel alive. Engaging with the university community feels relevant immediately as you **prepare for your first semester** in the **MA in Game Design** program. After settling into your accommodation, you reflect on the cozy environment but also start worrying about **high living costs** and how to manage both finances and academics.",
+      "image_prompt": "A scenic view of Visby showcasing its medieval buildings and vibrant coastal landscapes, with a student looking excited yet apprehensive.",
+      "has_image": true,
+      "insight": "Visby’s moderate cost of living still poses a challenge for students adjusting to expenses while pursuing higher education.",
+      "choices": [
+        {
+          "text": "Explore the campus and meet fellow students.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0,
+            "school": 2
+          },
+          "stat_reason": "Engaging with peers enhances your sense of belonging.",
+          "recommended": true
+        },
+        {
+          "text": "Stay in your room and catch up on course readings.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing on coursework helps your academics but can feel isolating.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_opening.png"
+    },
+    "node2": {
+      "type": "narrative",
+      "scene_text": "As classes begin, the workload picks up. You're in **Game Design Studio** where creativity flows, but the **pressure to perform** is palpable. Pushing through the initial weeks, you begin networking with local game enthusiasts but notice your social life is **slipping**. **How do you balance your time**? Visby's charm feels less enchanting when you're snowed under with assignments and deadlines.",
+      "image_prompt": "A bustling classroom scene in a game design studio, with students actively collaborating on projects and sketches around them.",
+      "has_image": true,
+      "insight": "Balancing coursework with social life can be challenging, but collaboration is key in creative fields like game design.",
+      "choices": [
+        {
+          "text": "Join the Gotland Game Hub to meet potential collaborators.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10,
+            "school": 3
+          },
+          "stat_reason": "Joining a club fosters community but involves costs.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on your coursework and skip the club meeting.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing on studies supports academic standing but risks social isolation.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node2.png"
+    },
+    "node3": {
+      "type": "narrative",
+      "scene_text": "Joining the Gotland Game Hub feels revitalizing, bringing together passionate individuals. Social events are plentiful, but academic **deadlines loom**. You realize that being part of the community means balancing social obligations with academic responsibilities, as projects in **Games and Society** and other courses intensify. The anxiety begins to affect your health and mood.",
+      "image_prompt": "A collaborative meeting at the Gotland Game Hub, with students brainstorming and sharing game project ideas, surrounded by a lively atmosphere.",
+      "has_image": true,
+      "insight": "Engaging socially is beneficial for mental health, but navigating multiple commitments can lead to stress.",
+      "choices": [
+        {
+          "text": "Prioritize group work and attend the Hub events.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": 8,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "Social engagement boosts mood but detracts from individual study time.",
+          "recommended": true
+        },
+        {
+          "text": "Neglect social events to focus entirely on projects.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0,
+            "school": 6
+          },
+          "stat_reason": "Diving into work improves grades but may worsen your mental wellbeing.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node3.png"
+    },
+    "node4": {
+      "type": "narrative",
+      "scene_text": "Midway through the semester, you feel the weight of deadlines crashing upon you. Your **design project** for the **Master's Degree Project in Game Design** is due soon, and you need to present it well. Late nights in the **Campus Gotland Library** have become routine as you refine your work. It’s also cold, and daylight is shorter, which makes motivation tough.",
+      "image_prompt": "Inside the Campus Gotland Library filled with students studying late, surrounded by books and laptops, with a palpable sense of focus and urgency.",
+      "has_image": true,
+      "insight": "The climate's effect on daylight can influence mood and productivity, particularly in the darker months.",
+      "choices": [
+        {
+          "text": "Push through the fatigue; submit your project.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Submitting on time boosts academic performance but impacts health.",
+          "recommended": true
+        },
+        {
+          "text": "Take a short break to recharge before submission.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0,
+            "school": -2
+          },
+          "stat_reason": "Resting improves health and mood but risks missing the deadline.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node4.png"
+    },
+    "node5": {
+      "type": "narrative",
+      "scene_text": "With your project submitted, a sense of relief washes over you, but you need to capitalize on this accomplishment. The **Gotland Game Conference** is approaching, a key opportunity to showcase your work. The conference can attract industry attention but also adds **pressure** to perform. Your experience with peers and faculty may play a critical role in this next step.",
+      "image_prompt": "A vibrant conference atmosphere with students networking and showcasing projects to industry professionals, filled with anticipation and excitement.",
+      "has_image": true,
+      "insight": "Participating in industry events can significantly enhance networking chances for aspiring game developers.",
+      "choices": [
+        {
+          "text": "Prepare a strong presentation for the conference.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focus on preparation boosts your school performance at a small health cost.",
+          "recommended": true
+        },
+        {
+          "text": "Relax and attend without preparation.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Going unprepared might preserve health but can harm academic opportunities.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node5.png"
+    },
+    "node6": {
+      "type": "narrative",
+      "scene_text": "The conference turns out to be a transformative experience. Industry professionals, including those from **DICE** and **Toadman Interactive**, show interest in your work. This also raises your confidence and solidifies your ambitions. Returning to the classroom, however, the **pressure intensifies** again as you begin preparations for the **Master's thesis** in the upcoming semester.",
+      "image_prompt": "A dynamic interaction during the conference between a student and a professional, showcasing the excitement and opportunity in the game design field.",
+      "has_image": true,
+      "insight": "Networking effectively at conferences can lead to job opportunities, particularly in competitive fields like game design.",
+      "choices": [
+        {
+          "text": "Leverage the interest to find an internship next semester.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Securing an internship enhances future prospects and boosts confidence.",
+          "recommended": true
+        },
+        {
+          "text": "Focus solely on your thesis and ignore the opportunities.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 9
+          },
+          "stat_reason": "Prioritizing the thesis maintains academic discipline but risks missing potential opportunities.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node6.png"
+    },
+    "node7": {
+      "type": "narrative",
+      "scene_text": "As the semester closes, you've secured an internship with **King**! This presents **exciting opportunities**, but balancing work with the thesis has become crucial. Leaving the safety of campus life for industry demands is nerve-wracking. With **financial needs** becoming clearer, you must manage both commitments carefully to maintain health and academic standing.",
+      "image_prompt": "A professional setting where the student interacts with colleagues at King, showcasing the excitement of the internship role intertwined with the challenges of new responsibilities.",
+      "has_image": true,
+      "insight": "Internships can lead to significant career advancements, but they require careful time management to avoid overwhelming stress.",
+      "choices": [
+        {
+          "text": "Schedule regular hours for internship and thesis work.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 10,
+            "school": 6
+          },
+          "stat_reason": "Managing time effectively improves all-round wellbeing and academic output.",
+          "recommended": true
+        },
+        {
+          "text": "Overcommit to the internship, sidelining academics.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 15,
+            "school": -5
+          },
+          "stat_reason": "Focusing too heavily on work could hurt academic performance and health.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node7.png"
+    },
+    "node8": {
+      "type": "narrative",
+      "scene_text": "Spring blossoms in Visby, but this transition brings **academic pressure** as your thesis project intensifies. Your peers are rallying, but with the internship’s demands, it’s a race against time. Long days are marked by balancing development at **King** and crafting a stellar thesis. The constraints feel even tighter, reflecting the reality of balancing industry and academics.",
+      "image_prompt": "A scenic shot of blooming flowers in Visby with a stressed student working on their thesis outdoors, symbolizing the dual demands of spring.",
+      "has_image": true,
+      "insight": "Spring can be a pivotal moment in the academic year, marked by heightened stress due to deadlines and obligations.",
+      "choices": [
+        {
+          "text": "Utilize university resources and faculty for thesis help.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Seeking support improves academic performance and enhances mental wellbeing.",
+          "recommended": true
+        },
+        {
+          "text": "Try to manage without external help, relying solely on your efforts.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 6
+          },
+          "stat_reason": "Solely relying on oneself may lower grades and induce stress.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/visby_8bd2433f6b08_node8.png"
+    },
+    "node9": {
+      "type": "narrative",
+      "scene_text": "As the spring semester closes, your hard work culminates in the thesis defense. The presentation brings about a blend of excitement and **nerves** as you stand before the faculty. Feedback flows in, reflecting both the strengths and areas for improvement. The thrill of finishing your program is soon intertwined with thoughts of the future in the game industry as graduation approaches.",
+      "image_prompt": "A graduation scene with a student presenting confidently during thesis defense, surrounded by supportive faculty members and peers.",
+      "has_image": true,
+      "insight": "Thesis presentations symbolize a significant milestone, combining academic achievement with aspirations for future careers.",
+      "choices": [
+        {
+          "text": "Network with faculty for future opportunities in the industry.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Networking can lead to job offers, enhancing career prospects post-graduation.",
+          "recommended": true
+        },
+        {
+          "text": "Celebrate the conclusion and ignore networking for now.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -10,
+            "school": 2
+          },
+          "stat_reason": "Celebration improves mood but may reduce immediate networking potential.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "narrative",
+      "scene_text": "Graduation arrives, filled with pride and the anticipation of what lies ahead. You're armed with a solid portfolio and industry connections from your time in Visby. With **King** offering a position, the future feels bright. Yet the inevitable question looms: How will you transition into the industry after leaving the supportive bubble of university life? The lessons learned in Visby will guide you as your next chapter begins.",
+      "image_prompt": "Graduation day with students in caps and gowns, a beautiful Visby backdrop symbolizing accomplishment and future potential.",
+      "has_image": true,
+      "insight": "Graduation often sparks reflections on future career paths, with many students relying on their networks and experiences gained during studies.",
+      "choices": [
+        {
+          "text": "Accept the job offer from King and begin your career.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Entering the industry directly boosts financial security and career confidence.",
+          "recommended": true
+        },
+        {
+          "text": "Pursue further studies or personal projects instead.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Choosing to pursue further studies can lead to deeper knowledge but impacts financial stability.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "The culmination of your studies in Visby has prepared you for the excitement and challenges of the game design industry. You'll carry with you the skills, friendships, and experiences that have shaped your journey. Looking back, you realize that each struggle has only paved the way for growth, and the future awaits with endless possibilities.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "tone": "hopeful"
+    },
+    "node11": {
+      "scene_text": "As you step into your role at **King**, you realize just how much you've matured over these semesters. The whirlwind of challenges helped you grow, and you feel gratified knowing your experiences in Visby prepared you for this moment. The tight-knit community, academic rigor, and rich cultural experiences laid the foundation for a promising start in your game design career.",
+      "image_prompt": "A confident graduate in the workplace, engaged in a collaborative environment, echoing previous university experiences but with a professional twist.",
+      "has_image": false,
+      "insight": "Transitioning from academia to industry is often marked by significant personal growth after navigating challenges in a supportive environment.",
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node12": {
+      "scene_text": "As you transition into your new job, reflections on your journey bring a sense of neat closure. The support during your academic years in Visby directly correlates with your confidence to take on industry challenges. Each learned lesson, from project teamwork to effective time management, became stepping stones toward achieving professional aspirations in the expanding game design field.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node13": {
+      "scene_text": "Completing your game design degree in Visby wasn't just about education; it was a transformative period. You forged connections, navigated various **cultural landscapes**, and strengthened your resilience against the challenges of studying abroad. This journey cultivated not only your skills in game design but also made you a **global citizen**, ready to tackle new and exciting endeavors ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node14": {
+      "scene_text": "As you prepare for the next steps in your life, you're grateful for the experience Visby has gifted you. While it involved struggles with balancing life and academics, the tight-knit community and emphasis on collaboration provided great support. This semester has equipped you with the confidence and skills you need for success in your future aspirations to thrive in the game design industry.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node15": {
+      "scene_text": "Looking ahead, you see endless possibilities fueled by your time in Visby. The challenges shaped you into a thinker, creator, and collaborator, which are essential traits for any designer. As you embrace future endeavors, you carry with you not only academic hopes but also an enriched perspective on life grounded in your experiences abroad.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node16": {
+      "scene_text": "As your time draws to a close, Visby remains etched in your heart. The friendships cultivated, the lessons learned, and the skills gained have redefined your path. Armed with a rich educational background, your resolve is stronger than ever as you step forward in your career adventures. The game industry awaits, and so does your new journey.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node17": {
+      "scene_text": "Being part of such a vibrant and engaging community allowed you to find **yourself** in Visby. The blend of academic rigor, cultural exploration, and connection with others was transformative. Each day forged a more skilled designer and a more aware individual, ready to tackle what lies ahead in both professional and personal realms.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node18": {
+      "scene_text": "The voice of Visby's history spans centuries, whispering through narrow streets. Those whispers entwined with your journey, teaching you resilience and creativity. Each challenge faced in every semester brought new lessons, and each victory became the foundation for your future. The world of game design calls to you now, and you're ready to answer.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node19": {
+      "scene_text": "The whirlwind of challenges and rewards has strengthened your resolve. The unconventional approach to design fostered your creativity and onboarding into the industry stands as the culmination of your experiences. Graduating amid warm Visby sunlight, the promise of tomorrow shines brightly with new opportunities and pathways ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node20": {
+      "scene_text": "You look upon the island of Gotland, charged with energy for your new journey. The skills and relationships you've cultivated will guide you, steering you through challenges with confidence in your abilities. The world of game design is expansive and exciting. The adventure continues, and you are ready to embrace it fully.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node21": {
+      "scene_text": "Visby has changed you. From a student unsure of their path to a capable designer ready for the demands of the real world, your transformation is remarkable. As you leave, you carry memories of laughter, late nights, collaborations, and triumphs. These moments are the essence of your education, each shaping your professional identity.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node22": {
+      "scene_text": "With a sense of fulfillment, you embark on your new journey in the thriving game design industry. The experiences of the past few semesters have laid the groundwork, and you are determined to leave your mark. Visby's rich cultural landscape will ripple through your work as you craft new narratives within games.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node23": {
+      "scene_text": "With gratitude, you reminisce about your time in Visby. The opportunities to grow as a designer, the tight-knit community, the beauty of the island—all part of what has shaped your journey. As you step into the future, every lesson and memory will guide you in your upcoming endeavors in the exciting realm of game design.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    },
+    "node24": {
+      "scene_text": "As you leave Visby, you look to the horizon filled with possibilities. The education and experiences you gained have shaped a bright future ahead, and you leave with confidence, ready to make an impact in the world of game design. The memories created here will fuel your passions and drive your journey forward.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": null,
+      "next_node": "ending",
+      "tone": "bittersweet"
+    }
+  },
+  "sources": [
+    {
+      "title": "Master's Programme in Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/study/programme/masters-programme-game-design",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Department of Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/department/game-design",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "Study at Department of Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/department/game-design/study",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "GAME – The department of Game Design at Uppsala University, campus Gotland",
+      "url": "https://game.speldesign.uu.se/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "campus_life_profile"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "storyId": "visby_8bd2433f6b08",
+  "mode": "live_search",
+  "profile": {
+    "country": "Sweden",
+    "city": "Visby",
+    "grade": "Graduate",
+    "major": "MA in Game Design",
+    "school": "Uppsala University",
+    "semesters": 4,
+    "department": "Game Design",
+    "program": "MA in Game Design"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-20T22:36:30.907Z"
+}

@@ -1,8 +1,4 @@
 node_modules/
 dist/
 .env
-data/stories/*_final.json
-data/assets/generated/*
-!data/assets/generated/.gitkeep
-data/runs/
 .DS_Store

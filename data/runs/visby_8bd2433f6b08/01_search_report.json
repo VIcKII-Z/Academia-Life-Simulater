@@ -1,0 +1,224 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Sweden",
+    "city": "Visby"
+  },
+  "major": "MA in Game Design",
+  "grade": "Graduate",
+  "profile": {
+    "country": "Sweden",
+    "city": "Visby",
+    "school": "Uppsala University",
+    "department": "Game Design",
+    "program": "MA in Game Design",
+    "major": "MA in Game Design",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Visby, located on the island of Gotland, offers a relatively moderate cost of living compared to major Swedish cities. Students can expect monthly expenses to include housing, food, transportation, and leisure activities. While some costs may be higher due to the island's location, overall expenses are manageable for students.",
+    "academic": "The Master's Programme in Game Design at Uppsala University emphasizes active game literacy, combining theoretical knowledge with practical design experience. The curriculum includes courses such as Game Design Studio, Games and Society, and Critical Making, preparing students for various roles in the game industry.",
+    "visa": "Non-EU/EEA students are required to obtain a residence permit for studies in Sweden. The application process involves providing proof of admission, financial means, and health insurance. It's advisable to apply well in advance to ensure timely processing.",
+    "culture_shock": "International students may experience cultural differences, including language barriers and social norms. However, Sweden's inclusive society and the university's supportive environment help ease the transition. Engaging in local traditions and university activities can facilitate cultural adaptation.",
+    "community": "Uppsala University's Campus Gotland fosters a close-knit community with a diverse student body. Various student organizations and events provide opportunities for social engagement and support, enhancing the overall student experience.",
+    "career": "Graduates of the program have pursued careers in renowned game companies such as King, DICE, and Toadman Interactive. The program's focus on both theoretical and practical aspects equips students with skills applicable to various roles in the game industry.",
+    "safety": "Visby is known for its low crime rates and safe environment. The university and local authorities prioritize student safety, providing resources and support to ensure a secure living and learning experience.",
+    "climate": "Visby experiences a temperate maritime climate with mild summers and cool winters. Students should be prepared for seasonal variations, including shorter daylight hours during winter months.",
+    "part_time_work": "International students in Sweden are allowed to work part-time without a specific work permit. However, balancing work and studies requires careful time management to maintain academic performance."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adjusting to shorter daylight hours in winter may affect sleep patterns.",
+      "Access to healthcare services is reliable, ensuring medical needs are met.",
+      "Cycling is a common mode of transportation, promoting physical activity."
+    ],
+    "mood": [
+      "Participating in student organizations helps alleviate feelings of isolation.",
+      "Engaging with local traditions can enhance cultural integration and belonging.",
+      "Academic workload may induce stress; utilizing university support services is beneficial."
+    ],
+    "money": [
+      "Managing expenses is crucial due to the island's potentially higher costs for certain goods.",
+      "Part-time work opportunities are available but require balancing with academic commitments.",
+      "Scholarships and financial aid options are limited; budgeting is essential."
+    ],
+    "city_major_specific_challenges": [
+      "Developing games that resonate with diverse cultural backgrounds requires sensitivity.",
+      "Limited local industry presence may necessitate seeking internships in mainland Sweden.",
+      "Collaborating with peers from various disciplines enhances project outcomes.",
+      "Accessing specialized equipment or software may require planning due to the island location.",
+      "Engaging with the local community can provide unique insights into game narratives.",
+      "Navigating the Swedish academic system and expectations may require adaptation."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": false,
+    "tuition": false,
+    "housing": false,
+    "career": false,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master's Programme in Game Design",
+    "degree_type": "Master of Arts (120 credits)",
+    "department": "Department of Game Design",
+    "duration": "2 years",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "Non-EU/EEA students require a residence permit for studies.",
+    "curriculum": [
+      "Introduction to Games Research",
+      "Game Design Studio",
+      "Games and Society",
+      "Critical Making",
+      "Advanced Game Design Research Methods",
+      "Game Research Prototypes and Game Testing",
+      "Master's Degree Project in Game Design"
+    ],
+    "milestones": [
+      "Completion of core courses in the first year.",
+      "Elective courses and specialization in the third semester.",
+      "Master's thesis project in the fourth semester."
+    ],
+    "prerequisites": [
+      "Bachelor's degree in a relevant field.",
+      "Proficiency in English."
+    ],
+    "admissions": [
+      "Online application through the university's portal.",
+      "Submission of academic transcripts and a statement of purpose."
+    ],
+    "deadlines": [
+      "Application deadline: January 15 for the autumn semester."
+    ],
+    "funding": [
+      "Limited scholarships available for international students.",
+      "Tuition fees applicable for non-EU/EEA students."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus and off-campus housing options are available, with varying costs and amenities.",
+    "commute": "Visby is a compact city, making commuting by bicycle or on foot convenient.",
+    "campus_support": "The university offers academic advising, counseling services, and career support.",
+    "community": "A variety of student organizations and events foster a vibrant campus life.",
+    "safety": "The campus and city are known for their safety and low crime rates.",
+    "climate": "Temperate maritime climate with mild summers and cool winters; appropriate clothing is recommended."
+  },
+  "career_profile": {
+    "local_industry": "Limited game industry presence on Gotland; opportunities may be more abundant on the mainland.",
+    "internship": "Internship opportunities are available, though students may need to seek positions in larger cities.",
+    "work_authorization": "International students can work part-time without a specific work permit.",
+    "language_or_networking_requirements": "Proficiency in English is sufficient; learning Swedish can enhance networking opportunities.",
+    "notable_employers": [
+      "King",
+      "DICE",
+      "Toadman Interactive",
+      "Eat Create Sleep"
+    ],
+    "recruiting_events": [
+      "Gotland Game Conference"
+    ],
+    "alumni_outcomes": [
+      "Graduates have secured positions in leading game companies and established their own studios."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Introduction to Games Research",
+        "code": "omit",
+        "note": "Provides an overview of current research and development in game design and game studies."
+      },
+      {
+        "title": "Game Design Studio",
+        "code": "omit",
+        "note": "Focuses on practical, creative inquiries into conceptual game design approaches."
+      },
+      {
+        "title": "Games and Society",
+        "code": "omit",
+        "note": "Explores the intersection of games and societal impacts."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Jakob Berglund Rogert",
+        "title": "Director of Studies",
+        "research_area": "Game Design Education"
+      },
+      {
+        "name": "Sabine Harrer",
+        "title": "Researcher",
+        "research_area": "Game Studies"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Campus Gotland Library",
+        "note": "Provides resources and study spaces for students."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Gotland Game Hub",
+        "note": "A community dedicated to games as art, culture, and industry."
+      }
+    ],
+    "events": [
+      {
+        "name": "Gotland Game Conference",
+        "note": "An annual event evaluating student work with industry and academic participation."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Master's Programme in Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/study/programme/masters-programme-game-design",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Department of Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/department/game-design",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "Study at Department of Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/department/game-design/study",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "GAME – The department of Game Design at Uppsala University, campus Gotland",
+      "url": "https://game.speldesign.uu.se/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "campus_life_profile"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition fees and detailed funding information for non-EU/EEA students were not found in the provided sources.",
+    "Detailed information on housing options and costs was not available.",
+    "Specific details about the international student office and visa application support were not found."
+  ]
+}

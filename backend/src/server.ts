@@ -18,6 +18,7 @@ app.use(express.json());
 
 const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
+const MIN_RECOMMENDED_IMAGES = 6;
 app.use("/assets", express.static(ASSETS_DIR));
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
@@ -153,6 +154,27 @@ async function readCachedStory(storyId: string): Promise<unknown | null> {
   } catch {
     return null;
   }
+}
+
+function countGeneratedImages(story: unknown): number {
+  if (!story || typeof story !== "object") return 0;
+  const doc = story as {
+    nodes?: Record<string, { image_url?: unknown }>;
+    endings?: Record<string, { image_url?: unknown }>;
+  };
+  return [...Object.values(doc.nodes ?? {}), ...Object.values(doc.endings ?? {})].filter(
+    (node) => typeof node.image_url === "string" && node.image_url.trim(),
+  ).length;
+}
+
+function hasEnoughCachedImages(cached: unknown, rawRuntimeConfig: unknown): boolean {
+  const raw = rawRuntimeConfig as { features?: Partial<RuntimeConfig["features"]> } | undefined;
+  const enableImageGeneration = raw?.features?.enableImageGeneration ?? config.features.enableImageGeneration;
+  if (!enableImageGeneration) return true;
+
+  const maxImagesPerStory = raw?.features?.maxImagesPerStory ?? config.features.maxImagesPerStory;
+  const minimumImages = Math.min(maxImagesPerStory, MIN_RECOMMENDED_IMAGES);
+  return minimumImages <= 0 || countGeneratedImages(cached) >= minimumImages;
 }
 
 app.get("/api/config", (_req, res) => {
@@ -364,7 +386,7 @@ app.post("/api/generate", async (req, res) => {
 
   if (!regenerate) {
     const cached = await readCachedStory(storyId);
-    if (cached) {
+    if (cached && hasEnoughCachedImages(cached, rawRuntimeConfig)) {
       res.json({ ...(cached as object), cached: true });
       return;
     }
@@ -379,7 +401,7 @@ app.post("/api/generate", async (req, res) => {
       const { semesters: _semesters, ...legacyProfile } = profile;
       const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig);
       const legacyCached = await readCachedStory(legacyStoryId);
-      if (legacyCached) {
+      if (legacyCached && hasEnoughCachedImages(legacyCached, rawRuntimeConfig)) {
         res.json({ ...(legacyCached as object), cached: true });
         return;
       }

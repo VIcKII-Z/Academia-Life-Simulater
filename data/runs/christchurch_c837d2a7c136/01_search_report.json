@@ -1,0 +1,201 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "New Zealand",
+    "city": "Christchurch"
+  },
+  "major": "HCI",
+  "grade": "PhD",
+  "profile": {
+    "country": "New Zealand",
+    "city": "Christchurch",
+    "school": "University of Canterbury",
+    "department": "School of Product Design",
+    "program": "HCI",
+    "major": "HCI",
+    "grade": "PhD"
+  },
+  "report": {
+    "cost_of_living": "Christchurch offers a moderate cost of living compared to other major New Zealand cities. Expenses include accommodation, utilities, transportation, and groceries. International students should budget accordingly to cover these costs throughout their studies.",
+    "academic": "The University of Canterbury's School of Product Design provides a comprehensive PhD program in Product Design. While specific details on an HCI specialization are not readily available, the program emphasizes advanced design, manufacturing, and business analysis skills. Prospective students should consult the department for tailored information.",
+    "visa": "International students must obtain a student visa to study in New Zealand. The University of Canterbury's International Office offers guidance on visa applications, requirements, and compliance to ensure a smooth transition for incoming students.",
+    "culture_shock": "Moving to Christchurch may present cultural adjustments, including adapting to local customs, language nuances, and social norms. The university provides orientation programs and support services to help international students acclimate to their new environment.",
+    "community": "The University of Canterbury fosters a supportive community with various student organizations, cultural groups, and events. These platforms enable students to build networks, engage in extracurricular activities, and find a sense of belonging on campus.",
+    "career": "Graduates from the School of Product Design have diverse career opportunities in design consultancy, research and development, and entrepreneurship. The university's career services offer resources such as workshops, job fairs, and counseling to assist students in their professional development.",
+    "safety": "Christchurch is generally considered a safe city with low crime rates. The University of Canterbury has campus security measures in place and provides safety resources to ensure the well-being of its students.",
+    "climate": "Christchurch experiences a temperate climate with warm summers and cool winters. Students should be prepared for seasonal variations and occasional rainfall throughout the year.",
+    "part_time_work": "International students in New Zealand are typically allowed to work up to 20 hours per week during the academic year and full-time during scheduled breaks. The university's international office can provide detailed information on work rights and regulations."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adjusting to Christchurch's temperate climate with seasonal variations.",
+      "Managing physical well-being amidst academic demands.",
+      "Accessing healthcare services through the university and local providers."
+    ],
+    "mood": [
+      "Navigating cultural differences and potential homesickness.",
+      "Building social connections through university clubs and events.",
+      "Balancing academic pressures with personal well-being."
+    ],
+    "money": [
+      "Budgeting for living expenses in Christchurch.",
+      "Exploring scholarship and funding opportunities.",
+      "Understanding part-time work regulations for international students."
+    ],
+    "city_major_specific_challenges": [
+      "Identifying research opportunities in HCI within the School of Product Design.",
+      "Engaging with local tech and design industries for practical experience.",
+      "Adapting to New Zealand's academic culture and expectations.",
+      "Utilizing university resources for international student support.",
+      "Managing time effectively between research, coursework, and personal life.",
+      "Exploring Christchurch's cultural and recreational offerings to enhance the study experience."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": false,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Doctor of Philosophy in Product Design",
+    "degree_type": "PhD",
+    "department": "School of Product Design",
+    "duration": "3-4 years",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "International students are eligible for student visas to pursue this program.",
+    "curriculum": [
+      "Advanced research in product design methodologies.",
+      "Development of a doctoral thesis under faculty supervision."
+    ],
+    "milestones": [
+      "Completion of a research proposal.",
+      "Regular progress reviews.",
+      "Submission and defense of the doctoral thesis."
+    ],
+    "prerequisites": [
+      "Approval by the Head of School and Dean of Postgraduate Research."
+    ],
+    "admissions": [
+      "Applicants must identify a potential supervisor and research area.",
+      "Submission of academic transcripts and research proposal."
+    ],
+    "deadlines": [
+      "Applications are accepted year-round; specific start dates are determined individually."
+    ],
+    "funding": [
+      "Various scholarships and funding opportunities are available; applicants are encouraged to consult the university's scholarships office."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "The university offers on-campus accommodation options; off-campus housing is also available in Christchurch.",
+    "commute": "Public transportation and cycling are common modes of commuting; the campus is accessible by bus routes.",
+    "campus_support": "Support services include academic advising, counseling, and health services.",
+    "community": "A range of student organizations and cultural groups are active on campus.",
+    "safety": "Campus security services operate 24/7 to ensure student safety.",
+    "climate": "Students should prepare for warm summers and cool winters with occasional rainfall."
+  },
+  "career_profile": {
+    "local_industry": "Christchurch has a growing tech and design industry, offering opportunities in product design and development.",
+    "internship": "The university facilitates internships through industry partnerships.",
+    "work_authorization": "International students can work part-time during studies and full-time during breaks, subject to visa conditions.",
+    "language_or_networking_requirements": "Proficiency in English is required; networking opportunities are available through university events and local industry meetups."
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "PROD790 Product Design PhD",
+        "code": "PROD790",
+        "note": "Doctoral research course in Product Design."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Professor Saurabh Sinha",
+        "title": "Dean of Engineering",
+        "research_area": "Engineering and Product Design"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Central Library",
+        "note": "Main library housing extensive resources for research."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Design Society",
+        "note": "Student organization focused on design innovation and collaboration."
+      }
+    ],
+    "events": [
+      {
+        "name": "Annual Product Design Showcase",
+        "note": "Event highlighting student projects and research in product design."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Product Design PhD Course Details",
+      "url": "https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=PROD790",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Postgraduate Product Design at UC",
+      "url": "https://www.canterbury.ac.nz/study/academic-study/engineering/schools-and-departments-engineering-forestry-product-design/school-of-product-design/postgraduate-product-design",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "funding"
+      ]
+    },
+    {
+      "title": "Study Product Design at UC",
+      "url": "https://www.canterbury.ac.nz/shaped-by-uc/product-design",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "career"
+      ]
+    },
+    {
+      "title": "University of Canterbury International Office",
+      "url": "https://www.canterbury.ac.nz/international",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "part_time_work"
+      ]
+    },
+    {
+      "title": "University of Canterbury Career Services",
+      "url": "https://www.canterbury.ac.nz/careers",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific details on an HCI specialization within the PhD program are not readily available; prospective students should contact the School of Product Design for more information.",
+    "Information on housing options and costs is limited; students should consult the university's accommodation services for detailed information.",
+    "Details on specific student clubs and events related to product design are not extensively documented online."
+  ]
+}

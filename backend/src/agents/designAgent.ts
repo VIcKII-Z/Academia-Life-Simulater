@@ -174,6 +174,8 @@ function extractJson(text: string): string {
 }
 
 const STAT_KEYS = ["health", "mood", "money", "school"] as const;
+const MIN_RECOMMENDED_IMAGES = 6;
+const MAX_RECOMMENDED_IMAGES = 8;
 
 function validateStory(doc: StoryDocument): void {
   if (!doc.story_id || !doc.framework_type || !doc.nodes || !doc.endings) {
@@ -241,6 +243,86 @@ function normalizeStats(doc: StoryDocument): void {
   }
   for (const ending of Object.values(doc.endings)) {
     if (typeof ending.insight === "string") ending.insight = ending.insight.trim() || undefined;
+  }
+}
+
+function stripSceneText(text: string): string {
+  return text
+    .replace(/\*\*/g, "")
+    .replace(/[`*_#>\[\]()]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function truncateAtWordBoundary(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  const trimmed = text.slice(0, maxLength);
+  const lastSpace = trimmed.lastIndexOf(" ");
+  return `${trimmed.slice(0, lastSpace > 80 ? lastSpace : maxLength).trim()}...`;
+}
+
+function buildFallbackImagePrompt(
+  doc: StoryDocument,
+  nodeId: string,
+  node: StoryDocument["nodes"][string] | StoryDocument["endings"][string],
+): string {
+  const profile = doc.user_profile;
+  const location = [profile.school, profile.city, profile.country].filter(Boolean).join(", ");
+  const role = [profile.grade, profile.major].filter(Boolean).join(" ");
+  const kind = "type" in node ? node.type : "ending";
+  const cleanScene = stripSceneText(node.scene_text);
+  const sceneExcerpt = truncateAtWordBoundary(cleanScene, 170);
+
+  return [
+    `Study-abroad ${role || "student"} in ${location || "an international university setting"}`,
+    `${kind} scene from ${nodeId}`,
+    sceneExcerpt,
+    "clear environment, emotional body language, no readable text",
+  ].join(", ");
+}
+
+/**
+ * The Design Agent is asked for 6-8 image nodes, but smaller/cheaper models
+ * sometimes treat that as optional and mark only the opening or ending. Repair
+ * the visual plan deterministically so Artist Agent has enough work to do.
+ */
+function ensureImageCoverage(doc: StoryDocument, maxImagesPerStory: number): void {
+  const entries = [
+    ...Object.entries(doc.nodes),
+    ...Object.entries(doc.endings),
+  ] as [string, StoryDocument["nodes"][string] | StoryDocument["endings"][string]][];
+
+  if (entries.length === 0 || maxImagesPerStory <= 0) return;
+
+  const desiredImageCount = Math.min(entries.length, maxImagesPerStory, MAX_RECOMMENDED_IMAGES);
+  const minimumImageCount = Math.min(entries.length, maxImagesPerStory, MIN_RECOMMENDED_IMAGES);
+  const existingImageCount = entries.filter(([, node]) => node.has_image && node.image_prompt).length;
+  if (existingImageCount >= minimumImageCount) return;
+
+  const candidateIds: string[] = [];
+  const addCandidate = (id: string | undefined): void => {
+    if (id && !candidateIds.includes(id)) candidateIds.push(id);
+  };
+
+  addCandidate("opening");
+  for (let index = 0; index < desiredImageCount; index++) {
+    const position =
+      desiredImageCount === 1 ? 0 : Math.round((index * (entries.length - 1)) / (desiredImageCount - 1));
+    addCandidate(entries[position]?.[0]);
+  }
+  for (const [id] of entries) addCandidate(id);
+
+  let imageCount = existingImageCount;
+  for (const id of candidateIds) {
+    if (imageCount >= desiredImageCount) break;
+    const entry = entries.find(([entryId]) => entryId === id);
+    if (!entry) continue;
+    const [, node] = entry;
+    if (node.has_image && node.image_prompt) continue;
+
+    node.has_image = true;
+    node.image_prompt = node.image_prompt || buildFallbackImagePrompt(doc, id, node);
+    imageCount++;
   }
 }
 
@@ -323,6 +405,7 @@ export async function runDesignAgent(
         normalizeStats(doc);
         repairChoicelessNodes(doc);
         repairDanglingLinks(doc);
+        ensureImageCoverage(doc, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
         validateStory(doc);
       } catch (validationErr) {
         const errorMessage = validationErr instanceof Error ? validationErr.message : String(validationErr);
