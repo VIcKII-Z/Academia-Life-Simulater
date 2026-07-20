@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 
 const TRACKS = [
-  new URL("../../../resource/Journals_of_Somewhere_Else_2026-07-20T083406.mp3", import.meta.url).href,
-  new URL("../../../resource/Journal_of_Possible_Futures_2026-07-20T083406.mp3", import.meta.url).href,
+  "/music/Journals_of_Somewhere_Else_2026-07-20T083406.mp3",
+  "/music/Journal_of_Possible_Futures_2026-07-20T083406.mp3",
 ];
 
 const TARGET_VOLUME = 0.32;
