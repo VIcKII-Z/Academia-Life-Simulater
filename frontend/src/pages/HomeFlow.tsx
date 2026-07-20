@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PassportCard from "../components/PassportCard";
 import QuizFlow from "../components/QuizFlow";
 import DreamingLoader from "../components/DreamingLoader";
+import BackgroundMusic from "../components/BackgroundMusic";
 import SceneCard, { StatMeters } from "../components/SceneCard";
 import PostcardEnding from "../components/PostcardEnding";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
@@ -82,6 +83,8 @@ export default function HomeFlow() {
 
   return (
     <main className={`journal ${stage === "passport" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
+      <BackgroundMusic playing={stage === "dreaming" || stage === "play"} />
+
       {isPlaying && story ? (
         <header className="appBar">
           <div className="appBarBrand">
