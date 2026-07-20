@@ -4,7 +4,7 @@
    See fls-design.md for the full design rationale.
    ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap");
 
 :root {
   --paper: #fcfaef;
@@ -19,7 +19,16 @@
   --tone-challenging: #a1453c;
   --shadow: rgba(44, 36, 24, 0.18);
 
-  --font-display: "Fraunces", "Georgia", serif;
+  /* ---- Palette from the game's pixel-art style guide -------------
+     Applied to the primary CTA button, the four life-stat meters, and
+     the per-scene life-category badges, rather than replacing the warm
+     paper/ink base used for text and backgrounds. */
+  --theme-blue: #4a90d9;
+  --theme-coral: #ff6b6b;
+  --theme-yellow: #ffd93d;
+  --theme-green: #6bcb77;
+
+  --font-display: "Pixelify Sans", "Fraunces", "Georgia", serif;
   --font-body: "Nunito Sans", system-ui, sans-serif;
 }
 
@@ -94,8 +103,8 @@
 }
 
 .passportStamp {
-  width: 64px;
-  height: 64px;
+  width: 76px;
+  height: 76px;
   margin: 0 auto 18px;
   border-radius: 50%;
   border: 2px solid var(--gold);
@@ -105,6 +114,14 @@
   font-family: var(--font-display);
   font-size: 1.6rem;
   color: var(--gold);
+  overflow: hidden;
+}
+
+.passportStampIcon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .passportCard p.lede {
@@ -145,6 +162,18 @@
 
 .providerToggle button.active {
   color: var(--ink);
+}
+
+/* Small pixel-sticker icons used inline next to button/label text, replacing
+   plain-text emoji (which render inconsistently across platforms) with the
+   game's own pixel-art icon set. */
+.inlineIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  vertical-align: -7px;
+  margin-right: 4px;
 }
 
 /* Sliding highlight behind whichever button is active. */
@@ -194,18 +223,29 @@
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.95rem;
-  padding: 13px 26px;
-  border-radius: 999px;
-  border: none;
+  padding: 7px 26px 9px;
   cursor: pointer;
-  background: var(--ink);
-  color: var(--paper);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  /* No flat background-color here: the border-image's "fill" slice already
+     paints the whole pill (blue fill + highlight band), and its true rounded
+     corners are transparent outside the pill shape. A solid background-color
+     is a plain rectangle, so it would show through those transparent corners
+     as a blue square poking out past the rounded border — exactly the
+     overflow bug this avoids. */
+  background: transparent;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  border-style: solid;
+  border-width: 13px 15px 7px 10px;
+  border-image-source: url("/branding/primary-button-clean.png");
+  border-image-slice: 94 120 49 79 fill;
+  border-image-repeat: stretch;
+  image-rendering: pixelated;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
 .journalButton:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(44, 36, 24, 0.25);
+  filter: brightness(1.06);
 }
 
 .journalButton:disabled {
@@ -216,7 +256,13 @@
 .journalButton.secondary {
   background: transparent;
   color: var(--ink);
-  border: 1px solid rgba(44, 36, 24, 0.3);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-style: solid;
+  border-width: 12px 14px 6px 10px;
+  border-image-source: url("/branding/button2-clean.png");
+  border-image-slice: 48 100 54 45 fill;
+  border-image-repeat: stretch;
+  image-rendering: pixelated;
 }
 
 .journalButtonRow {
@@ -454,14 +500,131 @@
   }
 }
 
+/* ---- Mascot appearances ---------------------------------------
+   The pixel-owl mascot greets the player on the very first onboarding
+   screen and keeps them company (bouncing) while their story generates. */
+.mascotGreeter {
+  width: 108px;
+  height: 108px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin: 0 auto 14px;
+  display: block;
+  animation: mascotBob 2.4s ease-in-out infinite;
+}
+
+.mascotDreaming {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin: 0 auto 10px;
+  display: block;
+  animation: mascotBob 1.4s ease-in-out infinite;
+}
+
+@keyframes mascotBob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* ---- Semester length slider ------------------------------------ */
+.semesterSlider {
+  margin: 6px 0 20px;
+}
+
+.semesterSliderReadout {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.semesterSliderValue {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.semesterSliderLabel {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.semesterSliderInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--gold) 0%,
+    var(--gold) var(--semester-fill, 0%),
+    rgba(44, 36, 24, 0.15) var(--semester-fill, 0%),
+    rgba(44, 36, 24, 0.15) 100%
+  );
+}
+
+.semesterSliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 3px solid var(--gold);
+  box-shadow: 0 1px 4px rgba(44, 36, 24, 0.3);
+  cursor: pointer;
+}
+
+.semesterSliderInput::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 3px solid var(--gold);
+  box-shadow: 0 1px 4px rgba(44, 36, 24, 0.3);
+  cursor: pointer;
+}
+
+.semesterSliderTicks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 2px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.semesterSliderTicks span.active {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.semesterSliderHint {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin: 14px 0 0;
+}
+
 /* ---- Dreaming loader ------------------------------------------ */
 .dreamingCard {
   text-align: center;
 }
 
 .dreamingStamp {
-  width: 84px;
-  height: 84px;
+  width: 96px;
+  height: 96px;
   margin: 0 auto 22px;
   border-radius: 50%;
   border: 3px double var(--gold);
@@ -469,7 +632,15 @@
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  overflow: hidden;
   animation: stampPulse 1.6s ease-in-out infinite;
+}
+
+.dreamingStampIcon {
+  width: 66px;
+  height: 66px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 @keyframes stampPulse {
@@ -495,6 +666,8 @@
 .sceneShell {
   max-width: 680px;
   width: 100%;
+  margin: 0 auto; /* .journal--play uses align-items: stretch, which would
+    otherwise left-align this narrower box instead of centering it */
   animation: pageIn 0.45s ease;
 }
 
@@ -772,6 +945,7 @@
 }
 
 .choicePath {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -788,6 +962,21 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+.choicePath--recommended {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 12px 24px var(--shadow);
+}
+
+.choicePathStar {
+  position: absolute;
+  top: -14px;
+  right: -10px;
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 3px 6px var(--shadow));
+  pointer-events: none;
+}
+
 .choicePath--left { transform: rotate(-1.4deg); }
 .choicePath--right { transform: rotate(1.4deg); }
 
@@ -802,9 +991,10 @@
 }
 
 .choicePathArrow {
-  width: 40px;
-  height: 24px;
-  color: var(--terracotta);
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px var(--shadow));
 }
 
 .choicePathText {
@@ -871,6 +1061,24 @@
 .wax-seal.toneBittersweet { background: var(--tone-bittersweet); }
 .wax-seal.toneChallenging { background: var(--tone-challenging); }
 
+.waxSealIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.postcardStats {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 20px;
+}
+
+.postcardStats .statMeters {
+  margin-left: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .postcard h2 {
   text-align: center;
   margin-bottom: 6px;
@@ -888,6 +1096,32 @@
 .postcard p {
   line-height: 1.6;
   margin-bottom: 24px;
+}
+
+.postcardInsight {
+  text-align: left;
+  background: rgba(184, 134, 59, 0.08);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+}
+
+.postcardInsightLabel {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+
+.postcardInsight p {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
 }
 
 .devLink {
@@ -911,6 +1145,8 @@
   position: fixed;
   top: 14px;
   right: 16px;
+  display: flex;
+  align-items: center;
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
@@ -918,9 +1154,17 @@
   background: rgba(255, 253, 248, 0.85);
   border: 1px solid rgba(44, 36, 24, 0.15);
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 6px 14px 6px 10px;
   cursor: pointer;
   z-index: 20;
+}
+
+.apiKeyEditTriggerIcon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-right: 6px;
 }
 
 .apiKeyEditTrigger:hover {
@@ -942,7 +1186,7 @@
 /* ---- "Reusing an existing story" banner ------------------------- */
 .reusedStoryBanner {
   width: 100%;
-  max-width: 560px;
+  max-width: 1180px;
   background: rgba(79, 122, 91, 0.12);
   color: var(--tone-hopeful);
   border: 1px solid rgba(79, 122, 91, 0.3);
@@ -951,5 +1195,684 @@
   font-size: 0.85rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 16px;
+  margin: 0 auto 4px;
+}
+
+/* ============================================================
+   Professional "app shell" for the playthrough
+   ------------------------------------------------------------
+   Keeps the warm paper identity + pixel-art stat stickers, but
+   restructures the play screen like a modern AI product: a sticky
+   top status bar (brand · profile · vitals) over a two-column
+   stage — the scene on the left, a research-grounded "Field Notes"
+   panel on the right.
+   ============================================================ */
+
+/* In play mode the container spans the full width and top-aligns so the
+   sticky app bar can stretch edge-to-edge instead of sitting in the narrow
+   centered onboarding column. */
+.journal--play {
+  padding: 0 0 56px;
+  align-items: stretch;
+}
+
+/* ---- Top app bar ------------------------------------------------- */
+.appBar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 10px 140px 10px 24px; /* right gutter reserves room for the fixed API-key chip */
+  background: rgba(252, 250, 239, 0.86);
+  backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 1px solid rgba(44, 36, 24, 0.1);
+  box-shadow: 0 2px 14px rgba(44, 36, 24, 0.05);
+}
+
+.appBarBrand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.appBarLogo {
+  height: 30px;
+  width: auto;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.appBarMascot {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  display: block;
+  margin-right: 4px;
+}
+
+.appBarProfile {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  padding-left: 20px;
+  border-left: 1px solid rgba(44, 36, 24, 0.14);
+  min-width: 0;
+}
+
+.appBarProfileCity {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appBarProfileMeta {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Compact stat meters (pixel sticker + slim bar) ------------- */
+.statMeters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.statMeter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 96px;
+}
+
+.statMeterSticker {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 1px 2px rgba(44, 36, 24, 0.25));
+  flex-shrink: 0;
+}
+
+.statMeterBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.statMeterHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.statMeterLabel {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+.statMeterValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
+.statMeterTrack {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  border: 1px solid rgba(44, 36, 24, 0.1);
+  overflow: hidden;
+}
+
+.statMeterFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.statMeter--low .statMeterLabel,
+.statMeter--low .statMeterValue {
+  color: var(--tone-challenging);
+}
+
+.statMeter--low .statMeterTrack {
+  animation: lowPulse 1.4s ease-in-out infinite;
+}
+
+/* ---- Two-column stage ------------------------------------------- */
+.stage {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 26px 24px 0;
+}
+
+.stageGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.sceneMain {
+  min-width: 0;
+}
+
+/* the story card should fill the main column, not the 560px onboarding width */
+.sceneMain .journalCard {
+  max-width: none;
+}
+
+/* ---- Immersive full-bleed hero: the image fills the whole stage as a
+   background, with the scene text/choices and Field Notes floating on top
+   as translucent glass cards, instead of a small thumbnail above them. ---- */
+.sceneStage--immersive {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: calc(100vh - 64px);
+  box-shadow: 0 24px 60px var(--shadow);
+  background: var(--paper-deep);
+}
+
+/* When a scene has a hero image, let the whole stage bleed edge-to-edge so
+   the photo genuinely covers the screen instead of sitting in a padded,
+   width-capped card. */
+.stage--immersive {
+  max-width: none;
+  padding: 0;
+}
+
+.stage--immersive .sceneStage--immersive {
+  border-radius: 0;
+}
+
+.sceneImmersiveBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.sceneImmersiveBg .sceneHeroImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenBurns 20s ease-in-out infinite alternate;
+}
+
+.sceneImmersiveScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 15, 8, 0.05) 0%, rgba(20, 15, 8, 0.1) 45%, rgba(20, 15, 8, 0.78) 100%),
+    linear-gradient(100deg, rgba(20, 15, 8, 0.32) 0%, rgba(20, 15, 8, 0) 32%);
+  pointer-events: none;
+}
+
+.sceneImmersiveCaption {
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: #fbf3e2;
+  background: rgba(20, 15, 8, 0.38);
+  border: 1px solid rgba(251, 243, 226, 0.25);
+  border-radius: 999px;
+  padding: 6px 14px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sceneImmersiveCaption:hover {
+  background: rgba(20, 15, 8, 0.55);
+  border-color: rgba(251, 243, 226, 0.5);
+}
+
+.sceneImmersiveCaptionIcon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sceneStage--immersive .stageGrid {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 64px);
+  align-items: end;
+  padding: 24px;
+  /* The grid box spans the whole hero image (including empty corners
+     where neither the scene card nor Field Notes render anything), and
+     without this it silently intercepts clicks meant for elements
+     underneath it — like the location/map-link chip in the top-left.
+     Let clicks pass through the empty grid area, and only re-enable
+     them on the two actual content columns. */
+  pointer-events: none;
+}
+
+.sceneStage--immersive .stageGrid > * {
+  pointer-events: auto;
+}
+
+/* Immersive stage: sceneMain is now the only element in normal flow
+   (Field Notes is pinned out-of-flow into the top-right corner below),
+   so a flex column with the content pushed to the bottom keeps the
+   scene-text/choices card anchored low while letting it center across
+   the FULL stage width — instead of being squeezed into a grid column
+   next to Field Notes and reading as off-center. */
+.stage--immersive .sceneStage--immersive .stageGrid {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  max-width: none;
+  margin: 0;
+  padding: 24px 40px;
+}
+
+.stage--immersive .sceneStage--immersive .sceneMain {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Field Notes pinned flush into the actual top-right corner of the
+   hero image — bigger than before, and not squeezed into a shared
+   grid column — instead of floating with margins on all sides. */
+.stage--immersive .sceneStage--immersive .insightPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(30vw, 460px);
+  margin: 0;
+}
+
+.stage--immersive .sceneStage--immersive .insightPanel .insightCard {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/* The flush-cornered panel has no room above it for the usual
+   poking-out drag handle (it would be clipped by the stage's
+   overflow: hidden) — pull it down inside the card's own top padding
+   instead, so it still shows and works but doesn't get cut off. */
+.stage--immersive .sceneStage--immersive .insightPanel .floatyHandle {
+  top: 4px;
+}
+
+.sceneStage--immersive .sceneCard {
+  background: rgba(252, 250, 239, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sceneStage--immersive .insightPanel {
+  align-self: start;
+  position: sticky;
+  top: 24px;
+}
+
+.sceneStage--immersive .insightCard {
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---- Floaty: gentle idle bob + drag-to-move wrapper used by Field
+   Notes and the scene-text card. The outer .floaty element carries the
+   user's drag offset (inline transform); the inner .floatyDrift element
+   carries the idle up/down bob (CSS animation) so the two transforms
+   compose instead of clobbering each other. ------------------------ */
+.floaty {
+  position: relative;
+}
+
+.floaty--dragging {
+  z-index: 5;
+}
+
+.floatyDrift {
+  position: relative;
+  animation-name: floatyBob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.floaty--dragging .floatyDrift {
+  animation-play-state: paused;
+}
+
+@keyframes floatyBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.floatyHandle {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  padding: 5px 10px;
+  background: rgba(20, 15, 8, 0.55);
+  border: 1px solid rgba(251, 243, 226, 0.35);
+  border-radius: 999px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.floaty--dragging .floatyHandle {
+  cursor: grabbing;
+}
+
+.floatyHandle span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fbf3e2;
+}
+
+/* ---- Field Notes insight panel ---------------------------------- */
+.insightPanel {
+  position: sticky;
+  top: 86px;
+}
+
+.insightCard {
+  background: linear-gradient(180deg, #fffdf8, var(--paper));
+  border: 1px solid rgba(44, 36, 24, 0.1);
+  border-left: 3px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px var(--shadow);
+  padding: 20px 20px 18px;
+}
+
+.insightHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.insightIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.insightKicker {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* Which slice of student life this scene is about (campus/dorm/career/
+   social/events/lecture) — sits in the top-right corner of the card
+   next to the Field Notes title, icon stacked above its label so it
+   reads as a small badge rather than a full-width chip. */
+.insightCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 8px 12px 9px;
+  border-radius: 14px;
+  background: var(--paper-deep);
+  border: 1px solid rgba(44, 36, 24, 0.12);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  text-align: center;
+  flex-shrink: 0;
+  max-width: 88px;
+}
+
+.insightCategory span {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.insightCategoryIcon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.insightCard .insightTitle {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+
+.insightBody {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+.insightBody--muted {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.insightContext {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(184, 134, 59, 0.4);
+}
+
+.insightContextLabel {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+
+.insightContext p {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ---- Clickable research sources list ---------------------------- */
+.insightSourceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.insightSourceLink {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-decoration-color: rgba(193, 104, 63, 0.4);
+  text-underline-offset: 2px;
+}
+
+.insightSourceIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 0px;
+  opacity: 0.85;
+}
+
+.insightSourceLink:hover {
+  color: var(--gold);
+  text-decoration-color: var(--gold);
+}
+
+.insightFoot {
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.insightFootIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* ---- Highlighted key phrases inside long story/insight paragraphs -- */
+.textHighlight {
+  background: linear-gradient(180deg, transparent 55%, rgba(228, 201, 138, 0.55) 55%);
+  color: var(--ink);
+  font-weight: 700;
+  padding: 0 1px;
+}
+
+/* Small clickable map-pin next to highlighted phrases that name a real
+   place (e.g. "International Village") — opens Google Maps search for
+   that spot so players can see where it actually is. */
+.textHighlightMapLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-left: 3px;
+  vertical-align: middle;
+  opacity: 0.8;
+}
+
+.textHighlightMapLink:hover {
+  opacity: 1;
+}
+
+.textHighlightMapLink img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- Cleaner, less playful choice buttons for the product shell -- */
+.journal--play .choicePath {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  transform: none;
+  padding: 16px 18px;
+}
+
+.journal--play .choicePath:hover {
+  transform: translateY(-2px);
+}
+
+.journal--play .choicePathArrow {
+  flex-shrink: 0;
+}
+
+/* ---- Responsive: collapse to a single column -------------------- */
+@media (max-width: 900px) {
+  .stageGrid {
+    grid-template-columns: 1fr;
+  }
+  .insightPanel {
+    position: static;
+    order: -1; /* show the field note above the scene text on narrow screens */
+  }
+  .sceneStage--immersive {
+    min-height: 0;
+  }
+  .sceneStage--immersive .stageGrid {
+    min-height: 0;
+    align-items: stretch;
+  }
+  .sceneStage--immersive .insightPanel {
+    position: static;
+  }
+  .stage--immersive .sceneStage--immersive .insightPanel {
+    position: static;
+    width: auto;
+  }
+  .stage--immersive .sceneStage--immersive .insightPanel .insightCard {
+    border-radius: 14px;
+  }
+  .stage--immersive .sceneStage--immersive .stageGrid {
+    padding: 24px 16px;
+  }
+  .sceneImmersiveBg {
+    position: relative;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 720px) {
+  .appBar {
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    gap: 12px;
+  }
+  .statMeters {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .statMeter {
+    flex: 1;
+    width: auto;
+  }
+  .journal--play .apiKeyEditTrigger {
+    top: 10px;
+  }
+  .stage {
+    padding: 18px 14px 0;
+  }
 }

@@ -10,6 +10,11 @@ export interface UserProfile {
   school?: string;
   department?: string;
   program?: string;
+  /** How many semesters the player's stay covers — drives story length: the Design Agent
+   * scales total node count with this (see designAgent.ts's targetNodeCount), so a longer
+   * stay produces a longer, differently-paced story and a different kind of ending. Defaults
+   * to 1 semester (the original fixed 10-node story) when omitted. */
+  semesters?: number;
 }
 
 export type Provider = "openai" | "relay";
@@ -164,12 +169,16 @@ export interface ResearchReport {
 
 export type FrameworkType = "convergence" | "diverging" | "turning_point";
 export type Tone = "hopeful" | "bittersweet" | "challenging";
-export type StatKey = "health" | "mood" | "money";
+export type StatKey = "health" | "mood" | "money" | "school";
 
 export interface StatBlock {
   health: number;
   mood: number;
   money: number;
+  /** Academics/school standing — drops if the player skips coursework, ignores
+   * professor messages, etc. in favor of leisure; a fourth visible stat
+   * alongside health/mood/money. */
+  school: number;
 }
 
 export interface Choice {
@@ -177,6 +186,12 @@ export interface Choice {
   next_node: string;
   stat_delta?: StatBlock;
   stat_reason?: string;
+  /** Marks the choice the Design Agent considers the "intended"/best path for
+   * this profile — surfaced in the UI with a star badge. Since the game only
+   * generates a single linear content path per node (all choices on a node
+   * share the same next_node, to save generation cost), this is purely a
+   * player-facing hint, not a branch selector. */
+  recommended?: boolean;
 }
 
 export interface StoryNode {
@@ -186,6 +201,11 @@ export interface StoryNode {
   has_image: boolean;
   image_url?: string;
   choices: Choice[];
+  /** Optional 1-2 sentence educational "field note", grounded in the research
+   * report, explaining WHY this situation/challenge realistically happens to
+   * study-abroad students with this profile. Rendered in the side panel so the
+   * player learns about real study-abroad life while playing. */
+  insight?: string;
 }
 
 export interface EndingNode {
@@ -194,6 +214,8 @@ export interface EndingNode {
   has_image: boolean;
   image_url?: string;
   tone: Tone;
+  /** See StoryNode.insight. */
+  insight?: string;
 }
 
 export interface StoryDocument {
@@ -204,4 +226,7 @@ export interface StoryDocument {
   initial_stats?: StatBlock;
   nodes: Record<string, StoryNode>;
   endings: Record<string, EndingNode>;
+  /** Carried over from ResearchReport.sources so the Field Notes panel can
+   * link the player to the actual pages the story's facts were grounded in. */
+  sources?: ResearchReport["sources"];
 }

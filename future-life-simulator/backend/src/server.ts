@@ -187,15 +187,72 @@ app.get("/api/universities/search", async (req, res) => {
     const params = new URLSearchParams();
     if (name) params.set("name", name);
     if (country) params.set("country", country);
-    const upstream = await fetch(`http://universities.hipolabs.com/search?${params.toString()}`, {
-      signal: controller.signal,
-    });
-    if (!upstream.ok) {
-      res.json([]);
-      return;
+
+    // The upstream Hipolabs API's own `name` search is a raw/unranked
+    // substring match with known gaps in its index — e.g. searching
+    // "northeastern" + country=United States never surfaces the real
+    // Northeastern University (Boston) at all, even though the exact same
+    // record IS found via a domain lookup (domain=northeastern.edu). So,
+    // alongside the normal name search, also try a domain-guess lookup
+    // (e.g. "Northeastern University" -> northeastern.edu) as a second,
+    // parallel request — cheap, and it rescues exactly this class of
+    // missing-from-name-index school.
+    const domainGuess = name
+      .toLowerCase()
+      .replace(/\b(university|college|institute|of|the)\b/g, "")
+      .replace(/[^a-z]/g, "");
+    // Deliberately omit `country` here: Hipolabs' upstream API appears to
+    // ignore/mis-combine domain+country together (returns effectively the
+    // whole country's university list instead of filtering), so the
+    // country match is done client-side below instead.
+    const domainParams = new URLSearchParams();
+    if (domainGuess.length >= 4) domainParams.set("domain", `${domainGuess}.edu`);
+
+    const [nameRes, domainRes] = await Promise.all([
+      fetch(`http://universities.hipolabs.com/search?${params.toString()}`, { signal: controller.signal }),
+      domainGuess.length >= 4
+        ? fetch(`http://universities.hipolabs.com/search?${domainParams.toString()}`, { signal: controller.signal }).catch(
+            () => undefined,
+          )
+        : Promise.resolve(undefined),
+    ]);
+
+    type UniRecord = { name: string; country: string; alpha_two_code?: string };
+    const nameData: UniRecord[] = nameRes.ok ? await nameRes.json() : [];
+    let domainData: UniRecord[] = domainRes && domainRes.ok ? await domainRes.json() : [];
+    if (country) {
+      const countryLower = country.toLowerCase();
+      domainData = domainData.filter((entry) => entry.country.toLowerCase() === countryLower);
     }
-    const data = (await upstream.json()) as Array<{ name: string; country: string; alpha_two_code?: string }>;
-    res.json(data.slice(0, 8).map((entry) => ({ name: entry.name, country: entry.country })));
+
+
+    const seen = new Set<string>();
+    const merged: UniRecord[] = [];
+    // Domain-guess hits go first — they're the most likely exact intended
+    // match when the plain name search missed or buried it.
+    for (const entry of [...domainData, ...nameData]) {
+      const key = `${entry.name.toLowerCase()}|${entry.country}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      merged.push(entry);
+    }
+
+    // Relevance rank the rest instead of trusting the upstream's raw
+    // (effectively alphabetical) order, which routinely buries the actual
+    // intended school behind unrelated same-prefix schools — e.g.
+    // "Northeastern Junior/Louisiana/State/Technical..." sort before
+    // "Northeastern University" purely alphabetically.
+    const q = name.trim().toLowerCase();
+    const rank = (entry: UniRecord): number => {
+      const n = entry.name.toLowerCase();
+      if (n === q) return 0;
+      if (n.startsWith(q)) return 1;
+      if (n.includes(` ${q}`) || n.includes(`${q} `)) return 2;
+      return 3;
+    };
+    merged.sort((a, b) => rank(a) - rank(b));
+
+    res.json(merged.slice(0, 8).map((entry) => ({ name: entry.name, country: entry.country })));
   } catch {
     res.json([]);
   } finally {
@@ -311,6 +368,22 @@ app.post("/api/generate", async (req, res) => {
       res.json({ ...(cached as object), cached: true });
       return;
     }
+    // Fallback for stories cached before the "semesters" onboarding field
+    // existed: their cache key was hashed without a semesters value at all,
+    // so a legacy story can never be found once the (now-mandatory) slider
+    // always sends a number. Recompute the hash the same way but with
+    // semesters stripped from the profile, and serve that legacy story if
+    // it exists — the player's chosen semester count just doesn't apply to
+    // stories generated before it was configurable.
+    if (mode === "live_search" && profile?.semesters !== undefined) {
+      const { semesters: _semesters, ...legacyProfile } = profile;
+      const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig);
+      const legacyCached = await readCachedStory(legacyStoryId);
+      if (legacyCached) {
+        res.json({ ...(legacyCached as object), cached: true });
+        return;
+      }
+    }
   }
 
   const logger = new RunLogger(storyId);
@@ -331,12 +404,17 @@ app.post("/api/generate", async (req, res) => {
     await logger.endStage("search", "01_search_report.json", report);
 
     logger.startStage("design");
-    const skeleton = await runDesignAgent(report, storyId, runtimeConfig);
+    const skeleton = await runDesignAgent(report, storyId, runtimeConfig, profile?.semesters);
     await logger.endStage("design", "02_design_skeleton.json", skeleton);
 
     logger.startStage("artist");
     const final = await runArtistAgent(skeleton, runtimeConfig);
     await logger.endStage("artist", "03_artist_final.json", final);
+
+    // Carry the Search Agent's cited sources through to the saved/served
+    // document so the Field Notes panel can link players to where the
+    // story's facts actually came from.
+    final.sources = report.sources;
 
     await fs.mkdir(STORIES_DIR, { recursive: true });
     await fs.writeFile(

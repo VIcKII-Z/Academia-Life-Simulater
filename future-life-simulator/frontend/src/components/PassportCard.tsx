@@ -60,7 +60,12 @@ export default function PassportCard({
 
   return (
     <div className="journalCard passportCard">
-      <div className="passportStamp">✈</div>
+      {!compact && (
+        <img className="mascotGreeter" src="/branding/mascot.png" alt="Future Life Simulator mascot, a pixel-art owl in a graduation cap" />
+      )}
+      <div className="passportStamp">
+        <img className="passportStampIcon" src="/stickers/map.png" alt="" />
+      </div>
       <h2>{compact ? "Update your travel key" : "Enter your travel key"}</h2>
       <p className="lede">
         {compact
@@ -76,14 +81,14 @@ export default function PassportCard({
           className={provider === "relay" ? "active" : ""}
           onClick={() => selectProvider("relay")}
         >
-          🔀 Relay (中转站)
+          <img className="inlineIcon" src="/stickers/network.png" alt="" /> Relay (中转站)
         </button>
         <button
           type="button"
           className={provider === "openai" ? "active" : ""}
           onClick={() => selectProvider("openai")}
         >
-          🤖 Official OpenAI
+          <img className="inlineIcon" src="/stickers/gear.png" alt="" /> Official OpenAI
         </button>
       </div>
 

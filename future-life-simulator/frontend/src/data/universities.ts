@@ -51,6 +51,7 @@ export const UNIVERSITIES: UniversityEntry[] = [
   { name: "Massachusetts Institute of Technology", country: "United States", city: "Cambridge" },
   { name: "Harvard University", country: "United States", city: "Cambridge" },
   { name: "Boston University", country: "United States", city: "Boston" },
+  { name: "Northeastern University", country: "United States", city: "Boston" },
   { name: "Stanford University", country: "United States", city: "Stanford" },
   { name: "UC Berkeley", country: "United States", city: "Berkeley" },
   { name: "University of Southern California", country: "United States", city: "Los Angeles" },
@@ -140,15 +141,23 @@ export function searchUniversitiesScoped(query: string, country: string, city: s
   if (!q) return [];
   const countryLower = country.trim().toLowerCase();
   const cityLower = city.trim().toLowerCase();
-  const inCountry = UNIVERSITIES.filter((u) => u.country.toLowerCase() === countryLower);
+  // Strictly scoped to the chosen city (not just sorted first) — a real
+  // multi-layer search means university options must live inside the
+  // previously chosen city, not just the country.
+  const inScope = UNIVERSITIES.filter(
+    (u) => u.country.toLowerCase() === countryLower && (!cityLower || u.city.toLowerCase() === cityLower),
+  );
+  return inScope.filter((u) => u.name.toLowerCase().includes(q) || u.city.toLowerCase().includes(q)).slice(0, limit);
+}
 
-  const filtered = inCountry.filter((u) => u.name.toLowerCase().includes(q) || u.city.toLowerCase().includes(q));
-
-  return [...filtered]
-    .sort((a, b) => {
-      const aCity = a.city.toLowerCase() === cityLower ? 0 : 1;
-      const bCity = b.city.toLowerCase() === cityLower ? 0 : 1;
-      return aCity - bCity;
-    })
-    .slice(0, limit);
+/** All curated universities within an already-chosen country+city, used to
+ * populate UniversityStep's default suggestion list before the player
+ * types anything — same "pick from what's actually there" pattern as
+ * getCitiesForCountry(). */
+export function getUniversitiesForCity(country: string, city: string, limit = 8): UniversityEntry[] {
+  const countryLower = country.trim().toLowerCase();
+  const cityLower = city.trim().toLowerCase();
+  return UNIVERSITIES.filter(
+    (u) => u.country.toLowerCase() === countryLower && u.city.toLowerCase() === cityLower,
+  ).slice(0, limit);
 }

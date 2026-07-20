@@ -84,11 +84,21 @@ export async function generateStory(params: GenerateParams): Promise<StoryDocume
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   });
-  const payload = await res.json();
-  if (!res.ok) {
-    throw new Error(payload.error ?? "Generation failed");
+  // Read as text first: a dropped connection (e.g. the dev server hot-reloading
+  // mid-request, or an upstream relay cutting off) leaves an empty/partial body,
+  // which res.json() would surface as an opaque "Unexpected end of JSON input".
+  // Give a clearer, retry-friendly message in that case instead.
+  const raw = await res.text();
+  let payload: Record<string, unknown>;
+  try {
+    payload = raw ? JSON.parse(raw) : {};
+  } catch {
+    throw new Error("Lost connection to the story server mid-generation. Please try again.");
   }
-  return payload as StoryDocument;
+  if (!res.ok) {
+    throw new Error((payload.error as string | undefined) ?? "Generation failed");
+  }
+  return payload as unknown as StoryDocument;
 }
 
 export function makeStoryId(seed: string): string {

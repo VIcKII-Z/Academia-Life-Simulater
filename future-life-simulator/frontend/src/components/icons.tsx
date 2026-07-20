@@ -53,25 +53,3 @@ export function CompassRoseIcon({ className }: { className?: string }) {
   );
 }
 
-/** A weathered signpost arrow used on the fork-in-the-road choice cards. */
-export function PathArrowIcon({
-  direction,
-  className,
-}: {
-  direction: "left" | "right" | "straight";
-  className?: string;
-}) {
-  const rotation = direction === "left" ? -38 : direction === "right" ? 38 : 0;
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 40 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ transform: `rotate(${rotation}deg)` }}
-    >
-      <path d="M2 12h32" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M25 4.5 34 12l-9 7.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}

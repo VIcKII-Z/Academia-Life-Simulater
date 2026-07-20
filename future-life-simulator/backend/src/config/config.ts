@@ -38,9 +38,10 @@ export const config = {
   },
 
   // ---- Story generation tuning -----------------------------------
-  // TEMP: pinned to a single linear 10-node storyline (no branching tree)
-  // per current design direction. Restore a range (e.g. 12-15) and the
-  // branching prompt language in designAgent.ts to bring back a tree.
+  // Linear storyline (no branching tree) per current design direction.
+  // Actual node count now scales with UserProfile.semesters (see
+  // designAgent.ts's computeTargetNodeCount) — these two are just the
+  // 1-semester baseline shown in /api/config for reference.
   story: {
     minNodes: 10,
     maxNodes: 10,

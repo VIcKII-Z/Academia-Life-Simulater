@@ -7,6 +7,20 @@ import type { RuntimeConfig, StoryDocument } from "../types.js";
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generated");
 
 /**
+ * Shared visual style prefix applied to every generated scene image so the
+ * whole story reads as one illustrated picture-book. Matches the reference art
+ * direction: warm, hand-drawn storybook illustration — soft watercolor and
+ * colored-pencil rendering, gentle natural light, cozy and detailed but not
+ * photorealistic. Kept as a constant (not per-node) so tone/scene vary while
+ * the medium and mood stay consistent across the run.
+ */
+const STYLE_PREFIX =
+  "Warm hand-drawn storybook illustration in soft watercolor and colored-pencil style, " +
+  "gentle natural lighting, cozy muted earthy palette, delicate linework and fine detail, " +
+  "picture-book / graphic-novel aesthetic, tender and cinematic mood, subtle grain, " +
+  "no text, no captions, no watermark, no photorealism. Scene: ";
+
+/**
  * Mutates and returns the story doc with image_url populated for has_image nodes.
  * Skips entirely (no API calls) if config.features.enableImageGeneration is false —
  * nodes keep has_image as designed but simply have no image_url, and the frontend
@@ -31,7 +45,7 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
 
   for (const [nodeId, node] of capped) {
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
-    const prompt = `${node.image_prompt}${toneSuffix}`;
+    const prompt = `${STYLE_PREFIX}${node.image_prompt}${toneSuffix}`;
     const result = await client.images.generate({
       model: runtimeConfig?.models.image ?? config.models.image,
       prompt,

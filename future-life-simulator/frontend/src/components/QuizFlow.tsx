@@ -4,6 +4,7 @@ import {
   findExactUniversity,
   getCitiesForCountry,
   getCountries,
+  getUniversitiesForCity,
   searchUniversitiesScoped,
   type UniversityEntry,
 } from "../data/universities";
@@ -19,18 +20,19 @@ import { searchUniversitiesLive } from "../lib/api";
  * (see search_agent_strategy.md's Phase 0 school/department/program
  * targeting for why school-level detail matters).
  */
-type StepKey = "country" | "city" | "university" | "degree" | "major" | "details";
-const STEP_ORDER: StepKey[] = ["country", "city", "university", "degree", "major", "details"];
+type StepKey = "country" | "city" | "university" | "degree" | "semesters" | "details";
+const STEP_ORDER: StepKey[] = ["country", "city", "university", "degree", "semesters", "details"];
 
-const DEGREE_OPTIONS = ["High School", "Undergraduate", "Graduate", "PhD", "Exchange Student"];
-const MAJOR_OPTIONS = ["Computer Science", "Business Administration", "Data Science", "Design", "Finance", "Education"];
+const DEGREE_OPTIONS = ["Undergraduate", "Graduate", "PhD", "Exchange Student"];
+const MIN_SEMESTERS = 1;
+const MAX_SEMESTERS = 8;
 
 type Answers = {
   country?: string;
   city?: string;
   school?: string;
   grade?: string;
-  major?: string;
+  semesters?: number;
   department?: string;
   program?: string;
 };
@@ -68,8 +70,13 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
       country: answers.country ?? "",
       city: answers.city ?? "",
       grade: answers.grade ?? "",
-      major: answers.major ?? "",
+      // No separate "major" step anymore — the program/department layer
+      // (when given) already captures the field of study; fall back to
+      // whichever of those is present so downstream agents/UI that still
+      // read `major` (search prompt, loading copy) have something to show.
+      major: trimmed.program ?? trimmed.department ?? "",
       school: answers.school,
+      semesters: answers.semesters ?? 1,
       ...trimmed,
     });
   }
@@ -118,15 +125,13 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
                   onSubmit={(grade) => advance({ grade })}
                 />
               );
-            case "major":
+            case "semesters":
               return (
-                <ChipStep
+                <SemesterStep
                   key={key}
-                  title="What would you study there?"
-                  subtitle="Your field, or the one you've been dreaming about."
-                  options={MAJOR_OPTIONS}
+                  initial={answers.semesters ?? 2}
                   onBack={() => goToStep(index - 1)}
-                  onSubmit={(major) => advance({ major })}
+                  onSubmit={(semesters) => advance({ semesters })}
                 />
               );
             case "details":
@@ -156,8 +161,8 @@ function doneLabel(key: StepKey): string {
       return "University";
     case "degree":
       return "Level";
-    case "major":
-      return "Major";
+    case "semesters":
+      return "Length of stay";
     default:
       return "";
   }
@@ -173,8 +178,8 @@ function doneValue(key: StepKey, answers: Answers): string {
       return answers.school ?? "";
     case "degree":
       return answers.grade ?? "";
-    case "major":
-      return answers.major ?? "";
+    case "semesters":
+      return answers.semesters ? `${answers.semesters} semester${answers.semesters === 1 ? "" : "s"}` : "";
     default:
       return "";
   }
@@ -229,41 +234,66 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
   );
 }
 
-/** Layer 2: pick (or type) a city within the chosen country. */
+/** Layer 2: pick a city within the chosen country. When we have curated
+ * cities for the country, this is a dropdown/search-select only — the
+ * player filters by typing but must click a real suggestion, no free-text
+ * submit, so the city always stays within the chosen country. Falls back
+ * to manual free-text entry only when the country isn't in our curated
+ * data at all (no cities to search against). */
 function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () => void; onSubmit: (city: string) => void }) {
   const [draft, setDraft] = useState("");
   const curatedCities = getCitiesForCountry(country);
+  const hasCuratedData = curatedCities.length > 0;
+
+  const query = draft.trim().toLowerCase();
+  const filteredCities = query ? curatedCities.filter((city) => city.toLowerCase().includes(query)) : curatedCities;
 
   return (
     <div className="quizStepActive">
       <h2>Which city?</h2>
-      <p>{curatedCities.length > 0 ? `Popular cities in ${country}, or type your own.` : `Type the city in ${country}.`}</p>
-      {curatedCities.length > 0 && (
-        <div className="quizChips">
-          {curatedCities.map((city) => (
-            <button key={city} className="quizChip" onClick={() => onSubmit(city)}>
-              {city}
-            </button>
-          ))}
-        </div>
+      <p>
+        {hasCuratedData
+          ? `Search cities in ${country} — pick one from the list.`
+          : `Type the city in ${country}.`}
+      </p>
+
+      {hasCuratedData ? (
+        <>
+          <input
+            className="journalInput"
+            placeholder="Search cities..."
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+            autoFocus
+          />
+          <div className="quizChips">
+            {filteredCities.map((city) => (
+              <button key={city} className="quizChip" onClick={() => onSubmit(city)}>
+                {city}
+              </button>
+            ))}
+            {filteredCities.length === 0 && <p className="journalHint">No matching city in {country}.</p>}
+          </div>
+        </>
+      ) : (
+        <input
+          className="journalInput"
+          placeholder="e.g. Shanghai"
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          autoFocus
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && draft.trim()) onSubmit(draft.trim());
+          }}
+        />
       )}
-      <input
-        className="journalInput"
-        placeholder={curatedCities.length > 0 ? "Or type another city..." : "e.g. Shanghai"}
-        value={draft}
-        onChange={(event) => setDraft(event.target.value)}
-        autoFocus={curatedCities.length === 0}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && draft.trim()) onSubmit(draft.trim());
-        }}
-      />
+
       <div className="journalButtonRow">
-        <button className="journalButton secondary" onClick={onBack}>
-          Back
-        </button>
-        <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
-          Next
-        </button>
+        {!hasCuratedData && (
+          <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
@@ -293,7 +323,11 @@ function UniversityStep({
   const [liveResults, setLiveResults] = useState<{ name: string; country: string }[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
 
-  const localMatches: UniversityEntry[] = searchUniversitiesScoped(query, country, city);
+  // Before the player types anything, show what's actually in this city as
+  // a default pick list (matching the city-step dropdown pattern); once
+  // they type, narrow to a scoped text search within the same country+city.
+  const localMatches: UniversityEntry[] =
+    query.trim().length > 0 ? searchUniversitiesScoped(query, country, city) : getUniversitiesForCity(country, city);
   const exact = query.trim().length > 0 ? findExactUniversity(query) : undefined;
   const hasLocalMatch = localMatches.length > 0 || Boolean(exact);
 
@@ -358,9 +392,6 @@ function UniversityStep({
       <p className="journalHint">Can't find it in the list? You can type the exact name and continue directly.</p>
 
       <div className="journalButtonRow">
-        <button className="journalButton secondary" onClick={onBack}>
-          Back
-        </button>
         <button className="journalButton" disabled={!query.trim()} onClick={() => onSubmit(query.trim())}>
           Next
         </button>
@@ -406,15 +437,79 @@ function ChipStep({
         }}
       />
       <div className="journalButtonRow">
-        <button className="journalButton secondary" onClick={onBack}>
-          Back
-        </button>
         <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
           Next
         </button>
       </div>
     </div>
   );
+}
+
+/** Layer 5: how long the stay lasts, picked with a single slider (1-8
+ * semesters) instead of a row of 8 chips — a drag gesture reads faster than
+ * scanning/tapping eight options, and the live "N semesters" readout plus a
+ * short blurb per length keeps the choice's story impact (longer stay =
+ * longer, differently-shaped journey and ending) visible while dragging. */
+function SemesterStep({
+  initial,
+  onBack,
+  onSubmit,
+}: {
+  initial: number;
+  onBack: () => void;
+  onSubmit: (value: number) => void;
+}) {
+  const [value, setValue] = useState(() => Math.min(MAX_SEMESTERS, Math.max(MIN_SEMESTERS, initial)));
+  const percent = ((value - MIN_SEMESTERS) / (MAX_SEMESTERS - MIN_SEMESTERS)) * 100;
+
+  return (
+    <div className="quizStepActive">
+      <h2>How many semesters is your stay?</h2>
+      <p>
+        This sets how long your story runs — more semesters means a longer journey with a different kind
+        of ending, not just a longer version of the same one.
+      </p>
+
+      <div className="semesterSlider">
+        <div className="semesterSliderReadout">
+          <span className="semesterSliderValue">{value}</span>
+          <span className="semesterSliderLabel">semester{value === 1 ? "" : "s"}</span>
+        </div>
+        <input
+          className="semesterSliderInput"
+          type="range"
+          min={MIN_SEMESTERS}
+          max={MAX_SEMESTERS}
+          step={1}
+          value={value}
+          onChange={(event) => setValue(Number.parseInt(event.target.value, 10))}
+          style={{ ["--semester-fill" as string]: `${percent}%` }}
+          aria-label="Number of semesters"
+        />
+        <div className="semesterSliderTicks">
+          {Array.from({ length: MAX_SEMESTERS - MIN_SEMESTERS + 1 }, (_, index) => MIN_SEMESTERS + index).map((tick) => (
+            <span key={tick} className={tick === value ? "active" : ""}>
+              {tick}
+            </span>
+          ))}
+        </div>
+        <p className="semesterSliderHint">{semesterHint(value)}</p>
+      </div>
+
+      <div className="journalButtonRow">
+        <button className="journalButton" onClick={() => onSubmit(value)}>
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function semesterHint(value: number): string {
+  if (value <= 2) return "A short, focused stay — one or two chapters, tightly wound toward a single ending.";
+  if (value <= 4) return "A full year or two abroad — enough time for real routines and relationships to form.";
+  if (value <= 6) return "A long-haul journey — your story branches further, with more room to specialize.";
+  return "A multi-year saga — the longest, richest version of your story, with an ending shaped by years abroad.";
 }
 
 /** Final layer: optional department/program refinement, then finalize
@@ -463,9 +558,6 @@ function DetailsStep({
       </div>
 
       <div className="journalButtonRow">
-        <button className="journalButton secondary" onClick={onBack}>
-          Back
-        </button>
         <button className="journalButton secondary" onClick={onSkip}>
           Skip
         </button>

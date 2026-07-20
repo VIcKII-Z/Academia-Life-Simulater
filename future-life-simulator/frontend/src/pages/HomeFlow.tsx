@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PassportCard from "../components/PassportCard";
 import QuizFlow from "../components/QuizFlow";
 import DreamingLoader from "../components/DreamingLoader";
-import SceneCard from "../components/SceneCard";
+import SceneCard, { StatMeters } from "../components/SceneCard";
 import PostcardEnding from "../components/PostcardEnding";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
 import { hasStoredApiKey } from "../lib/storage";
@@ -32,14 +32,23 @@ export default function HomeFlow() {
     setStage("dreaming");
     setError(null);
     try {
-      const doc = await generateStory({
-        mode: "live_search",
-        profile: nextProfile,
-        runtimeConfig: buildRuntimeConfig(),
-      });
+      // Even a cache hit resolves in a few milliseconds (it's just a JSON
+      // file read), which made the "dreaming" loader flash by so fast it
+      // looked broken/skipped. Keep it on screen for a minimum stretch so
+      // the loading phase always feels real, whether the story was freshly
+      // generated or reused from the cache.
+      const minDreamTime = new Promise((resolve) => setTimeout(resolve, 4800));
+      const [doc] = await Promise.all([
+        generateStory({
+          mode: "live_search",
+          profile: nextProfile,
+          runtimeConfig: buildRuntimeConfig(),
+        }),
+        minDreamTime,
+      ]);
       setStory(doc);
       setCurrentNodeId(Object.keys(doc.nodes)[0] ?? "A");
-      setStats(doc.initial_stats ?? DEFAULT_STATS);
+      setStats({ ...DEFAULT_STATS, ...doc.initial_stats });
       setGameOverReason(null);
       setReusedStory(Boolean(doc.cached));
       setStage("play");
@@ -69,14 +78,31 @@ export default function HomeFlow() {
 
   const currentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
+  const isPlaying = stage === "play" && Boolean(story);
 
   return (
-    <main className={`journal ${stage === "passport" ? "journal--onboarding" : ""}`}>
-      <img className="journalTitleImage" src="/branding/title.png" alt="Future Life Simulator — Live, Learn, Grow" />
+    <main className={`journal ${stage === "passport" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
+      {isPlaying && story ? (
+        <header className="appBar">
+          <div className="appBarBrand">
+            <img className="appBarMascot" src="/branding/mascot.png" alt="" />
+            <img className="appBarLogo" src="/branding/title.png" alt="Future Life Simulator" />
+          </div>
+          <div className="appBarProfile">
+            <span className="appBarProfileCity">{story.user_profile.school || story.user_profile.city}</span>
+            <span className="appBarProfileMeta">
+              {[story.user_profile.grade, story.user_profile.major].filter(Boolean).join(" · ")}
+            </span>
+          </div>
+          <StatMeters stats={stats} />
+        </header>
+      ) : (
+        <img className="journalTitleImage" src="/branding/title.png" alt="Future Life Simulator — Live, Learn, Grow" />
+      )}
 
       {stage !== "passport" && (
         <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
-          🔑 API key
+          <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
         </button>
       )}
 
@@ -108,13 +134,15 @@ export default function HomeFlow() {
         <>
           {reusedStory && (
             <div className="reusedStoryBanner">
-              ✨ Reusing a story we already generated for this exact profile — no need to regenerate.
+              <img className="inlineIcon" src="/stickers/sparkle.png" alt="" /> Reusing a story we already
+              generated for this exact profile — no need to regenerate.
             </div>
           )}
           <SceneCard
             node={currentNode}
             caption={`${story.user_profile.city}, ${story.user_profile.country}`}
-            stats={stats}
+            contextNote={story.framework_reason}
+            sources={story.sources}
             onChoose={handleChoice}
           />
         </>
@@ -130,12 +158,29 @@ export default function HomeFlow() {
           }}
           city={story.user_profile.city}
           country={story.user_profile.country}
+          profileSummary={[story.user_profile.school, story.user_profile.grade, story.user_profile.major]
+            .filter(Boolean)
+            .join(" · ")}
+          contextNote={story.framework_reason}
+          stats={stats}
+          sources={story.sources}
           onRestart={restart}
         />
       )}
 
       {stage === "play" && story && ending && !gameOverReason && (
-        <PostcardEnding ending={ending} city={story.user_profile.city} country={story.user_profile.country} onRestart={restart} />
+        <PostcardEnding
+          ending={ending}
+          city={story.user_profile.city}
+          country={story.user_profile.country}
+          profileSummary={[story.user_profile.school, story.user_profile.grade, story.user_profile.major]
+            .filter(Boolean)
+            .join(" · ")}
+          contextNote={story.framework_reason}
+          stats={stats}
+          sources={story.sources}
+          onRestart={restart}
+        />
       )}
 
       <Link className="devLink" to="/debug">

@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import type { UserProfile } from "../types";
 
 function buildNarrativeLines(profile: UserProfile): string[] {
+  const focus = profile.major?.trim();
   return [
     `Looking up what life is really like for a ${profile.grade.toLowerCase()} in ${profile.city}...`,
-    `Picturing your first week studying ${profile.major} in ${profile.country}...`,
+    focus
+      ? `Picturing your first week studying ${focus} in ${profile.country}...`
+      : `Picturing your first week in ${profile.country}...`,
     `Sketching the choices that could shape your story...`,
     `Stamping your passport for ${profile.city}...`,
   ];
@@ -28,7 +31,10 @@ export default function DreamingLoader({ profile }: { profile: UserProfile }) {
 
   return (
     <div className="journalCard dreamingCard">
-      <div className="dreamingStamp">🛂</div>
+      <img className="mascotDreaming" src="/branding/mascot.png" alt="Future Life Simulator mascot, a pixel-art owl in a graduation cap" />
+      <div className="dreamingStamp">
+        <img className="dreamingStampIcon" src="/stickers/globe.png" alt="" />
+      </div>
       <p className="dreamingLine">{lines[index]}</p>
       <p className="dreamingSub">This usually takes under a minute.</p>
     </div>
