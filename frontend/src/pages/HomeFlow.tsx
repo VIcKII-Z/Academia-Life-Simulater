@@ -7,7 +7,7 @@ import BackgroundMusic from "../components/BackgroundMusic";
 import SceneCard, { StatMeters } from "../components/SceneCard";
 import PostcardEnding from "../components/PostcardEnding";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
-import { hasStoredApiKey } from "../lib/storage";
+import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfile } from "../types";
 
@@ -27,6 +27,15 @@ export default function HomeFlow() {
   const [error, setError] = useState<string | null>(null);
   const [showKeyEditor, setShowKeyEditor] = useState(false);
   const [reusedStory, setReusedStory] = useState(false);
+  const [imageGenerationEnabled, setImageGenerationEnabled] = useState(loadImageGenerationPreference);
+
+  function toggleImageGeneration() {
+    setImageGenerationEnabled((current) => {
+      const next = !current;
+      saveImageGenerationPreference(next);
+      return next;
+    });
+  }
 
   async function startStory(nextProfile: UserProfile) {
     setProfile(nextProfile);
@@ -43,7 +52,10 @@ export default function HomeFlow() {
         generateStory({
           mode: "live_search",
           profile: nextProfile,
-          runtimeConfig: buildRuntimeConfig(),
+          runtimeConfig: buildRuntimeConfig(undefined, {
+            enableImageGeneration: imageGenerationEnabled,
+            maxImagesPerStory: imageGenerationEnabled ? 30 : 0,
+          }),
         }),
         minDreamTime,
       ]);
@@ -104,9 +116,21 @@ export default function HomeFlow() {
       )}
 
       {stage !== "passport" && (
-        <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
-          <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
-        </button>
+        <>
+          <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
+            <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
+          </button>
+          <button
+            className={`imageGenerationToggle${imageGenerationEnabled ? " active" : ""}`}
+            type="button"
+            aria-pressed={imageGenerationEnabled}
+            onClick={toggleImageGeneration}
+            disabled={stage === "dreaming"}
+          >
+            <img className="imageGenerationToggleIcon" src="/stickers/sparkle.png" alt="" />
+            {imageGenerationEnabled ? "Images on" : "Images off"}
+          </button>
+        </>
       )}
 
       {showKeyEditor && (

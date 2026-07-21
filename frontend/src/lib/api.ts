@@ -52,7 +52,10 @@ export async function fetchRunList(): Promise<string[]> {
 }
 
 /** Builds the RuntimeConfig sent to /api/generate from stored credentials + optional model overrides. */
-export function buildRuntimeConfig(overrides?: Partial<RuntimeConfig["models"]>): RuntimeConfig {
+export function buildRuntimeConfig(
+  overrides?: Partial<RuntimeConfig["models"]>,
+  featureOverrides?: Partial<RuntimeConfig["features"]>,
+): RuntimeConfig {
   const { provider, apiKey, baseURL } = loadCredentials();
   return {
     provider,
@@ -63,6 +66,7 @@ export function buildRuntimeConfig(overrides?: Partial<RuntimeConfig["models"]>)
       enableLiveSearch: true,
       enableImageGeneration: true,
       maxImagesPerStory: 30,
+      ...featureOverrides,
     },
   };
 }

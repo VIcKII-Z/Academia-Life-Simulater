@@ -185,6 +185,20 @@ function hasEnoughCachedImages(cached: unknown, rawRuntimeConfig: unknown): bool
   return requiredImages <= 0 || countGeneratedImages(cached) >= requiredImages;
 }
 
+function prepareCachedStoryForResponse(cached: unknown, rawRuntimeConfig: unknown): object {
+  const raw = rawRuntimeConfig as { features?: Partial<RuntimeConfig["features"]> } | undefined;
+  const enableImageGeneration = raw?.features?.enableImageGeneration ?? config.features.enableImageGeneration;
+  if (enableImageGeneration) return cached as object;
+
+  const doc = JSON.parse(JSON.stringify(cached)) as {
+    nodes?: Record<string, { image_url?: string }>;
+    endings?: Record<string, { image_url?: string }>;
+  };
+  for (const node of Object.values(doc.nodes ?? {})) delete node.image_url;
+  for (const ending of Object.values(doc.endings ?? {})) delete ending.image_url;
+  return doc as object;
+}
+
 app.get("/api/config", (_req, res) => {
   res.json(config);
 });
@@ -395,7 +409,7 @@ app.post("/api/generate", async (req, res) => {
   if (!regenerate) {
     const cached = await readCachedStory(storyId);
     if (cached && hasEnoughCachedImages(cached, rawRuntimeConfig)) {
-      res.json({ ...(cached as object), cached: true });
+      res.json({ ...prepareCachedStoryForResponse(cached, rawRuntimeConfig), cached: true });
       return;
     }
     // Fallback for stories cached before the "semesters" onboarding field
@@ -410,7 +424,7 @@ app.post("/api/generate", async (req, res) => {
       const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig);
       const legacyCached = await readCachedStory(legacyStoryId);
       if (legacyCached && hasEnoughCachedImages(legacyCached, rawRuntimeConfig)) {
-        res.json({ ...(legacyCached as object), cached: true });
+        res.json({ ...prepareCachedStoryForResponse(legacyCached, rawRuntimeConfig), cached: true });
         return;
       }
     }

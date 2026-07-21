@@ -9,6 +9,7 @@ const KEYS = {
   apiKeyOpenai: "fls.apiKey.openai",
   provider: "fls.provider",
   baseURL: "fls.baseURL",
+  imageGenerationEnabled: "fls.imageGenerationEnabled",
 } as const;
 
 function keyForProvider(provider: Provider): string {
@@ -68,4 +69,12 @@ export function clearCredentials(): void {
   localStorage.removeItem(KEYS.apiKeyOpenai);
   localStorage.removeItem(KEYS.provider);
   localStorage.removeItem(KEYS.baseURL);
+}
+
+export function loadImageGenerationPreference(): boolean {
+  return localStorage.getItem(KEYS.imageGenerationEnabled) !== "false";
+}
+
+export function saveImageGenerationPreference(enabled: boolean): void {
+  localStorage.setItem(KEYS.imageGenerationEnabled, String(enabled));
 }

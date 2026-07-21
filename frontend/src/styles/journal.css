@@ -1172,6 +1172,49 @@
   color: var(--ink);
 }
 
+.imageGenerationToggle {
+  position: fixed;
+  top: 68px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  min-width: 128px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 248, 0.85);
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 999px;
+  padding: 6px 14px 6px 10px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.imageGenerationToggle.active {
+  color: var(--tone-hopeful);
+  border-color: rgba(79, 122, 91, 0.35);
+  background: rgba(249, 255, 247, 0.9);
+}
+
+.imageGenerationToggle:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.imageGenerationToggleIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-right: 7px;
+}
+
+.imageGenerationToggle:hover:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
 .keyEditorOverlay {
   position: fixed;
   inset: 0;
@@ -1871,6 +1914,9 @@
   }
   .journal--play .apiKeyEditTrigger {
     top: 10px;
+  }
+  .journal--play .imageGenerationToggle {
+    top: 62px;
   }
   .stage {
     padding: 18px 14px 0;
