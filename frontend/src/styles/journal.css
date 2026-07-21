@@ -74,6 +74,11 @@
    background), so no separate override is needed here anymore; this class
    is kept only in case the onboarding step ever needs its own tweaks. */
 .journal--onboarding {
+  background-image: url("/branding/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* ---- shared card shell ------------------------------------ */
