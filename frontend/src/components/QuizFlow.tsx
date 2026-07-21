@@ -8,6 +8,7 @@ import {
   type UniversityEntry,
 } from "../data/universities";
 import { fetchCountries, searchCitiesLive, searchUniversitiesLive } from "../lib/api";
+import { useI18n } from "../lib/i18n";
 
 /**
  * Multi-layer search: country -> city -> university -> degree level ->
@@ -37,6 +38,7 @@ type Answers = {
 };
 
 export default function QuizFlow({ onComplete }: { onComplete: (profile: UserProfile) => void }) {
+  const { t } = useI18n();
   const [answers, setAnswers] = useState<Answers>({});
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -87,7 +89,7 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
           if (index > activeIndex) return null;
           if (index < activeIndex) {
             return (
-              <DoneRow key={key} label={doneLabel(key)} value={doneValue(key, answers)} onEdit={() => goToStep(index)} />
+              <DoneRow key={key} label={doneLabel(key, t)} value={doneValue(key, answers, t)} onEdit={() => goToStep(index)} />
             );
           }
           // The active (currently open) step.
@@ -117,8 +119,8 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
               return (
                 <ChipStep
                   key={key}
-                  title="What stage of student would you be?"
-                  subtitle="Just so we can picture the right chapter of your journey."
+                  title={t("quiz.degree.title")}
+                  subtitle={t("quiz.degree.subtitle")}
                   options={DEGREE_OPTIONS}
                   onBack={() => goToStep(index - 1)}
                   onSubmit={(grade) => advance({ grade })}
@@ -150,24 +152,24 @@ function mapStepKeyToAnswerKey(key: StepKey): keyof Answers {
   return key as keyof Answers;
 }
 
-function doneLabel(key: StepKey): string {
+function doneLabel(key: StepKey, t: (key: string, vars?: Record<string, string | number>) => string): string {
   switch (key) {
     case "country":
-      return "Country";
+      return t("quiz.done.country");
     case "city":
-      return "City";
+      return t("quiz.done.city");
     case "university":
-      return "University";
+      return t("quiz.done.university");
     case "degree":
-      return "Level";
+      return t("quiz.done.degree");
     case "semesters":
-      return "Length of stay";
+      return t("quiz.done.semesters");
     default:
       return "";
   }
 }
 
-function doneValue(key: StepKey, answers: Answers): string {
+function doneValue(key: StepKey, answers: Answers, t: (key: string, vars?: Record<string, string | number>) => string): string {
   switch (key) {
     case "country":
       return answers.country ?? "";
@@ -176,9 +178,11 @@ function doneValue(key: StepKey, answers: Answers): string {
     case "university":
       return answers.school ?? "";
     case "degree":
-      return answers.grade ?? "";
+      return answers.grade ? t(`degree.${answers.grade}`) : "";
     case "semesters":
-      return answers.semesters ? `${answers.semesters} semester${answers.semesters === 1 ? "" : "s"}` : "";
+      return answers.semesters
+        ? `${answers.semesters} ${t(answers.semesters === 1 ? "quiz.semesters.labelOne" : "quiz.semesters.labelMany")}`
+        : "";
     default:
       return "";
   }
@@ -188,6 +192,7 @@ function doneValue(key: StepKey, answers: Answers): string {
  * step (instead of being replaced by it) so the whole multi-layer chain
  * builds up on one page; "Edit" reopens it (and clears everything after). */
 function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdit: () => void }) {
+  const { t } = useI18n();
   return (
     <div className="quizStepDone">
       <span className="quizStepDoneText">
@@ -195,7 +200,7 @@ function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdi
         <span className="quizStepDoneValue">{value}</span>
       </span>
       <button className="quizStepEdit" onClick={onEdit}>
-        Edit
+        {t("common.edit")}
       </button>
     </div>
   );
@@ -210,6 +215,7 @@ function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdi
  *    every country, not just our curated eight. The player must click an
  *    actual suggestion; the text input only narrows the search. */
 function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
+  const { t } = useI18n();
   const [draft, setDraft] = useState("");
   const [allCountries, setAllCountries] = useState<string[]>([]);
 
@@ -236,11 +242,11 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
 
   return (
     <div className="quizStepActive">
-      <h2>Where in the world?</h2>
-      <p>Search countries and pick one from the list.</p>
+      <h2>{t("quiz.country.title")}</h2>
+      <p>{t("quiz.country.subtitle")}</p>
       <input
         className="journalInput"
-        placeholder="Search countries..."
+        placeholder={t("quiz.country.placeholder")}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         autoFocus
@@ -263,7 +269,7 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
       )}
       {filteredCurated.length === 0 && filteredOthers.length === 0 && query.length > 0 && (
         <p className="journalHint">
-          {allCountries.length > 0 ? `No matching country found.` : "Loading countries..."}
+          {allCountries.length > 0 ? t("quiz.country.noMatch") : t("common.loadingCountries")}
         </p>
       )}
     </div>
@@ -283,6 +289,7 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
  * result); the text input is for narrowing the search only, so every
  * chosen city is a real, backend-verified place. */
 function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () => void; onSubmit: (city: string) => void }) {
+  const { t } = useI18n();
   const [draft, setDraft] = useState("");
   const [liveResults, setLiveResults] = useState<string[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
@@ -311,12 +318,12 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
 
   return (
     <div className="quizStepActive">
-      <h2>Which city?</h2>
-      <p>Search cities in {country} and pick one from the list.</p>
+      <h2>{t("quiz.city.title")}</h2>
+      <p>{t("quiz.city.subtitle", { country })}</p>
 
       <input
         className="journalInput"
-        placeholder="Search cities... e.g. Santa Barbara"
+        placeholder={t("quiz.city.placeholder")}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         autoFocus
@@ -330,7 +337,7 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
         ))}
       </div>
 
-      {liveLoading && <p className="journalHint">Searching cities worldwide...</p>}
+      {liveLoading && <p className="journalHint">{t("quiz.city.loading")}</p>}
 
       {liveResults.length > 0 && (
         <div className="universitySuggestions">
@@ -344,7 +351,7 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
       )}
 
       {filteredCurated.length === 0 && liveResults.length === 0 && !liveLoading && query.length > 0 && (
-        <p className="journalHint">No matching city found in {country}. Keep typing to search.</p>
+        <p className="journalHint">{t("quiz.city.noMatch", { country })}</p>
       )}
     </div>
   );
@@ -370,6 +377,7 @@ function UniversityStep({
   onBack: () => void;
   onSubmit: (school: string) => void;
 }) {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [liveResults, setLiveResults] = useState<{ name: string; country: string }[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
@@ -399,15 +407,14 @@ function UniversityStep({
 
   return (
     <div className="quizStepActive">
-      <h2>Which university?</h2>
+      <h2>{t("quiz.university.title")}</h2>
       <p>
-        Search universities in {city ? `${city}, ` : ""}
-        {country} and pick one from the list.
+        {t("quiz.university.subtitle", { location: `${city ? `${city}, ` : ""}${country}` })}
       </p>
 
       <input
         className="journalInput"
-        placeholder="Search a university name..."
+        placeholder={t("quiz.university.placeholder")}
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         autoFocus
@@ -426,7 +433,7 @@ function UniversityStep({
         </div>
       )}
 
-      {!hasLocalMatch && liveLoading && <p className="journalHint">Searching universities worldwide...</p>}
+      {!hasLocalMatch && liveLoading && <p className="journalHint">{t("quiz.university.loading")}</p>}
 
       {!hasLocalMatch && liveResults.length > 0 && (
         <div className="universitySuggestions">
@@ -440,7 +447,7 @@ function UniversityStep({
       )}
 
       {!hasLocalMatch && !liveLoading && liveResults.length === 0 && query.trim().length > 0 && (
-        <p className="journalHint">No matching university found. Keep typing to search.</p>
+        <p className="journalHint">{t("quiz.university.noMatch")}</p>
       )}
     </div>
   );
@@ -461,6 +468,7 @@ function ChipStep({
   onBack: () => void;
   onSubmit: (value: string) => void;
 }) {
+  const { t } = useI18n();
   const [draft, setDraft] = useState("");
   return (
     <div className="quizStepActive">
@@ -469,13 +477,13 @@ function ChipStep({
       <div className="quizChips">
         {options.map((option) => (
           <button key={option} className="quizChip" onClick={() => onSubmit(option)}>
-            {option}
+            {t(`degree.${option}`)}
           </button>
         ))}
       </div>
       <input
         className="journalInput"
-        placeholder="Or write your own..."
+        placeholder={t("quiz.customPlaceholder")}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         onKeyDown={(event) => {
@@ -484,7 +492,7 @@ function ChipStep({
       />
       <div className="journalButtonRow">
         <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
-          Next
+          {t("common.next")}
         </button>
       </div>
     </div>
@@ -505,17 +513,18 @@ function SemesterStep({
   onBack: () => void;
   onSubmit: (value: number) => void;
 }) {
+  const { t } = useI18n();
   const [value, setValue] = useState(() => Math.min(MAX_SEMESTERS, Math.max(MIN_SEMESTERS, initial)));
   const percent = ((value - MIN_SEMESTERS) / (MAX_SEMESTERS - MIN_SEMESTERS)) * 100;
 
   return (
     <div className="quizStepActive">
-      <h2>How many semesters is your stay?</h2>
+      <h2>{t("quiz.semesters.title")}</h2>
 
       <div className="semesterSlider">
         <div className="semesterSliderReadout">
           <span className="semesterSliderValue">{value}</span>
-          <span className="semesterSliderLabel">semester{value === 1 ? "" : "s"}</span>
+          <span className="semesterSliderLabel">{t(value === 1 ? "quiz.semesters.labelOne" : "quiz.semesters.labelMany")}</span>
         </div>
         <input
           className="semesterSliderInput"
@@ -526,7 +535,7 @@ function SemesterStep({
           value={value}
           onChange={(event) => setValue(Number.parseInt(event.target.value, 10))}
           style={{ ["--semester-fill" as string]: `${percent}%` }}
-          aria-label="Number of semesters"
+          aria-label={t("quiz.semesters.aria")}
         />
         <div className="semesterSliderTicks">
           {Array.from({ length: MAX_SEMESTERS - MIN_SEMESTERS + 1 }, (_, index) => MIN_SEMESTERS + index).map((tick) => (
@@ -535,23 +544,23 @@ function SemesterStep({
             </span>
           ))}
         </div>
-        <p className="semesterSliderHint">{semesterHint(value)}</p>
+        <p className="semesterSliderHint">{semesterHint(value, t)}</p>
       </div>
 
       <div className="journalButtonRow">
         <button className="journalButton" onClick={() => onSubmit(value)}>
-          Next
+          {t("common.next")}
         </button>
       </div>
     </div>
   );
 }
 
-function semesterHint(value: number): string {
-  if (value <= 2) return "A short, focused stay — one or two chapters, tightly wound toward a single ending.";
-  if (value <= 4) return "A full year or two abroad — enough time for real routines and relationships to form.";
-  if (value <= 6) return "A long-haul journey — your story branches further, with more room to specialize.";
-  return "A multi-year saga — the longest, richest version of your story, with an ending shaped by years abroad.";
+function semesterHint(value: number, t: (key: string) => string): string {
+  if (value <= 2) return t("quiz.semesters.hintShort");
+  if (value <= 4) return t("quiz.semesters.hintMedium");
+  if (value <= 6) return t("quiz.semesters.hintLong");
+  return t("quiz.semesters.hintSaga");
 }
 
 /** Final layer: optional department/program refinement, then finalize
@@ -567,32 +576,30 @@ function DetailsStep({
   onSkip: () => void;
   onSubmit: (details: { department: string; program: string }) => void;
 }) {
+  const { t } = useI18n();
   const [department, setDepartment] = useState("");
   const [program, setProgram] = useState("");
 
   return (
     <div className="quizStepActive">
-      <h2>Know the exact department or program?</h2>
-      <p>
-        Optional — give us a specific department or program and we'll research that exact case
-        instead of a generic school-level overview. Leave blank to skip.
-      </p>
+      <h2>{t("quiz.details.title")}</h2>
+      <p>{t("quiz.details.subtitle")}</p>
 
       <div className="quizDetailFields">
         <label>
-          Department
+          {t("quiz.details.department")}
           <input
             className="journalInput"
-            placeholder="e.g. Graduate School of Information Science"
+            placeholder={t("quiz.details.departmentPlaceholder")}
             value={department}
             onChange={(event) => setDepartment(event.target.value)}
           />
         </label>
         <label>
-          Program
+          {t("quiz.details.program")}
           <input
             className="journalInput"
-            placeholder="e.g. MS in Computer Science"
+            placeholder={t("quiz.details.programPlaceholder")}
             value={program}
             onChange={(event) => setProgram(event.target.value)}
           />
@@ -601,10 +608,10 @@ function DetailsStep({
 
       <div className="journalButtonRow">
         <button className="journalButton secondary" onClick={onSkip}>
-          Skip
+          {t("common.skip")}
         </button>
         <button className="journalButton" onClick={() => onSubmit({ department, program })}>
-          Begin my story
+          {t("quiz.details.begin")}
         </button>
       </div>
     </div>

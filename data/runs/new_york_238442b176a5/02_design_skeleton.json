@@ -1,0 +1,798 @@
+{
+  "story_id": "new_york_238442b176a5",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in New York City imposes similar pressures on all students, making financial management a shared challenge.",
+  "user_profile": {
+    "country": "United States",
+    "city": "New York",
+    "major": "MS in Game Development",
+    "grade": "Graduate",
+    "school": "New York University",
+    "department": "NYU Game Center",
+    "program": "MS in Game Development",
+    "semesters": 4
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "node2": {
+      "type": "decision",
+      "scene_text": "You've signed up for a **class at the NYU Game Center**. Balancing commuting costs and your budget weighs on your mind. Should you try to walk to campus instead of taking the subway every day to save money, or will it cost you too much time?",
+      "image_prompt": "A student contemplating their daily commute with maps and subway schedules in a busy NYU campus.",
+      "has_image": true,
+      "insight": "Commuting options in NYC can impact student finances and academic performance, especially given the city's high transport costs and time constraints.",
+      "choices": [
+        {
+          "text": "Walk to campus daily to save money.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Walking saves transport costs but leads to fatigue and less time for studies.",
+          "recommended": false
+        },
+        {
+          "text": "Take the subway to campus for convenience.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Taking the subway is faster and keeps you energized, but it costs you money.",
+          "recommended": true
+        }
+      ]
+    },
+    "node3": {
+      "type": "decision",
+      "scene_text": "Back in your dorm after class, the **heavy workload** looms over you. Assignments from your **Games and Play in Education** class need attention. Should you skip the networking event tonight for more study time or risk falling behind on your social connections?",
+      "image_prompt": "A student sitting in a cluttered dorm surrounded by textbooks and a laptop, contemplating work as party sounds echo outside.",
+      "has_image": true,
+      "insight": "Graduate students often face the dilemma of balancing rigorous coursework with networking opportunities, essential for their future careers.",
+      "choices": [
+        {
+          "text": "Stay in and study the assignments.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Prioritizing studies improves your academic standing but can lead to stress and isolation.",
+          "recommended": false
+        },
+        {
+          "text": "Attend the networking event to build connections.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Networking enhances mood and connections in the industry but costs money and time away from studies.",
+          "recommended": true
+        }
+      ]
+    },
+    "node4": {
+      "type": "decision",
+      "scene_text": "You've made some new friends at the event who invite you to join the **NYU Game Center Student Club**. This could be a great way to engage socially and professionally! But will it cut into precious study time?",
+      "image_prompt": "A group of students laughing in a cozy lounge where a Game Center club meeting is held, with snacks and game demos around.",
+      "has_image": true,
+      "insight": "Joining student organizations like the NYU Game Center Club can significantly enhance professional development and personal networks, balancing time commitments is crucial.",
+      "choices": [
+        {
+          "text": "Join the club and participate in weekly meetings.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Joining enhances your mood and professional network but dilutes focus from coursework.",
+          "recommended": true
+        },
+        {
+          "text": "Politely decline and focus on academics.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Declining preserves academic focus but might lead to feelings of missing out socially.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "decision",
+      "scene_text": "As winter approaches, NYC's cold starts to set in, and temperatures drop. You're reminded of the winter clothing expenses. Will you invest in a warm jacket or manage with what you have?",
+      "image_prompt": "A cold and windy New York City street, with people bundled up in winter coats, while others are shivering in less warm attire.",
+      "has_image": true,
+      "insight": "Weather can significantly affect students' health and finances; investing in appropriate clothing is often crucial in a dynamic city like NYC.",
+      "choices": [
+        {
+          "text": "Buy a new warm jacket.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": -30,
+            "school": 0
+          },
+          "stat_reason": "Spending on a jacket ensures comfort and potentially better health during winter.",
+          "recommended": true
+        },
+        {
+          "text": "Manage with your current coat.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Managing with an old coat saves money but might negatively affect health with winter exposure.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "decision",
+      "scene_text": "Midway through the semester, group projects are heating up, and you need to balance your responsibilities. You receive a direct message from **Professor Jan L. Plass** inviting you to his office hours. Do you dive into the project more or meet for a valuable mentorship?",
+      "image_prompt": "A cozy office with game design projects and papers scattered, a professor discussing feedback with students earnestly.",
+      "has_image": true,
+      "insight": "Meeting faculty during office hours can enhance understanding of coursework and provide networking opportunities crucial for academic success.",
+      "choices": [
+        {
+          "text": "Attend the office hours.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Meeting the professor fosters academic support and can boost your project quality.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the meeting to work on the project.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Staying on the project may risk falling behind due to lack of guidance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "decision",
+      "scene_text": "As you submit your project, a familiar face from the **NYU Game Center Spring Showcase** approaches you to discuss your work. They mention internship opportunities, which ignites a spark of excitement. Should you take the plunge and apply, or focus solely on your studies?",
+      "image_prompt": "A lively networking event at the NYU Game Center, students showcasing projects and engaging in meaningful discussions.",
+      "has_image": true,
+      "insight": "Internships provide invaluable industry experience, but balancing these with studies requires careful consideration to maintain academic performance.",
+      "choices": [
+        {
+          "text": "Apply for the internship opportunity.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Internships can elevate your career readiness but might add stress and impact study time.",
+          "recommended": true
+        },
+        {
+          "text": "Decline and focus purely on coursework.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on coursework ensures good grades but might limit networking opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "decision",
+      "scene_text": "Accepting the internship starts to affect your routine. Juggling work and studies leads to sleep deprivation. You receive an invitation to join a meditation workshop to help manage stress. Should you attend, or are you too busy?",
+      "image_prompt": "A serene workshop room filled with students practicing meditation, soft sunlight filtering through large windows.",
+      "has_image": true,
+      "insight": "Workload stress is common among graduate students managing internships and coursework. Mindfulness practices can alleviate stress and improve focus.",
+      "choices": [
+        {
+          "text": "Attend the meditation workshop.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Investing time in self-care can enhance well-being, although it may cost some money.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on your work instead.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Neglecting self-care could worsen stress and health but prioritizes productivity.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "decision",
+      "scene_text": "With midterms looming, you realize your spending is higher than budgeted. You consider cutting back on social outings or part-time work to improve your academic focus.",
+      "image_prompt": "A student analyzing their budget with spreadsheets open, showing social plans and academic deadlines looming.",
+      "has_image": true,
+      "insight": "Budgeting is a crucial skill for students in NYC. Being proactive in managing finances can prevent academic stress related to money.",
+      "choices": [
+        {
+          "text": "Cut back on social outings.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 5,
+            "school": 5
+          },
+          "stat_reason": "Reducing social activities can improve academic focus but impact mood and social connections.",
+          "recommended": true
+        },
+        {
+          "text": "Take on more part-time work instead.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 15,
+            "school": -5
+          },
+          "stat_reason": "Working more can boost finances but may reduce study quality due to fatigue.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "decision",
+      "scene_text": "As semester finals approach, the pressure builds significantly. You receive an alert about an upcoming guest lecture series, including talks from leading developers from **Ubisoft**. Should you attend or continue grinding through your study material?",
+      "image_prompt": "An exciting lecture hall at NYU, filled with students eagerly listening to industry speakers sharing experiences and opportunities.",
+      "has_image": true,
+      "insight": "Guest lectures can provide critical insights and networking opportunities for students, helping bridge academic learning with industry needs.",
+      "choices": [
+        {
+          "text": "Attend the guest lecture series.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Attending increases your knowledge and serves professional networking despite minor study sacrifice.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize studying for finals.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on study may enhance grades while sacrificing professional insights.",
+          "recommended": false
+        }
+      ]
+    },
+    "node11": {
+      "type": "decision",
+      "scene_text": "Post-finals, you reflect on your year. You've learned and grown but not without challenges. As summer approaches, you must consider internships again. Have you gained enough industry knowledge to go ahead?",
+      "image_prompt": "A student sitting in a park reflecting on their experiences, surrounded by cherry blossoms and excitement for the future.",
+      "has_image": true,
+      "insight": "Internships during academic years are essential for applying classroom knowledge, especially in fast-evolving fields like game development.",
+      "choices": [
+        {
+          "text": "Apply for an internship at a leading game studio.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Internship application prioritization enhances career prospects but may affect academic focus.",
+          "recommended": true
+        },
+        {
+          "text": "Take a break and focus on personal projects.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing on personal projects aids creativity but might distance from professional networking.",
+          "recommended": false
+        }
+      ]
+    },
+    "node12": {
+      "type": "decision",
+      "scene_text": "The **NYU Game Center Spring Showcase** approaches, and you consider submitting your project. It could be a fantastic chance to showcase your work. Should you take the risk and present it to industry professionals?",
+      "image_prompt": "A vibrant exhibition hall buzzing with students showcasing their game projects during the Spring Showcase.",
+      "has_image": true,
+      "insight": "Participating in events like the Spring Showcase allows students to gain exposure and recognition in their field and connect with industry professionals.",
+      "choices": [
+        {
+          "text": "Submit your project for the showcase.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": -10,
+            "mood": 20,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Taking the risk could enhance your visibility in the industry despite adding pressure on academic performance.",
+          "recommended": true
+        },
+        {
+          "text": "Opt not to submit and finish your studies.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on academic completion prioritizes grades over professional exposure.",
+          "recommended": false
+        }
+      ]
+    },
+    "node13": {
+      "type": "decision",
+      "scene_text": "You successfully submit your project and prepare for the showcase. With newfound confidence, you start networking and discussing possibilities. Conversations about internships at **Rockstar Games** excite you. Should you pursue these connections or focus on existing commitments?",
+      "image_prompt": "An energetic networking event filled with students interacting with industry professionals, showcasing creativity and innovation.",
+      "has_image": true,
+      "insight": "Networking during showcase events is crucial for students aiming to enter competitive industries like game development.",
+      "choices": [
+        {
+          "text": "Pursue connections with industry professionals.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Networking improves job prospects despite reducing stress on academics.",
+          "recommended": true
+        },
+        {
+          "text": "Concentrate solely on remaining studies.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": -15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on studies enhances grades but limits networking opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node14": {
+      "type": "decision",
+      "scene_text": "Having laid the groundwork in networking, you receive an offer for a summer internship at your top choice, **Take-Two Interactive**. This leads to a pivotal decision: take the internship or remain focused on your studies?",
+      "image_prompt": "A ecstatic student receiving internship news on the phone surrounded by celebratory colleagues and friends.",
+      "has_image": true,
+      "insight": "Summer internships offer vital real-world experience for students, which can supplement their education and result in long-term career benefits.",
+      "choices": [
+        {
+          "text": "Accept the internship offer.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": -10,
+            "mood": 20,
+            "money": 15,
+            "school": -10
+          },
+          "stat_reason": "The internship will bolster your career prospects but will come with significant demands.",
+          "recommended": true
+        },
+        {
+          "text": "Decline the internship and focus completely on academics.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Choosing to focus on academics benefits grades but risks losing a valuable opportunity.",
+          "recommended": false
+        }
+      ]
+    },
+    "node15": {
+      "type": "decision",
+      "scene_text": "The internship at **Take-Two Interactive** begins, and the demands of professional life hit you hard. As summer progresses, you need to adapt. You're given an option to enroll in a special workshop on **game development**, focusing on skills like team collaboration, or to skip for time savings. What will you choose?",
+      "image_prompt": "A classroom environment at a studio filled with students engaged in interactive game development workshops.",
+      "has_image": true,
+      "insight": "Workshops can enrich students' skill sets, particularly in collaborative fields like game development amidst a demanding internship.",
+      "choices": [
+        {
+          "text": "Participate in the workshop.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Workshops enhance skills but require valuable financial and personal resources.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the workshop.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Prioritizing time over learning may alleviate immediate pressure but limit long-term growth.",
+          "recommended": false
+        }
+      ]
+    },
+    "node16": {
+      "type": "decision",
+      "scene_text": "As the summer winds down, the reality of completing your capstone project looms large. The internship has taught you invaluable skills, but now you struggle with time management and balancing the project within the deadline. You must decide: should you consult with your advisor, **Ken Perlin**, for insights or rely on self-study?",
+      "image_prompt": "A focused student meeting with a seasoned professor in an office filled with game development notes and projects.",
+      "has_image": true,
+      "insight": "Consulting with advisors for coursework guidance can influence the success of final projects in graduate programs.",
+      "choices": [
+        {
+          "text": "Consult with your advisor for guidance.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Seeking advice can lead to improved project quality and academic performance.",
+          "recommended": true
+        },
+        {
+          "text": "Try to manage without consultation.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Not consulting may risk project quality and increase personal stress.",
+          "recommended": false
+        }
+      ]
+    },
+    "node17": {
+      "type": "decision",
+      "scene_text": "With your project nearing completion and final evaluations underway, it's time to reflect on your journey. After earning achievements and overcoming challenges, you consider applying for jobs or further studies. You receive an email about a hiring event with **Ubisoft**. Will you pursue this opportunity or take a break first?",
+      "image_prompt": "Students networking passionately at a university hiring event, discussing job opportunities with excitement and ambition.",
+      "has_image": true,
+      "insight": "Graduate students often face the decision of entering the workforce immediately or pursuing further studies based on their academic performance.",
+      "choices": [
+        {
+          "text": "Attend the hiring event at Ubisoft.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Networking at hiring events improves career chances but adds pressure on time and health.",
+          "recommended": true
+        },
+        {
+          "text": "Take a break before seeking employment.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Taking a break supports well-being but delays professional advancement.",
+          "recommended": false
+        }
+      ]
+    },
+    "node18": {
+      "type": "decision",
+      "scene_text": "After a successful event, you engage with representatives from various studios. You even secure an interview with **Rockstar Games**! As graduation nears, you must decide how to prioritize final studies while preparing for interviews. Time is running out.",
+      "image_prompt": "A candidate sitting in a bright interview room with numerous game design materials and portfolios spread out.",
+      "has_image": true,
+      "insight": "Balancing job interviews with coursework is a common challenge for graduating students, especially in competitive fields with high demands.",
+      "choices": [
+        {
+          "text": "Focus on preparing for the interview.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Prioritizing interview prep fosters job readiness but detracts focus from final studies.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize finishing your final project.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Completing studies may elevate your chances for good grades but reduces networking opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node19": {
+      "type": "decision",
+      "scene_text": "Finally, graduation day arrives. After months of hard work and challenges, you're ready to walk across the stage. Acceptance offers for two roles arrive on the same day: one for an internship at **Rockstar** and a full-time position at **Ubisoft**. Do you choose the internship for experience or the secure full-time job?",
+      "image_prompt": "A triumphant student in graduation attire holding their diploma in front of the NYU ceremony, surrounded by proud family and friends.",
+      "has_image": true,
+      "insight": "Choosing between internships and full-time roles is a pivotal moment for graduates, reflecting long-term career goals within the competitive gaming industry.",
+      "choices": [
+        {
+          "text": "Accept the full-time job at Ubisoft.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": 5,
+            "mood": 25,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Choosing security and stability supports well-being and financial progress.",
+          "recommended": true
+        },
+        {
+          "text": "Choose the internship at Rockstar for experience.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Opting for experience offers growth opportunities but adds temporary stress.",
+          "recommended": false
+        }
+      ]
+    },
+    "node20": {
+      "type": "decision",
+      "scene_text": "With your job secured, the future looks bright. You’ve built a network, honed your skills, and paved a promising path for your career in game development. Reflecting on your transformative journey, you realize the perseverance has truly paid off.",
+      "image_prompt": "A bright office scene in a game development studio, filled with lively collaboration and creativity among colleagues.",
+      "has_image": true,
+      "insight": "Graduates from specialized programs like NYU Game Center often face dynamic career paths in the gaming industry, reflecting their preparation and resilience.",
+      "choices": [
+        {
+          "text": "Celebrate this moment with friends.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Taking the time to celebrate can enhance friendships and create memorable moments.",
+          "recommended": true
+        },
+        {
+          "text": "Immediately dive into your new role.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Choosing to jump into the role may show dedication but sacrifices personal time.",
+          "recommended": false
+        }
+      ]
+    },
+    "node21": {
+      "type": "decision",
+      "scene_text": "With your new role as a **game developer**, you’ve taken the first steps towards realizing your dreams. As you settle into your routine, you reflect on your resilience and adaptability throughout the graduate program. Every challenge transformed you, which will serve you well in your career.",
+      "image_prompt": "A determined game developer working in a creative studio setting, surrounded by programming tools and animation designs.",
+      "has_image": true,
+      "insight": "Navigating through challenges in graduate studies enhances personal and professional skills, critical for success in the creative industries.",
+      "choices": [
+        {
+          "text": "Continue developing your skills through workshops.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Keeping skills sharp adds value in a competitive industry but requires financial investment.",
+          "recommended": true
+        },
+        {
+          "text": "Focus solely on workplace advancement.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Focusing on job performance can drive immediate success but may hinder personal growth.",
+          "recommended": false
+        }
+      ]
+    },
+    "node22": {
+      "type": "decision",
+      "scene_text": "In the months following your graduation, the reality of the job market hits. Networking and connections accelerate your career, and you find collaboration as vital in the industry. Gaining insights from peers spurs personal development. Will you nurture these connections further?",
+      "image_prompt": "A productive workspace with friends sharing ideas, brainstorming concepts, while working on game prototypes.",
+      "has_image": true,
+      "insight": "Nurturing professional relationships is critical for growth in the gaming field, as new technologies and trends emerge rapidly.",
+      "choices": [
+        {
+          "text": "Participate actively in game development meetups.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Engaging in meetups fosters community relationships, enhancing long-term career opportunities.",
+          "recommended": true
+        },
+        {
+          "text": "Limit networking to focus on personal projects.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Concentrating on personal projects may support creativity but limits community interactions.",
+          "recommended": false
+        }
+      ]
+    },
+    "node23": {
+      "type": "decision",
+      "scene_text": "Months blend into a year since graduation. As your skills evolve and you find joy in collaboration, it beckons you to consider options for further growth. Do you pursue any additional education or certifications?",
+      "image_prompt": "A reflective student contemplating further education options while browsing job-related resources.",
+      "has_image": true,
+      "insight": "Continuing education helps professionals in gaming adapt to trends, enhancing employability and career growth.",
+      "choices": [
+        {
+          "text": "Enroll in a certification course.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -25,
+            "school": 0
+          },
+          "stat_reason": "Pursuing certifications can increase job prospects but might be financially draining.",
+          "recommended": true
+        },
+        {
+          "text": "Skip further education to gain work experience.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Focusing on gaining workplace experience helps build a resume but may miss out on academic advancements.",
+          "recommended": false
+        }
+      ]
+    },
+    "node24": {
+      "type": "decision",
+      "scene_text": "You stand now at the reassured starting line of your career in game development, proud of your journey from student to professional. The skills you developed, resounding networks, and reclaimed passions offer endless opportunities. Will you actively shape your path ahead?",
+      "image_prompt": "A confident student on the brink of their professional career, surrounded by projects that reflect their growth and aspirations.",
+      "has_image": true,
+      "insight": "Navigating the transition from studies to industry is daunting but ripe with opportunities for personal and professional growth.",
+      "choices": [
+        {
+          "text": "Set clear career goals and aspirations.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 10,
+            "mood": 20,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Defining future aspirations contributes to motivation and direction in one's career.",
+          "recommended": true
+        },
+        {
+          "text": "Keep options open and explore new directions.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Remaining flexible offers various experiences, but might delay finding a focused career trajectory.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "In the heart of New York City, your journey from a novice student in game development to a well-rounded professional shines through your eyes. Life is a blend of varied experiences—each moment contributed to your growth. With aspirations as high as the skyline, your future promises creativity and innovation in the gaming industry.",
+      "image_prompt": "A graduate standing proudly in New York with the skyline in view, reflecting on their achievements and looking forward to the future.",
+      "has_image": true,
+      "insight": "The journey through graduate studies in New York shapes students to adapt, grow, and innovate, preparing them for impactful careers in competitive industries.",
+      "tone": "hopeful"
+    },
+    "opening": {
+      "scene_text": "As you step out of the **subway station**, the vibrant energy of New York City envelops you. Street vendors shout about their wares as the **crimson leaves** flutter in the autumn breeze. You're excited yet apprehensive about starting your **Master's program in Game Development** at NYU. The high cost of living tugs at your mind, reminding you to stay on budget; your stay in this bustling city promises to be both stimulating and challenging.",
+      "image_prompt": "A bustling New York City subway station with colorful autumn leaves, street vendors, and NYU banners in the background as a new graduate student steps out.",
+      "has_image": true,
+      "insight": "New York City’s vibrant environment can be overwhelming for newcomers, especially with its high cost of living and fast-paced lifestyle, crucial for incoming students to acclimate.",
+      "tone": "bittersweet"
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "New York"
+  },
+  "major": "MS in Game Design",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "New York",
+    "school": "New York University",
+    "department": "NYU Game Center",
+    "program": "MS in Game Design",
+    "major": "MS in Game Design",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "New York City is known for its high cost of living, with significant expenses in housing, transportation, and daily necessities. Students should budget accordingly to manage these costs effectively.",
+    "academic": "The NYU Game Center offers a comprehensive MFA in Game Design, focusing on game design, production, and studies. The program emphasizes both theoretical knowledge and practical skills, preparing students for various roles in the gaming industry.",
+    "visa": "International students must obtain an F-1 student visa to study in the U.S. NYU's Office of Global Services provides guidance on visa applications, maintaining status, and work authorizations like CPT and OPT.",
+    "culture_shock": "Adjusting to the fast-paced lifestyle and diverse culture of New York City can be challenging. However, the city's multicultural environment offers numerous opportunities for cultural enrichment and personal growth.",
+    "community": "The NYU Game Center fosters a vibrant community of students, faculty, and industry professionals. Regular events, workshops, and playtesting sessions provide ample opportunities for networking and collaboration.",
+    "career": "Graduates have access to a robust network of alumni and industry connections. The program's location in NYC, a hub for creative industries, enhances career prospects in game design and related fields.",
+    "safety": "While NYC is generally safe, it's important to stay vigilant, especially in crowded areas. NYU provides campus safety resources and guidelines to ensure student well-being.",
+    "climate": "New York experiences a temperate climate with cold winters and hot, humid summers. Students should be prepared for seasonal variations and plan their wardrobes accordingly.",
+    "part_time_work": "F-1 students are allowed to work up to 20 hours per week on-campus during academic terms. Off-campus employment requires authorization through programs like CPT or OPT."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from rigorous coursework and project deadlines.",
+      "Adapting to seasonal weather changes affecting physical well-being.",
+      "Ensuring adequate sleep amidst a busy academic and social schedule."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation in a large, bustling city.",
+      "Navigating cultural differences and communication styles.",
+      "Balancing academic pressures with personal interests and social activities."
+    ],
+    "money": [
+      "Budgeting for high living expenses, including rent and food.",
+      "Seeking on-campus employment opportunities to supplement income.",
+      "Exploring scholarships and financial aid options to offset tuition costs."
+    ],
+    "city_major_specific_challenges": [
+      "Collaborating with peers from diverse backgrounds on game projects.",
+      "Accessing industry events and networking opportunities in NYC.",
+      "Utilizing university resources like the Game Center's library and labs.",
+      "Managing time effectively between coursework, projects, and part-time work.",
+      "Engaging with the local gaming community through events and meetups.",
+      "Staying updated with rapidly evolving game design technologies and trends."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": false,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "MFA in Game Design",
+    "degree_type": "Master of Fine Arts",
+    "department": "NYU Game Center",
+    "duration": "2 years",
+    "delivery_mode": "In-person",
+    "visa_eligible_notes": "International students are eligible for F-1 visas.",
+    "curriculum": [
+      "Game Design",
+      "Game Production",
+      "Game Studies",
+      "Game History",
+      "Studio Courses",
+      "Thesis Project"
+    ],
+    "milestones": [
+      "Completion of core courses in the first year.",
+      "Development of a thesis project in the second year."
+    ],
+    "prerequisites": [
+      "Bachelor's degree from an accredited institution.",
+      "Demonstrated interest or experience in game design or related fields."
+    ],
+    "admissions": [
+      "Submission of an online application.",
+      "Portfolio showcasing relevant work.",
+      "Statement of purpose.",
+      "Letters of recommendation."
+    ],
+    "deadlines": [
+      "Application deadline typically in early January for fall admission."
+    ],
+    "funding": [
+      "Limited scholarships and financial aid available.",
+      "Opportunities for teaching assistantships."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "NYU offers limited on-campus housing; many graduate students opt for off-campus accommodations in Brooklyn or Manhattan.",
+    "commute": "The Game Center is located at 370 Jay Street in Brooklyn, accessible via multiple subway lines.",
+    "campus_support": "Resources include academic advising, counseling services, and career development.",
+    "community": "Active participation in events like Playtest Thursdays and guest lectures fosters a strong sense of community.",
+    "safety": "NYU's Department of Public Safety provides 24/7 services, including campus escorts and emergency notifications.",
+    "climate": "Students should prepare for cold winters and hot summers, with appropriate clothing and housing considerations."
+  },
+  "career_profile": {
+    "local_industry": "NYC hosts numerous game development studios, tech companies, and creative agencies.",
+    "internship": "Students have access to internships with local game studios and tech firms.",
+    "work_authorization": "International students can apply for CPT during studies and OPT post-graduation.",
+    "language_or_networking_requirements": "Proficiency in English is essential; networking through events and meetups is highly encouraged.",
+    "notable_employers": [
+      "Rockstar Games",
+      "Ubisoft",
+      "Take-Two Interactive"
+    ],
+    "recruiting_events": [
+      "NYU Game Center Spring Showcase",
+      "NYU Game Center Lecture Series"
+    ],
+    "alumni_outcomes": [
+      "Graduates have secured positions in leading game studios and have launched successful independent projects."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Games 101",
+        "code": "GAMES-GT 101",
+        "note": "Historical survey of games from ancient to modern times.",
+        "url": "https://gamecenter.nyu.edu/academics/courses/games-101/"
+      },
+      {
+        "title": "Game Design",
+        "code": "GAMES-GT 102",
+        "note": "Fundamentals of creating meaningful interactive experiences.",
+        "url": "https://gamecenter.nyu.edu/academics/courses/game-design/"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Frank Lantz",
+        "title": "Chair Emeritus",
+        "research_area": "Game design and theory",
+        "url": "https://gamecenter.nyu.edu/people/frank-lantz/"
+      },
+      {
+        "name": "Clara Fernández-Vara",
+        "title": "Associate Arts Professor",
+        "research_area": "Game studies and narrative design",
+        "url": "https://gamecenter.nyu.edu/people/clara-fernandez-vara/"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "NYU Game Center Open Library",
+        "note": "Extensive collection of digital and non-digital games.",
+        "url": "https://gamecenter.nyu.edu/resources/library/"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "NYU Game Dev Club",
+        "note": "Student organization focused on game development projects.",
+        "url": "https://www.facebook.com/nyugamedev/"
+      }
+    ],
+    "events": [
+      {
+        "name": "Playtest Thursdays",
+        "note": "Weekly sessions for testing and feedback on game projects.",
+        "url": "https://gamecenter.nyu.edu/events/playtest-thursday/"
+      },
+      {
+        "name": "NYU Game Center Lecture Series",
+        "note": "Talks by leading figures in game design and development.",
+        "url": "https://gamecenter.nyu.edu/events/lecture-series/"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Game Design MFA - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/academics/game-design-mfa/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Frequently Asked Questions - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/academics/game-design-mfa/faq/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Game Design (MFA) | NYU Bulletins",
+      "url": "https://bulletins.nyu.edu/graduate/arts/programs/game-design-mfa/",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Visit Us - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/visit/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "NYU Game Center",
+      "url": "https://tisch.nyu.edu/game-center",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Game Design (https://tisch.nyu.edu/admissions/graduate-admissions/game_landing)",
+      "url": "https://tisch.nyu.edu/admissions/graduate-admissions/game_landing",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition costs were not detailed in the available sources; prospective students should consult NYU's official tuition page for current rates.",
+    "Detailed information on housing options and costs was limited; students are encouraged to explore NYU's housing resources or seek off-campus accommodations."
+  ]
+}

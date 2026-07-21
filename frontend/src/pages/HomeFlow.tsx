@@ -8,9 +8,11 @@ import SceneCard, { StatMeters, STAT_CONFIG } from "../components/SceneCard";
 import StatFlyers, { type StatFlyer } from "../components/StatFlyers";
 import PostcardEnding from "../components/PostcardEnding";
 import AdmissionLetter from "../components/AdmissionLetter";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
 import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
+import { useI18n } from "../lib/i18n";
 import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfile } from "../types";
 
 type FlowStage = "passport" | "quiz" | "admission" | "timeskip" | "play" | "error";
@@ -22,6 +24,7 @@ function isEnding(node: StoryNode | EndingNode): node is EndingNode {
 let flyerSeq = 0;
 
 export default function HomeFlow() {
+  const { t } = useI18n();
   const [stage, setStage] = useState<FlowStage>(hasStoredApiKey() ? "quiz" : "passport");
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [story, setStory] = useState<StoryDocument | null>(null);
@@ -136,7 +139,7 @@ export default function HomeFlow() {
     setStats(nextStats);
     const failedStat = getFailedStat(nextStats);
     if (failedStat) {
-      setGameOverReason(`Your ${failedStat} ran out.`);
+      setGameOverReason(t("story.gameOver", { stat: t(`stats.${failedStat}`) }));
       return;
     }
     setCurrentNodeId(choice.next_node);
@@ -183,8 +186,9 @@ export default function HomeFlow() {
           </div>
           <StatMeters stats={stats} registerIcon={registerStatIcon} />
           <div className="appBarActions">
+            <LanguageSwitcher inline />
             <button className="apiKeyEditTrigger apiKeyEditTrigger--inline" onClick={() => setShowKeyEditor(true)}>
-              <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
+              <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> {t("top.travelKey")}
             </button>
             <button
               className={`imageGenerationToggle imageGenerationToggle--inline${imageGenerationEnabled ? " active" : ""}`}
@@ -193,7 +197,7 @@ export default function HomeFlow() {
               onClick={toggleImageGeneration}
             >
               <img className="imageGenerationToggleIcon" src={imageGenerationEnabled ? "/stickers/✅.png" : "/stickers/sparkle.png"} alt="" />
-              {imageGenerationEnabled ? "Images on" : "Images off"}
+              {imageGenerationEnabled ? t("top.imagesOn") : t("top.imagesOff")}
             </button>
           </div>
         </header>
@@ -201,10 +205,12 @@ export default function HomeFlow() {
         <img className="journalTitleImage" src="/branding/title.png" alt="Future Life Simulator — Live, Learn, Grow" />
       )}
 
+      {!hasAppBar && <LanguageSwitcher />}
+
       {stage !== "passport" && !hasAppBar && (
         <>
           <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
-            <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
+            <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> {t("top.travelKey")}
           </button>
           <button
             className={`imageGenerationToggle${imageGenerationEnabled ? " active" : ""}`}
@@ -214,7 +220,7 @@ export default function HomeFlow() {
             disabled={stage === "timeskip"}
           >
             <img className="imageGenerationToggleIcon" src="/stickers/sparkle.png" alt="" />
-            {imageGenerationEnabled ? "Images on" : "Images off"}
+            {imageGenerationEnabled ? t("top.imagesOn") : t("top.imagesOff")}
           </button>
         </>
       )}
@@ -235,11 +241,11 @@ export default function HomeFlow() {
 
       {stage === "error" && (
         <div className="journalCard passportCard">
-          <h2>Something went wrong</h2>
+          <h2>{t("error.title")}</h2>
           <p className="lede">{error}</p>
           <div className="journalButtonRow">
             <button className="journalButton" onClick={() => setStage("quiz")}>
-              Try again
+              {t("error.tryAgain")}
             </button>
           </div>
         </div>
@@ -249,8 +255,7 @@ export default function HomeFlow() {
         <>
           {reusedStory && (
             <div className="reusedStoryBanner">
-              <img className="inlineIcon" src="/stickers/sparkle.png" alt="" /> Reusing a story we already
-              generated for this exact profile — no need to regenerate.
+              <img className="inlineIcon" src="/stickers/sparkle.png" alt="" /> {t("story.reused")}
             </div>
           )}
           <SceneCard
@@ -267,7 +272,7 @@ export default function HomeFlow() {
       {stage === "play" && story && gameOverReason && (
         <PostcardEnding
           ending={{
-            scene_text: `${gameOverReason} Your study-abroad story ends here — sometimes life abroad doesn't go as planned.`,
+            scene_text: t("story.gameOverEnding", { reason: gameOverReason }),
             image_prompt: null,
             has_image: false,
             tone: "challenging",

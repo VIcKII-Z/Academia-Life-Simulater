@@ -110,6 +110,10 @@ pressure, visa duration, funding, housing, campus routines, internships, nightli
 expectations, and social networks should change based on the profile. If a specific program is
 given, its actual curriculum, milestones, funding model, and handbook rules should shape these
 signals (e.g. "qualifying exam in year 2" or "MEng requires no thesis but has a capstone project").
+The city_major_specific_challenges list must be balanced: include 2-3 academic/program challenges,
+2-3 daily-life challenges (housing/rent, groceries, commute, weather, healthcare, admin/visa
+errands), and 1-2 social/community/culture challenges. Do not let the challenge list be all
+coursework, dissertation, exams, or research pressure.
 
 If a dimension yields no reliable information, use "No reliable information available." Do not
 fabricate.
@@ -122,7 +126,10 @@ generic placeholders:
    course catalog/syllabus page — more specific than the general "curriculum" categories above
    (e.g. "6.867 Machine Learning", not just "Artificial Intelligence").
 2. Notable faculty: real professor names from the department's official faculty/"people"/lab
-   directory page, with their title and research area if listed.
+   directory page, with their title and research area if listed. For every faculty/contact name
+   you include, try to open that person's individual academic profile page and put that exact
+   personal profile URL in the item-level "url" field. A generic programme page or people-list
+   page is acceptable only if no individual profile page is found; note that gap explicitly.
 3. Libraries: the actual named campus or department library/libraries (from the university
    library system's site), not "the library" generically.
 4. Clubs: real student clubs/circles/organizations from a student-life or "clubs/circles"
@@ -138,8 +145,8 @@ pad it with invented or generic entries) and note the gap in "gaps". It is compl
 "campus_life_profile" to only have 1-2 of the five populated, or to be omitted altogether if none
 were found — partial real data beats complete fake data.
 Whenever possible, also capture the exact URL of the page each item came from (e.g. the course's
-own catalog/syllabus page like "https://www2.eecs.berkeley.edu/Courses/CS170/", a faculty
-directory profile page, a library's homepage, a club's homepage, an event's official page) in that
+own catalog/syllabus page like "https://www2.eecs.berkeley.edu/Courses/CS170/", an individual
+faculty academic profile page like "https://www.maths.ox.ac.uk/people/kathryn.gillow", a library's homepage, a club's homepage, an event's official page) in that
 item's "url" field, so the Design Agent can later cite the real source instead of a generic search
 link. Only include a "url" you actually found for that specific item — never guess or construct
 one; omit the field entirely if you don't have it.
@@ -164,7 +171,7 @@ Output strictly this JSON structure, no extra text:
     "health": ["3-5 concrete health-related pressure/opportunity signals"],
     "mood": ["3-5 concrete mood-related pressure/opportunity signals"],
     "money": ["3-5 concrete money-related pressure/opportunity signals"],
-    "city_major_specific_challenges": ["6-8 challenge ideas grounded in this city + major + grade + program"]
+    "city_major_specific_challenges": ["6-8 balanced challenge ideas grounded in this city + major + grade + program; include academic, daily-life, money/health, and social/community challenges"]
   },
   "source_coverage": {
     "official_registry": boolean, "program_official": boolean, "department_official": boolean,

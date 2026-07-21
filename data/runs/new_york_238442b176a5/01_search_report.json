@@ -1,0 +1,291 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "New York"
+  },
+  "major": "MS in Game Development",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "New York",
+    "school": "New York University",
+    "department": "NYU Game Center",
+    "program": "MS in Game Development",
+    "major": "MS in Game Development",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "New York City is known for its high cost of living, with significant expenses in housing, transportation, and daily necessities. Students should budget accordingly to manage these costs effectively.",
+    "academic": "The MS in Game Development at NYU Game Center offers a comprehensive curriculum covering game design, development, and research. Students engage in hands-on projects, culminating in a capstone thesis, preparing them for various roles in the gaming industry.",
+    "visa": "International students must obtain an F-1 student visa to enroll in the program. NYU's Office of Global Services provides guidance on visa applications, maintaining status, and work authorizations such as CPT and OPT.",
+    "culture_shock": "Adjusting to the fast-paced lifestyle and diverse cultural environment of New York City can be challenging. However, the city's multicultural atmosphere offers numerous opportunities for cultural enrichment and personal growth.",
+    "community": "NYU provides a supportive community through various student organizations, mentorship programs, and events. The Game Center fosters a collaborative environment, encouraging students to engage with peers and faculty.",
+    "career": "Graduates have access to a robust network of industry connections, internships, and career services. The program's location in NYC offers proximity to numerous game development studios and tech companies, enhancing employment prospects.",
+    "safety": "While NYC has areas with higher crime rates, the NYU campus and surrounding neighborhoods are generally safe. Students are advised to stay vigilant and utilize campus security resources when necessary.",
+    "climate": "New York experiences a temperate climate with four distinct seasons. Winters can be cold with snowfall, while summers are warm and humid. Students should prepare for varying weather conditions throughout the year.",
+    "part_time_work": "International students on an F-1 visa are permitted to work up to 20 hours per week on-campus during academic terms and full-time during breaks. Off-campus employment requires prior authorization through CPT or OPT."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from rigorous coursework and project deadlines.",
+      "Adapting to varying weather conditions, especially during winter months.",
+      "Ensuring adequate sleep amidst a busy academic and social schedule."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation by engaging in student organizations.",
+      "Navigating cultural differences and potential language barriers.",
+      "Balancing academic pressures with personal well-being and leisure activities."
+    ],
+    "money": [
+      "Budgeting for high living expenses, including rent and transportation.",
+      "Seeking on-campus employment opportunities to supplement income.",
+      "Exploring scholarships and financial aid options to offset tuition costs."
+    ],
+    "city_major_specific_challenges": [
+      "Collaborating on group projects with diverse team members.",
+      "Accessing industry events and networking opportunities in NYC.",
+      "Managing time effectively between coursework and internships.",
+      "Staying updated with rapidly evolving game development technologies.",
+      "Navigating the competitive job market in the gaming industry.",
+      "Utilizing campus resources for mental health and academic support.",
+      "Engaging with the local gaming community for professional growth.",
+      "Balancing creative aspirations with technical skill development."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": false,
+    "housing": false,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Science in Games for Learning",
+    "degree_type": "MS",
+    "department": "Educational Communication and Technology",
+    "duration": "2 years (full-time)",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "Eligible for F-1 student visa; CPT and OPT available.",
+    "curriculum": [
+      "Foundations of Cognitive Science",
+      "Foundations of the Learning Sciences",
+      "Games and Play in Education",
+      "Designing Simulations/Games for Learning",
+      "Narrative, Digital Media, and Learning",
+      "User Research Methods"
+    ],
+    "milestones": [
+      "Completion of core courses",
+      "Specialization in Game Design, Development, or Research",
+      "Capstone Thesis Project"
+    ],
+    "prerequisites": [
+      "Bachelor's degree from an accredited institution",
+      "Minimum GPA of 3.0",
+      "Demonstrated interest in game design and learning"
+    ],
+    "admissions": [
+      "Online application",
+      "Statement of purpose",
+      "Letters of recommendation",
+      "Transcripts",
+      "Optional portfolio submission"
+    ],
+    "deadlines": [
+      "Fall Start: January 15",
+      "Spring Start: October 1"
+    ],
+    "funding": [
+      "Limited scholarships available",
+      "Graduate assistantships may be offered",
+      "External funding opportunities encouraged"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "NYU offers various on-campus housing options; off-campus housing in NYC is competitive and expensive.",
+    "commute": "Public transportation is widely available; students often use subways and buses to commute between campuses.",
+    "campus_support": "Comprehensive support services including academic advising, counseling, and career services.",
+    "community": "Active student organizations and events foster a sense of belonging and engagement.",
+    "safety": "Campus security services are available; students are encouraged to stay informed about safety protocols.",
+    "climate": "Experiences all four seasons; students should prepare for cold winters and hot, humid summers."
+  },
+  "career_profile": {
+    "local_industry": "NYC hosts numerous game development studios, tech companies, and startups.",
+    "internship": "Opportunities available through NYU's industry connections and career services.",
+    "work_authorization": "International students can engage in CPT during studies and OPT post-graduation.",
+    "language_or_networking_requirements": "Proficiency in English required; networking is crucial for career advancement.",
+    "notable_employers": [
+      "Rockstar Games",
+      "Ubisoft",
+      "Take-Two Interactive"
+    ],
+    "recruiting_events": [
+      "NYU Game Center Spring Showcase",
+      "NYU Game Center Lecture Series"
+    ],
+    "alumni_outcomes": [
+      "Graduates employed at leading game studios and tech companies.",
+      "Some alumni have founded independent game development studios."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Games and Play in Education",
+        "code": "EDCT-GE 2500",
+        "note": "Explores the role of play in learning environments.",
+        "url": "https://steinhardt.nyu.edu/degree/ms-games-learning/curriculum"
+      },
+      {
+        "title": "Designing Simulations/Games for Learning",
+        "code": "EDCT-GE 2505",
+        "note": "Focuses on the design principles of educational games.",
+        "url": "https://steinhardt.nyu.edu/degree/ms-games-learning/curriculum"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Jan L. Plass",
+        "title": "Paulette Goddard Chair in Digital Media and Learning Sciences",
+        "research_area": "Design of effective digital learning environments",
+        "url": "https://steinhardt.nyu.edu/people/jan-l-plass"
+      },
+      {
+        "name": "Ken Perlin",
+        "title": "Professor of Computer Science",
+        "research_area": "Computer graphics and animation",
+        "url": "https://cs.nyu.edu/~perlin/"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Bobst Library",
+        "note": "Main library with extensive resources in game studies.",
+        "url": "https://library.nyu.edu/locations/bobst-library/"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "NYU Game Center Student Club",
+        "note": "Organizes game nights, workshops, and networking events.",
+        "url": "https://gamecenter.nyu.edu/academics/game-design-bfa/the-bfa-experience-at-nyu/"
+      }
+    ],
+    "events": [
+      {
+        "name": "NYU Game Center Spring Showcase",
+        "note": "Annual event showcasing student game projects.",
+        "url": "https://gamecenter.nyu.edu/"
+      },
+      {
+        "name": "NYU Game Center Lecture Series",
+        "note": "Features talks from industry professionals and scholars.",
+        "url": "https://gamecenter.nyu.edu/"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "MS, Games for Learning | NYU Steinhardt",
+      "url": "https://steinhardt.nyu.edu/degree/ms-games-learning",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Curriculum | MS, Games for Learning | NYU Steinhardt",
+      "url": "https://steinhardt.nyu.edu/degree/ms-games-learning/curriculum",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "milestones"
+      ]
+    },
+    {
+      "title": "How to Apply | MS, Games for Learning | NYU Steinhardt",
+      "url": "https://steinhardt.nyu.edu/degree/ms-games-learning/how-apply",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "MS in Games for Learning FAQ | NYU Steinhardt",
+      "url": "https://steinhardt.nyu.edu/degree/ms-games-learning/ms-games-learning-faq",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "program_details",
+        "student_life"
+      ]
+    },
+    {
+      "title": "The Student Experience at NYU - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/academics/game-design-bfa/the-bfa-experience-at-nyu/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "student_life",
+        "community"
+      ]
+    },
+    {
+      "title": "NYU | Game Center - The Department of Game Design at New York University",
+      "url": "https://gamecenter.nyu.edu/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "events"
+      ]
+    },
+    {
+      "title": "Game Design MFA - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/academics/game-design-mfa/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Games for Learning (MS) | NYU Bulletins",
+      "url": "https://bulletins.nyu.edu/graduate/culture-education-human-development/programs/games-learning-ms/",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "program_details",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Frequently Asked Questions - NYU | Game Center",
+      "url": "https://gamecenter.nyu.edu/academics/game-design-mfa/faq/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "program_details",
+        "admissions"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition information was not found in the provided sources.",
+    "Detailed housing options and costs were not available.",
+    "Limited information on student forums and firsthand experiences."
+  ]
+}

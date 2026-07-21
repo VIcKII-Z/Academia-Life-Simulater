@@ -1,0 +1,7 @@
+2026-07-21T22:21:00.726Z Run started for story_id=new_york_32f5ca101e67
+2026-07-21T22:21:00.726Z [search] started
+2026-07-21T22:21:26.593Z [search] completed in 25866ms -> 01_search_report.json
+2026-07-21T22:21:26.594Z [design] started
+2026-07-21T22:22:37.962Z [design] completed in 71368ms -> 02_design_skeleton.json
+2026-07-21T22:22:37.962Z [artist] started
+2026-07-21T22:22:37.964Z [artist] completed in 1ms -> 03_artist_final.json

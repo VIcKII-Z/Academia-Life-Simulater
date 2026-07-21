@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { UserProfile } from "../types";
+import { useI18n } from "../lib/i18n";
 
 const CONFETTI_COLORS = ["var(--theme-blue)", "var(--theme-coral)", "var(--theme-yellow)", "var(--theme-green)", "var(--gold)"];
 
@@ -13,9 +14,6 @@ interface ConfettiPiece {
   rotate: number;
 }
 
-/** One-time randomized confetti burst — generated on mount and never
- * recomputed, so the streamers don't jump around on re-render while the
- * letter is on screen. */
 function useConfetti(count: number): ConfettiPiece[] {
   return useMemo(
     () =>
@@ -32,16 +30,6 @@ function useConfetti(count: number): ConfettiPiece[] {
   );
 }
 
-/**
- * Shown right after a story finishes generating/loading, before the first
- * scene node — an "official" admission-letter layout (date line, accent
- * rule, university header with our mascot standing in for a crest,
- * salutation, bold congratulations paragraph) styled after a real college
- * acceptance-letter email, popping in with a confetti burst behind it and
- * addressing the player by the exact profile they just entered (university,
- * program, grade, city/country). Dismisses into the first story node on
- * click.
- */
 export default function AdmissionLetter({
   profile,
   onAccept,
@@ -51,19 +39,20 @@ export default function AdmissionLetter({
   onAccept: () => void;
   onDecline: () => void;
 }) {
+  const { t, dateLocale, language } = useI18n();
   const confetti = useConfetti(70);
-  const university = profile.school?.trim() || `a university in ${profile.city}`;
-  // `major` is set from `program` (falling back to `department`) upstream, so
-  // showing both together would just repeat the same phrase twice — pick the
-  // most specific single program line, and let department stand on its own.
+  const university = profile.school?.trim() || t("admission.fallbackUniversity", { city: profile.city });
   const programLine = profile.program?.trim() || profile.major?.trim() || "";
   const departmentLine = profile.department?.trim() && profile.department.trim() !== programLine
     ? profile.department.trim()
     : "";
   const today = useMemo(
-    () => new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }),
-    [],
+    () => new Date().toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" }),
+    [dateLocale],
   );
+  const knownDegrees = ["Undergraduate", "Graduate", "PhD", "Exchange Student"];
+  const gradeLabel = knownDegrees.includes(profile.grade) ? t(`degree.${profile.grade}`) : profile.grade;
+  const salutationGrade = language === "en" ? gradeLabel.toLowerCase() : gradeLabel;
 
   return (
     <div className="admissionOverlay">
@@ -91,48 +80,44 @@ export default function AdmissionLetter({
           <img className="admissionSealIcon" src="/branding/badge.png" alt="" />
           <div>
             <h2 className="admissionUniversity">{university}</h2>
-            <p className="admissionDept">Admissions &amp; Life Simulator</p>
+            <p className="admissionDept">{t("admission.department")}</p>
           </div>
         </div>
         <p className="admissionDate">{today}</p>
-        <p className="admissionSalutation">Dear future {profile.grade.toLowerCase()} student,</p>
+        <p className="admissionSalutation">{t("admission.salutation", { grade: salutationGrade })}</p>
         <p className="admissionBody">
-          <strong>Congratulations!</strong> We are delighted to inform you that the Admissions Committee has
-          offered you a place at <strong>{university}</strong>
+          <strong>{t("admission.congrats")}</strong> {t("admission.bodyStart")} <strong>{university}</strong>
           {programLine ? (
             <>
               {" "}
-              to pursue <strong>{programLine}</strong>
+              {t("admission.toPursue")} <strong>{programLine}</strong>
             </>
           ) : null}
           {departmentLine ? (
             <>
               {" "}
-              in the <strong>{departmentLine}</strong>
+              {t("admission.inDepartment")} <strong>{departmentLine}</strong>
             </>
           ) : null}
           .
         </p>
 
         <div className="admissionBanner">
-          <p className="admissionBannerTitle">Welcome to {university}!</p>
+          <p className="admissionBannerTitle">{t("admission.welcome", { university })}</p>
         </div>
         <p className="admissionTagline">
-          We can&rsquo;t wait to see you in {profile.city}, {profile.country}.
+          {t("admission.tagline", { city: profile.city, country: profile.country })}
         </p>
 
-        <p className="admissionBody admissionBody--closing">
-          A transformative study-abroad experience awaits you — new routines, new people, and choices only
-          you can make. Your journey begins the moment you turn the page.
-        </p>
+        <p className="admissionBody admissionBody--closing">{t("admission.closing")}</p>
 
         <div className="admissionFooterBar" />
         <div className="journalButtonRow">
           <button className="journalButton" onClick={onAccept}>
-            Accept the offer
+            {t("admission.accept")}
           </button>
           <button className="journalButton secondary" onClick={onDecline}>
-            Decline the offer
+            {t("admission.decline")}
           </button>
         </div>
       </div>

@@ -1,0 +1,824 @@
+{
+  "story_id": "new_york_32f5ca101e67",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in New York City creates shared financial pressure for all students.",
+  "user_profile": {
+    "country": "United States",
+    "city": "New York",
+    "major": "MS in Game Design",
+    "grade": "Graduate",
+    "school": "New York University",
+    "department": "NYU Game Center",
+    "program": "MS in Game Design",
+    "semesters": 4
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "Stepping off the subway at **370 Jay Street**, you feel the pulse of **New York City** around you—a mix of excitement and anxiety. As a new graduate student in **Game Design** at NYU, the weight of expectations presses down. With a demanding program ahead and the constant buzz of the city, you must navigate everything quickly to build a fulfilling life both socially and academically.",
+      "image_prompt": "A bustling NYC subway station in Brooklyn with students and commuters; the NYU logo visible, creating a vibrant and energetic atmosphere.",
+      "has_image": true,
+      "insight": "New York City is renowned for its vibrant cultural scene, which can be overwhelming for new students adjusting to a fast-paced environment. It requires effective planning and community engagement to thrive.",
+      "choices": [
+        {
+          "text": "Explore the area and find a coffee shop to relax.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Taking a break helps reduce anxiety, but it costs some money.",
+          "recommended": true
+        },
+        {
+          "text": "Head straight to the Game Center for orientation activities.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Engaging with your program boosts mood and academic commitment, but you miss downtime.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "At the NYU Game Center, you meet some classmates. They share their experiences and the **Playtest Thursdays** event that happens every week. Excited, you realize building connections is essential in NYC. The cost of living weighs on your mind, and you ponder whether to continue networking or work on your finances.",
+      "image_prompt": "A vibrant classroom scene at the Game Center filled with students discussing game projects; an atmosphere of creativity and collaboration.",
+      "has_image": true,
+      "insight": "Networking is vital in New York's competitive creative industries. Engaging actively can lead to future collaboration and job opportunities, alleviating some financial concerns.",
+      "choices": [
+        {
+          "text": "Join your classmates for the next Playtest Thursdays.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Socializing helps build relationships but can dent your tight budget.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on budgeting and look for part-time work options.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Managing your finances gives a sense of control, but may lead to stress and isolation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "The Playtest Thursday event is bustling with creativity. You immerse yourself in game projects and engage with industry professionals. However, the **crowded environment** is overwhelming. You feel a surge of excitement mixed with hints of anxiety over academic expectations. You’ll need to balance your coursework and social life going forward.",
+      "image_prompt": "A packed game testing session with students showcasing their projects, games on screens, and an engaged audience.",
+      "has_image": true,
+      "insight": "Social events like Playtest Thursdays are crucial for networking in NYC's thriving game industry. Yet, they can lead to feelings of stress and overwhelm, especially for newcomers.",
+      "choices": [
+        {
+          "text": "Take a break outside to recharge and gain perspective.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Stepping away provides a much-needed mental reset, fostering resilience.",
+          "recommended": true
+        },
+        {
+          "text": "Stay committed and take notes for your project.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on academics can enhance your skills, but neglecting self-care can hurt health.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "With the semester in full swing, you're juggling projects from courses like **Game Design** and **Games 101**. Between deadlines and playtests, sleep feels like a luxury. The fast pace of NYU's Game Center is exhilarating yet exhausting. You must decide how to balance your time effectively to avoid burnout.",
+      "image_prompt": "A busy student workspace with project sketches, computer screens displaying game designs; focused and energized atmosphere.",
+      "has_image": true,
+      "insight": "Graduate students often face rigorous schedules in dynamic programs like Game Design. Balancing work, study, and rest is essential for maintaining health and performance.",
+      "choices": [
+        {
+          "text": "Set a dedicated time for rest amidst your busy schedule.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Prioritizing sleep can help recover energy and improve focus, benefiting overall health.",
+          "recommended": true
+        },
+        {
+          "text": "Push through and put in extra hours on your projects.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Crushing deadlines may boost your grades but at the cost of your health and overall mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "As midterms approach, the grind intensifies. You attend office hours with **Frank Lantz** seeking feedback on your **thesis project**. Harnessing his expertise gives you hope, yet managing critiques is stressful. You must allocate time for revisions while balancing other commitments, which challenges your already stretched limits.",
+      "image_prompt": "A student in a focused discussion with an esteemed instructor in a university setting; a mix of tension and ambition is palpable.",
+      "has_image": true,
+      "insight": "Feedback from experienced faculty like Frank Lantz can significantly enhance a student's work, but managing academic pressures can create considerable stress.",
+      "choices": [
+        {
+          "text": "Embrace the feedback and adjust your project accordingly.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Taking constructive criticism can elevate your academic performance, though it may induce stress.",
+          "recommended": true
+        },
+        {
+          "text": "Ignore the feedback and stick with your original idea.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Sticking to your vision might feel safe but may hinder your overall academic performance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "After adjusting your project, you decide to join the **NYU Game Dev Club** for extracurricular development in game design. The club welcomes you warmly, but attending meetings means less time for homework. Balancing social involvement with coursework proves challenging, and you need to evaluate your commitments.",
+      "image_prompt": "A lively club meeting in progress where students enthusiastically share ideas and projects; an encouraging and creative environment.",
+      "has_image": true,
+      "insight": "Participating in clubs like the NYU Game Dev Club fosters community and collaboration but can complicate time management, especially for busy grad students.",
+      "choices": [
+        {
+          "text": "Dedicate specific time each week for club activities.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": -5
+          },
+          "stat_reason": "Finding time for social activities boosts morale but can impact academic focus and finances.",
+          "recommended": true
+        },
+        {
+          "text": "Cut back on club participation to focus solely on coursework.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Prioritizing academics may enhance grades but lead to isolation and decreased mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "As finals loom, stress is palpable. You find solace in the **NYU Game Center Open Library**, filled with resources to polish your thesis. However, the pressure is building, and managing time to study effectively while fighting fatigue is crucial. Choices made now will shape your success and well-being.",
+      "image_prompt": "A quiet library section with students engaged in studying; a serene yet tense atmosphere filled with stacks of books and screen glare.",
+      "has_image": true,
+      "insight": "Utilizing university libraries during exam seasons can enhance study efficiency, yet they can also highlight the intensifying pressure faced by students.",
+      "choices": [
+        {
+          "text": "Study diligently for your finals and thesis.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Focused studying can lead to higher grades, but sacrificing health impacts well-being.",
+          "recommended": true
+        },
+        {
+          "text": "Take frequent breaks and prioritize mental health.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Caring for mental health creates balance, though it may affect academic outcomes.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "Thesis submissions are in, creating a surge of relief mixed with anticipation. You attend a **networking event** focused on game design, filled with influential industry figures. Excitement swells, yet your anxiety surfaces as you prepare to pitch your project. This moment could be life-changing, but the stakes feel high.",
+      "image_prompt": "A professional setting where students present their projects; a mix of enthusiasm and tension among participants.",
+      "has_image": true,
+      "insight": "Networking events in NYC provide crucial opportunities for career advancement, emphasizing the importance of preparation and self-presentation in competitive industries.",
+      "choices": [
+        {
+          "text": "Prepare thoroughly for your pitch to make a strong impression.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Excellent preparation boosts confidence, while stress from lack of sleep can impact health.",
+          "recommended": true
+        },
+        {
+          "text": "Wing it and rely on your charisma during the pitch.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Trusting your charm may seem appealing, but preparedness is crucial in high-stakes settings.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "The pitch goes well; industry professionals are engaged. As you step away, a representative from **Rockstar Games** expresses interest in your work. This moment could open doors for your career, but the lingering stress of academic pressures weighs heavily as you consider future commitments in the industry.",
+      "image_prompt": "A casual yet professional conversation between a student and an industry representative; a hopeful atmosphere filled with possibilities.",
+      "has_image": true,
+      "insight": "A well-executed pitch can lead to significant career opportunities, especially in fields like game design where networking is pivotal for success.",
+      "choices": [
+        {
+          "text": "Follow up with the representative to discuss potential internships.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Harnessing potential internships can boost career prospects and academic engagement.",
+          "recommended": true
+        },
+        {
+          "text": "Thank them but focus on your studies for now.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Prioritizing studies can bolster grades but may miss critical networking chances.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "scene",
+      "scene_text": "As you navigate towards graduation, you're balancing work offers from local studios with academic commitments. The thriving nightlife of **NYC** invites you out, yet you’re more focused on your future than socializing. You strive to maintain a healthy work-life balance while preparing for post-grad life.",
+      "image_prompt": "A student considering job offers while overlooking the city skyline from a rooftop; a sense of contemplation and aspiration.",
+      "has_image": true,
+      "insight": "Graduation brings a shift from academic obligations to professional opportunities, necessitating adept management of time and emotional well-being amid imminent change.",
+      "choices": [
+        {
+          "text": "Evaluate job offers and take the one that excites you most.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Taking a job that aligns with your passion can increase joy and financial stability.",
+          "recommended": true
+        },
+        {
+          "text": "Decide to take some time off for self-discovery instead.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Time off to explore personal interests can enhance mental health, albeit at a monetary cost.",
+          "recommended": false
+        }
+      ]
+    },
+    "node11": {
+      "type": "scene",
+      "scene_text": "Graduation day arrives, with a blend of joy and uncertainty flooding your heart. As you walk across the stage, family cheers echo around you. Completing your **MFA in Game Design** will allow you to enter the industry confidently yet challenges remain as you prepare for the next big step.",
+      "image_prompt": "A graduation ceremony with excited students receiving their diplomas, vibrant banners, and family members cheering; a spirited and hopeful atmosphere.",
+      "has_image": true,
+      "insight": "Graduation marks a major transition, representing years of hard work and new beginnings, often coupled with uncertainty about future career paths and opportunities.",
+      "choices": [
+        {
+          "text": "Embrace the excitement of your achievements and network one last time.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Celebrating accomplishments is vital for morale as you transition into the professional world.",
+          "recommended": true
+        },
+        {
+          "text": "Leave the ceremony to prepare for upcoming job interviews instead.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Prioritizing job interviews could reduce stress from uncertainty but may feel isolating during celebrations.",
+          "recommended": false
+        }
+      ]
+    },
+    "node12": {
+      "type": "scene",
+      "scene_text": "After graduation, job offers are rolling in—one from legendary **Ubisoft**. The excitement of entering the game industry fuels your recent hard work, but you’re also keenly aware of maintaining a balance between newfound responsibility and personal life. You reinforce your path with optimism and readiness for the challenges ahead.",
+      "image_prompt": "A celebratory gathering with friends discussing job offers and opportunities; the atmosphere is filled with anticipation and determination.",
+      "has_image": true,
+      "insight": "Securing a position in a top gaming firm can kickstart a rewarding career, yet balancing work-life dynamics is essential to prevent burnout.",
+      "choices": [
+        {
+          "text": "Accept the offer and start your career in NYC.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 30,
+            "school": 0
+          },
+          "stat_reason": "Landing a significant job boosts financial security and happiness.",
+          "recommended": true
+        },
+        {
+          "text": "Negotiate for a better salary or position.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Negotiating can enhance career prospects but may incur stress and uncertainty.",
+          "recommended": false
+        }
+      ]
+    },
+    "node13": {
+      "type": "scene",
+      "scene_text": "As you embark on this new chapter, major responsibilities await. You're excited about being part of a team that creates groundbreaking games, yet you feel the impact of the bustling city. Striking a balance between work pressures and personal time will be imperative to ensure a sustainable future in the industry.",
+      "image_prompt": "A new employee at a gaming studio immersed in work; a mix of happiness and stress in the fast-paced environment.",
+      "has_image": true,
+      "insight": "Starting a career in a dynamic city like NYC requires adaptability and strong time management skills to accommodate both professional and personal commitments.",
+      "choices": [
+        {
+          "text": "Implement a strict work-life balance from the start.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Establishing a balance promotes health and happiness early on.",
+          "recommended": true
+        },
+        {
+          "text": "Dive into work and prioritize productivity first.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "A strong work focus could elevate professional performance but may harm personal health over time.",
+          "recommended": false
+        }
+      ]
+    },
+    "node14": {
+      "type": "scene",
+      "scene_text": "After a year in the industry, you've adapted to the **NYC lifestyle**, yet the challenges of maintaining relationships and mental well-being linger. You embrace industry events like the **NYU Game Center Lecture Series** to stay connected with peers and draws inspiration. Balancing what you love with your work is essential now more than ever.",
+      "image_prompt": "A busy event space filled with gaming professionals and students; an atmosphere of creativity and excitement.",
+      "has_image": true,
+      "insight": "Networking through events allows for professional growth, but it also requires a strong commitment to self-care and time management amidst the bustling city life.",
+      "choices": [
+        {
+          "text": "Attend the lecture series and network actively.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Connecting with industry professionals improves morale and future opportunities.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the event to focus on personal projects instead.",
+          "next_node": "node15",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Working on personal projects can be fulfilling but may lead to isolation and missed opportunities in networking.",
+          "recommended": false
+        }
+      ]
+    },
+    "node15": {
+      "type": "scene",
+      "scene_text": "With each lecture inspiring your creative pursuits, you feel renewed and more competent to handle the industry's demands. As reviews come in from your recent projects, your confidence grows, but financial pressures continue to loom in this competitive environment. Evaluating your spending will now be crucial to sustain this momentum.",
+      "image_prompt": "A moment of inspiration with a thoughtful student reflecting on feedback from a lecture; an atmosphere filled with creativity and ambition.",
+      "has_image": true,
+      "insight": "Creativity plays a significant role in game design, and continuous learning through lectures can enhance one's skill set, but financial pressure remains a common challenge.",
+      "choices": [
+        {
+          "text": "Focus on managing your finances carefully to relieve pressure.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Effective financial management reduces stress over time, improving morale.",
+          "recommended": true
+        },
+        {
+          "text": "Invest in a new game development tool to elevate your projects.",
+          "next_node": "node16",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Investing in tools may enhance productivity but at the immediate cost of financial strain.",
+          "recommended": false
+        }
+      ]
+    },
+    "node16": {
+      "type": "scene",
+      "scene_text": "Your efforts in budgeting pay off as you find methods to save and even celebrate little wins. The **NYU Game Center** community rallies behind you, supporting your projects and aspirations. As connections deepen, it becomes clear that thriving in NYC is not just about individual talent but about **collaboration** and support.",
+      "image_prompt": "A group of students collaborating on a game project; an engaging and communal atmosphere filled with laughter and exchange of ideas.",
+      "has_image": true,
+      "insight": "Supportive networks empower students to thrive in competitive settings like NYC, where collaboration often leads to innovation and career growth.",
+      "choices": [
+        {
+          "text": "Lead a group project to further strengthen your community ties.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Taking initiative can foster community spirit and enhance your academic standing.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on independent projects instead of leading a group.",
+          "next_node": "node17",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Working independently can be rewarding but may lead to missed collaborative opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node17": {
+      "type": "scene",
+      "scene_text": "As your collaborative project nears completion, excitement abounds. You plan to showcase it at the **NYU Game Center Spring Showcase**. This event could be a chance to present your work to potential employers and gain feedback. However, the final stretch is exhausting, and maintaining enthusiasm is key.",
+      "image_prompt": "Students preparing a game presentation for exhibition; an environment of anticipation and creativity.",
+      "has_image": true,
+      "insight": "Showcase events are vital for students to gain exposure and feedback, serving as stepping stones in their professional journeys.",
+      "choices": [
+        {
+          "text": "Work tirelessly to perfect your presentation for the showcase.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Dedicating effort towards perfecting your pitch can elevate project quality but risks health.",
+          "recommended": true
+        },
+        {
+          "text": "Take a step back and plan a balanced approach to presentation prep.",
+          "next_node": "node18",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "A balanced approach helps manage health while preparing, though it may not be optimal for project quality.",
+          "recommended": false
+        }
+      ]
+    },
+    "node18": {
+      "type": "scene",
+      "scene_text": "The showcase is here! You feel a mix of excitement and anxiety as you prepare to present your work to industry figures. Feedback flows, and potential opportunities arise. As the event concludes, you reflect on how far you've come during your time in the **MFA in Game Design** program at NYU. Your choices continually shape your path forward.",
+      "image_prompt": "A vibrant showcase event with students presenting projects; an atmosphere filled with energy, creativity, and networking.",
+      "has_image": true,
+      "insight": "Participating in showcases can greatly enhance visibility within the industry, offering valuable networking opportunities that could lead to job offers.",
+      "choices": [
+        {
+          "text": "Follow up with industry contacts post-showcase.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Maintaining industry connections post-showcase can lead to meaningful professional opportunities.",
+          "recommended": true
+        },
+        {
+          "text": "Celebrate your success with peers instead.",
+          "next_node": "node19",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Celebrating with peers boosts morale, but could have financial implications.",
+          "recommended": false
+        }
+      ]
+    },
+    "node19": {
+      "type": "scene",
+      "scene_text": "Months later, you’re fully immersed in your role at a prominent gaming studio. The hard work, late nights, and collaborations have paid off. Yet, the bustling energy of NYC continues to require careful management of work and life. Strategy and adaptability will be vital moving forward, along with leveraging all you’ve gained from the **NYU Game Center**.",
+      "image_prompt": "A busy professional workspace at a gaming studio; a blend of focus and collaboration in a dynamic environment.",
+      "has_image": true,
+      "insight": "Successfully transitioning to a full-time role requires ongoing self-management and leveraging networking opportunities to enhance career advancement in competitive fields.",
+      "choices": [
+        {
+          "text": "Continue to seek out networking opportunities to further your career.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Building connections is essential in industries like game design but can lead to pressure and exhaustion.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on in-depth project work and personal growth instead.",
+          "next_node": "node20",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Focusing on personal deeper work can enhance skills but may limit professional networking.",
+          "recommended": false
+        }
+      ]
+    },
+    "node20": {
+      "type": "scene",
+      "scene_text": "Months into your role, you're already adapting to the dynamic gaming industry. Your network of peers from the Game Center is invaluable, and you’ve come to appreciate the importance of collaboration and ongoing learning. Everything you’ve experienced shapes your career path. Looking back, it's incredible to see how far you've come since starting.",
+      "image_prompt": "A reflective moment at the gaming studio, showing a young game designer contemplating their journey; an atmosphere rich with creativity and ambition.",
+      "has_image": true,
+      "insight": "Navigating the game industry successfully requires ongoing commitment to professional development and community engagement for sustained growth.",
+      "choices": [
+        {
+          "text": "Plan a reunion with former classmates to catch up and collaborate on future projects.",
+          "next_node": "node21",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Reuniting with classmates can foster collaboration and creativity, enhancing professional networks.",
+          "recommended": true
+        },
+        {
+          "text": "Focus exclusively on your current project for continued mastery.",
+          "next_node": "node21",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Single-minded focus on projects can deepen expertise but risks isolation from your network of peers.",
+          "recommended": false
+        }
+      ]
+    },
+    "node21": {
+      "type": "scene",
+      "scene_text": "The reunion with classmates brings back memories of past collaboration and creativity. As you share breakthroughs and challenges, a sense of community envelopes you. The support system you've built at NYU continues to guide you, ensuring you remain on a fulfilling path as you further your career.",
+      "image_prompt": "A warm reunion of friends sharing experiences and ideas; an atmosphere infused with nostalgia and camaraderie.",
+      "has_image": true,
+      "insight": "Maintaining connections with former classmates is crucial for ongoing professional growth in competitive fields like game design.",
+      "choices": [
+        {
+          "text": "Consider co-developing a new game project together.",
+          "next_node": "node22",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Collaborating on projects can enhance creativity and enjoyment in your work.",
+          "recommended": true
+        },
+        {
+          "text": "Each focus on personal projects and share updates later.",
+          "next_node": "node22",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Working independently allows for personal focus but might miss out on collaboration opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node22": {
+      "type": "scene",
+      "scene_text": "As you decide to embark on a collaborative game project, a sense of excitement fills you. The journey from graduate student to professional has come full circle, showcasing all the skills and connections you've built. Your adaptability and resilience will drive your success in the evolving industry.",
+      "image_prompt": "A brainstorming session for a new game project with former classmates; a lively and dynamic creative atmosphere.",
+      "has_image": true,
+      "insight": "Collaboration often leads to innovation and synergy in game design, emphasizing the importance of teamwork in a fast-evolving industry.",
+      "choices": [
+        {
+          "text": "Dive into development and arrange regular check-ins to stay aligned.",
+          "next_node": "node23",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Structured collaboration fosters creativity and ensures progress on projects.",
+          "recommended": true
+        },
+        {
+          "text": "Let each partner develop their own sections independently.",
+          "next_node": "node23",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Independent work can nurture individual creativity but may lead to misalignment in the final product.",
+          "recommended": false
+        }
+      ]
+    },
+    "node23": {
+      "type": "scene",
+      "scene_text": "Your choice to regularly check in on your collaborative project proves fruitful. The blend of individual strengths and shared vision pushes the project forward. As your team prepares for another industry event, you reflect on your journey through **NYU** and its lasting impact on your life and career.",
+      "image_prompt": "A group of developers collaborating over a game project; a productive and focused atmosphere filled with energy and creativity.",
+      "has_image": true,
+      "insight": "Collaboration in creative projects enhances outcomes by combining diverse perspectives and talents, emphasizing the value of teamwork in innovation.",
+      "choices": [
+        {
+          "text": "Promote the finished project at the next industry event.",
+          "next_node": "node24",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Showcasing collaborative work reinforces bonds within the team and raises industry visibility.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on individual tasks to prepare for the event instead.",
+          "next_node": "node24",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Focusing on personal completion can enhance skills, but may neglect the importance of team visibility.",
+          "recommended": false
+        }
+      ]
+    },
+    "node24": {
+      "type": "scene",
+      "scene_text": "The event goes splendidly; industry experts are thrilled by your project. You revel in the success, knowing it is a reflection of not only your hard work but also your connections and support system at **NYU**. You realize that while the challenges in your journey have shaped you, the community was equally crucial in this success.",
+      "image_prompt": "A successful event showcasing a game project, with attendees engaging excitedly; an atmosphere of achievement and celebration.",
+      "has_image": true,
+      "insight": "Celebrating projects at industry events reinforces the importance of community support in personal and professional growth throughout a career.",
+      "choices": [
+        {
+          "text": "Reflect on your journey and share stories of challenges and successes.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Sharing your experiences highlights growth and resilience, reinforcing connections with peers.",
+          "recommended": true
+        },
+        {
+          "text": "Start planning your next project immediately instead.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Jumping to new endeavors can showcase ambition but may lead to burnout without reflection.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Reflecting on your journey from a nervous graduate student to a skilled game designer, you are filled with pride. The lessons learned, the connections made, and the resilience built during your time at **NYU** have profoundly impacted your career. You embrace the future, confident in your adaptations and ready for the next challenges that await.",
+      "image_prompt": "A reflective moment of a game designer looking out over NYC, filled with ambition and hope; an atmosphere of achievement and future possibilities.",
+      "has_image": true,
+      "insight": "In the game design industry, continuous adaptation and learning play significant roles. The journey of growth from student to professional involves embracing challenges while valuing community and collaboration.",
+      "tone": "bittersweet"
+    }
+  }
+}

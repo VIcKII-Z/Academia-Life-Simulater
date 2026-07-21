@@ -10,7 +10,7 @@ import { runSearchAgentPreset, runSearchAgentLive, listPresets } from "./agents/
 import { runDesignAgent } from "./agents/designAgent.js";
 import { runArtistAgent } from "./agents/artistAgent.js";
 import { RunLogger, listRuns, readRunFiles } from "./runLogger.js";
-import type { Provider, RuntimeConfig, UserProfile } from "./types.js";
+import type { Provider, ResearchReport, RuntimeConfig, UserProfile } from "./types.js";
 
 const app = express();
 app.use(cors());
@@ -197,6 +197,60 @@ function prepareCachedStoryForResponse(cached: unknown, rawRuntimeConfig: unknow
   for (const node of Object.values(doc.nodes ?? {})) delete node.image_url;
   for (const ending of Object.values(doc.endings ?? {})) delete ending.image_url;
   return doc as object;
+}
+
+function campusLifeSources(report: ResearchReport): NonNullable<ResearchReport["sources"]> {
+  const campus = report.campus_life_profile;
+  if (!campus) return [];
+
+  const sources: {
+    title: string;
+    url: string;
+    source_type:
+      | "department"
+      | "catalog"
+      | "reference";
+    confidence: "high" | "medium";
+    used_for: string[];
+  }[] = [];
+  const add = (
+    title: string | undefined,
+    url: string | undefined,
+    source_type: "department" | "catalog" | "reference",
+    used_for: string[],
+  ): void => {
+    if (!title || !url || sources.some((source) => source.url === url)) return;
+    sources.push({ title, url, source_type, confidence: source_type === "reference" ? "medium" : "high", used_for });
+  };
+
+  for (const course of campus.notable_courses ?? []) {
+    add(course.code ? `${course.code}: ${course.title}` : course.title, course.url, "catalog", ["academic", "course"]);
+  }
+  for (const faculty of campus.notable_faculty ?? []) {
+    add(faculty.name, faculty.url, "department", ["academic", "faculty"]);
+  }
+  for (const library of campus.libraries ?? []) {
+    add(library.name, library.url, "reference", ["student_life", "library"]);
+  }
+  for (const club of campus.clubs ?? []) {
+    add(club.name, club.url, "reference", ["student_life", "community"]);
+  }
+  for (const event of campus.events ?? []) {
+    add(event.name, event.url, "reference", ["student_life", "event"]);
+  }
+
+  return sources;
+}
+
+function mergeSources<T extends { url?: string }>(base: T[] | undefined, extra: T[] | undefined): T[] {
+  const seen = new Set<string>();
+  const merged: T[] = [];
+  for (const source of [...(base ?? []), ...(extra ?? [])]) {
+    if (!source.url || seen.has(source.url)) continue;
+    seen.add(source.url);
+    merged.push(source);
+  }
+  return merged;
 }
 
 app.get("/api/config", (_req, res) => {
@@ -690,8 +744,10 @@ app.post("/api/generate", async (req, res) => {
 
     // Carry the Search Agent's cited sources through to the saved/served
     // document so the Field Notes panel can link players to where the
-    // story's facts actually came from.
-    final.sources = report.sources;
+    // story's facts actually came from. Also include fine-grained campus
+    // URLs (faculty profiles, course pages, libraries, clubs, events), since
+    // these are stored on campus_life_profile rather than report.sources.
+    final.sources = mergeSources(report.sources, campusLifeSources(report));
 
     await fs.mkdir(STORIES_DIR, { recursive: true });
     await fs.writeFile(

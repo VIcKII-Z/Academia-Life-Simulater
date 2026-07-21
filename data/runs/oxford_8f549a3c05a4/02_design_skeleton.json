@@ -54,7 +54,7 @@
     },
     "node2": {
       "type": "scene",
-      "scene_text": "Classes are underway, and the **Mathematical Institute** offers a rich environment for learning. You're excited about the **Machine Learning** course, but the volume of work feels overwhelming. You're still adjusting to the **tutorial** style of teaching that demands engagement and preparation. Lots of late nights ahead await you as deadlines close in.",
+      "scene_text": "Classes are underway, and the **Mathematical Institute** offers a rich environment for learning. You're excited about the **[Machine Learning](https://www.maths.ox.ac.uk/study-here/postgraduate-study/msc-courses/msc-mathematical-sciences-omms)** course, but the volume of work feels overwhelming. You're still adjusting to the **tutorial** style of teaching that demands engagement and preparation. Lots of late nights ahead await you as deadlines close in.",
       "image_prompt": "Students in a tutorial room at the Mathematical Institute, focused on intense discussion. There are mathematical tools and books on the tables.",
       "has_image": true,
       "insight": "Did you know? Mastering the **tutorial-based teaching style** at Oxford is essential for success in the Mathematical Sciences program as it emphasizes discussion and deep understanding.",
@@ -87,7 +87,7 @@
     },
     "node3": {
       "type": "scene",
-      "scene_text": "The dreary **Oxford weather** is affecting your mood; persistent rain makes commutes miserable. You consider joining the **Oxford University Mathematical Society** to connect with fellow students. Increased isolation might lead to burnout if you don’t make an effort to integrate with the community.",
+      "scene_text": "The dreary **Oxford weather** is affecting your mood; persistent rain makes commutes miserable. You consider joining the **[Oxford University Mathematical Society](https://oums.soc.srcf.net/)** to connect with fellow students. Increased isolation might lead to burnout if you don’t make an effort to integrate with the community.",
       "image_prompt": "A gray and rainy day in Oxford as students walk with umbrellas. A cozy student gathering at a local café in the background.",
       "has_image": true,
       "insight": "Did you know? Engaging in university societies can combat feelings of **isolation** and enhance your academic experience in Oxford.",
@@ -120,7 +120,7 @@
     },
     "node4": {
       "type": "scene",
-      "scene_text": "As midterms approach, coursework piles up. A visit to **Dr. Kathryn Gillow** during office hours reveals just how far behind you are. You can sense that competition is fierce, and pressure is mounting. Stress is beginning to take a toll on your health and studies.",
+      "scene_text": "As midterms approach, coursework piles up. A visit to **[Dr. Kathryn Gillow](https://www.maths.ox.ac.uk/people/kathryn.gillow)** during office hours reveals just how far behind you are. You can sense that competition is fierce, and pressure is mounting. Stress is beginning to take a toll on your health and studies.",
       "image_prompt": "A student sitting across Dr. Kathryn Gillow in a well-lit office, tables adorned with academic papers and books.",
       "has_image": true,
       "insight": "Did you know? The competitive environment in Oxford requires effective time management and proactive engagement with faculty to succeed.",

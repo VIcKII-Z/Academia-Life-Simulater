@@ -1,6 +1,7 @@
 import type { Choice, EndingNode, StatBlock, StoryNode, StorySource } from "../types";
 import HighlightedText from "./HighlightedText";
 import Floaty from "./Floaty";
+import { useI18n } from "../lib/i18n";
 
 // Pixel-art charm stickers (borrowed from the random-life-challenge asset
 // pack) sit next to each stat — deliberately playful pixel accents kept as the
@@ -34,13 +35,15 @@ export function StatMeters({
   stats: StatBlock;
   registerIcon?: (key: keyof StatBlock, el: HTMLImageElement | null) => void;
 }) {
+  const { t } = useI18n();
   return (
-    <div className="statMeters" role="group" aria-label="Life stats">
-      {STAT_CONFIG.map(({ key, label, color, sticker }) => {
+    <div className="statMeters" role="group" aria-label={t("stats.group")}>
+      {STAT_CONFIG.map(({ key, color, sticker }) => {
+        const translatedLabel = t(`stats.${key}`);
         const value = Math.max(0, Math.min(STAT_MAX, stats[key]));
         const isLow = value <= 20;
         return (
-          <div className={`statMeter${isLow ? " statMeter--low" : ""}`} key={key} title={`${label}: ${stats[key]}`}>
+          <div className={`statMeter${isLow ? " statMeter--low" : ""}`} key={key} title={`${translatedLabel}: ${stats[key]}`}>
             <img
               className="statMeterSticker"
               src={sticker}
@@ -49,7 +52,7 @@ export function StatMeters({
             />
             <div className="statMeterBody">
               <div className="statMeterHead">
-                <span className="statMeterLabel">{label}</span>
+                <span className="statMeterLabel">{translatedLabel}</span>
                 <span className="statMeterValue">{stats[key]}</span>
               </div>
               <div className="statMeterTrack">
@@ -88,20 +91,20 @@ const CONFIDENCE_RANK: Record<string, number> = {
  * client-side keyword heuristic over scene_text/insight (no backend schema
  * change needed, so it works even on already-cached stories) used to pick
  * one of the game's life-category illustrations for the Field Notes card. */
-const LIFE_CATEGORIES: { icon: string; label: string; keywords: RegExp }[] = [
-  { icon: "/branding/lecture.png", label: "Academics", keywords: /\b(class|lecture|professor|exam|study|studying|assignment|course|homework|grade|grades|seminar|thesis|research|lab|major|gpa)\b/i },
-  { icon: "/branding/career.png", label: "Career", keywords: /\b(job|internship|career|interview|resume|r[ée]sum[ée]|employer|hiring|work permit|visa sponsor|networking|offer)\b/i },
-  { icon: "/branding/dorm.png", label: "Housing", keywords: /\b(dorm|apartment|housing|rent|lease|landlord|roommate|move[- ]in|utilities)\b/i },
-  { icon: "/branding/social.png", label: "Social Life", keywords: /\b(friend|friends|roommate|party|date|dating|relationship|classmate|club|hang out|hangout)\b/i },
-  { icon: "/branding/events.png", label: "Campus Events", keywords: /\b(festival|event|holiday|celebration|ceremony|orientation|trip|concert|fair)\b/i },
+const LIFE_CATEGORIES: { icon: string; labelKey: string; keywords: RegExp }[] = [
+  { icon: "/branding/lecture.png", labelKey: "category.academics", keywords: /\b(class|lecture|professor|exam|study|studying|assignment|course|homework|grade|grades|seminar|thesis|research|lab|major|gpa)\b/i },
+  { icon: "/branding/career.png", labelKey: "category.career", keywords: /\b(job|internship|career|interview|resume|r[ée]sum[ée]|employer|hiring|work permit|visa sponsor|networking|offer)\b/i },
+  { icon: "/branding/dorm.png", labelKey: "category.housing", keywords: /\b(dorm|apartment|housing|rent|lease|landlord|roommate|move[- ]in|utilities)\b/i },
+  { icon: "/branding/social.png", labelKey: "category.social", keywords: /\b(friend|friends|roommate|party|date|dating|relationship|classmate|club|hang out|hangout)\b/i },
+  { icon: "/branding/events.png", labelKey: "category.events", keywords: /\b(festival|event|holiday|celebration|ceremony|orientation|trip|concert|fair)\b/i },
 ];
 
-function categorizeScene(insight?: string, sceneText?: string): { icon: string; label: string } {
+function categorizeScene(insight?: string, sceneText?: string): { icon: string; labelKey: string } {
   const text = `${insight ?? ""} ${sceneText ?? ""}`;
   for (const category of LIFE_CATEGORIES) {
     if (category.keywords.test(text)) return category;
   }
-  return { icon: "/branding/campus.png", label: "Campus Life" };
+  return { icon: "/branding/campus.png", labelKey: "category.campus" };
 }
 
 /** Picks the handful of sources worth showing per scene: de-duplicated by
@@ -143,47 +146,46 @@ export function InsightPanel({
   contextNote?: string;
   sources?: StorySource[];
 }) {
+  const { t } = useI18n();
   const topSources = pickTopSources(sources);
   const category = categorizeScene(insight, sceneText);
 
   return (
     <Floaty className="insightPanel" driftDuration={13} driftDelay={0.4}>
-      <aside className="insightPanelBody" aria-label="Field notes">
+      <aside className="insightPanelBody" aria-label={t("scene.fieldNotes")}>
         <div className="insightCard">
         <div className="insightHead">
           <FieldNoteIcon className="insightIcon" />
-          <span className="insightKicker">Field Notes</span>
+          <span className="insightKicker">{t("scene.fieldNotes")}</span>
           <div className="insightCategory">
             <img className="insightCategoryIcon" src={category.icon} alt="" />
-            <span>{category.label}</span>
+            <span>{t(category.labelKey)}</span>
           </div>
         </div>
 
         {insight ? (
           <>
-            <h3 className="insightTitle">Why this happens</h3>
+            <h3 className="insightTitle">{t("scene.why")}</h3>
             <p className="insightBody">
               <HighlightedText text={insight} schoolQuery={schoolQuery} />
             </p>
           </>
         ) : (
           <p className="insightBody insightBody--muted">
-            Every scene in your story is generated from live research about student life in{" "}
-            <strong>{caption}</strong>. Watch this space for notes on why each challenge tends to
-            show up.
+            {t("scene.emptyNotes", { caption })}
           </p>
         )}
 
         {contextNote && (
           <div className="insightContext">
-            <span className="insightContextLabel">About this story</span>
+            <span className="insightContextLabel">{t("scene.about")}</span>
             <p>{contextNote}</p>
           </div>
         )}
 
         {topSources.length > 0 && (
           <div className="insightContext">
-            <span className="insightContextLabel">Sources</span>
+            <span className="insightContextLabel">{t("scene.sources")}</span>
             <ul className="insightSourceList">
               {topSources.map((source, index) => (
                 <li key={`${source.url}-${index}`}>
@@ -247,6 +249,7 @@ export default function SceneCard({
   sources?: StorySource[];
   onChoose: (choice: Choice, originRect: DOMRect) => void;
 }) {
+  const { t } = useI18n();
   const isEnding = (node as EndingNode).tone !== undefined;
   const choices = !isEnding ? (node as StoryNode).choices : [];
   const hasImage = Boolean(node.image_url);
@@ -284,7 +287,7 @@ export default function SceneCard({
               {!isEnding && choices.length > 0 && (
                 <div className="forkWrapper">
                   <div className="forkDivider">
-                    <span>what do you do?</span>
+                    <span>{t("scene.choicePrompt")}</span>
                   </div>
                   <div className={`choicePaths choicePaths--${choices.length}`}>
                     {choices.map((choice, index) => {
@@ -296,7 +299,7 @@ export default function SceneCard({
                           onClick={(event) => onChoose(choice, event.currentTarget.getBoundingClientRect())}
                         >
                           {choice.recommended && (
-                            <img className="choicePathStar" src="/stickers/star.svg" alt="Recommended" />
+                            <img className="choicePathStar" src="/stickers/star.svg" alt={t("common.recommended")} />
                           )}
                           <img
                             className="choicePathArrow"

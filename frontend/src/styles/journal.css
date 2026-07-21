@@ -1372,6 +1372,56 @@
   z-index: 20;
 }
 
+.languageSwitcher {
+  position: fixed;
+  top: 122px;
+  right: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 248, 0.88);
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 999px;
+  padding: 7px 9px 7px 12px;
+  z-index: 20;
+}
+
+.languageSwitcherLabel {
+  white-space: nowrap;
+}
+
+.languageSwitcherButtons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.languageSwitcher button {
+  min-width: 34px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font: inherit;
+  color: var(--ink-soft);
+  background: transparent;
+  cursor: pointer;
+}
+
+.languageSwitcher button:hover {
+  color: var(--ink);
+  background: rgba(248, 221, 151, 0.28);
+}
+
+.languageSwitcher button.active {
+  color: var(--ink);
+  background: rgba(248, 221, 151, 0.5);
+  border-color: rgba(184, 139, 55, 0.35);
+}
+
 /* ---- In-app-bar variants -----------------------------------------
    While playing, the Travel key + image toggle chips live inline in the
    sticky top bar itself — stat meters, a flexible gap, then these two
@@ -1385,11 +1435,17 @@
 }
 
 .apiKeyEditTrigger--inline,
-.imageGenerationToggle--inline {
+.imageGenerationToggle--inline,
+.languageSwitcher--inline {
   position: static;
   top: auto;
   right: auto;
   left: auto;
+}
+
+.languageSwitcher--inline {
+  padding: 6px 8px 6px 10px;
+  background: rgba(255, 253, 248, 0.72);
 }
 
 .imageGenerationToggle.active {
@@ -2171,6 +2227,18 @@
   .statMeters,
   .appBarActions {
     justify-self: stretch;
+  }
+  .appBarActions {
+    flex-wrap: wrap;
+  }
+  .languageSwitcher--inline {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+  .languageSwitcher,
+  .apiKeyEditTrigger,
+  .imageGenerationToggle {
+    right: 14px;
   }
   .statMeters {
     width: 100%;

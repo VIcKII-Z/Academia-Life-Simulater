@@ -1,12 +1,7 @@
 import type { EndingNode, StatBlock, StorySource } from "../types";
 import HighlightedText from "./HighlightedText";
 import { StatMeters } from "./SceneCard";
-
-const TONE_LABEL: Record<string, string> = {
-  hopeful: "Hopeful",
-  bittersweet: "Bittersweet",
-  challenging: "Challenging",
-};
+import { useI18n } from "../lib/i18n";
 
 const TONE_CLASS: Record<string, string> = {
   hopeful: "toneHopeful",
@@ -32,6 +27,7 @@ function buildStoryKeepsake({
   contextNote,
   stats,
   sources,
+  t,
 }: {
   ending: EndingNode;
   city: string;
@@ -40,41 +36,43 @@ function buildStoryKeepsake({
   contextNote?: string;
   stats?: StatBlock;
   sources?: StorySource[];
+  t: (key: string, vars?: Record<string, string | number>) => string;
 }): string {
   const lines: string[] = [];
-  lines.push("FUTURE LIFE SIMULATOR — YOUR STORY, SEALED");
+  const toneLabel = t(`tone.${ending.tone}`);
+  lines.push(t("keepsake.title"));
   lines.push("=".repeat(44));
   lines.push("");
-  lines.push(`Postmarked from ${city}, ${country}`);
+  lines.push(t("keepsake.postmarked", { city, country }));
   if (profileSummary) lines.push(profileSummary);
-  lines.push(`Ending tone: ${TONE_LABEL[ending.tone] ?? ending.tone}`);
+  lines.push(t("keepsake.tone", { tone: toneLabel === `tone.${ending.tone}` ? ending.tone : toneLabel }));
   lines.push("");
   lines.push(stripHighlightMarkers(ending.scene_text));
   lines.push("");
 
   if (ending.insight) {
-    lines.push("FIELD NOTE — WHY THIS HAPPENS");
+    lines.push(t("keepsake.fieldNote"));
     lines.push("-".repeat(30));
     lines.push(stripHighlightMarkers(ending.insight));
     lines.push("");
   }
 
   if (contextNote) {
-    lines.push("ABOUT THIS STORY");
+    lines.push(t("keepsake.about"));
     lines.push("-".repeat(30));
     lines.push(contextNote);
     lines.push("");
   }
 
   if (stats) {
-    lines.push("FINAL STATS");
+    lines.push(t("keepsake.stats"));
     lines.push("-".repeat(30));
-    lines.push(`Health ${stats.health} · Mood ${stats.mood} · Money ${stats.money} · School ${stats.school}`);
+    lines.push(`${t("stats.health")} ${stats.health} · ${t("stats.mood")} ${stats.mood} · ${t("stats.money")} ${stats.money} · ${t("stats.school")} ${stats.school}`);
     lines.push("");
   }
 
   if (sources && sources.length > 0) {
-    lines.push("SOURCES");
+    lines.push(t("keepsake.sources"));
     lines.push("-".repeat(30));
     for (const source of sources) {
       lines.push(`- ${source.title || source.url}${source.title ? `: ${source.url}` : ""}`);
@@ -104,8 +102,11 @@ export default function PostcardEnding({
   sources?: StorySource[];
   onRestart: () => void;
 }) {
+  const { t } = useI18n();
+  const toneLabel = t(`tone.${ending.tone}`);
+
   function handleSave() {
-    const text = buildStoryKeepsake({ ending, city, country, profileSummary, contextNote, stats, sources });
+    const text = buildStoryKeepsake({ ending, city, country, profileSummary, contextNote, stats, sources, t });
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -127,11 +128,11 @@ export default function PostcardEnding({
         </figure>
       )}
       <div className="postcard">
-        <div className={`wax-seal ${TONE_CLASS[ending.tone]}`} title={TONE_LABEL[ending.tone]}>
-          <img className="waxSealIcon" src="/stickers/buttons/envolope.svg" alt={TONE_LABEL[ending.tone]} />
+        <div className={`wax-seal ${TONE_CLASS[ending.tone]}`} title={toneLabel}>
+          <img className="waxSealIcon" src="/stickers/buttons/envolope.svg" alt={toneLabel} />
         </div>
-        <p className="postmark">Postmarked from {city}</p>
-        <h2>Your story, sealed</h2>
+        <p className="postmark">{t("ending.postmarked", { city })}</p>
+        <h2>{t("ending.title")}</h2>
         {stats && (
           <div className="postcardStats">
             <StatMeters stats={stats} />
@@ -140,16 +141,16 @@ export default function PostcardEnding({
         <p><HighlightedText text={ending.scene_text} /></p>
         {ending.insight && (
           <div className="postcardInsight">
-            <span className="postcardInsightLabel">Field note</span>
+            <span className="postcardInsightLabel">{t("ending.fieldNote")}</span>
             <p><HighlightedText text={ending.insight} /></p>
           </div>
         )}
         <div className="journalButtonRow">
           <button className="journalButton" onClick={onRestart}>
-            Start a new chapter
+            {t("ending.restart")}
           </button>
           <button className="journalButton secondary" onClick={handleSave}>
-            Save this story
+            {t("ending.save")}
           </button>
         </div>
       </div>

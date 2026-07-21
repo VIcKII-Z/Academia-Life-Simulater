@@ -146,6 +146,16 @@ Choose the most suitable of the following three, and state your reasoning:
   setting, and at least one detail connected to the user's major or grade.
 - Must include multiple genuine "challenge" type nodes - the story cannot be entirely positive.
 - Challenge nodes should correspond to health/mood/money/school stressors from the research report.
+- Do NOT make the story mostly academic. Across the generated nodes, at least half of the
+  non-ending scenes must be primarily about life outside coursework/research: housing/rent,
+  groceries and budgeting, commute or weather fatigue, loneliness/culture shock, health/sleep,
+  visa/admin errands, part-time work, social belonging, safety, or local community routines.
+- Academic/coursework/research scenes may be important, but they must not exceed half of the
+  non-ending scenes. Interleave them with concrete daily-life challenges so the player feels
+  they are living abroad, not only studying.
+- In choice design, make at least one choice pair per 3 nodes primarily affect health/mood/money
+  rather than school, and ground those tradeoffs in report.student_life_profile, cost_of_living,
+  climate, housing, community, visa, and part_time_work when available.
 - Ending nodes must have a "tone" field: one of "hopeful", "bittersweet", "challenging".
 - Set has_image=true for EVERY node and the ending, so all ${targetNodeCount} chapters have
   a matching illustration.
@@ -292,6 +302,68 @@ function buildFallbackImagePrompt(
   ].join(", ");
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function linkedMarkdownLabel(label: string, url: string): string {
+  return `**[${label}](${url})**`;
+}
+
+function linkPlainMention(text: string | undefined, label: string, url: string): string | undefined {
+  if (!text || !label.trim() || !url.trim() || text.includes(`](${url})`)) return text;
+
+  const escapedLabel = escapeRegExp(label.trim());
+  const boldPattern = new RegExp(`\\*\\*(${escapedLabel})\\*\\*`, "i");
+  if (boldPattern.test(text)) {
+    return text.replace(boldPattern, (_match, visibleLabel: string) => linkedMarkdownLabel(visibleLabel, url));
+  }
+
+  const plainPattern = new RegExp(`\\b(${escapedLabel})\\b`, "i");
+  return text.replace(plainPattern, (_match, visibleLabel: string) => linkedMarkdownLabel(visibleLabel, url));
+}
+
+function sourcedMentionLinks(report: ResearchReport): { label: string; url: string }[] {
+  const campus = report.campus_life_profile;
+  const links: { label: string; url: string }[] = [];
+  const add = (label: string | undefined, url: string | undefined): void => {
+    if (!label || !url || links.some((entry) => entry.label === label && entry.url === url)) return;
+    links.push({ label, url });
+  };
+
+  for (const course of campus?.notable_courses ?? []) {
+    add(course.title, course.url);
+    if (course.code && course.title) add(`${course.code}: ${course.title}`, course.url);
+  }
+  for (const faculty of campus?.notable_faculty ?? []) add(faculty.name, faculty.url);
+  for (const library of campus?.libraries ?? []) add(library.name, library.url);
+  for (const club of campus?.clubs ?? []) add(club.name, club.url);
+  for (const event of campus?.events ?? []) add(event.name, event.url);
+
+  return links.sort((a, b) => b.label.length - a.label.length);
+}
+
+function linkSourcedMentions(doc: StoryDocument, report: ResearchReport): void {
+  const links = sourcedMentionLinks(report);
+  if (links.length === 0) return;
+
+  const applyLinks = (text: string | undefined): string | undefined =>
+    links.reduce((current, link) => linkPlainMention(current, link.label, link.url), text);
+
+  for (const node of Object.values(doc.nodes)) {
+    node.scene_text = applyLinks(node.scene_text) ?? node.scene_text;
+    node.insight = applyLinks(node.insight);
+    for (const choice of node.choices ?? []) {
+      choice.text = applyLinks(choice.text) ?? choice.text;
+      choice.stat_reason = applyLinks(choice.stat_reason);
+    }
+  }
+  for (const ending of Object.values(doc.endings)) {
+    ending.scene_text = applyLinks(ending.scene_text) ?? ending.scene_text;
+    ending.insight = applyLinks(ending.insight);
+  }
+}
+
 /**
  * Every story chapter should be illustrated. Smaller/cheaper models sometimes
  * forget image prompts on intermediate nodes, so repair the visual plan
@@ -417,6 +489,7 @@ export async function runDesignAgent(
         repairChoicelessNodes(doc);
         repairDanglingLinks(doc);
         ensureImageCoverage(doc, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
+        linkSourcedMentions(doc, report);
         validateStory(doc);
       } catch (validationErr) {
         const errorMessage = validationErr instanceof Error ? validationErr.message : String(validationErr);

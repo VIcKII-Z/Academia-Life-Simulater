@@ -54,10 +54,10 @@
     },
     "node2": {
       "type": "transition",
-      "scene_text": "After settling into your accommodation, the reality of living in Oxford starts to sink in. With **high expenses and rigorous coursework** on the horizon, you feel the pressure to balance your studies and finances. Class schedules are intense, with a mix of **core and elective courses** tailored to your interests. You visit the **Whitehead Library** to familiarize yourself with its resources.",
+      "scene_text": "After settling into your accommodation, the reality of living in Oxford starts to sink in. With **high expenses and rigorous coursework** on the horizon, you feel the pressure to balance your studies and finances. Class schedules are intense, with a mix of **core and elective courses** tailored to your interests. You visit the **[Whitehead Library](https://www.maths.ox.ac.uk/members/library)** to familiarize yourself with its resources.",
       "image_prompt": "A student studying at a desk in the Whitehead Library, surrounded by mathematics books and notes, conveying a scholarly atmosphere.",
       "has_image": true,
-      "insight": "Familiarity with specialized libraries like the Whitehead Library is crucial for academic success, particularly in a subject like Mathematics.",
+      "insight": "Familiarity with specialized libraries like the **[Whitehead Library](https://www.maths.ox.ac.uk/members/library)** is crucial for academic success, particularly in a subject like Mathematics.",
       "choices": [
         {
           "text": "Allocate time for studying and attending library workshops.",
@@ -105,7 +105,7 @@
           "recommended": true
         },
         {
-          "text": "Attend a meeting of the Invariants Society.",
+          "text": "Attend a meeting of the **[Invariants Society](https://www.invariants.org.uk/)**.",
           "next_node": "node4",
           "stat_delta": {
             "health": 0,
@@ -120,7 +120,7 @@
     },
     "node4": {
       "type": "academic pressure",
-      "scene_text": "The next weeks are filled with deadlines and assignments, particularly for your **Analytic Number Theory** course, where the first problem set is due soon. You feel pressured to excel, but late nights studying leave you fatigued. Colleagues suggest forming study groups to collaborate and alleviate some of the stress, providing a sense of community amid the pressure.",
+      "scene_text": "The next weeks are filled with deadlines and assignments, particularly for your **[Analytic Number Theory](https://courses.maths.ox.ac.uk/node/376)** course, where the first problem set is due soon. You feel pressured to excel, but late nights studying leave you fatigued. Colleagues suggest forming study groups to collaborate and alleviate some of the stress, providing a sense of community amid the pressure.",
       "image_prompt": "A group of students collaborating on a mathematics problem set, surrounded by notebooks and calculators, with a sense of urgency in the atmosphere.",
       "has_image": true,
       "insight": "Collaboration in study groups can significantly ease the pressure of rigorous coursework typical in master's programs like Mathematical Sciences.",
@@ -153,13 +153,13 @@
     },
     "node5": {
       "type": "social adjustment",
-      "scene_text": "Joining the study group helps, but the challenge of balancing academics and social life remains. The **Fridays@4 seminar** is coming up, and attending could enhance both your understanding and social network. However, going requires time, which might cut into study hours right before exams. You're faced with conflicting priorities.",
+      "scene_text": "Joining the study group helps, but the challenge of balancing academics and social life remains. The ****[Fridays@4](https://www.maths.ox.ac.uk/events/fridays4)** seminar** is coming up, and attending could enhance both your understanding and social network. However, going requires time, which might cut into study hours right before exams. You're faced with conflicting priorities.",
       "image_prompt": "A tense moment where a student weighs attending a seminar or studying alone, books and notes scattered around, showing the difficulty of balancing commitments.",
       "has_image": true,
       "insight": "Balancing academic priorities with social engagements is common among graduate students and can create significant stress.",
       "choices": [
         {
-          "text": "Attend the Fridays@4 seminar for networking and knowledge.",
+          "text": "Attend the **[Fridays@4](https://www.maths.ox.ac.uk/events/fridays4)** seminar for networking and knowledge.",
           "next_node": "node6",
           "stat_delta": {
             "health": -5,
@@ -252,7 +252,7 @@
     },
     "node8": {
       "type": "endurance test",
-      "scene_text": "With a clearer focus on your goals, the semester presses on, and **dissertation planning** looms large. As deadlines near for course submissions, you find yourself juggling final assignments while gathering resources for your dissertation topic. You visit the **Bodleian Library** to access critical references, knowing this will require tackling the winter chill as Oxford's weather turns colder.",
+      "scene_text": "With a clearer focus on your goals, the semester presses on, and **dissertation planning** looms large. As deadlines near for course submissions, you find yourself juggling final assignments while gathering resources for your dissertation topic. You visit the **[Bodleian Library](https://www.bodleian.ox.ac.uk/)** to access critical references, knowing this will require tackling the winter chill as Oxford's weather turns colder.",
       "image_prompt": "A student bundled up, entering the Bodleian Library, determined yet slightly apprehensive about tackling the daunting dissertation.",
       "has_image": true,
       "insight": "The onset of winter can be a challenging time for students, often impacting both health and academic focus during critical project periods.",
@@ -285,7 +285,7 @@
     },
     "node9": {
       "type": "culmination",
-      "scene_text": "As the semester wraps up, your efforts culminate in a **final presentation** for your dissertation. With the support of peers and faculty, notably **Prof. Ben Green**, you feel ready. But, as deadlines dominate your time management, you reflect on the price you've paid in terms of health. The pressure leads to mixed feelings about the joy of learning versus the burdens of high expectations.",
+      "scene_text": "As the semester wraps up, your efforts culminate in a **final presentation** for your dissertation. With the support of peers and faculty, notably **[Prof. Ben Green](https://www.maths.ox.ac.uk/people/ben.green)**, you feel ready. But, as deadlines dominate your time management, you reflect on the price you've paid in terms of health. The pressure leads to mixed feelings about the joy of learning versus the burdens of high expectations.",
       "image_prompt": "A student presenting to a panel, alongside peers and a professor, showing a blend of determination and anxiety about the outcome.",
       "has_image": true,
       "insight": "Final academic assessments can elicit a mix of excitement and anxiety, especially in competitive environments like Oxford, impacting overall well-being.",
