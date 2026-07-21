@@ -9,6 +9,75 @@ not the original spec — see the design doc for full product context, and **`fl
 for the full visual/UX design spec (fonts, colors, components, copywriting tone), plus
 **`search_agent_strategy.en.md`** / **`.zh.md`** for the Search Agent's source strategy per layer.
 
+For a full engineering write-up of everything built this project (architecture decisions, every
+feature added, every bug fixed, and why), see **[`HANDOVER.md`](./HANDOVER.md)**.
+
+## 🌍 Why we built this
+
+Deciding to study abroad is one of the biggest leaps a student can take — and it's also one of
+the most **unequally supported** decisions in education. Students from well-resourced families
+can lean on paid consultants, alumni networks, campus visits, and relatives who've "been there" to
+turn an overwhelming choice (which country? which city? which university? which program?) into a
+guided, low-anxiety process. Students without that access — first-generation applicants,
+students in rural or low-income communities, international students with no local contacts, or
+anyone who simply can't afford a $5,000 consulting package — are often left to piece together the
+same decision from scattered forums, outdated blog posts, and marketing brochures, with no way to
+"try before you buy" and truly picture what daily life would feel like at a specific school.
+
+**Future Life Simulator exists to close that gap.** It uses AI not to replace research, but to
+democratize the *narrative* — the lived-experience layer that's usually gatekept behind personal
+networks and paid advising:
+
+- **Real information, not generic fluff.** The Search Agent grounds every story in actual,
+  named details about the chosen university (real courses, clubs, libraries, neighborhoods,
+  even weather and typical housing), so a Northeastern CS story reads nothing like a generic
+  Boston story — the same quality of specific, insider-feeling detail a well-connected student
+  would get from a mentor, available to anyone with an internet connection.
+- **Emotional rehearsal, not just facts.** By turning that research into a playable, choice-driven
+  story with stat consequences (health/mood/money) and multiple tone-based endings, the app lets
+  a student *feel* the tradeoffs of a decision — a tight budget, homesickness, a challenging
+  first semester — before they've committed a single application fee, in a safe, low-stakes,
+  even playful format.
+- **Low barrier to entry.** No login wall, no paywall beyond bringing your own (optional, free-tier
+  eligible) OpenAI API key; runs entirely from a browser; presets are available so the experience
+  works even without live search or an API key at all.
+- **A companion, not a gatekeeper.** The tone throughout — warm, encouraging, occasionally
+  funny — is intentional: this is meant to feel like a supportive older sibling walking you
+  through "what if", not another intimidating institutional form.
+
+We think this is a small but meaningful example of what AI-for-education can look like when it's
+designed around **access** first: not a shinier tutoring tool for students who already have
+support, but a way to hand a bit of that "insider" guidance to students who currently have to go
+without it.
+
+## 🎮 How to use it (for end users)
+
+1. **Open the app** at the URL your team gives you (locally: `http://localhost:5173`).
+2. **Bring your own key.** On the first screen, paste an OpenAI API key (or your team's relay
+   key, if provided) and pick the matching provider toggle — see "Provider: relay vs. official
+   OpenAI" below if you're not sure which to pick. Your key is stored only in your browser
+   (`localStorage`), never sent anywhere except directly to OpenAI/the relay you chose.
+3. **Tell it about your dream destination**, one question at a time: country → city →
+   university → degree level → program/major. Each step's options are generated from the
+   previous answer, so you're always picking from real, relevant choices rather than typing
+   into a void.
+4. **Watch it "dream"** — a short loading screen while the Search → Design → Artist pipeline
+   researches your destination and writes your story (or instantly loads a cached story if
+   someone already generated this exact combination).
+5. **Open your admission letter** — a personalized, confetti-filled acceptance letter addressed
+   to you, referencing the university and program you picked, before your story begins.
+6. **Play through your story**: read each scene (with a generated illustration when available),
+   check your stat gauges (health/mood/money) in the margin, and pick one of the choices offered —
+   each choice nudges your stats and moves you to the next scene. Field Notes on the side surface
+   the real-world facts your story is grounded in, with source links so you can verify or dig
+   deeper into anything that surprised you.
+7. **Reach your ending** — one of several tone-based outcomes (hopeful / bittersweet /
+   challenging) summarizing how your simulated journey turned out, with a final stats recap.
+8. **Save your story** if you want to keep it — the ending screen offers a way to save your
+   sealed story along with its Field Notes for later.
+9. **Try again** with a different destination any time — every unique combination of answers
+   gets its own story, and repeats are served instantly from cache.
+
 ## 👋 For teammates picking this up
 
 If you're new to this codebase, read this section first, then skim "Architecture" below.
