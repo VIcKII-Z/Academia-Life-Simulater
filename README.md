@@ -12,6 +12,30 @@ for the full visual/UX design spec (fonts, colors, components, copywriting tone)
 For a full engineering write-up of everything built this project (architecture decisions, every
 feature added, every bug fixed, and why), see **[`HANDOVER.md`](./HANDOVER.md)**.
 
+## Hackathon highlight: how we used Codex + GPT-5.6
+
+Future Life Simulator was built during the hackathon with **Codex and GPT-5.6 as an active
+development partner**, not just as a code autocomplete tool. We used Codex in three roles:
+
+- **Co-designer:** Codex helped shape the product direction around social good, accessibility,
+  and immersive study-abroad exploration for students who cannot easily access campus visits,
+  consulting, international travel, or reliable firsthand information.
+- **Co-builder:** Codex helped implement the React + TypeScript frontend, Express backend,
+  multi-agent story pipeline, story cache, image-generation controls, source-link handling,
+  multilingual UI, and the playable admission-letter-to-postcard flow.
+- **Co-refiner:** Codex helped debug generation reliability issues, including making sure every
+  chapter can receive a consistent illustration, improving cache matching, balancing academic and
+  everyday-life challenges, and polishing the UX for a more stable demo.
+
+GPT-5.6 was especially useful for turning broad product goals into concrete implementation steps:
+reading the existing codebase, proposing safe changes, editing files, checking regressions, and
+helping us iterate quickly under hackathon time pressure. The final product still uses structured
+application code, explicit validation, caching, and source links so the AI-generated experience is
+guided by engineering guardrails rather than free-form prompting alone.
+
+**Built with:** React, TypeScript, Vite, Node.js, Express, OpenAI APIs, live research/search,
+AI image generation, local story caching, and Codex/GPT-5.6-assisted development.
+
 ## 🌍 Why we built this
 
 Deciding to study abroad is one of the biggest leaps a student can take — and it's also one of
