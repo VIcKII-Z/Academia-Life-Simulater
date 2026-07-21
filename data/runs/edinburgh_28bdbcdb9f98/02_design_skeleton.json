@@ -1,0 +1,129 @@
+{
+  "story_id": "edinburgh_28bdbcdb9f98",
+  "framework_type": "convergence",
+  "framework_reason": "All students face the shared challenge of adapting to Edinburgh's high cost of living while managing academic pressures and cultural adjustments.",
+  "user_profile": {
+    "country": "United Kingdom",
+    "city": "Edinburgh",
+    "major": "MS in Game Design",
+    "grade": "Graduate",
+    "school": "University of Edinburgh",
+    "department": "Game Design",
+    "program": "MS in Game Design",
+    "semesters": 2
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {},
+  "endings": {
+    "ending": {
+      "scene_text": "At the end of your journey through Edinburgh, you've cultivated a network of industry contacts, a portfolio of creative projects, and a newfound confidence in your abilities. The experience has reshaped your aspirations, and though the path was challenging and filled with obstacles, you emerge resilient and ready to step into the professional world. You pack your bags with a sense of accomplishment, looking toward your next adventure as a game designer.",
+      "image_prompt": "A student standing in front of Edinburgh's iconic castle with a suitcase, looking determined and hopeful as they embark on the next chapter of their career.",
+      "has_image": true,
+      "insight": "Completing a graduate program abroad equips students with vital industry connections and skills, promoting resilience and confidence as they move into their professional careers.",
+      "tone": "hopeful"
+    },
+    "opening": {
+      "scene_text": "As the plane lands, you feel a rush of excitement mixed with anxiety. **Edinburgh's charm** immediately captivates you, but the thought of the **high cost of living** gnaws at you. You step off the aircraft, greeted by a cool breeze and the first signs of **cultural adjustment** ahead. Familiarizing yourself with the **University of Edinburgh** campus and meeting your fellow game design students will be your top priority, yet the looming concerns about finances add pressure.",
+      "image_prompt": "A graduate student standing in an airport with a suitcase, looking at a map with Edinburgh landmarks in the background, feeling both excited and apprehensive.",
+      "has_image": true,
+      "insight": "New international students often experience excitement and anxiety upon arrival, facing both the allure of a new city and pressing concerns about finances and cultural adjustments.",
+      "tone": "bittersweet"
+    },
+    "node2": {
+      "scene_text": "Settling into your accommodation, you quickly realize that **housing costs** in Edinburgh are on the higher side. While the university offers various options, the most affordable seem to be quite far from campus. You ponder attending an orientation event to meet fellow students and learn about budgeting for the year. The looming budget constraints make your heart race, reminding you of the **importance of financial planning** in a new city.",
+      "image_prompt": "A student unpacking boxes in a small room, looking at a budget spreadsheet on a laptop, with a university brochure open nearby.",
+      "has_image": true,
+      "insight": "Many international students encounter high living costs in Edinburgh, necessitating early financial planning to manage their budget effectively throughout their studies.",
+      "tone": "bittersweet"
+    },
+    "node3": {
+      "scene_text": "You attend the orientation event, where energy buzzes all around. Interacting with your peers eases some of your anxiety, as shared experiences about understanding the **UK academic system** emerge. While the conversation is lively, doubts about your ability to keep up academically creep in. You also learn about clubs, such as the **History and Games Society**, that could offer a sense of community amidst the academic demands.",
+      "image_prompt": "A bustling student orientation event with diverse students chatting, brochures in hand, banners about clubs and societies in the background.",
+      "has_image": true,
+      "insight": "Orientation events provide crucial networking opportunities and insights into the study experience, essential for international students adapting to new academic expectations.",
+      "tone": "bittersweet"
+    },
+    "node4": {
+      "scene_text": "As classes begin, the **Game Design Studio** course captivates your interest with its focus on non-linear game design. However, managing your time becomes challenging as you juggle class schedules with completing assignments and trying to maintain some social life. You realize that your motivation is dipping and contemplate whether to work part-time to ease financial burdens, which could further strain your time management.",
+      "image_prompt": "A student sitting in a classroom filled with computers and game design projects, feeling both excited and overwhelmed, notes scattered around.",
+      "has_image": true,
+      "insight": "Graduate students often struggle with time management, balancing intense coursework with social engagements and financial needs, particularly in a bustling metropolis like Edinburgh.",
+      "tone": "bittersweet"
+    },
+    "node5": {
+      "scene_text": "Feeling overwhelmed, you decide to prioritize your health and well-being. You join a gym and engage in regular exercise, which helps lift your mood. Yet, you find yourself missing classes to keep up with games and deadlines. As working progressively late into the night becomes your routine, the tension of looming deadlines on projects starts to escalate your school stress.",
+      "image_prompt": "A student exercising in a brightly lit gym, looking refreshed but with textbooks and notes strewn around, hinting at impending deadlines.",
+      "has_image": true,
+      "insight": "Balancing physical well-being with the demands of coursework is essential for maintaining high academic performance, particularly in stressful environments like graduate studies.",
+      "tone": "bittersweet"
+    },
+    "node6": {
+      "scene_text": "A few weeks in, you reach a turning point. After deliberations, you decide to take on a part-time job, easing immediate financial worries. However, your schedule is now packed tight, leaving little room for downtime. You find yourself more tired, leading to heavier **academic pressures** and sacrificing evenings meant for socializing. It’s crucial you maintain connections, as the friendships formed can significantly improve your overall mood.",
+      "image_prompt": "A student at a cafe working on a laptop, visibly tired but focused, with a cup of coffee and snacks on the table, surrounded by fellow students.",
+      "has_image": true,
+      "insight": "Part-time work can alleviate financial stress for students, but balancing job commitments with study and social life becomes increasingly challenging, impacting overall well-being.",
+      "tone": "bittersweet"
+    },
+    "node7": {
+      "scene_text": "One afternoon, your supervisor at your job suggests contributing to a local game development project. This opportunity excites you as it bridges your campus knowledge with practical application. However, dedicating time to this project could mean sacrificing study hours for your impending deadlines on critical assignments. The choice between pursuing valuable experience and maintaining your academic standing looms large.",
+      "image_prompt": "A student enthusiastically discussing a game project with professional peers, whiteboards filled with brainstorming efforts, showcasing creativity and challenge.",
+      "has_image": true,
+      "insight": "Getting involved in practical projects is vital for applying academic knowledge, offering valuable experience but requiring careful balance with ongoing studies to sustain academic performance.",
+      "tone": "bittersweet"
+    },
+    "node8": {
+      "scene_text": "After some consideration, you decide to commit to the **development project** while drafting strong deadlines for your academic tasks. The experience is challenging yet rewarding, invigorating your motivation for game design. Nevertheless, you notice your health dipping again, and the lack of sleep starts affecting your performance and interactions at the university. Maintaining this balance is becoming increasingly critical.",
+      "image_prompt": "A student working intently on a game design project with snacks and energy drinks scattered around, looking alert yet fatigued in a creative workspace.",
+      "has_image": true,
+      "insight": "In the competitive landscape of game design, blending creative projects with academic requirements often leads to health challenges; prioritizing self-care is essential to maintain overall well-being.",
+      "tone": "bittersweet"
+    },
+    "node9": {
+      "scene_text": "As winter approaches, the **Edinburgh Game Symposium** presents a perfect networking opportunity. Attending can bolster your connections in the gaming industry but may require stepping away from pressing assignments. The **chill in the air** reminds you to dress warmly, making weather preparedness yet another factor to factor into your studies. The excitement of industry exposure tempts your spirit as you weigh your options.",
+      "image_prompt": "A student bundled up in warm clothing, looking at industry event flyers in a bustling university hallway, filled with students and opportunities.",
+      "has_image": true,
+      "insight": "Industry events are significant for networking in fields like game design, but the balancing act of attending while managing academic deadlines remains a vital skill for success.",
+      "tone": "bittersweet"
+    },
+    "node10": {
+      "scene_text": "You decide to attend the symposium, networking with local industry professionals and learning about opportunities at studios like **Rockstar North**. Despite feeling overwhelmed, the inspiration fuels your motivation. But as deadlines loom, you realize it's at a cost: your coursework takes a hit. Managing academic expectations while building your professional network proves more demanding than anticipated.",
+      "image_prompt": "A student chatting at a professional networking event with industry experts, excitement in the atmosphere, yet pensive about the coursework looming in the background.",
+      "has_image": true,
+      "insight": "Attending professional events can enhance career opportunities for students, but they often lead to conflicts with academic commitments, necessitating effective prioritization.",
+      "tone": "bittersweet"
+    },
+    "node11": {
+      "scene_text": "As the semester accelerates, you start feeling the pressure. Your coursework grades drop due to the conflicting demands on your time. You contemplate seeking support from **Sandy Louchart**, your faculty advisor, to help navigate these challenges. Understanding the importance of seeking academic support is crucial as semester deadlines draw near and the anxiety mounts.",
+      "image_prompt": "A student at an advisor's office, looking anxious yet hopeful, with plans and assignments spread out, emphasizing the struggle for academic clarity.",
+      "has_image": true,
+      "insight": "Reaching out for academic support can significantly alleviate stress during critical periods, a common practice among graduate students managing tight schedules.",
+      "tone": "bittersweet"
+    },
+    "node12": {
+      "scene_text": "After your visit with Sandy, you're armed with new strategies to manage your time and academic workload better. Implementing these changes challenges your current routines but brings a renewed sense of confidence. As you engage more with your studies, you find satisfaction in the material. However, keeping up with your part-time job and social commitments concurrently starts feeling heavy again.",
+      "image_prompt": "A student studying at the Main Library, feeling focused and productive with resources surrounding them, but looking physically fatigued.",
+      "has_image": true,
+      "insight": "Creating effective study habits is essential for graduate students, particularly in high-demand programs, allowing them to balance academic and personal responsibilities successfully.",
+      "tone": "bittersweet"
+    },
+    "node13": {
+      "scene_text": "Mid-semester brings additional challenges; academic pressures intersect with personal life. Finding time to relax and socialize seems nearly impossible, and fatigue is palpable. You realize you need to integrate self-care practices into your routine or risk burnout. As you reflect on your journey thus far, the importance of well-being in your academic life becomes glaringly obvious.",
+      "image_prompt": "A student sitting at a coffee shop, looking fatigued with a stack of books and a to-do list, pensively staring out the window, contemplating balance.",
+      "has_image": true,
+      "insight": "Graduate students often face burnout due to heightened academic pressures; integrating self-care and downtime is crucial for sustaining long-term motivation and performance.",
+      "tone": "bittersweet"
+    },
+    "node14": {
+      "scene_text": "As the semester draws to a close, you find a rhythm. By embracing community involvement, focusing on your health, and leveraging academic support, you've improved your standing. The months felt like a whirlwind, yet you've grown immensely, preparing for the final project ahead. With the **Game Design Studio** course concluding soon, you reflect on how the experience shaped both your career aspirations and personal growth.",
+      "image_prompt": "A student looking at their final project on a computer, feeling accomplished in a vibrant workspace, with notes and inspirations scattered around, indicating growth.",
+      "has_image": true,
+      "insight": "Reflecting on personal growth, along with embarking on a final project, represents a significant milestone in graduate education, emphasizing the progress students make over time.",
+      "tone": "bittersweet"
+    }
+  }
+}

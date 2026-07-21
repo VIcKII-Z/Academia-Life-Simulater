@@ -1,0 +1,244 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United Kingdom",
+    "city": "Edinburgh"
+  },
+  "major": "MS in Game Design",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United Kingdom",
+    "city": "Edinburgh",
+    "school": "University of Edinburgh",
+    "department": "Game Design",
+    "program": "MS in Game Design",
+    "major": "MS in Game Design",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Edinburgh is known for its relatively high cost of living compared to other UK cities. Expenses such as accommodation, food, and transportation can be significant, especially in central areas. Students should budget accordingly to manage these costs effectively.",
+    "academic": "The University of Edinburgh offers courses related to game design, such as the 'Game Design Studio' course, which focuses on non-linear design scenarios pertinent to computer games. However, a dedicated MS in Game Design program is not available. Prospective students may need to consider related programs or courses to fulfill their academic goals.",
+    "visa": "International students planning to study in the UK must obtain a Student visa. The University of Edinburgh provides guidance on visa applications and requirements through its International Office. It's essential to ensure all documentation is accurate and submitted timely to avoid delays.",
+    "culture_shock": "Moving to Edinburgh may present cultural adjustments, including adapting to local customs, language nuances, and social norms. The university offers orientation programs and support services to help international students acclimate to their new environment.",
+    "community": "The University of Edinburgh boasts a diverse student body and numerous societies and clubs, including those related to gaming and digital media. Engaging with these groups can provide a sense of belonging and support during your studies.",
+    "career": "Edinburgh has a vibrant gaming industry, with several game development studios and tech companies. Graduates with skills in game design and development have opportunities in various sectors, including entertainment, education, and technology.",
+    "safety": "Edinburgh is generally considered a safe city with low crime rates. The university has security measures in place, and students are advised to stay informed about safety protocols and resources available on campus.",
+    "climate": "Edinburgh experiences a temperate maritime climate, characterized by cool summers and mild winters. Rain is common throughout the year, so it's advisable to have appropriate clothing for wet and variable weather conditions.",
+    "part_time_work": "International students on a Student visa are typically allowed to work up to 20 hours per week during term time and full-time during holidays. The university's career services can assist in finding suitable part-time employment opportunities."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adjusting to Edinburgh's cool and wet climate may affect physical well-being; appropriate clothing and self-care are essential.",
+      "Managing stress from academic pressures and cultural adjustments is crucial for maintaining mental health.",
+      "Access to healthcare services is available through the National Health Service (NHS); students should register with a local GP upon arrival."
+    ],
+    "mood": [
+      "Engaging with university societies and clubs can alleviate feelings of isolation and enhance social connections.",
+      "Participating in cultural events and exploring the city can enrich the study-abroad experience and reduce homesickness.",
+      "Balancing academic responsibilities with leisure activities is important for overall well-being and preventing burnout."
+    ],
+    "money": [
+      "Budgeting for higher living expenses in Edinburgh is necessary to avoid financial strain.",
+      "Seeking part-time employment can supplement income but requires effective time management to balance work and studies.",
+      "Exploring scholarship and funding opportunities offered by the university can alleviate financial burdens."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the absence of a dedicated MS in Game Design program may require identifying alternative courses or programs to meet educational objectives.",
+      "Building a professional network within Edinburgh's gaming industry is essential for career development but may require proactive outreach.",
+      "Adapting to different teaching styles and academic expectations in the UK education system can be challenging for international students.",
+      "Securing suitable accommodation within budget constraints in a high-cost city like Edinburgh requires early planning.",
+      "Understanding and complying with UK visa regulations and work permissions is critical to avoid legal issues.",
+      "Managing time effectively between academic commitments, part-time work, and social activities is vital for success and well-being."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": false,
+    "department_official": false,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "MS in Game Design",
+    "degree_type": "Master of Science",
+    "department": "Edinburgh College of Art",
+    "duration": "1 year",
+    "delivery_mode": "Full-time",
+    "visa_eligible_notes": "International students are eligible for a Student visa to pursue full-time postgraduate studies in the UK.",
+    "curriculum": [
+      "Game Design Studio (ARCH11254): Focuses on non-linear design scenarios pertinent to computer games."
+    ],
+    "milestones": [
+      "Completion of core courses and electives.",
+      "Submission of a final project or dissertation."
+    ],
+    "prerequisites": [
+      "A relevant undergraduate degree or equivalent professional experience.",
+      "Proficiency in English language as per university requirements."
+    ],
+    "admissions": [
+      "Submission of an online application through the university's portal.",
+      "Provision of academic transcripts, references, and a personal statement."
+    ],
+    "deadlines": [
+      "Application deadlines vary; prospective students should consult the university's admissions page for specific dates."
+    ],
+    "funding": [
+      "Various scholarships and funding opportunities are available; applicants are encouraged to explore options through the university's funding database."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "The university offers a range of accommodation options, including university-managed residences and assistance with private housing.",
+    "commute": "Edinburgh has an efficient public transportation system, and many students find cycling or walking convenient for commuting.",
+    "campus_support": "Comprehensive support services are available, including academic advising, counseling, and career services.",
+    "community": "A vibrant student community with numerous societies and clubs catering to diverse interests.",
+    "safety": "The university has dedicated security services and provides resources to ensure student safety on and off campus.",
+    "climate": "Students should be prepared for variable weather conditions and equip themselves with appropriate attire."
+  },
+  "career_profile": {
+    "local_industry": "Edinburgh hosts a thriving gaming industry with several game development studios and tech companies.",
+    "internship": "Opportunities for internships are available through university partnerships and local industry connections.",
+    "work_authorization": "International students can work part-time during studies and full-time during holidays, subject to visa regulations.",
+    "language_or_networking_requirements": "Proficiency in English is essential; networking through university events and local meetups is beneficial.",
+    "notable_employers": [
+      "Rockstar North",
+      "Outplay Entertainment",
+      "Blazing Griffin"
+    ],
+    "recruiting_events": [
+      "Edinburgh Game Symposium",
+      "Scottish Games Week"
+    ],
+    "alumni_outcomes": [
+      "Graduates have secured positions in leading game development studios and pursued entrepreneurial ventures in the gaming industry."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Game Design Studio",
+        "code": "ARCH11254",
+        "note": "Focuses on non-linear design scenarios pertinent to computer games.",
+        "url": "https://www.drps.ed.ac.uk/25-26/dpt/cxarch11254.htm"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Sandy Louchart",
+        "title": "Research Associate in Game Design",
+        "research_area": "Serious Games and Interactive Digital Narratives",
+        "url": "https://www.business-school.ed.ac.uk/staff/sandy-louchart"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Main Library",
+        "note": "The central library offering extensive resources across disciplines.",
+        "url": "https://www.ed.ac.uk/information-services/library-museum-gallery/using-library/lib-locate/main-library"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "History and Games Society",
+        "note": "A student group focusing on fostering a university community and introducing students to the world of game design.",
+        "url": "https://historyandgames.shca.ed.ac.uk/about/"
+      }
+    ],
+    "events": [
+      {
+        "name": "Game Nights/Jams",
+        "note": "Regular events hosted by the History and Games Lab for game design and playtesting.",
+        "url": "https://historyandgames.shca.ed.ac.uk/about/"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Game Design Studio (ARCH11254)",
+      "url": "https://www.drps.ed.ac.uk/25-26/dpt/cxarch11254.htm",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "History and Games Lab at the University of Edinburgh",
+      "url": "https://historyandgames.shca.ed.ac.uk/about/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "community",
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "Sandy Louchart – University of Edinburgh Business School",
+      "url": "https://www.business-school.ed.ac.uk/staff/sandy-louchart",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "Main Library – University of Edinburgh",
+      "url": "https://www.ed.ac.uk/information-services/library-museum-gallery/using-library/lib-locate/main-library",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "International Students – University of Edinburgh",
+      "url": "https://www.ed.ac.uk/studying/international",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "part_time_work"
+      ]
+    },
+    {
+      "title": "Careers Service – University of Edinburgh",
+      "url": "https://www.ed.ac.uk/careers",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "part_time_work"
+      ]
+    },
+    {
+      "title": "Accommodation Services – University of Edinburgh",
+      "url": "https://www.ed.ac.uk/accommodation-services",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "Tuition Fees – University of Edinburgh",
+      "url": "https://www.ed.ac.uk/tuition-fees",
+      "source_type": "tuition",
+      "confidence": "high",
+      "used_for": [
+        "cost_of_living"
+      ]
+    }
+  ],
+  "gaps": [
+    "No dedicated MS in Game Design program found; information pertains to related courses and resources.",
+    "Specific details on program milestones and prerequisites are generalized due to the absence of a dedicated program.",
+    "Limited information on student forums and firsthand experiences; prospective students are encouraged to reach out to current students or alumni for insights."
+  ]
+}

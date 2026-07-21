@@ -1,0 +1,246 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United Kingdom",
+    "city": "Oxford"
+  },
+  "major": "Mathematical Sciences",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "school": "University of Oxford",
+    "department": "Mathematical Institute",
+    "program": "MSc in Mathematical Sciences (OMMS)",
+    "major": "Mathematical Sciences",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Oxford is known for its high cost of living, with accommodation being particularly expensive. Students should budget for housing, food, transportation, and personal expenses accordingly.",
+    "academic": "The OMMS program offers a broad and flexible training in mathematical sciences, allowing students to tailor their studies to their interests. The curriculum includes courses from the Mathematical Institute and the Department of Statistics, covering topics from number theory to machine learning.",
+    "visa": "International students must obtain a Student visa to study in the UK. The University of Oxford provides guidance on the application process, and students should ensure they meet all requirements, including financial proof and English language proficiency.",
+    "culture_shock": "Adjusting to life in Oxford may involve cultural differences, especially for international students. The university offers orientation programs and support services to help students acclimate to the new environment.",
+    "community": "The Mathematical Institute fosters a strong sense of community with various social opportunities, including societies, open workspaces, and networking events. OMMS students are paired with undergraduate buddies to facilitate integration.",
+    "career": "Graduates of the OMMS program are well-prepared for careers in academia, research, and industry. The university's career services offer support in job placement, internships, and networking opportunities.",
+    "safety": "Oxford is generally considered a safe city, with low crime rates. The university has security measures in place, and students are advised to stay informed about safety protocols.",
+    "climate": "Oxford experiences a temperate maritime climate, with mild summers and cool winters. Rain is common throughout the year, so students should be prepared for variable weather conditions.",
+    "part_time_work": "International students on a Student visa are typically allowed to work up to 20 hours per week during term time and full-time during vacations. It's important to balance work commitments with academic responsibilities."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adapting to frequent rainy weather may affect physical health and mood.",
+      "Balancing rigorous coursework with adequate sleep is essential to prevent burnout.",
+      "Access to the university's health services provides support for medical needs."
+    ],
+    "mood": [
+      "Engaging in university societies can alleviate feelings of isolation.",
+      "Academic pressure may lead to stress; utilizing support services is beneficial.",
+      "Cultural differences may cause initial discomfort but can lead to personal growth."
+    ],
+    "money": [
+      "High accommodation costs require careful financial planning.",
+      "Part-time work opportunities can supplement income but must be balanced with studies.",
+      "Scholarships and funding options are available but competitive."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the extensive course options to tailor the program to individual interests.",
+      "Managing time effectively between coursework, research, and social activities.",
+      "Adapting to the tutorial-based teaching style unique to Oxford.",
+      "Building a professional network in a new cultural and academic environment.",
+      "Securing affordable housing in a competitive rental market.",
+      "Understanding and complying with UK visa regulations and work permissions.",
+      "Accessing and utilizing the university's extensive library and research resources.",
+      "Participating in collaborative projects with peers from diverse backgrounds."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "MSc in Mathematical Sciences (OMMS)",
+    "degree_type": "Master of Science",
+    "department": "Mathematical Institute",
+    "duration": "9 months",
+    "delivery_mode": "Full-time",
+    "visa_eligible_notes": "International students are eligible for a Student visa to pursue this program.",
+    "curriculum": [
+      "Courses from the Mathematical Institute and the Department of Statistics.",
+      "Topics include number theory, geometry, algebra, mathematical physiology, geoscience, and machine learning."
+    ],
+    "milestones": [
+      "Completion of at least six units of courses.",
+      "Submission of a dissertation worth two units."
+    ],
+    "prerequisites": [
+      "A strong background in mathematics or a related field.",
+      "Proficiency in English at the higher level required by the university."
+    ],
+    "admissions": [
+      "Applications open in September of the preceding year.",
+      "Submission of a statement of purpose/personal statement is required."
+    ],
+    "deadlines": [
+      "Specific deadlines are provided on the university's admissions page."
+    ],
+    "funding": [
+      "Various scholarships are available for postgraduate study at the Mathematical Institute."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Accommodation options include university-owned residences and private rentals, with university housing being competitive.",
+    "commute": "Oxford is a compact city, and most university facilities are within walking or cycling distance.",
+    "campus_support": "The university offers a range of support services, including academic advising, mental health counseling, and career services.",
+    "community": "A vibrant student community with numerous societies, clubs, and events catering to diverse interests.",
+    "safety": "The university has dedicated security services and provides safety resources for students.",
+    "climate": "Mild summers and cool, wet winters; students should be prepared for frequent rain."
+  },
+  "career_profile": {
+    "local_industry": "Oxford has a strong presence in education, research, and technology sectors.",
+    "internship": "Opportunities are available through university partnerships and local organizations.",
+    "work_authorization": "Student visa holders can work part-time during term and full-time during vacations.",
+    "language_or_networking_requirements": "Proficiency in English is essential; networking opportunities are abundant through university events.",
+    "notable_employers": [
+      "Barclays Capital",
+      "Goldman Sachs",
+      "J.P. Morgan",
+      "Morgan Stanley",
+      "UBS"
+    ],
+    "recruiting_events": [
+      "University career fairs",
+      "Industry networking events",
+      "On-campus recruitment sessions"
+    ],
+    "alumni_outcomes": [
+      "Many graduates pursue careers in academia, research, and various industries, including finance and technology."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Mathematical Physiology",
+        "code": "OMMS-MP",
+        "note": "Focuses on modeling physiological processes using mathematical methods.",
+        "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study/msc-courses/msc-mathematical-sciences-omms"
+      },
+      {
+        "title": "Machine Learning",
+        "code": "OMMS-ML",
+        "note": "Covers algorithms and statistical models for machine learning applications.",
+        "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study/msc-courses/msc-mathematical-sciences-omms"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Dr. Kathryn Gillow",
+        "title": "Course Director",
+        "research_area": "Mathematical Sciences",
+        "url": "https://www.maths.ox.ac.uk/people/kathryn.gillow"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Whitehead Library",
+        "note": "Houses an extensive collection of mathematical books and journals.",
+        "url": "https://www.maths.ox.ac.uk/members/library"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Oxford University Mathematical Society",
+        "note": "Organizes talks, social events, and mathematical competitions.",
+        "url": "https://oums.soc.srcf.net/"
+      }
+    ],
+    "events": [
+      {
+        "name": "Mathematical Institute Colloquia",
+        "note": "Regular lectures by leading mathematicians on various topics.",
+        "url": "https://www.maths.ox.ac.uk/events/colloquia"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "MSc in Mathematical Sciences (OMMS) | Mathematical Institute",
+      "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study/msc-courses/msc-mathematical-sciences-omms",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences | Oxford University",
+      "url": "https://www.ox.ac.uk/admissions/graduate/courses/msc-mathematical-sciences",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Postgraduate Study | Mathematical Institute",
+      "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions"
+      ]
+    },
+    {
+      "title": "Graduate fees, funding and scholarship search",
+      "url": "https://www.ox.ac.uk/admissions/graduate/fees-and-funding/fees-funding-and-scholarship-search",
+      "source_type": "tuition",
+      "confidence": "high",
+      "used_for": [
+        "funding"
+      ]
+    },
+    {
+      "title": "International Student Office | University of Oxford",
+      "url": "https://www.ox.ac.uk/students/visa",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa"
+      ]
+    },
+    {
+      "title": "Accommodation | University of Oxford",
+      "url": "https://www.ox.ac.uk/students/life/accommodation",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing"
+      ]
+    },
+    {
+      "title": "Careers Service | University of Oxford",
+      "url": "https://www.careers.ox.ac.uk/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career"
+      ]
+    }
+  ],
+  "gaps": [
+    "No specific program handbook was found; information was gathered from program and department official pages.",
+    "Limited information on student forums regarding the OMMS program; insights are based on official sources."
+  ]
+}

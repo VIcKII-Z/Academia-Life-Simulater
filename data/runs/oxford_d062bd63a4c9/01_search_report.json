@@ -1,0 +1,302 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United Kingdom",
+    "city": "Oxford"
+  },
+  "major": "Mathematical Sciences",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "school": "University of Oxford",
+    "department": "Mathematical Institute",
+    "program": "MSc in Mathematical Sciences",
+    "major": "Mathematical Sciences",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Oxford is known for its high cost of living, with accommodation being particularly expensive. Students should budget carefully for housing, food, and other daily expenses.",
+    "academic": "The MSc in Mathematical Sciences offers a broad and flexible curriculum, allowing students to tailor their studies to their interests. The program includes a mix of lectures, classes, and a dissertation component.",
+    "visa": "International students will need to obtain a Student visa to study in the UK. The University provides guidance on the application process and requirements.",
+    "culture_shock": "Adjusting to life in Oxford may involve cultural differences, especially for international students. The University offers support services to help with this transition.",
+    "community": "The Mathematical Institute fosters a strong sense of community, with various societies and events that encourage student interaction and support.",
+    "career": "Graduates of the program have pursued careers in academia, finance, technology, and other sectors. The University offers career services to assist with job placement and networking.",
+    "safety": "Oxford is generally considered a safe city, but students are advised to stay informed about local safety guidelines and resources.",
+    "climate": "Oxford experiences a temperate maritime climate, with mild summers and cool winters. Students should be prepared for variable weather conditions.",
+    "part_time_work": "Students on a Student visa are typically allowed to work part-time during term and full-time during vacations, subject to certain restrictions."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from rigorous academic workload.",
+      "Adjusting to the UK's healthcare system.",
+      "Coping with variable weather conditions affecting well-being."
+    ],
+    "mood": [
+      "Experiencing culture shock and homesickness.",
+      "Building a new social network in an unfamiliar environment.",
+      "Balancing academic pressures with personal life."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Oxford.",
+      "Seeking part-time employment opportunities.",
+      "Managing costs associated with academic materials and resources."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the competitive academic environment of Oxford.",
+      "Engaging with a diverse and international student body.",
+      "Accessing specialized mathematical resources and libraries.",
+      "Participating in research opportunities and seminars.",
+      "Adapting to the tutorial-based teaching style.",
+      "Exploring housing options within proximity to the Mathematical Institute."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": true,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "MSc in Mathematical Sciences",
+    "degree_type": "Master of Science",
+    "department": "Mathematical Institute",
+    "duration": "9 months",
+    "delivery_mode": "Full-time",
+    "visa_eligible_notes": "International students are eligible to apply for a Student visa to undertake this program.",
+    "curriculum": [
+      "Core courses in various mathematical disciplines.",
+      "Elective courses tailored to individual interests.",
+      "Dissertation component involving independent research."
+    ],
+    "milestones": [
+      "Completion of at least six units of courses.",
+      "Submission of a dissertation worth two units.",
+      "Participation in lectures and classes throughout the academic year."
+    ],
+    "prerequisites": [
+      "Strong mathematical background.",
+      "Proficiency in English (Higher level required)."
+    ],
+    "admissions": [
+      "Online application through the University's graduate admissions portal.",
+      "Submission of academic transcripts and references.",
+      "Personal statement outlining academic interests and goals."
+    ],
+    "deadlines": [
+      "Applications typically open in September for the following academic year.",
+      "Specific deadlines are provided on the University's admissions page."
+    ],
+    "funding": [
+      "Various scholarships and funding opportunities are available.",
+      "Applicants are encouraged to consult the University's funding search tool."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Accommodation options include college-provided housing and private rentals. Early application is recommended due to high demand.",
+    "commute": "Oxford is a compact city with most university facilities within walking or cycling distance. Public transportation is also available.",
+    "campus_support": "The University offers a range of support services, including academic advising, mental health resources, and career counseling.",
+    "community": "Students can join various societies and clubs, including those related to mathematics, to enhance their university experience.",
+    "safety": "The University has security services and provides safety information to students. It's advisable to stay informed about local safety measures.",
+    "climate": "Students should be prepared for frequent rain and varying temperatures, and equip themselves with appropriate clothing."
+  },
+  "career_profile": {
+    "local_industry": "Oxford has a vibrant economy with opportunities in academia, research institutions, and technology companies.",
+    "internship": "The University facilitates internships through its career services, connecting students with potential employers.",
+    "work_authorization": "International students on a Student visa can work part-time during term and full-time during vacations, subject to visa conditions.",
+    "language_or_networking_requirements": "Proficiency in English is essential. Networking opportunities are available through university events and societies.",
+    "notable_employers": [
+      "Oxford University Press",
+      "Oxford Instruments",
+      "Local tech startups"
+    ],
+    "recruiting_events": [
+      "University career fairs",
+      "Industry networking events",
+      "Departmental seminars with guest speakers"
+    ],
+    "alumni_outcomes": [
+      "Positions in academia and research.",
+      "Roles in financial institutions.",
+      "Careers in technology and data analysis."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Algebraic Topology",
+        "code": "C1.1",
+        "url": "https://courses.maths.ox.ac.uk/node/375"
+      },
+      {
+        "title": "Analytic Number Theory",
+        "code": "C1.2",
+        "url": "https://courses.maths.ox.ac.uk/node/376"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Prof. Ben Green",
+        "title": "Waynflete Professor of Pure Mathematics",
+        "research_area": "Number Theory",
+        "url": "https://www.maths.ox.ac.uk/people/ben.green"
+      },
+      {
+        "name": "Prof. Frances Kirwan",
+        "title": "Professor of Mathematics",
+        "research_area": "Algebraic Geometry",
+        "url": "https://www.maths.ox.ac.uk/people/frances.kirwan"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Whitehead Library",
+        "note": "Specialized mathematics library within the Mathematical Institute.",
+        "url": "https://www.maths.ox.ac.uk/members/library"
+      },
+      {
+        "name": "Bodleian Library",
+        "note": "One of the oldest libraries in Europe, offering extensive resources.",
+        "url": "https://www.bodleian.ox.ac.uk/"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Invariants Society",
+        "note": "Mathematics society organizing talks and social events.",
+        "url": "https://www.invariants.org.uk/"
+      },
+      {
+        "name": "Oxford University Computing Society",
+        "note": "Club for computing enthusiasts, hosting workshops and lectures.",
+        "url": "https://ox.compsoc.net/"
+      }
+    ],
+    "events": [
+      {
+        "name": "Fridays@4",
+        "note": "Weekly seminar series featuring talks on various mathematical topics.",
+        "url": "https://www.maths.ox.ac.uk/events/fridays4"
+      },
+      {
+        "name": "Oxford Mathematics Public Lectures",
+        "note": "Lectures aimed at a general audience, covering diverse mathematical subjects.",
+        "url": "https://www.maths.ox.ac.uk/events/public-lectures"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "MSc in Mathematical Sciences (OMMS) | Mathematical Institute",
+      "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study/msc-courses/msc-mathematical-sciences-omms",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile",
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26): Prelude | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/view.php?id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences | Oxford University",
+      "url": "https://www.ox.ac.uk/admissions/graduate/courses/msc-mathematical-sciences",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Postgraduate Study | Mathematical Institute",
+      "url": "https://www.maths.ox.ac.uk/study-here/postgraduate-study",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26): The Masters Course | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/view.php?chapterid=42&id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26): Introduction | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/view.php?chapterid=37&id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26) | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/tool/print/index.php?id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26): The Masters Course | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/view.php?chapterid=42&id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26): Introduction | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/view.php?chapterid=37&id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "MSc in Mathematical Sciences and MMath in Mathematics Handbook (2025-26) | Mathematical Institute",
+      "url": "https://courses.maths.ox.ac.uk/mod/book/tool/print/index.php?id=65565",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition fees and funding details were not found in the provided sources.",
+    "Detailed information on part-time work policies specific to the program was not available.",
+    "No reliable information on student forums or firsthand student experiences was found."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "storyId": "edinburgh_28bdbcdb9f98",
+  "mode": "live_search",
+  "profile": {
+    "country": "United Kingdom",
+    "city": "Edinburgh",
+    "grade": "Graduate",
+    "major": "MS in Game Design",
+    "school": "University of Edinburgh",
+    "semesters": 2,
+    "department": "Game Design",
+    "program": "MS in Game Design"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": false,
+      "maxImagesPerStory": 0
+    }
+  },
+  "startedAt": "2026-07-21T11:43:50.212Z"
+}

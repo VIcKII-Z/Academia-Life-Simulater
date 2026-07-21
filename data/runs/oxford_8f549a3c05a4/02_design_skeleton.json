@@ -1,0 +1,469 @@
+{
+  "story_id": "oxford_8f549a3c05a4",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Oxford creates shared financial challenges for all students.",
+  "user_profile": {
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "major": "Mathematical Sciences",
+    "grade": "Graduate",
+    "school": "University of Oxford",
+    "department": "Mathematical Institute",
+    "program": "MSc in Mathematical Sciences (OMMS)",
+    "semesters": 2
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "Upon arriving in **Oxford**, the impressive architecture of the **University of Oxford** greets you. Excitement mingles with nerves as you settle into your new life. The reality of **high living costs** dawns on you as you glance at the rent prices in local listings. Adapting to a new culture while managing your finances will be a balancing act.",
+      "image_prompt": "A vibrant scene of the University of Oxford, showcasing its architecture. Students are gathered talking and moving about, with signs of the season reflected.",
+      "has_image": true,
+      "insight": "Did you know? Oxford has a notoriously **high cost of living**, making budgeting crucial for students, particularly for accommodation and daily expenses.",
+      "choices": [
+        {
+          "text": "Start budgeting for accommodation costs.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 6,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Focusing on budgeting helps alleviate financial stress while settling in.",
+          "recommended": true
+        },
+        {
+          "text": "Ignore budgeting for now and explore the city.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Exploring boosts mood but increases the financial strain.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "Classes are underway, and the **Mathematical Institute** offers a rich environment for learning. You're excited about the **Machine Learning** course, but the volume of work feels overwhelming. You're still adjusting to the **tutorial** style of teaching that demands engagement and preparation. Lots of late nights ahead await you as deadlines close in.",
+      "image_prompt": "Students in a tutorial room at the Mathematical Institute, focused on intense discussion. There are mathematical tools and books on the tables.",
+      "has_image": true,
+      "insight": "Did you know? Mastering the **tutorial-based teaching style** at Oxford is essential for success in the Mathematical Sciences program as it emphasizes discussion and deep understanding.",
+      "choices": [
+        {
+          "text": "Dedicate extra hours to prepare for the next tutorial.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": 4,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Preparing can significantly enhance academic performance but at the cost of health.",
+          "recommended": true
+        },
+        {
+          "text": "Skip some study sessions for social events.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Socializing feels good but distracts from academics, potentially affecting grades.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "The dreary **Oxford weather** is affecting your mood; persistent rain makes commutes miserable. You consider joining the **Oxford University Mathematical Society** to connect with fellow students. Increased isolation might lead to burnout if you don’t make an effort to integrate with the community.",
+      "image_prompt": "A gray and rainy day in Oxford as students walk with umbrellas. A cozy student gathering at a local café in the background.",
+      "has_image": true,
+      "insight": "Did you know? Engaging in university societies can combat feelings of **isolation** and enhance your academic experience in Oxford.",
+      "choices": [
+        {
+          "text": "Join the Mathematical Society to meet new friends.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Joining a society improves mood and connections but incurs a small cost.",
+          "recommended": true
+        },
+        {
+          "text": "Stay indoors and focus solely on studies.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Staying focused may raise academic output, but neglecting social needs can hurt mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "As midterms approach, coursework piles up. A visit to **Dr. Kathryn Gillow** during office hours reveals just how far behind you are. You can sense that competition is fierce, and pressure is mounting. Stress is beginning to take a toll on your health and studies.",
+      "image_prompt": "A student sitting across Dr. Kathryn Gillow in a well-lit office, tables adorned with academic papers and books.",
+      "has_image": true,
+      "insight": "Did you know? The competitive environment in Oxford requires effective time management and proactive engagement with faculty to succeed.",
+      "choices": [
+        {
+          "text": "Seek academic advice from Dr. Gillow and catch up on studies.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -5,
+            "mood": 6,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Seeking help is productive but may tire you out physically.",
+          "recommended": true
+        },
+        {
+          "text": "Skip office hours and prioritize self-study.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "Avoiding help stands to reinforce independent studies but risks getting lost in self-doubt.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "You've had some success in your studies since joining activities and meeting faculty. However, the pressure from housing costs is becoming unbearable. Rental prices make it difficult to maintain a budget. Exploring part-time work options comes to mind; perhaps a balance is achievable?",
+      "image_prompt": "A student looking at housing listings on a laptop, concerned about rental prices on the screen.",
+      "has_image": true,
+      "insight": "Did you know? Finding affordable **housing in Oxford** can be challenging; many students seek part-time work to ease financial burdens.",
+      "choices": [
+        {
+          "text": "Apply for a part-time job to manage expenses.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 12,
+            "school": 0
+          },
+          "stat_reason": "Part-time work improves finances but may detract from study time.",
+          "recommended": true
+        },
+        {
+          "text": "Cut back on social events to save money.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": -8,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Reducing socializing can help save money but may lower morale.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "Starting your part-time job in a local café, you find that balancing work and study is quite a challenge. Your **academic performance** is improving, but sleep is suffering as you juggle duties. After long shifts, hitting the books feels increasingly difficult. Sunday nights have become a struggle for focused study.",
+      "image_prompt": "A bustling café scene with students working part-time, displaying fatigue while managing tasks.",
+      "has_image": true,
+      "insight": "Did you know? Graduate students often struggle with **balancing work and studies**; time management becomes essential to maintain both performance and health.",
+      "choices": [
+        {
+          "text": "Limit work hours to focus on study time.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -8,
+            "school": 8
+          },
+          "stat_reason": "Cutting work improves studies but impacts finances.",
+          "recommended": true
+        },
+        {
+          "text": "Continue working longer hours to earn more.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 18,
+            "school": -5
+          },
+          "stat_reason": "Longer hours relieve financial strain but can sacrifice well-being.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "You're nearing the completion of your first semester. The **dissertation** assignment looms large, and pressure is mounting. Coping strategies such as seeking out counseling services, and discussing workloads with peers, can help maintain balance, but they also demand time and effort.",
+      "image_prompt": "A student sitting at a desk, reviewing notes with a nervous expression, surrounded by papers.",
+      "has_image": true,
+      "insight": "Did you know? Seeking academic and mental health support is crucial to manage the stresses associated with dissertation work and transition into a new environment.",
+      "choices": [
+        {
+          "text": "Utilize university counseling services for support.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Using support can boost morale and mental health, although it incurs minor expenses.",
+          "recommended": true
+        },
+        {
+          "text": "Try to handle stress alone without external help.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Going it alone raises the risk of burnout while studying for the dissertation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "As the end of the semester approaches, a winter chill sets in. After a series of final exams, the holiday season offers a little respite. However, your housing situation remains precarious, with rising prices. Networking events are on the horizon, presenting either professional opportunities or further stress.",
+      "image_prompt": "A wintry scene in Oxford, snow lightly covering the ground, students visiting a festive market with holiday lights.",
+      "has_image": true,
+      "insight": "Did you know? The winter holiday season can dampen spirits in Oxford due to cold weather and pressure to secure affordable housing during breaks.",
+      "choices": [
+        {
+          "text": "Attend a networking event for potential internships.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Networking can lead to opportunities and improve mood, but it adds pressure to succeed.",
+          "recommended": true
+        },
+        {
+          "text": "Stay home and avoid the social stress.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Avoiding events removes social pressure but risks missing opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "The networking event is buzzing with energy. You find yourself interacting with potential employers like **Goldman Sachs** and **J.P. Morgan**. Building connections feels rewarding, but self-doubt creeps in as you realize how competitive the job market is. This external pressure adds to the existing challenges you're facing.",
+      "image_prompt": "Students engaging at a professional networking event, surrounded by corporate representatives, a positive atmosphere but slight nervousness present.",
+      "has_image": true,
+      "insight": "Did you know? Engaging with potential employers during networking events is crucial for building professional opportunities, especially in a competitive job market.",
+      "choices": [
+        {
+          "text": "Follow up with potential employers post-event.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0,
+            "school": 2
+          },
+          "stat_reason": "Following up can reap benefits for future internships and jobs, offering a boost in confidence.",
+          "recommended": true
+        },
+        {
+          "text": "Forget networking; focus on academic work instead.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": -8,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing solely on academics can enhance grades but ignore career opportunities.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "scene",
+      "scene_text": "As your second semester begins, it's time to focus on your **dissertation**. The idea of blending theory with practical research is daunting yet exciting. Leveraging support from your advisor, you can refine your topic and carve a path through this demanding period to ensure a strong conclusion to your program.",
+      "image_prompt": "A focused student reviewing dissertation notes amidst books and graphs, a feeling of determination is in the air.",
+      "has_image": true,
+      "insight": "Did you know? Dissertation projects are a crucial component of graduate study at Oxford, blending theoretical knowledge with practical application.",
+      "choices": [
+        {
+          "text": "Consult closely with your advisor for guidance.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 6,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Using faculty resources can refine your dissertation focus and improve academic confidence.",
+          "recommended": true
+        },
+        {
+          "text": "Work independently without faculty guidance.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Independence may feel strong but requires careful management to avoid potential missteps.",
+          "recommended": false
+        }
+      ]
+    },
+    "node11": {
+      "type": "scene",
+      "scene_text": "The dissertation deadline grows closer, and your rhythm is picking up. Celebrations of your work's progress bring a brief reprieve, but the looming pressures of imbalanced health arise. As the final weeks pass, you're collectively managing your academic responsibilities with well-being, a tricky balance to master.",
+      "image_prompt": "A student balancing books and a laptop in a cozy corner, with an atmosphere of productivity and slight stress.",
+      "has_image": true,
+      "insight": "Did you know? Graduate students often face significant pressure in the final stages of dissertation completion, emphasizing a need for well-being management.",
+      "choices": [
+        {
+          "text": "Implement a strict self-care routine to maintain health.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Self-care supports health while working hard towards the dissertation goal.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize dissertation work over health needs.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Narrowing focus may yield academic rewards but at possible health costs.",
+          "recommended": false
+        }
+      ]
+    },
+    "node12": {
+      "type": "scene",
+      "scene_text": "With the dissertation finally submitted, relief washes over you. Graduation looms on the horizon, mixed with excitement and uncertainty. The balance of work, study, and ventures into future opportunities has equipped you for a world outside academia. Now it's time to secure your next step in your career journey.",
+      "image_prompt": "A graduate looking at a graduation cap in hand with a mix of joy and contemplation, the setting is outdoor and celebratory.",
+      "has_image": true,
+      "insight": "Did you know? Graduates from Oxford are well-prepared to pursue diverse **career paths**, with strong networks and resources at their disposal.",
+      "choices": [
+        {
+          "text": "Reach out to networks built during studies.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Leveraging connections can lead to fulfilling opportunities and productive career networking.",
+          "recommended": true
+        },
+        {
+          "text": "Use this time for a relaxing break before job hunting.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Taking a break replenishes health but could delay professional development.",
+          "recommended": false
+        }
+      ]
+    },
+    "node13": {
+      "type": "scene",
+      "scene_text": "In the weeks following graduation, you land an interview with **Morgan Stanley** through your networking efforts. This opportunity represents not just a job but the fulfillment of hard work over the last two semesters. You prepare thoroughly, knowing that your experience and skills from the MSc in Mathematical Sciences will now be put to the ultimate test.",
+      "image_prompt": "A student preparing for an interview at a desk with notes and a laptop, an aura of both anxiety and excitement fills the scene.",
+      "has_image": true,
+      "insight": "Did you know? Networking during studies plays a significant role in securing job opportunities upon graduation, especially in competitive sectors.",
+      "choices": [
+        {
+          "text": "Prepare thoroughly for the interview.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Preparedness increases chances of success but adds pressure in the final push.",
+          "recommended": true
+        },
+        {
+          "text": "Go in relaxed, trusting your skills.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "A relaxed mindset can ease anxiety but risks under-preparation.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "The journey through your MSc in Mathematical Sciences has transformed you. From the initial challenges of acclimatizing to a new city to becoming a confident graduate with a promising job in finance, each moment has shaped your future. You feel hopeful about the new adventures that await and proud of the hurdles you've overcome.",
+      "image_prompt": "A cheerful graduate celebrating amongst classmates at University of Oxford, holding a diploma with smiles all around.",
+      "has_image": true,
+      "insight": "Did you know? Graduating from Oxford presents numerous opportunities, paving the way for a future regardless of discipline pursued.",
+      "tone": "hopeful"
+    },
+    "node14": {
+      "scene_text": "The interview goes well, and the job offer from **Morgan Stanley** comes shortly after. As you reflect on the last nine months, it strikes you how much you've grown, both academically and personally. The experiences shared with peers and faculty, the challenges overcome, and the skills acquired leave you equipped for life ahead. You're ready to take on the next chapter.",
+      "image_prompt": "A proud graduate holding an offer letter with an air of triumph in a bright, sunny setting, representing the start of a new journey.",
+      "has_image": true,
+      "insight": "Did you know? Graduating from a prestigious program like Oxford equips students with valuable skills for thriving in various industries.",
+      "recommended": false,
+      "tone": "bittersweet"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "storyId": "oxford_8f549a3c05a4",
+  "mode": "live_search",
+  "profile": {
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "grade": "Graduate",
+    "major": "MS in Math",
+    "school": "University of Oxford",
+    "semesters": 2,
+    "department": "Math",
+    "program": "MS in Math"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": false,
+      "maxImagesPerStory": 0
+    }
+  },
+  "startedAt": "2026-07-21T11:24:52.676Z"
+}

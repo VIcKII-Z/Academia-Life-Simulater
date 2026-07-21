@@ -1,0 +1,369 @@
+{
+  "story_id": "oxford_d062bd63a4c9",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Oxford creates similar financial challenges for all students.",
+  "user_profile": {
+    "country": "United Kingdom",
+    "city": "Oxford",
+    "major": "Mathematical Sciences",
+    "grade": "Graduate",
+    "school": "University of Oxford",
+    "department": "Mathematical Institute",
+    "program": "MSc in Mathematical Sciences",
+    "semesters": 2
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "introduction",
+      "scene_text": "Arriving in **Oxford**, you take in the historic architecture and vibrant student life that surrounds you. However, you also feel the weight of **expensive accommodation** costs looming over your budget. As you settle into your new environment at the **Mathematical Institute**, thoughts of your first few weeks of the MSc in Mathematical Sciences swirl in your mind. You're both excited and anxious about the challenges ahead.",
+      "image_prompt": "A vibrant view of Oxford city with historic architecture, students walking with backpacks and an air of excitement mixed with anxiety.",
+      "has_image": true,
+      "insight": "Oxford's cost of living is notoriously high, particularly for housing, which can be a significant source of stress for new students.",
+      "choices": [
+        {
+          "text": "Seek out information on accommodation and budget.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Researching accommodation options helps reduce initial anxiety but can incur costs for viewing fees.",
+          "recommended": true
+        },
+        {
+          "text": "Join a campus event to socialize and network.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Socializing is beneficial for mood, but attending events may also come with additional costs.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "transition",
+      "scene_text": "After settling into your accommodation, the reality of living in Oxford starts to sink in. With **high expenses and rigorous coursework** on the horizon, you feel the pressure to balance your studies and finances. Class schedules are intense, with a mix of **core and elective courses** tailored to your interests. You visit the **Whitehead Library** to familiarize yourself with its resources.",
+      "image_prompt": "A student studying at a desk in the Whitehead Library, surrounded by mathematics books and notes, conveying a scholarly atmosphere.",
+      "has_image": true,
+      "insight": "Familiarity with specialized libraries like the Whitehead Library is crucial for academic success, particularly in a subject like Mathematics.",
+      "choices": [
+        {
+          "text": "Allocate time for studying and attending library workshops.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Prioritizing study resources can boost academic standing but may impact your health due to reduced leisure time.",
+          "recommended": true
+        },
+        {
+          "text": "Plan a budget-friendly meal with new friends.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Socializing over meals enhances mood, but can be costly, impacting your financial situation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "challenge",
+      "scene_text": "As lectures begin, the pace quickly accelerates, and **culture shock** sets in. You find communicating with peers slightly challenging due to their unique dialects and expressions. Engaging in group discussions becomes a testing ground for your communication skills, and there's a nagging thought about whether you'll fit in here. The pressure impacts your mood, making it harder to concentrate during lectures.",
+      "image_prompt": "A classroom setting where students are engaged in discussion while one student looks slightly overwhelmed, depicting the challenges of cultural adjustment.",
+      "has_image": true,
+      "insight": "Culture shock often affects students adapting to different dialects and expressions, particularly in diverse settings like Oxford.",
+      "choices": [
+        {
+          "text": "Join a cultural adaptation workshop offered by the University.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Participating in workshops can alleviate culture shock but may involve fees, impacting your budget.",
+          "recommended": true
+        },
+        {
+          "text": "Attend a meeting of the Invariants Society.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Networking with fellow students through society meetings boosts morale, though there's still a minor cost.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "academic pressure",
+      "scene_text": "The next weeks are filled with deadlines and assignments, particularly for your **Analytic Number Theory** course, where the first problem set is due soon. You feel pressured to excel, but late nights studying leave you fatigued. Colleagues suggest forming study groups to collaborate and alleviate some of the stress, providing a sense of community amid the pressure.",
+      "image_prompt": "A group of students collaborating on a mathematics problem set, surrounded by notebooks and calculators, with a sense of urgency in the atmosphere.",
+      "has_image": true,
+      "insight": "Collaboration in study groups can significantly ease the pressure of rigorous coursework typical in master's programs like Mathematical Sciences.",
+      "choices": [
+        {
+          "text": "Join a study group to tackle upcoming assignments.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Working with peers can improve academic performance and morale, though it might lead to fatigue.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize self-study only and skip the group sessions.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing only on self-study may harm health and mood due to isolation, although it gives a slight academic boost.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "social adjustment",
+      "scene_text": "Joining the study group helps, but the challenge of balancing academics and social life remains. The **Fridays@4 seminar** is coming up, and attending could enhance both your understanding and social network. However, going requires time, which might cut into study hours right before exams. You're faced with conflicting priorities.",
+      "image_prompt": "A tense moment where a student weighs attending a seminar or studying alone, books and notes scattered around, showing the difficulty of balancing commitments.",
+      "has_image": true,
+      "insight": "Balancing academic priorities with social engagements is common among graduate students and can create significant stress.",
+      "choices": [
+        {
+          "text": "Attend the Fridays@4 seminar for networking and knowledge.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Networking opportunities can enhance academic understanding, despite the sacrifice of study time.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the seminar to focus on preparation for exams.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Concentrating on studies may offer short-term academic gains but can negatively impact social connections.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "career planning",
+      "scene_text": "As the semester progresses, you learn about various **career services** at the University designed to support your job search. You consider attending an upcoming career fair targeting mathematical sciences, which may offer insights into internships and job opportunities. Yet, you know you'll need to manage your budget carefully to afford transportation and materials.",
+      "image_prompt": "A career fair setting with banners and students interacting with potential employers, showing a vibrant yet competitive job environment.",
+      "has_image": true,
+      "insight": "Career services and networking opportunities at universities are critical for students in fields like mathematics to secure future employment.",
+      "choices": [
+        {
+          "text": "Invest in attending the career fair to explore opportunities.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Attending fairs can boost career prospects significantly but requires financial investment.",
+          "recommended": true
+        },
+        {
+          "text": "Seek part-time work instead to increase monthly income.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "While obtaining a job increases funds temporarily, the added workload can diminish health and mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "review and reflection",
+      "scene_text": "The career fair proves beneficial, and you leave feeling motivated with new connections and insights. However, you realize your **Balance of academic, social**, and financial health has been precarious, and maintaining it demands ongoing attention. You decide to reflect on your priorities and consider how to sustain a healthier lifestyle moving forward.",
+      "image_prompt": "A thoughtful student reflecting quietly in a park, surrounded by nature, symbolizing a moment of introspection amidst bustling life.",
+      "has_image": true,
+      "insight": "Graduate students often experience the challenge of managing multiple priorities, which can affect their overall well-being, necessitating regular self-reflection.",
+      "choices": [
+        {
+          "text": "Set specific goals for your studies and personal life.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Goal-setting can boost both morale and academic performance while promoting a balanced life.",
+          "recommended": true
+        },
+        {
+          "text": "Continue with your current haphazard approach.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Maintaining unclear priorities can lead to greater stress and declining performance in both academic and personal realms.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "endurance test",
+      "scene_text": "With a clearer focus on your goals, the semester presses on, and **dissertation planning** looms large. As deadlines near for course submissions, you find yourself juggling final assignments while gathering resources for your dissertation topic. You visit the **Bodleian Library** to access critical references, knowing this will require tackling the winter chill as Oxford's weather turns colder.",
+      "image_prompt": "A student bundled up, entering the Bodleian Library, determined yet slightly apprehensive about tackling the daunting dissertation.",
+      "has_image": true,
+      "insight": "The onset of winter can be a challenging time for students, often impacting both health and academic focus during critical project periods.",
+      "choices": [
+        {
+          "text": "Dedicate evenings to research at the library despite the cold.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Persevering through difficult weather for academic rewards can improve school performance at a health cost.",
+          "recommended": true
+        },
+        {
+          "text": "Postpone library visits and work from home for comfort.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Staying home increases comfort but may lead to procrastination that can hinder academic progress.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "culmination",
+      "scene_text": "As the semester wraps up, your efforts culminate in a **final presentation** for your dissertation. With the support of peers and faculty, notably **Prof. Ben Green**, you feel ready. But, as deadlines dominate your time management, you reflect on the price you've paid in terms of health. The pressure leads to mixed feelings about the joy of learning versus the burdens of high expectations.",
+      "image_prompt": "A student presenting to a panel, alongside peers and a professor, showing a blend of determination and anxiety about the outcome.",
+      "has_image": true,
+      "insight": "Final academic assessments can elicit a mix of excitement and anxiety, especially in competitive environments like Oxford, impacting overall well-being.",
+      "choices": [
+        {
+          "text": "Celebrate with classmates after the presentation.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Celebrating achievements can boost mood and build camaraderie, though it may strain finances.",
+          "recommended": true
+        },
+        {
+          "text": "Go home to recover alone after the presentation.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Restorative time alone can help health but may contribute to feelings of isolation during significant social moments.",
+          "recommended": false
+        }
+      ]
+    },
+    "node10": {
+      "type": "conclusion",
+      "scene_text": "In the end, you reflect on your journey through the **MSc in Mathematical Sciences** at Oxford. The experience brought rigorous academic challenges and vibrant experiences, but it also illuminated the need for balance in life. With graduation on the horizon, you recognize how far you've come and appreciate the friends who supported you along the way. While the road was tough, it laid the groundwork for your future endeavors.",
+      "image_prompt": "A graduation scene with students in caps and gowns celebrating together, surrounded by the iconic architecture of Oxford.",
+      "has_image": true,
+      "insight": "Graduation represents not just an academic achievement but also personal growth, balancing the pressures of study and social life throughout the experience.",
+      "choices": [
+        {
+          "text": "Reflect on applying for jobs with newfound confidence.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Graduation brings a sense of achievement and readiness to enter the job market.",
+          "recommended": true
+        },
+        {
+          "text": "Consider pursuing further studies instead.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Further studies can enrich knowledge but may incur additional financial costs without immediate returns.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Graduation is a bittersweet moment for you, filled with joy and relief. You cherish the friendships developed during your time in Oxford and the lessons learned through the challenges faced. Looking ahead, you feel a sense of hope for your future career and the potential to make an impact in your chosen field, knowing you are equipped with invaluable experiences.",
+      "image_prompt": "A celebratory graduation scene in Oxford, with graduates throwing their caps into the air against a backdrop of the historic university buildings.",
+      "has_image": true,
+      "insight": "Graduation symbolizes the culmination of hard work, resilience, and adaptability, qualities that empower graduates as they prepare to tackle their future endeavors.",
+      "tone": "hopeful"
+    },
+    "node11": {
+      "scene_text": "As you prepare to embark on your career or further studies, the experiences and challenges faced during your time at Oxford shape your confidence moving forward. You understand the importance of resilience and adaptability, especially in a competitive field. Whether you choose to dive into the workforce or continue learning, your journey in Oxford has equipped you with the tools necessary for success.",
+      "image_prompt": "A reflective moment as a student gazes towards the future, with a sense of determination and hope, standing at a crossroads with options ahead.",
+      "has_image": true,
+      "insight": "Post-graduation, students often encounter uncertainty, but their experiences and academic networks provide them with the confidence to navigate their next steps successfully.",
+      "tone": "bittersweet"
+    }
+  }
+}
