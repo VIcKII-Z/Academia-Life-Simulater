@@ -1144,7 +1144,7 @@
 .apiKeyEditTrigger {
   position: fixed;
   top: 14px;
-  right: 16px;
+  right: 44px;
   display: flex;
   align-items: center;
   font-family: var(--font-body);
@@ -1175,7 +1175,7 @@
 .imageGenerationToggle {
   position: fixed;
   top: 68px;
-  right: 16px;
+  right: 44px;
   display: flex;
   align-items: center;
   min-width: 128px;
@@ -1268,7 +1268,7 @@
   align-items: center;
   gap: 20px;
   width: 100%;
-  padding: 10px 140px 10px 24px; /* right gutter reserves room for the fixed API-key chip */
+  padding: 10px 168px 10px 24px; /* right gutter reserves room for the fixed API-key chip */
   background: rgba(252, 250, 239, 0.86);
   backdrop-filter: saturate(1.2) blur(10px);
   border-bottom: 1px solid rgba(44, 36, 24, 0.1);
