@@ -720,13 +720,13 @@
 .admissionLetter {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 560px;
   background: #fffdf8;
-  border-radius: 18px;
+  border-radius: 10px;
   border: 1px solid rgba(44, 36, 24, 0.1);
   box-shadow: 0 24px 60px rgba(44, 36, 24, 0.35);
-  padding: 40px 36px;
-  text-align: center;
+  padding: 36px 40px 32px;
+  text-align: left;
   animation: admissionPopIn 0.55s cubic-bezier(0.22, 1.4, 0.36, 1) both;
 }
 
@@ -745,55 +745,74 @@
   }
 }
 
-.admissionSeal {
-  width: 84px;
-  height: 84px;
-  margin: 0 auto 14px;
-  border-radius: 50%;
-  border: 3px double var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--paper-deep);
-}
-
-.admissionSealIcon {
-  width: 92%;
-  height: 92%;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.admissionKicker {
+.admissionDate {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 6px;
-}
-
-.admissionTitle {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  margin: 0 0 16px;
-  color: var(--ink);
-}
-
-.admissionBody {
+  font-weight: 800;
   font-size: 1rem;
-  line-height: 1.6;
   color: var(--ink);
   margin: 0 0 14px;
 }
 
-.admissionFooter {
-  font-style: italic;
-  color: var(--ink-soft);
-  font-size: 0.9rem;
+.admissionAccentBar {
+  height: 4px;
+  background: var(--terracotta);
   margin: 0 0 24px;
+}
+
+.admissionHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.admissionSealIcon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.admissionUniversity {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 2px;
+  color: var(--ink);
+}
+
+.admissionDept {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.admissionSalutation {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+
+.admissionBody {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 0 0 26px;
+}
+
+.admissionFooterBar {
+  height: 6px;
+  background: var(--ink);
+  margin: 0 0 26px;
+}
+
+.admissionLetter .journalButtonRow {
+  justify-content: flex-start;
 }
 
 .dreamingLine {

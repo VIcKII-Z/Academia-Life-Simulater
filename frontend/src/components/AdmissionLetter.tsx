@@ -34,16 +34,22 @@ function useConfetti(count: number): ConfettiPiece[] {
 
 /**
  * Shown right after a story finishes generating/loading, before the first
- * scene node — a pixel-journal "admission letter" that pops in with a
- * confetti burst and addresses the player by the exact profile they just
- * entered (university, program, grade, city/country), so it reads like the
- * acceptance letter that kicked off this whole trip. Dismisses into the
- * first story node on click.
+ * scene node — an "official" admission-letter layout (date line, accent
+ * rule, university header with our mascot standing in for a crest,
+ * salutation, bold congratulations paragraph) styled after a real college
+ * acceptance-letter email, popping in with a confetti burst behind it and
+ * addressing the player by the exact profile they just entered (university,
+ * program, grade, city/country). Dismisses into the first story node on
+ * click.
  */
 export default function AdmissionLetter({ profile, onContinue }: { profile: UserProfile; onContinue: () => void }) {
   const confetti = useConfetti(28);
   const university = profile.school?.trim() || `a university in ${profile.city}`;
   const programLine = [profile.program, profile.major].filter(Boolean).join(" — ");
+  const today = useMemo(
+    () => new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }),
+    [],
+  );
 
   return (
     <div className="admissionOverlay">
@@ -67,23 +73,29 @@ export default function AdmissionLetter({ profile, onContinue }: { profile: User
       </div>
 
       <div className="admissionLetter">
-        <div className="admissionSeal">
+        <p className="admissionDate">{today}</p>
+        <div className="admissionAccentBar" />
+        <div className="admissionHeader">
           <img className="admissionSealIcon" src="/branding/mascot.png" alt="" />
+          <div>
+            <h2 className="admissionUniversity">{university}</h2>
+            <p className="admissionDept">Admissions &amp; Life Simulator</p>
+          </div>
         </div>
-        <p className="admissionKicker">Official Admission</p>
-        <h2 className="admissionTitle">Congratulations!</h2>
+        <p className="admissionSalutation">Dear future {profile.grade.toLowerCase()} student,</p>
         <p className="admissionBody">
-          On behalf of the Admissions Committee, we are delighted to offer you a place at{" "}
-          <strong>{university}</strong>
+          <strong>Congratulations!</strong> We are delighted to inform you that the Admissions Committee has
+          offered you a place at <strong>{university}</strong>
           {programLine ? (
             <>
               {" "}
               to pursue <strong>{programLine}</strong>
             </>
           ) : null}{" "}
-          as a <strong>{profile.grade}</strong> student in <strong>{profile.city}, {profile.country}</strong>.
+          in <strong>{profile.city}, {profile.country}</strong>. A transformative study-abroad experience
+          awaits you.
         </p>
-        <p className="admissionFooter">Your journey begins now — pack light, dream big.</p>
+        <div className="admissionFooterBar" />
         <div className="journalButtonRow">
           <button className="journalButton" onClick={onContinue}>
             Begin your story
