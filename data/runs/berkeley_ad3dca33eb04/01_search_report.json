@@ -1,0 +1,315 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "MS in Computer Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "Department of Computer Science",
+    "program": "MS in Computer Science",
+    "major": "MS in Computer Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley's cost of living is notably high, with average monthly rent for a one-bedroom apartment around $2,500. Additional expenses include utilities, groceries, and transportation, making budgeting essential for students.",
+    "academic": "The MS in Computer Science at UC Berkeley emphasizes research preparation, offering courses in areas like artificial intelligence, machine learning, and data science. Students are encouraged to engage in research projects, often leading to publications.",
+    "visa": "International students must obtain an F-1 visa, requiring proof of sufficient funds and enrollment in a full-time program. UC Berkeley's International Office provides guidance on maintaining visa status and work authorizations.",
+    "culture_shock": "Adjusting to Berkeley's diverse and fast-paced environment can be challenging. Cultural differences in communication styles and academic expectations may require adaptation.",
+    "community": "UC Berkeley offers numerous student organizations, including the Computer Science Graduate Student Association, fostering a sense of community and support among peers.",
+    "career": "The program's strong industry connections provide ample internship and job opportunities, particularly in nearby Silicon Valley. Career services offer workshops and networking events to assist with job placement.",
+    "safety": "While Berkeley is generally safe, students should remain vigilant, especially at night. The university offers safety resources, including campus escort services and emergency call boxes.",
+    "climate": "Berkeley enjoys a Mediterranean climate with mild, wet winters and dry summers. Temperatures range from 50°F in winter to 80°F in summer, providing comfortable conditions year-round.",
+    "part_time_work": "F-1 visa holders can work up to 20 hours per week on campus during semesters. Off-campus employment requires authorization, such as Curricular Practical Training (CPT) or Optional Practical Training (OPT)."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from rigorous coursework and research deadlines.",
+      "Ensuring adequate sleep amidst a demanding academic schedule.",
+      "Adapting to a new diet and food options in Berkeley.",
+      "Navigating the hilly terrain of the campus, which can be physically demanding.",
+      "Accessing healthcare services through the university's health center."
+    ],
+    "mood": [
+      "Experiencing homesickness and cultural differences.",
+      "Building a new social network in an unfamiliar environment.",
+      "Balancing academic pressures with personal well-being.",
+      "Engaging in campus activities to alleviate feelings of isolation.",
+      "Adjusting to different teaching and learning styles."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Berkeley.",
+      "Seeking on-campus employment opportunities to supplement income.",
+      "Applying for scholarships and financial aid to offset tuition costs.",
+      "Managing unexpected expenses, such as healthcare or travel.",
+      "Planning for potential costs associated with research projects or conferences."
+    ],
+    "city_major_specific_challenges": [
+      "Securing affordable housing close to campus due to high demand.",
+      "Competing for limited spots in popular computer science courses.",
+      "Navigating the competitive internship application process in Silicon Valley.",
+      "Balancing research commitments with coursework in a fast-paced environment.",
+      "Understanding and adhering to visa regulations affecting work opportunities.",
+      "Dealing with the pressure to publish research in top-tier conferences.",
+      "Managing time effectively amidst numerous academic and extracurricular commitments.",
+      "Adapting to the collaborative yet competitive culture of UC Berkeley's CS program."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": true,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Science in Computer Science",
+    "degree_type": "MS",
+    "department": "Department of Electrical Engineering and Computer Sciences",
+    "duration": "2 years",
+    "delivery_mode": "In Person",
+    "visa_eligible_notes": "Eligible for F-1 visa; requires full-time enrollment.",
+    "curriculum": [
+      "Advanced Algorithms",
+      "Machine Learning",
+      "Artificial Intelligence",
+      "Computer Systems",
+      "Data Science"
+    ],
+    "milestones": [
+      "Completion of 24 units of coursework.",
+      "Research project leading to a thesis or comprehensive exam.",
+      "Maintaining a minimum GPA of 3.0."
+    ],
+    "prerequisites": [
+      "Bachelor's degree with a minimum GPA of 3.0.",
+      "Strong foundation in computer science fundamentals.",
+      "Proficiency in programming languages."
+    ],
+    "admissions": [
+      "Statement of Purpose outlining research interests.",
+      "Personal History Statement.",
+      "Letters of Recommendation.",
+      "Transcripts from previous institutions."
+    ],
+    "deadlines": [
+      "Application deadline: December 1, 2025."
+    ],
+    "funding": [
+      "Limited departmental funding available.",
+      "Opportunities for Graduate Student Instructor positions.",
+      "External fellowships and scholarships encouraged."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus housing is limited; many students opt for off-campus apartments, which can be expensive and competitive.",
+    "commute": "Public transportation options include buses and BART; biking is also popular but requires navigating hilly terrain.",
+    "campus_support": "Resources include academic advising, mental health services, and career counseling.",
+    "community": "Diverse student organizations and events foster a vibrant campus life.",
+    "safety": "Campus police and safety programs are in place, but students should remain aware of their surroundings.",
+    "climate": "Mild climate with occasional rain in winter; comfortable for outdoor activities year-round."
+  },
+  "career_profile": {
+    "local_industry": "Proximity to Silicon Valley offers abundant opportunities in tech companies and startups.",
+    "internship": "Strong connections with industry facilitate internships in various tech sectors.",
+    "work_authorization": "F-1 students can engage in CPT and OPT with proper authorization.",
+    "language_or_networking_requirements": "Proficiency in English is essential; networking events are frequent and beneficial.",
+    "notable_employers": [
+      "Google",
+      "Apple",
+      "Facebook",
+      "Amazon",
+      "Microsoft"
+    ],
+    "recruiting_events": [
+      "UC Berkeley Career Fair",
+      "Tech Talk Series",
+      "Startup Job Fair"
+    ],
+    "alumni_outcomes": [
+      "Positions in leading tech companies.",
+      "Admission to top PhD programs.",
+      "Founding successful startups."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "CS 61A: Structure and Interpretation of Computer Programs",
+        "code": "CS 61A",
+        "note": "Foundational course in computer science."
+      },
+      {
+        "title": "CS 188: Introduction to Artificial Intelligence",
+        "code": "CS 188",
+        "note": "Covers fundamental AI concepts and techniques."
+      },
+      {
+        "title": "CS 170: Efficient Algorithms and Intractable Problems",
+        "code": "CS 170",
+        "note": "Focuses on algorithm design and analysis."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Stuart Russell",
+        "title": "Professor",
+        "research_area": "Artificial Intelligence"
+      },
+      {
+        "name": "Dawn Song",
+        "title": "Professor",
+        "research_area": "Computer Security"
+      },
+      {
+        "name": "Michael Jordan",
+        "title": "Professor",
+        "research_area": "Machine Learning"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Kresge Engineering Library",
+        "note": "Specializes in engineering and computer science resources."
+      },
+      {
+        "name": "Doe Memorial Library",
+        "note": "Main library with extensive collections across disciplines."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Computer Science Graduate Student Association",
+        "note": "Provides networking and professional development opportunities."
+      },
+      {
+        "name": "Women in Computer Science and Engineering",
+        "note": "Supports women pursuing careers in CS and engineering."
+      },
+      {
+        "name": "AI@Berkeley",
+        "note": "Focuses on artificial intelligence projects and discussions."
+      }
+    ],
+    "events": [
+      {
+        "name": "Cal Hacks",
+        "note": "Annual hackathon attracting participants nationwide."
+      },
+      {
+        "name": "EECS Annual Research Symposium",
+        "note": "Showcases research from students and faculty."
+      },
+      {
+        "name": "Big Give",
+        "note": "Campus-wide fundraising event supporting various programs."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Electrical Engineering & Computer Sciences MS - Berkeley Graduate Division",
+      "url": "https://grad.berkeley.edu/program/electrical-engineering-computer-sciences-ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "M.S. Student Guide - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/book/ms/",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "milestones",
+        "prerequisites"
+      ]
+    },
+    {
+      "title": "Computer Science Division - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/cs/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "notable_courses",
+        "notable_faculty"
+      ]
+    },
+    {
+      "title": "UC Berkeley International Office",
+      "url": "https://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship",
+        "recruiting_events"
+      ]
+    },
+    {
+      "title": "UC Berkeley Housing",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "commute"
+      ]
+    },
+    {
+      "title": "UC Berkeley Libraries",
+      "url": "https://www.lib.berkeley.edu/",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "libraries"
+      ]
+    },
+    {
+      "title": "UC Berkeley Student Organizations",
+      "url": "https://callink.berkeley.edu/organizations",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "clubs"
+      ]
+    },
+    {
+      "title": "UC Berkeley Events Calendar",
+      "url": "https://events.berkeley.edu/",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "events"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition costs for the MS in Computer Science program were not found; general tuition information was used.",
+    "Detailed information on student forums discussing the program was not available.",
+    "No official registry sources were found for this program."
+  ]
+}

@@ -1,0 +1,662 @@
+{
+  "story_id": "berkeley_ad3dca33eb04",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living and intense competition in Berkeley create a universally challenging environment for students.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "MS in Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "As you step off the bus on **University Avenue**, the vibrant spirit of Berkeley engulfs you. The brisk air carries a hint of **distant coffee shops** and the chatter of students. You gaze up towards the majestic **Campanile**, realizing how much **tuition** and living expenses will challenge your budget. As you head to your new apartment, you can't shake off the feelings of **excitement** mixed with anxiety.",
+      "image_prompt": "A bustling university street filled with students, with the Campanile tower in the background, vibrant fall foliage.",
+      "has_image": true,
+      "insight": "Berkeley's high cost of living requires diligent financial planning for students, especially in budgeting for housing and daily expenses.",
+      "choices": [
+        {
+          "text": "Explore local coffee shops to network with fellow students.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 2,
+            "mood": 8,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Engaging with peers helps alleviate loneliness and create connections.",
+          "recommended": true
+        },
+        {
+          "text": "Head straight to your apartment to unpack and settle in.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "While it's important to settle, you may miss opportunities to connect with others.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_opening.png"
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "You finally unpack and glance over your course schedule. The prospect of **CS 188: Introduction to Artificial Intelligence** excites you, but concerns about **affording rent** linger. You look at the chilly weather outside and realize the importance of keeping your health in check while balancing your studies. **Class starts next week**, but the apartment hunt is daunting.",
+      "image_prompt": "A cozy apartment filled with computer science books, an unmade bed, and a laptop with the campus schedule open.",
+      "has_image": true,
+      "insight": "Navigating Berkeley’s cost of living includes grappling with housing affordability and ensuring a healthy study-life balance.",
+      "choices": [
+        {
+          "text": "Start networking for a roommate or affordable housing options.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Finding a roommate can significantly reduce living costs.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on securing a loan to cover your living expenses.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": -2,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Taking on loans may relieve immediate financial pressure but increases future stress.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node2.png"
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "As classes begin, you find the pace and **workload intense**. The first week’s assignment for **CS 170: Efficient Algorithms and Intractable Problems** looms. You're starting to experience signs of **homesickness** but also try to join a few student events. Balancing academic and social lives can feel overwhelming.",
+      "image_prompt": "Students gathered around laptops in a collaborative workspace filled with textbooks and coffee mugs.",
+      "has_image": true,
+      "insight": "The rigorous coursework in UC Berkeley's CS program can elevate stress and homesickness, necessitating a strong support system.",
+      "choices": [
+        {
+          "text": "Join the 'AI@Berkeley' club to enhance your academic network.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 5
+          },
+          "stat_reason": "Joining clubs enriches your academic experience and provides social connections.",
+          "recommended": true
+        },
+        {
+          "text": "Keep to yourself to focus on assignments and studies.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Isolating may negatively impact your mood and connections.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node3.png"
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "After weeks of hard work, it's time for your first **exam in CS 61A**. Nerves flutter in your stomach, but you feel prepared. Nonetheless, the stress has taken a toll on your **health** and **mood**. The excitement of learning is now mingling with **academic pressure** as you navigate your first big challenge.",
+      "image_prompt": "A student seated at a desk, papers strewn about with a focused expression, exam papers and textbooks around.",
+      "has_image": true,
+      "insight": "Preparing for rigorous exams in graduate programs can significantly impact students' mental and physical health.",
+      "choices": [
+        {
+          "text": "Prioritize sleep to ensure you're well-rested for the exam.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Rest leads to better academic performance and overall health.",
+          "recommended": true
+        },
+        {
+          "text": "Study late into the night to cover every aspect of the material.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Overworking can harm your health and reduce effectiveness during the exam.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node4.png"
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "The exam is behind you, and results are pending. You've gained a new understanding of the challenge but realize you can't ignore the **budget** for next month. Campus events are coming up, and the prospect of networking is enticing, but attending may strain your **finances**.",
+      "image_prompt": "A notice board filled with flyers for campus events, career fairs, and networking opportunities.",
+      "has_image": true,
+      "insight": "Networking and campus involvement are crucial for career development, but students must balance financial resources carefully.",
+      "choices": [
+        {
+          "text": "Attend the UC Berkeley Career Fair to network with potential employers.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": 8,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Networking is essential for career opportunities, even at a cost.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the event to save money for essential expenses.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 5,
+            "school": 0
+          },
+          "stat_reason": "While avoiding costs is wise, you may miss valuable networking opportunities.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node5.png"
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "The career fair is bustling, with representatives from **Google**, **Apple**, and **Facebook**. You engage in conversations, although your nerves occasionally get the best of you. In the midst of excitement, thoughts of your **research project** deadlines loom larger, increasing your stress levels as you attempt to balance both opportunities.",
+      "image_prompt": "A vibrant career fair with booths, students conversing with recruiters, and banners of various tech companies.",
+      "has_image": true,
+      "insight": "Career fairs present critical networking opportunities for tech students, often leading to internships and job offers.",
+      "choices": [
+        {
+          "text": "Schedule informational interviews with recruiters you connect with.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Building connections can significantly boost future career opportunities.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on research project work instead of networking.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "While focusing on academics is important, it can limit career connections.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node6.png"
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "Eager and exhausted, you immerse yourself in your research project. With a tight deadline approaching, the pressure to publish in top-tier conferences mounts. You start to feel overwhelmed, realizing how essential it is to remain **organized** and aware of your health. Every late night can affect performance.",
+      "image_prompt": "A dimly lit room with a laptop, various papers scattered around, and a student looking stressed while typing.",
+      "has_image": true,
+      "insight": "Research commitments are rigorous and can provoke stress, highlighting the significance of time management for graduate students.",
+      "choices": [
+        {
+          "text": "Set specific hours during the week dedicated to research.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Organizing research time efficiently can improve focus and productivity.",
+          "recommended": true
+        },
+        {
+          "text": "Work sporadically whenever you get the chance, even at odd hours.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Inconsistent work patterns can lead to burnout and reduced efficiency.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node7.png"
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "After successfully submitting your research for review, a wave of relief washes over you. However, you realize you still need to balance a **part-time job** to support your living expenses. Work hours could clash with your study time, adding another layer of complexity to your schedule. Plus, **networking** commitments still need addressing.",
+      "image_prompt": "A student at a cafe typing on a laptop, with a part-time job notice on the table and textbooks beside them.",
+      "has_image": true,
+      "insight": "Securing part-time employment can provide necessary income, yet it complicates the management of academic responsibilities for students.",
+      "choices": [
+        {
+          "text": "Apply for an on-campus job to minimize commute time.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 2,
+            "mood": 5,
+            "money": 15,
+            "school": -5
+          },
+          "stat_reason": "On-campus jobs usually offer flexibility that helps with time management.",
+          "recommended": true
+        },
+        {
+          "text": "Take on additional freelance work off-campus to maximize earnings.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": -2,
+            "money": 25,
+            "school": -5
+          },
+          "stat_reason": "Freelancing can dramatically increase income but may worsen academic performance if not balanced.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node8.png"
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "With a part-time job secured, you feel a bit more financially stable, but balancing these demands while maintaining your grades is tough. You’re also eager about the **EECS Annual Research Symposium** coming up. Will you find a balance and have time to showcase your work?",
+      "image_prompt": "A busy event room filled with students presenting their research posters to groups of peers and professors.",
+      "has_image": true,
+      "insight": "Participation in research symposiums provides excellent exposure and can enhance academic profiles for graduate students.",
+      "choices": [
+        {
+          "text": "Prepare your presentation to effectively showcase your research.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Investing time into presentation can pay off in academic recognition.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the symposium to focus on your upcoming deadlines.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "While prioritizing coursework is crucial, missing the event can limit networking and recognition.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node9.png"
+    },
+    "node10": {
+      "type": "scene",
+      "scene_text": "The research symposium was a success! The feedback on your work reassured you. However, tensions rise as the semester progresses and the **finals week** approaches. You'll need to prepare for multiple exams and a possible **thesis** defense soon. You ask for help from peers, recognizing teamwork is essential.",
+      "image_prompt": "A collaborative group study scene with students sitting around a table piled with textbooks and laptops, focused on discussions.",
+      "has_image": true,
+      "insight": "Peer collaboration becomes increasingly important during finals, helping to alleviate individual stress and improve outcomes.",
+      "choices": [
+        {
+          "text": "Form a study group to keep each other accountable and prepared.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Study groups enhance accountability and support academic success during finals.",
+          "recommended": true
+        },
+        {
+          "text": "Study alone to focus better on your individual preparation.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "While solo study has its benefits, it may result in increased anxiety and isolation.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node10.png"
+    },
+    "node11": {
+      "type": "scene",
+      "scene_text": "The study group helps tremendously, and you all progress well. Finals come with intensity, but you feel prepared due to collective effort. Graduation is just around the corner. With mixed feelings of **excitement** and **apprehension**, you focus on summing up your academic journey, while the anticipated **job search** begins in earnest.",
+      "image_prompt": "A graduation ceremony with students in caps and gowns celebrating amidst a festive atmosphere, parents cheering.",
+      "has_image": true,
+      "insight": "Graduate students often experience mixed emotions of excitement and anxiety as they transition from academics to the workforce.",
+      "choices": [
+        {
+          "text": "Start applying for jobs while attending the career fair.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -5,
+            "mood": 8,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Engaging in job applications is essential for smooth transition from study to career.",
+          "recommended": true
+        },
+        {
+          "text": "Take a break to relax and celebrate your successes instead.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Taking time to relax is vital for mental health after intense study periods.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node11.png"
+    },
+    "node12": {
+      "type": "scene",
+      "scene_text": "You’ve submitted several applications to top tech companies, such as **Google** and **Microsoft**. The anticipation is exhilarating, but the pressure of potential rejection looms large as finals approach. Maintaining focus and health while preparing for **interviews** is vital to showcase your skills effectively. You've come so far but now face big decisions.",
+      "image_prompt": "A student in a business suit practicing interview skills in front of a mirror, with scattered job application materials around.",
+      "has_image": true,
+      "insight": "Job applications in high-demand sectors like tech can be mentally taxing and require excellent preparation to navigate effectively.",
+      "choices": [
+        {
+          "text": "Practice interviewing with peers to boost confidence.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Peer practice can significantly enhance interview performance and reduce anxiety.",
+          "recommended": true
+        },
+        {
+          "text": "Go it alone and prepare without outside help.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Solo preparation may limit perspectives and amp anxiety levels.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node12.png"
+    },
+    "node13": {
+      "type": "scene",
+      "scene_text": "After extensive preparation, interview day arrives. You arrive nervously at **Google's offices**, overcoming doubts as you present your skills confidently. Few get this chance, making it both exhilarating and terrifying. Regardless of the outcome, you reflect on your journey. Many late nights and hard efforts led to this moment. Will you realize your goal?",
+      "image_prompt": "A nervous student walking into a sleek corporate office building, clearly marked as Google, suit on, ready for an interview.",
+      "has_image": true,
+      "insight": "Interviews in competitive industries often involve rigorous preparation, emphasizing the importance of showcasing acquired skills effectively.",
+      "choices": [
+        {
+          "text": "Thank the employer for the opportunity and express your enthusiasm.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Expressing gratitude and enthusiasm can leave a lasting positive impression.",
+          "recommended": true
+        },
+        {
+          "text": "Keep your emotions in check to maintain professionalism.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "While professionalism is key, showing personality can enhance engagement.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node13.png"
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Your journey has underscored the importance of resilience and community. As you embark on the next phase, every lesson and connection you’ve nurtured at UC Berkeley will be woven into your future endeavors, empowering not just yourself but also those around you. Looking forward with hope, you're ready to make a meaningful difference.",
+      "image_prompt": "An expansive view of the Berkeley skyline at dusk, embodying hope and future possibilities.",
+      "has_image": true,
+      "insight": "Successful transitions are often built on perseverance and community support, shaping future opportunities and aspirations.",
+      "tone": "hopeful",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_ending.png"
+    },
+    "node14": {
+      "scene_text": "Days pass, and acceptance emails start rolling in. Your heart races as you find out you got the position! The excitement propels you forward, though the pressure of adult responsibilities intensifies. Plans for life after graduation create an array of emotions. You’re ready for the next chapter, reflecting on your growth and resilience.",
+      "image_prompt": "A student gleefully opening an acceptance email, surrounded by friends celebrating in their small apartment.",
+      "has_image": true,
+      "insight": "Success in tech roles is incredibly competitive, requiring strong resilience and adaptability from advanced degree students.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node14.png"
+    },
+    "node15": {
+      "scene_text": "As the journey comes to a close, you're flooded with memories of challenges, late nights, and growth. Graduation ceremonies behind you, you look forward to a fulfilling career ahead in tech. The skills gained and friendships forged in Berkeley will carry you as you enter the professional world, ready to make an impact.",
+      "image_prompt": "Graduates celebrating their finish with diplomas in hand, with a backdrop of Berkeley's campus blending into a sunset.",
+      "has_image": true,
+      "insight": "The transition from student to professional brings a mix of nostalgia and anticipation, as new graduates navigate their career paths.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node15.png"
+    },
+    "node16": {
+      "scene_text": "Embracing your new role, you reflect on the supportive network at UC Berkeley, the faculty’s guidance, and the friendships that helped you succeed. From turning in challenging assignments to tackling competitive job interviews, every step solidified your determination. You feel grateful for every moment, knowing it shaped your future.",
+      "image_prompt": "A new tech employee at a desk in a corporate environment, with a family photo and diploma prominently displayed.",
+      "has_image": true,
+      "insight": "Successful transitions into the tech industry often depend on the foundational experiences and networks built during graduate studies.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node16.png"
+    },
+    "node17": {
+      "scene_text": "As weeks pass in the workplace, the excitement and challenges continue. Adjusting from the academia to the corporate space is a big leap, but the tools from your graduate studies make it easier. You realize the importance of continual learning and adaptability as you navigate new challenges with confidence.",
+      "image_prompt": "An office worker engaged in group discussions, analyzing data on their laptop, surrounded by colleagues.",
+      "has_image": true,
+      "insight": "Employment in tech sectors requires continuous learning and adaptability, reflecting the dynamic nature of the industry.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node17.png"
+    },
+    "node18": {
+      "scene_text": "Over time, new opportunities arise, and you find yourself considering further learning or certification to advance your career. The spirit of Berkeley lives on; you appreciate how far you’ve come yet remain aware of the journey ahead. Life beyond campus is a realm of possibilities, ready to be explored.",
+      "image_prompt": "An employee contemplating career paths at a desk, looking at a new course announcement on their monitor with a thoughtful expression.",
+      "has_image": true,
+      "insight": "Continuous professional development is essential in tech roles to keep pace with evolving industry standards and practices.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node18.png"
+    },
+    "node19": {
+      "scene_text": "You find joy in mentoring new hires and sharing experiences from your time at Berkeley. The community you loved during your studies now resonates in your professional life. Each day brings the chance to empower others, reminding you of the collaborative spirit that made your journey possible.",
+      "image_prompt": "A mentor guiding a new employee, with a lively discussion happening in a modern office space.",
+      "has_image": true,
+      "insight": "Mentorship plays a crucial role in the tech industry, fostering a culture of support and knowledge sharing.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node19.png"
+    },
+    "node20": {
+      "scene_text": "As your career progresses, you start to reflect on your academic journey; the challenges forged your path into a rewarding career. Balancing work and personal growth, you terraform your experience to adapt to the needs of yourself and your colleagues, continuously striving for improvement.",
+      "image_prompt": "An employee in a thoughtful pose, reflecting at a desk surrounded by awards, books, and personal reminders of achievements.",
+      "has_image": true,
+      "insight": "Reflection on one's educational journey can enrich personal and professional development, enabling continuous growth.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node20.png"
+    },
+    "node21": {
+      "scene_text": "Years later, a potential promotion is on the horizon. You consider your time at Berkeley, applying those lessons learned to leadership and impact within your team. The sense of community back at UC Berkeley rejuvenates you; each challenge fostered resilience and friendship, promoting an enriching work culture.",
+      "image_prompt": "An employee preparing for an important presentation, with a dynamic team atmosphere visible in the background.",
+      "has_image": true,
+      "insight": "Leadership roles in technology benefit from academic experiences in collaborative problem-solving and teamwork.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node21.png"
+    },
+    "node22": {
+      "scene_text": "As you round off your day, the satisfaction of navigating your career path feels profound. The significance of UC Berkeley resonates within you — it was not merely an educational institution but a launchpad for your future. Reflecting on these times with gratitude drives you toward continuous exploration, personal and professional alike.",
+      "image_prompt": "A serene scene of an employee leaving the office, taking a moment to appreciate the sunset over the city skyline.",
+      "has_image": true,
+      "insight": "Reflecting on educational experiences can inspire ongoing exploration and motivation in personal and professional endeavors.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node22.png"
+    },
+    "node23": {
+      "scene_text": "Now established in your career, you often return to Berkeley to guest lecture or participate in events that inspire new students. Sharing your journey, the importance of perseverance, and embracing every opportunity is vital to you. Each interaction serves as a reminder of the supportive community that still thrives beyond graduation.",
+      "image_prompt": "An engaged speaker addressing a group of students, with a backdrop of the iconic UC Berkeley campus.",
+      "has_image": true,
+      "insight": "Alumni involvement can significantly impact current students, fostering a strong academic community and continuous knowledge sharing.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node23.png"
+    },
+    "node24": {
+      "scene_text": "As time passes, you nurture the dreams of future scholars, recalling how each step transformed your path. You stand poised to build new legacies for those following you, reaffirming the importance of education, connection, and the pursuit of knowledge — a lifelong journey touching lives, igniting passions, and cultivating communities.",
+      "image_prompt": "An inspirational scene of a former student guiding young scholars in the library, filled with books and bright energy.",
+      "has_image": true,
+      "insight": "Engaging with future generations of students can be fulfilling, showcasing the lasting impact of academic and professional journeys.",
+      "next_node": null,
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_ad3dca33eb04_node24.png"
+    }
+  },
+  "sources": [
+    {
+      "title": "Electrical Engineering & Computer Sciences MS - Berkeley Graduate Division",
+      "url": "https://grad.berkeley.edu/program/electrical-engineering-computer-sciences-ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "M.S. Student Guide - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/book/ms/",
+      "source_type": "handbook",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "milestones",
+        "prerequisites"
+      ]
+    },
+    {
+      "title": "Computer Science Division - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/cs/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "notable_courses",
+        "notable_faculty"
+      ]
+    },
+    {
+      "title": "UC Berkeley International Office",
+      "url": "https://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship",
+        "recruiting_events"
+      ]
+    },
+    {
+      "title": "UC Berkeley Housing",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "commute"
+      ]
+    },
+    {
+      "title": "UC Berkeley Libraries",
+      "url": "https://www.lib.berkeley.edu/",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "libraries"
+      ]
+    },
+    {
+      "title": "UC Berkeley Student Organizations",
+      "url": "https://callink.berkeley.edu/organizations",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "clubs"
+      ]
+    },
+    {
+      "title": "UC Berkeley Events Calendar",
+      "url": "https://events.berkeley.edu/",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "events"
+      ]
+    }
+  ]
+}

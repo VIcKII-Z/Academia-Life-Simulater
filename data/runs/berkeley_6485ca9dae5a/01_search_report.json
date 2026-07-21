@@ -1,0 +1,270 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "MS in Computer Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "Computer Science",
+    "program": "MS in Computer Science",
+    "major": "MS in Computer Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley's cost of living is notably high, with housing being a significant expense. Graduate students often find housing through university resources or in nearby areas to manage costs. Daily expenses, including food and transportation, are also above the national average.",
+    "academic": "The MS in Computer Science program at UC Berkeley emphasizes research and technical coursework. Students are required to complete a minimum of 24 units, including 10 units of 200-series EECS courses and research units. A minimum cumulative GPA of 3.0 is required overall, and a minimum cumulative GPA of 3.5 is required for technical coursework in order to graduate.",
+    "visa": "International students must obtain an F-1 visa to study in the U.S. UC Berkeley's International Office provides guidance on visa applications, maintaining status, and work authorizations such as CPT and OPT.",
+    "culture_shock": "Adjusting to Berkeley's diverse and dynamic environment can be challenging. The university offers orientation programs and cultural exchange events to help international students acclimate.",
+    "community": "UC Berkeley fosters a vibrant community with numerous student organizations, including those specific to computer science, facilitating networking and support among peers.",
+    "career": "The program offers robust career services, including workshops, job fairs, and networking events. Proximity to Silicon Valley provides ample internship and employment opportunities in tech industries.",
+    "safety": "While Berkeley is generally safe, students are advised to stay vigilant, especially during late hours. The university provides safety resources and campus escort services.",
+    "climate": "Berkeley enjoys a Mediterranean climate with mild, wet winters and dry summers, which is generally comfortable for most students.",
+    "part_time_work": "International students on an F-1 visa can work up to 20 hours per week on campus during academic terms. Off-campus employment requires proper authorization through CPT or OPT."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from rigorous coursework and research commitments.",
+      "Adjusting to a new climate and potential allergies.",
+      "Ensuring adequate sleep amidst a demanding schedule."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation by engaging in student organizations.",
+      "Dealing with cultural differences and homesickness.",
+      "Balancing academic pressures with social activities."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Berkeley.",
+      "Seeking on-campus employment opportunities.",
+      "Applying for scholarships and assistantships to offset tuition costs."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the competitive tech environment of the Bay Area.",
+      "Securing housing in a high-demand market.",
+      "Balancing research responsibilities with coursework.",
+      "Building a professional network in a new cultural setting.",
+      "Understanding and complying with visa work regulations.",
+      "Accessing mental health resources to manage academic stress."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": true,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Science in Computer Science",
+    "degree_type": "MS",
+    "department": "Electrical Engineering and Computer Sciences",
+    "duration": "2 years",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "Eligible for F-1 visa; CPT and OPT available.",
+    "curriculum": [
+      "Minimum of 24 units required.",
+      "10 units of 200-series EECS courses.",
+      "4-10 units of 299 research units."
+    ],
+    "milestones": [
+      "Completion of required coursework.",
+      "Advancement to candidacy.",
+      "Completion and approval of thesis or project."
+    ],
+    "prerequisites": [
+      "Bachelor's degree in Computer Science or related field.",
+      "Strong foundation in mathematics and programming."
+    ],
+    "admissions": [
+      "Online application through UC Berkeley Graduate Division.",
+      "Statement of purpose and personal history statement.",
+      "Three letters of recommendation.",
+      "Official transcripts from all post-secondary institutions."
+    ],
+    "deadlines": [
+      "Application deadline: December 1, 2025."
+    ],
+    "funding": [
+      "Limited departmental fellowships available.",
+      "Opportunities for teaching and research assistantships."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus graduate housing is limited; many students opt for off-campus housing in Berkeley or nearby cities.",
+    "commute": "Public transportation options include buses and BART; biking is also popular.",
+    "campus_support": "Resources include academic advising, mental health services, and career counseling.",
+    "community": "Active student organizations and events foster a sense of belonging.",
+    "safety": "Campus police and safety programs are available; students are encouraged to stay aware of their surroundings.",
+    "climate": "Mild climate with wet winters and dry summers; comfortable year-round."
+  },
+  "career_profile": {
+    "local_industry": "Proximity to Silicon Valley offers abundant opportunities in tech industries.",
+    "internship": "Strong connections with tech companies facilitate internships.",
+    "work_authorization": "International students can utilize CPT and OPT for work experience.",
+    "language_or_networking_requirements": "Proficiency in English required; networking skills beneficial.",
+    "notable_employers": [
+      "Google",
+      "Apple",
+      "Facebook",
+      "Amazon",
+      "Microsoft"
+    ],
+    "recruiting_events": [
+      "UC Berkeley Engineering Career Fair",
+      "Tech Talk Series",
+      "Startup Job Fair"
+    ],
+    "alumni_outcomes": [
+      "Positions in leading tech companies.",
+      "Pursuit of PhD programs.",
+      "Entrepreneurial ventures."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "CS 270: Combinatorial Algorithms and Data Structures",
+        "code": "CS 270"
+      },
+      {
+        "title": "CS 280: Computer Vision",
+        "code": "CS 280"
+      },
+      {
+        "title": "CS 294-112: Deep Learning",
+        "code": "CS 294-112"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Dawn Song",
+        "title": "Professor",
+        "research_area": "Security and Machine Learning"
+      },
+      {
+        "name": "Ion Stoica",
+        "title": "Professor",
+        "research_area": "Networking and Distributed Systems"
+      },
+      {
+        "name": "Michael Jordan",
+        "title": "Professor",
+        "research_area": "Machine Learning and Statistics"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Kresge Engineering Library"
+      },
+      {
+        "name": "Doe Memorial Library"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Computer Science Graduate Student Association"
+      },
+      {
+        "name": "Women in Computer Science and Engineering"
+      },
+      {
+        "name": "AI@Berkeley"
+      }
+    ],
+    "events": [
+      {
+        "name": "EECS Annual Research Symposium"
+      },
+      {
+        "name": "Hack the Bay Hackathon"
+      },
+      {
+        "name": "Distinguished Lecture Series"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "M.S. Student Guide - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/book/ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Electrical Engineering & Computer Sciences MS - Berkeley Graduate Division",
+      "url": "https://grad.berkeley.edu/program/electrical-engineering-computer-sciences-ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "International Office - UC Berkeley",
+      "url": "http://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship"
+      ]
+    },
+    {
+      "title": "Housing - UC Berkeley",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "cost_of_living"
+      ]
+    },
+    {
+      "title": "Computer Science Graduate Student Association",
+      "url": "https://cs.berkeley.edu/people/students/graduate-student-association",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "community",
+        "clubs"
+      ]
+    },
+    {
+      "title": "Kresge Engineering Library",
+      "url": "https://www.lib.berkeley.edu/libraries/kresge-engineering-library",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "libraries"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition costs were not detailed in the available sources.",
+    "Detailed information on part-time work policies specific to the program was limited."
+  ]
+}

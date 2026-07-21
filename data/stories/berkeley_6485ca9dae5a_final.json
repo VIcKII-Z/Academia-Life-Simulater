@@ -1,0 +1,641 @@
+{
+  "story_id": "berkeley_6485ca9dae5a",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living and academic pressures in Berkeley create shared challenges for all students in this program.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "MS in Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "As you step into **Berkeley's bustling campus**, excitement fills the air. It's your first day in the **MS in Computer Science program** at UC Berkeley, and despite the **overwhelming diversity**, a sense of belonging is starting to blossom. However, thoughts of the **high cost of living** and academic rigor linger in your mind. You’ll need to balance school, money, and your well-being as you navigate this new life.",
+      "image_prompt": "A vibrant university campus with students walking, tall trees, and academic buildings in the background near UC Berkeley.",
+      "has_image": true,
+      "insight": "Adjusting to a new environment in Berkeley can trigger culture shock, especially for graduate students facing high living costs and rigorous coursework.",
+      "choices": [
+        {
+          "text": "Explore local clubs to meet other students and ease into Berkeley life.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0,
+            "school": 2
+          },
+          "stat_reason": "Joining clubs supports social integration, enhancing mood and academic engagement.",
+          "recommended": true
+        },
+        {
+          "text": "Head straight to your first class without socializing.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "While focusing on classes boosts academic standing, it might heighten feelings of isolation.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_opening.png"
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "Your first class, **CS 270: Combinatorial Algorithms and Data Structures** starts, and the challenge is clear. The professor’s reputation for rigorous teaching precedes him. As you try to absorb the material, the **pressure builds** — you'll need a **minimum GPA of 3.5** in technical coursework to graduate. You can't help but wonder if this intense pace will take a toll on your well-being.",
+      "image_prompt": "Inside an academic classroom with students, a professor lecturing on a whiteboard filled with complex algorithms.",
+      "has_image": true,
+      "insight": "Graduate coursework, especially in technical fields, often demands intense focus and can lead to stress among students.",
+      "choices": [
+        {
+          "text": "Spend extra hours studying in the Kresge Engineering Library to reinforce your understanding.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Investing time in study can greatly enhance academic performance but may reduce health from lack of rest.",
+          "recommended": true
+        },
+        {
+          "text": "Skip this evening's study session and attend a nearby social gathering.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": -4
+          },
+          "stat_reason": "Socializing can improve mood but neglecting studies might hurt academic standing.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node2.png"
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "Two weeks have passed, and the **intensity of coursework** is pounding. You find yourself battling **insomnia** — the stress is mounting from assignments and deadlines. Your budget is also tight, squeezing your ability to prepare quick meals amidst study sessions. You wonder how to manage school, personal health, and budget effectively. The pressure mounts as you have to keep a tap on your expenses amid daily necessities.",
+      "image_prompt": "A student in a messy room, surrounded by textbooks, laptop open on a desk, looking exhausted and frustrated.",
+      "has_image": true,
+      "insight": "Graduate students often face challenges related to sleep and budgeting, which can negatively affect health and mood.",
+      "choices": [
+        {
+          "text": "Invest in meal prep for the week to save money and time.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 4,
+            "mood": 0,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Meal prepping helps alleviate financial stress while ensuring better nutrition and health.",
+          "recommended": true
+        },
+        {
+          "text": "Continue to eat out frequently, as it’s convenient during busy study times.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Eating out sacrifices health and adds to the financial strain during graduate studies.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node3.png"
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "Midway through the semester, you participate in the **Hack the Bay Hackathon**. Excited to apply new skills, you form a team. However, managing project expectations while balancing exam preparations is an emotional tug-of-war. While you hope to dominate the weekend competition, fatigue from your academic workload pulls you back. Time management is critical as you progress into finals.",
+      "image_prompt": "A group of students collaborating at a hackathon with laptops, showcasing a mix of excitement and exhaustion in a large room filled with tech students.",
+      "has_image": true,
+      "insight": "Balancing extracurricular activities like hackathons while managing studies is a common struggle for graduate students in high-demand programs.",
+      "choices": [
+        {
+          "text": "Devote the weekend to the hackathon for networking and experience.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -15,
+            "mood": 15,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Participating boosts career connections and mood but can impact health due to sleep deprivation.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize studying for the upcoming exams instead and skip the hackathon.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 6
+          },
+          "stat_reason": "Focusing on academics enhances grades but may lead to missed networking opportunities.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node4.png"
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "The hackathon was a success but has left you feeling drained. As midterms approach, you realize that you need to keep up with assignments and start preparing for a **CPT internship** next semester. The opportunity is promising, but securing this means you also need to comply with visa regulations. Juggling your commitments is now more critical than ever.",
+      "image_prompt": "A laptop screen showing job listings on one side and a stack of textbooks on the other, representing the struggle between academics and job applications.",
+      "has_image": true,
+      "insight": "Graduate students often seek internships that require compliance with visa work regulations, adding additional pressure.",
+      "choices": [
+        {
+          "text": "Meet with an academic advisor to discuss internship opportunities and compliance.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "Engaging with advisors supports academic and career planning, enhancing responsibility.",
+          "recommended": true
+        },
+        {
+          "text": "Neglect advising and focus solely on exam preparation.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 2
+          },
+          "stat_reason": "Ignoring career advice may limit job-search success and impact confidence.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node5.png"
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "As midterms draw closer, the pressure tightens. The **diverse environment** of Berkeley is a double-edged sword; while it's enriching, it often highlights your feelings of homesickness. You spend evenings late at Kresge Library, studying in solitude while battling anxiety. Balancing academic performance with emotional well-being is proving to be a real challenge.",
+      "image_prompt": "An open study area in a library with a student surrounded by books, looking contemplative and slightly overwhelmed.",
+      "has_image": true,
+      "insight": "Combatting feelings of homesickness is common for international students, especially in bustling, diverse universities.",
+      "choices": [
+        {
+          "text": "Join a cultural exchange event to reconnect with peers.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Participating helps combat loneliness and enhances emotional well-being.",
+          "recommended": true
+        },
+        {
+          "text": "Continue isolating yourself to focus on schoolwork.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": -15,
+            "money": 0,
+            "school": 3
+          },
+          "stat_reason": "Isolation can diminish mood and increase stress, impacting overall health.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node6.png"
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "After the cultural event, you feel energized and more connected. However, as finals approach, the stress mounting from multiple projects becomes palpable. You’re required to submit research units as part of your coursework while balancing exam preparation — it’s a juggling act. The **pressure to maintain a 3.0 GPA** weighs heavily, and you’re starting to feel the emotional strain.",
+      "image_prompt": "A student surrounded by textbooks, laptop open, attending multiple video calls with group members, indicative of a chaotic study environment.",
+      "has_image": true,
+      "insight": "Graduate students often face significant pressure to perform well academically while managing multiple responsibilities.",
+      "choices": [
+        {
+          "text": "Request an extension for your project to manage workload better.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 6
+          },
+          "stat_reason": "Seeking extensions helps balance workload pressures and academic performance.",
+          "recommended": true
+        },
+        {
+          "text": "Push through and submit without seeking help, risking burnout.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Neglecting self-care can lead to burnout, affecting overall performance negatively.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node7.png"
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "The end of the semester brings relief — exams are done, projects submitted. In your downtime, a professor invites you to an **EECS Annual Research Symposium** to showcase your work. Attending would be a great networking opportunity but might add to your already stretched schedule. Can you balance your need for professional exposure with the recovery phase you need after a demanding term?",
+      "image_prompt": "A symposium scene with students presenting research, showcasing interaction among peers and professors in a professional environment.",
+      "has_image": true,
+      "insight": "Networking opportunities through symposiums are crucial for graduate students, especially in fast-moving fields such as computer science.",
+      "choices": [
+        {
+          "text": "Attend and network with industry professionals at the symposium.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "Networking can enhance career prospects, despite the potential for health impacts from overworking.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the event and focus on resting after finals.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 10,
+            "mood": -8,
+            "money": 0,
+            "school": -2
+          },
+          "stat_reason": "Resting can help recuperate but may mean missed opportunities for career growth.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node8.png"
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "The semester wraps up, and with your choices behind you, you reflect on the growth and struggles. Publications and internships loom large as next semester approaches. You consider ways to balance coursework and part-time work opportunities, like pursuing a **CPT**. As you prepare for the next phase of life, you’re excited yet anxious about the future ahead.",
+      "image_prompt": "A sunset view over the UC Berkeley campus, with students walking and reflecting on their semester experiences.",
+      "has_image": true,
+      "insight": "Reflecting on experiences helps students prepare for future semesters, especially when considering internships or additional academic challenges.",
+      "choices": [
+        {
+          "text": "Secure a part-time job for next semester while managing studies.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 10,
+            "school": 2
+          },
+          "stat_reason": "Part-time work helps financially but may also impact health and time management.",
+          "recommended": true
+        },
+        {
+          "text": "Decide to focus entirely on coursework next semester for better academic performance.",
+          "next_node": "node10",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Focusing on academics can enhance standing but might lead to financial stress.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node9.png"
+    },
+    "node10": {
+      "type": "scene",
+      "scene_text": "As you embark on the next semester, you notice how much you've transformed. The challenges of housing, academics, and adapting to new social environments have shaped you. You feel more confident in your abilities to manage expectations and connect with fellow students. Now, embracing opportunities in Silicon Valley feels within reach. The journey continues as you carve your path forward at UC Berkeley.",
+      "image_prompt": "A student exploring tech company campuses in Silicon Valley, filled with anticipation and hope for future opportunities.",
+      "has_image": true,
+      "insight": "Navigating graduate programs in tech hubs like Berkeley prepares students for invaluable career opportunities and networking in the industry.",
+      "choices": [
+        {
+          "text": "Start applying for internships in Silicon Valley tech companies.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 5,
+            "school": 3
+          },
+          "stat_reason": "Seeking internships enhances career prospects while maintaining balance across stats.",
+          "recommended": true
+        },
+        {
+          "text": "Spend the semester focusing solely on course projects and research.",
+          "next_node": "node11",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Ignoring professional experiences can inflate academic confidence but may hinder job readiness.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node10.png"
+    },
+    "node11": {
+      "type": "scene",
+      "scene_text": "The semester unfolds, with job applications submitted and interviews scheduled. The intersection of studies and practical applications breathes fresh air into your academic life. However, managing stress and maintaining focus proves vital as the semester zooms ahead. Invitations to **Tech Talk Series** spring up, presenting more opportunities to network with industry leaders that remind you of the constant balancing act between academics and career pursuits.",
+      "image_prompt": "A student attending a tech talk event, engaged and focused on a speaker, with excitement for networking opportunities.",
+      "has_image": true,
+      "insight": "Participating in professional events strengthens connections and experience, aiding career advancement, especially in competitive fields.",
+      "choices": [
+        {
+          "text": "Network aggressively at tech talks to maximize opportunities.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0,
+            "school": 2
+          },
+          "stat_reason": "Networking boosts motivational mood but can drain health if overextended.",
+          "recommended": true
+        },
+        {
+          "text": "Skip networking and focus on acing your courses instead.",
+          "next_node": "node12",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 8
+          },
+          "stat_reason": "Prioritizing academics is important but may limit networking potential.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node11.png"
+    },
+    "node12": {
+      "type": "scene",
+      "scene_text": "As the semesters progress, you find yourself feeling more adept at balancing your workload. Midterm grades arrive; they're encouraging, reflecting all you've worked for. The thought of submitting for **CPT** internships is now a tangible reality. Your financials slowly improve with smart budgeting and strategic planning. Yet, the stakes remain high as you navigate these new waters.",
+      "image_prompt": "A student receiving good news about midterm grades via email, beaming with satisfaction and hope.",
+      "has_image": true,
+      "insight": "Successfully navigating academics and internships often leads to increased confidence and motivation among students.",
+      "choices": [
+        {
+          "text": "Continue focusing on academic excellence while seeking part-time work.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 10,
+            "school": 5
+          },
+          "stat_reason": "Combining work with studies enhances financial support but may affect health due to time constraints.",
+          "recommended": true
+        },
+        {
+          "text": "Decide to take a break from all responsibilities and rest up.",
+          "next_node": "node13",
+          "stat_delta": {
+            "health": 10,
+            "mood": -10,
+            "money": -5,
+            "school": -2
+          },
+          "stat_reason": "Taking a break can temporarily improve health but may hurt grades and financial stability.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node12.png"
+    },
+    "node13": {
+      "type": "scene",
+      "scene_text": "With a clearer path and boosted morale, the end of your graduate studies approaches. You've forged connections, grown academically and personally, and have gained work experiences aligned with your aspirations in Silicon Valley. A few options linger for you as graduation nears — further academia or stepping directly into the workforce.",
+      "image_prompt": "A graduation ceremony scene with students celebrating, tossing caps in the air, filled with joy and excitement for the future.",
+      "has_image": true,
+      "insight": "Reflecting on growth during graduate studies enhances preparedness for future endeavors, whether in employment or further education.",
+      "choices": [
+        {
+          "text": "Choose to pursue employment opportunities directly in the tech industry.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Direct employment offers immediate financial benefits and continued growth, leveraging gained skills.",
+          "recommended": true
+        },
+        {
+          "text": "Opt for applying to PhD programs to deepen your academic research.",
+          "next_node": "node14",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Choosing more academic rigor challenges health and finances, impacting overall stability.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node13.png"
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Graduation day is finally here. As you stride across the stage, your heart races with pride and gratitude. The experience of navigating through challenges and seizing opportunities has shaped your future. Now, you are ready to embrace new beginnings in your career choice, harnessing everything you've learned at UC Berkeley. The sky is the limit as you dive into the tech world's promising avenues, reflecting on the transformative journey you undertook.",
+      "image_prompt": "A graduation ceremony filled with joy, students throwing caps, families celebrating, and the iconic UC Berkeley campus in the background.",
+      "has_image": true,
+      "insight": "Graduation signifies not only academic achievement but also personal growth through overcoming challenges in higher education.",
+      "tone": "hopeful",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_ending.png"
+    },
+    "node14": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node14.png"
+    },
+    "node15": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node15.png"
+    },
+    "node16": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node16.png"
+    },
+    "node17": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node17.png"
+    },
+    "node18": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node18.png"
+    },
+    "node19": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node19.png"
+    },
+    "node20": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node20.png"
+    },
+    "node21": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node21.png"
+    },
+    "node22": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node22.png"
+    },
+    "node23": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node23.png"
+    },
+    "node24": {
+      "scene_text": "As you step away from UC Berkeley, feeling accomplished yet reflective, the choices you made shaped not just your academic career but your entire future. Whether entering the tech world or furthering your studies, each moment contributed to the person you've become — resilient, adaptable, and ready for what lies ahead in the world beyond the university.",
+      "image_prompt": "A student walking down UC Berkeley's campus, smiling and looking thoughtful about future opportunities.",
+      "has_image": true,
+      "insight": "Graduate studies transform students’ lives, equipping them with essential skills and experiences for their chosen paths.",
+      "next_node": "ending",
+      "tone": "bittersweet",
+      "image_url": "/assets/generated/berkeley_6485ca9dae5a_node24.png"
+    }
+  },
+  "sources": [
+    {
+      "title": "M.S. Student Guide - EECS at Berkeley",
+      "url": "https://eecs.berkeley.edu/book/ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Electrical Engineering & Computer Sciences MS - Berkeley Graduate Division",
+      "url": "https://grad.berkeley.edu/program/electrical-engineering-computer-sciences-ms/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "International Office - UC Berkeley",
+      "url": "http://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship"
+      ]
+    },
+    {
+      "title": "Housing - UC Berkeley",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "cost_of_living"
+      ]
+    },
+    {
+      "title": "Computer Science Graduate Student Association",
+      "url": "https://cs.berkeley.edu/people/students/graduate-student-association",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "community",
+        "clubs"
+      ]
+    },
+    {
+      "title": "Kresge Engineering Library",
+      "url": "https://www.lib.berkeley.edu/libraries/kresge-engineering-library",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "libraries"
+      ]
+    }
+  ]
+}
