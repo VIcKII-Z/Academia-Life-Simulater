@@ -69,25 +69,14 @@
   margin: 0 auto 24px;
 }
 
-/* ---- Onboarding (API key entry) page — now shares the same cream
-   background as the rest of the app (--paper matches title.png/mascot.png's
-   background), so no separate override is needed here anymore; this class
-   is kept only in case the onboarding step ever needs its own tweaks. */
+/* ---- Onboarding (API key entry / quiz) page — scrapbook-style
+   background art, card kept at the shared default size. */
 .journal--onboarding {
   background-image: url("/branding/background1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-}
-
-/* Nudge the card to sit directly over the plain white card frame that's
-   baked into background1.png's mockup art, so the real (dynamic-height)
-   card visually "covers" it instead of leaving the drawn frame peeking
-   out around the edges. */
-.journal--onboarding .journalCard {
-  max-width: 440px;
-  margin-top: -42px;
 }
 
 /* ---- shared card shell ------------------------------------ */
