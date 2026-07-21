@@ -1,0 +1,564 @@
+{
+  "story_id": "toronto_business_1784419983152",
+  "framework_type": "convergence",
+  "framework_reason": "Students face similar challenges from high living costs and competitive academic environments.",
+  "user_profile": {
+    "country": "Canada",
+    "city": "Toronto",
+    "grade": "Undergraduate",
+    "major": "Business Administration"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You've just arrived in Toronto, a bustling metropolis known for its multicultural vibe and iconic skyline. The cold air hits you, a stark contrast to the warmth of your home country. After checking in at your shared housing, the excitement and anxiety of starting your journey unfold before you. Balancing a new life and a challenging business program in such a vibrant city feels daunting, but you remind yourself of the opportunities that lie ahead. The city is alive, and networking events are just around the corner. You’ll need to connect with fellow students while navigating this new atmosphere.",
+      "image_prompt": "A bustling street in downtown Toronto with diverse crowds, reflecting a vibrant multicultural atmosphere. A snowy scene indicating winter just beginning.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore the neighborhood and look for student clubs.",
+          "next_node": "explore_clubs",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -10
+          },
+          "stat_reason": "Joining clubs enhances sense of belonging but may involve costs for events."
+        },
+        {
+          "text": "Focus on settling in and prepare for classes.",
+          "next_node": "settle_in",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Settling in keeps stress manageable but does not enhance connections."
+        }
+      ]
+    },
+    "explore_clubs": {
+      "type": "challenge",
+      "scene_text": "You decide to venture out and explore the local student clubs. The atmosphere is jovial as students gather to share interests and backgrounds. You feel an uplifting sense of belonging as you chat with fellow international students about your shared experiences. However, as pleasant as this is, you realize the registration fees for some clubs could eat into your budget. Additionally, networking events look appealing but come with their own costs.",
+      "image_prompt": "A student club gathering with lively interactions and diverse students sharing stories in a cozy campus lounge.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Register for a club and attend a networking event.",
+          "next_node": "networking_event",
+          "stat_delta": {
+            "health": -10,
+            "mood": 12,
+            "money": -20
+          },
+          "stat_reason": "Clubbing fosters connections but leads to sleep loss from late nights and event costs."
+        },
+        {
+          "text": "Skip events and plan to study for midterms.",
+          "next_node": "study_midterms",
+          "stat_delta": {
+            "health": 0,
+            "mood": -8,
+            "money": 0
+          },
+          "stat_reason": "Avoiding events means more academic focus but can lead to feelings of loneliness."
+        }
+      ]
+    },
+    "settle_in": {
+      "type": "challenge",
+      "scene_text": "As you settle in, the reality of your new life in Toronto begins to sink in. The cold winter winds whip through the streets, making the daily commute exhausting. Classes are picking up pace, and you have group projects starting. The competitive atmosphere of your business program looms heavy, as group discussions often lead to late nights and little sleep. You know if you don’t perform well, your opportunities might dwindle.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Push yourself harder in group projects.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Intensive study causes fatigue, impacting health and mood."
+        },
+        {
+          "text": "Take breaks and focus on health.",
+          "next_node": "balance_health",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -10
+          },
+          "stat_reason": "Prioritizing breaks improves health but affects budget."
+        }
+      ]
+    },
+    "networking_event": {
+      "type": "challenge",
+      "scene_text": "You attend your first networking event, filled with aspiring business professionals, all eager to connect. The energy is infectious, but the pressure weighs heavily on your shoulders. You realize you need professional clothing, which will stretch your already tight budget further. As you engage in conversations, every connection feels like a step toward your future, but the impending costs are daunting. You are torn between your academic responsibilities and your career aspirations.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Invest in professional attire and carry on networking.",
+          "next_node": "costly_investment",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -30
+          },
+          "stat_reason": "Investing in attire increases mood and connections, but severely impacts finances."
+        },
+        {
+          "text": "Skip this event and save money.",
+          "next_node": "save_for_next_event",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Skipping saves money but can affect networking opportunities."
+        }
+      ]
+    },
+    "study_midterms": {
+      "type": "challenge",
+      "scene_text": "As midterms approach, you find yourself drowning in study materials. Learning in a foreign environment becomes increasingly challenging with stress levels rising. Combined with chilly weather, you feel isolated, which saps your motivation. Nevertheless, you push forward, knowing that good grades are necessary to secure a future internship. It’s a constant battle against loneliness and the looming deadlines.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek help from peers for a study group.",
+          "next_node": "study_group",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Finding a study group boosts mood and provides academic support."
+        },
+        {
+          "text": "Study alone to manage time better.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -20,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Studying alone impacts health and mood due to isolation."
+        }
+      ]
+    },
+    "balance_health": {
+      "type": "challenge",
+      "scene_text": "Deciding to focus on your health means adjusting your daily routine. Even amidst the workload, you carve out time to rest and recharge. However, this decision comes with its own set of challenges. Missing study hours feels like a risk, and you wrestle with guilt as you miss key group discussions. The emotional toll weighs on you, and there's a nagging fear that you may fall behind.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Stick to this healthy routine, accepting potential missed opportunities.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": -5
+          },
+          "stat_reason": "Prioritizing health benefits wellbeing but may hinder academic performance."
+        },
+        {
+          "text": "Drop health commitments to focus on group work.",
+          "next_node": "work_late",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Ignoring health obligations increases academic focus but worsens physical state."
+        }
+      ]
+    },
+    "costly_investment": {
+      "type": "challenge",
+      "scene_text": "Having invested in professional attire, you now feel more confident walking into business settings. The networking event proves fruitful as you collect contacts that may later turn into job opportunities. However, as money dwindles, the pressure mounts. Balancing studies with the need for part-time work to replenish savings becomes critical. You realize that while connections are essential, managing finances is equally important.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Take on a part-time job to replenish finances.",
+          "next_node": "part_time_job",
+          "stat_delta": {
+            "health": -15,
+            "mood": 0,
+            "money": 20
+          },
+          "stat_reason": "Taking on work relieves financial stress but can harm health."
+        },
+        {
+          "text": "Reach out to connections for internship opportunities.",
+          "next_node": "internship_outreach",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Networking for internships can elevate mood and future prospects."
+        }
+      ]
+    },
+    "save_for_next_event": {
+      "type": "challenge",
+      "scene_text": "By choosing to save, you feel a sense of relief with a little extra cash in your pocket. This could be beneficial for future networking events or winter clothing – both important when adjusting to colder temperatures. However, the missed opportunity weighs on you, and self-doubt creeps in about your ability to connect with your peers.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Attend the next networking event with your saved funds.",
+          "next_node": "next_event",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -25
+          },
+          "stat_reason": "Attending improves connections but costs money and affects budget."
+        },
+        {
+          "text": "Use saved money on winter clothing instead.",
+          "next_node": "clothing_spree",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "Buying clothing enhances comfort but drains funds."
+        }
+      ]
+    },
+    "study_group": {
+      "type": "challenge",
+      "scene_text": "Forming a study group proves fruitful. With peers supporting you, concepts feel clearer and the isolation fades. The group dynamic increases motivation, helping everyone to push through the midterms together. Balancing social interactions with study time is tough, especially with the snowy weather affecting attendance at times. Yet, all agree that these sessions cement knowledge and build connections. As the sense of community strengthens, you feel more equipped to take on academic pressure.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue the group study routine for the rest of the semester.",
+          "next_node": "consistent_study",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Maintaining social academic efforts enriches both mood and understanding."
+        },
+        {
+          "text": "Start to prioritize personal study over group work.",
+          "next_node": "individual_study",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Moving to personal study can reduce community feelings and impact mood."
+        }
+      ]
+    },
+    "work_late": {
+      "type": "challenge",
+      "scene_text": "You prioritize group work, but late nights become routine. Exhaustion begins to set in, and your health suffers significantly, leading to increased fatigue and sleep problems. All of this impacts your academic performance, and the looming winter adds to the lethargy you feel. Balancing rigorous studies with social responsibilities is a challenge, and the constant push to perform is becoming overwhelming. You question your ability to succeed in such a competitive environment.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Head to a counselor for assistance managing stress.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Seeking help improves mood and wellbeing while managing stress."
+        },
+        {
+          "text": "Push through the stress alone.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -25,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Ignoring stress leads to severe health and mood deterioration."
+        }
+      ]
+    },
+    "individual_study": {
+      "type": "challenge",
+      "scene_text": "Choosing to study alone allows for deeper focus on your coursework, but as you isolate yourself, feelings of loneliness creep in. The absence of peer interaction drains your motivation, and the colder weather adds an additional layer of discomfort. While academically beneficial, this decision to prioritize individual study compromises your social connections. You start questioning if this solitary route will affect not just your studies but also your overall experience within this vibrant city.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Rejoin the study group for a balanced approach.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Re-engaging with peers raises spirits and shares academic loads."
+        },
+        {
+          "text": "Stick with solo study leading up to midterms.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Continuing alone drains health and mood despite academic focus."
+        }
+      ]
+    },
+    "next_event": {
+      "type": "challenge",
+      "scene_text": "You finally attend the next networking event, eager to showcase your new attire. Connections grow, and the atmosphere buzzes with potential. Yet, although you add more contacts, self-doubt lingers regarding your ability to follow through with these new relationships. You glimpse the fast-paced world around you - business students are sharp and engaging. The looming pressure of being at the top weighs heavily, prompting you to confront the need for balancing connections with your workload.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue networking while managing studies.",
+          "next_node": "balance_networking",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "Networking fuels future opportunities but contributes to sleep loss."
+        },
+        {
+          "text": "Prioritize coursework and delay networking.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Focusing on academics boosts health but decreases social engagement."
+        }
+      ]
+    },
+    "clothing_spree": {
+      "type": "challenge",
+      "scene_text": "You wisely invest in winter clothing to fend off the biting cold. This purchase elevates your comfort during daily commutes, resulting in improved energy levels and a more positive experience of the city. However, as your budget shrinks, you realize you're sacrificing funds that could have supported networking endeavors or emergencies. It's a careful balancing act between comfort and financial stability in this high-cost city.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Work part-time to replenish finances.",
+          "next_node": "part_time_job",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 20
+          },
+          "stat_reason": "Part-time work improves finances but can deplete health."
+        },
+        {
+          "text": "Focus on networking for internship opportunities.",
+          "next_node": "internship_outreach",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Networking elevates mood and potential career pathways."
+        }
+      ]
+    },
+    "part_time_job": {
+      "type": "challenge",
+      "scene_text": "Taking on a part-time position at a nearby café, you work hard to balance shifts with your studies. The rush of the job provides a welcome distraction from academic pressures. Though you enjoy interacting with customers and earning a paycheck, the lack of sleep due to long hours adversely affects your health. Each shift is a reminder that your resilience is being tested as you manage the demands of both work and school.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on work hours for better health.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 15,
+            "mood": -10,
+            "money": -10
+          },
+          "stat_reason": "Reducing work leads to improved health but decreased income."
+        },
+        {
+          "text": "Maintain current hours to meet financial needs.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 35
+          },
+          "stat_reason": "Keeping hours increases money but severely affects health and mood."
+        }
+      ]
+    },
+    "internship_outreach": {
+      "type": "challenge",
+      "scene_text": "Reaching out to your new connections for internship opportunities yields positive responses. You're invited to interviews, and the excitement is palpable as this step aligns with your career aspirations. Yet, the intense competition for these roles means you must stay ahead with your studies, all while maintaining your mental well-being. The pressure to perform in academics and internships can be overwhelming as you recognize the importance of balancing both without burning out.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Prepare extensively for interviews.",
+          "next_node": "rigorous_preparation",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Intensive prep reduces health and mood due to stress."
+        },
+        {
+          "text": "Stay balanced in preparation and studies.",
+          "next_node": "balanced_preparation",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Balanced preparation maintains health and raises confidence."
+        }
+      ]
+    },
+    "consistent_study": {
+      "type": "challenge",
+      "scene_text": "Sticking with the study group proves advantageous, and your academic performance begins to reflect your efforts. You feel a renewed sense of motivation and confidence. However, your finances take a hit from the continuous meeting expenses, and competing for top grades remains a heavy obstacle. The social environment boosts your mood and study success, but balancing group commitments with financial needs is challenging.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek part-time work to offset costs.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": -20,
+            "mood": 0,
+            "money": 15
+          },
+          "stat_reason": "Taking a job offsets costs but could harm academic engagement."
+        },
+        {
+          "text": "Focus on studies and limit social outings.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Limiting outings protects study focus but reduces social engagement."
+        }
+      ]
+    },
+    "rigorous_preparation": {
+      "type": "challenge",
+      "scene_text": "Intense preparation for interviews leads to sleepless nights and mounting stress as you juggle studies and applications. You feel the weight of your decisions clawing at your mental well-being, but the goal of securing an internship pushes you forward. However, your health fluctuates, and the fear of not meeting expectations constantly looms over every interaction. You question if you're sacrificing too much for academic success.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek professional advice for stress management.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Seeking help diminishes stress levels and improves wellbeing."
+        },
+        {
+          "text": "Push through regardless of health consequences.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -30,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Ignoring health for career chances leads to severe consequences."
+        }
+      ]
+    },
+    "balanced_preparation": {
+      "type": "challenge",
+      "scene_text": "Balancing preparation and studies allows room for health and social connections. You find yourself engaged but not overwhelmed, which keeps stress levels down. Taking care of your physical and mental well-being feeds your confidence as you approach interviews. As opportunities arise, you feel well-equipped to face challenges head-on, successfully navigating the pressures of being a business student in Toronto.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue this balanced approach.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Maintaining balance increases overall wellbeing and confidence."
+        },
+        {
+          "text": "Try to take on additional study hours.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Adding study hours might enhance performance but lowers mood."
+        }
+      ]
+    },
+    "balance_networking": {
+      "type": "challenge",
+      "scene_text": "You navigate the challenges of networking while managing your studies adeptly. Every connection nurtures your career journey while classes remain your priority. The feeling of agency grows as you adopt healthy habits amidst busy schedules. This strategic approach helps elevate both your well-being and academic performance, leading you to a sense of accomplishment. You realize that managing both worlds isn’t impossible; the right balance can lead to success.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue nurturing both aspects.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Balancing both reduces stress and boosts confidence."
+        },
+        {
+          "text": "Reassess focusing solely on studies.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Narrowing focus could protect academic performance but dents self-esteem."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "maintain_balance": {
+      "scene_text": "As your semester progresses, you find a harmonious blend of your academic and social lives. By nurturing relationships and dedicating focused time to your studies, you've utilized the best tools at your disposal: support, time management, and resilience. The weariness from cold winters has lessened, and your ambitions feel well within reach. Your experiences in Toronto have made you a better strategist, theorist, and friend, preparing you for the professional world.",
+      "image_prompt": "A student in a business setting confidently engaging in a discussion, with cityscape visible through the window, representing success and growth.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "push_through": {
+      "scene_text": "Despite the toll on your health and overall mood, you manage to secure an internship. But at what cost? You're physically and mentally drained, wondering if you’ve sacrificed too much. The internship gives you hands-on experience and professional exposure, yet it comes with emotional baggage. Reflecting on what you’ve endured, you realize the importance of balance—a lesson that will stay with you long after your time in Toronto has ended.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

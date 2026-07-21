@@ -1,0 +1,402 @@
+{
+  "story_id": "tokyo_1784421248041",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights a shared challenge of high living costs and cultural adaptation faced by all international students in Tokyo.",
+  "user_profile": {
+    "country": "USA",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You step off the plane in the bustling Narita International Airport, excitement buzzing in your chest. The air is thick with the scent of freshly brewed coffee and savory grilled yakitori. Tokyo stretches before you, a metropolis packed with neon lights, towering skyscrapers, and the promise of new experiences. As you navigate through the crowds, you remind yourself of your ambitions in computer science education at the University of Tokyo, a prestigious institution. Yet, an underlying worry about the high living costs and the challenges of fitting into a new culture begins to creep in.",
+      "image_prompt": "A vibrant Tokyo airport arrival scene with travelers, neon signs, and a sense of excitement.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take an express train to the city.",
+          "next_node": "commute",
+          "stat_delta": {
+            "health": 0,
+            "mood": 2,
+            "money": -20
+          },
+          "stat_reason": "The express train is costly but delivers a fast, comfortable experience."
+        },
+        {
+          "text": "Take a local train to save money.",
+          "next_node": "commute",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": -10
+          },
+          "stat_reason": "The local train is cheaper but more crowded and less comfortable."
+        }
+      ]
+    },
+    "commute": {
+      "type": "scene",
+      "scene_text": "As you board the train heading into central Tokyo, you're amazed by the city’s efficient transport system, even though it's packed with commuters. The heat of the late summer is palpable, and you can't help but feel the fatigue setting in as you stand wedged between other passengers. Tokyo’s fast-paced lifestyle is intimidating but also invigorating; it reminds you of the intensity expected of computer science students here. You think about how important it is to adapt quickly to excel academically.",
+      "image_prompt": "A crowded Tokyo train filled with commuters, showcasing the hustle and bustle of city life.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Visit a nearby grocery store for supplies.",
+          "next_node": "groceries",
+          "stat_delta": {
+            "health": 5,
+            "mood": 1,
+            "money": -15
+          },
+          "stat_reason": "Shopping for home-cooked meals can help save money and improve health."
+        },
+        {
+          "text": "Grab lunch at a popular local restaurant.",
+          "next_node": "restaurant",
+          "stat_delta": {
+            "health": -5,
+            "mood": 3,
+            "money": -30
+          },
+          "stat_reason": "Enjoying local cuisine boosts your mood but drains your funds."
+        }
+      ]
+    },
+    "groceries": {
+      "type": "scene",
+      "scene_text": "You find a small grocery store that stocks a variety of fresh and affordable ingredients. As you gather items to cook at home, you feel a sense of independence and excitement in preparing your own meals. Cooking is not only a way to save money but also a comforting reminder of home. You notice other international students doing the same, and it lifts your spirits knowing you're not alone in this experience. However, as you calculate your remaining money, the pressure of adjusting to Tokyo's expenses weighs heavily on you.",
+      "image_prompt": "An interior view of a Tokyo grocery store with vibrant produce and international students shopping.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a student cooking club for assistance and social connection.",
+          "next_node": "club_join",
+          "stat_delta": {
+            "health": 2,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Joining a club helps build connections and enhances mood."
+        },
+        {
+          "text": "Focus on budgeting alone for meals.",
+          "next_node": "budgeting",
+          "stat_delta": {
+            "health": 0,
+            "mood": -2,
+            "money": 0
+          },
+          "stat_reason": "Managing expenses alone can be isolating, impacting your mood."
+        }
+      ]
+    },
+    "restaurant": {
+      "type": "scene",
+      "scene_text": "You indulge in a delicious ramen bowl at a popular local eatery, relishing the rich flavors that Tokyo is famous for. Surrounded by animated conversations in Japanese, you feel the challenge of navigating a new culture pulling at you. Although the meal was pricey, the experience is unforgettable. You make a mental note to explore culinary opportunities during your stay, but guilt for overspending looms as financial worries begin to cluster in your mind. Balancing enjoyment with budgeting will be crucial.",
+      "image_prompt": "A vibrant ramen restaurant in Tokyo filled with patrons enjoying their meals.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Shorten your study hours to work part-time.",
+          "next_node": "academic_success",
+          "stat_delta": {
+            "health": -10,
+            "mood": 4,
+            "money": 25
+          },
+          "stat_reason": "Working part-time boosts your finances but leaves less time to study."
+        },
+        {
+          "text": "Stick to your study schedule and cut down on meals out.",
+          "next_node": "full_time_conversion",
+          "stat_delta": {
+            "health": 2,
+            "mood": -5,
+            "money": -15
+          },
+          "stat_reason": "Focusing on studies helps academically but may limit leisure and contribute to stress."
+        }
+      ]
+    },
+    "club_join": {
+      "type": "scene",
+      "scene_text": "You attend your first cooking club meeting, where members introduce themselves over the sizzling of pans and the aroma of spices. You feel welcomed as you share recipes and cooking tips, building connections with fellow students from various backgrounds. The camaraderie eases your loneliness, helping you feel more at home in Tokyo. However, you realize that as much as socializing lifts your mood, balancing these activities with your studies will be a consistent challenge.",
+      "image_prompt": "A lively student cooking club meeting, with students interacting and cooking together.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Focus on refining your cooking skills for a potential blog or career.",
+          "next_node": "health_focus",
+          "stat_delta": {
+            "health": 0,
+            "mood": 6,
+            "money": -5
+          },
+          "stat_reason": "Engaging in creative projects is fulfilling but can cost money for ingredients."
+        },
+        {
+          "text": "Prioritize your academic work over club activities.",
+          "next_node": "academic_success",
+          "stat_delta": {
+            "health": -2,
+            "mood": -3,
+            "money": 0
+          },
+          "stat_reason": "Focusing on studies can help academically but may create stress and fatigue."
+        }
+      ]
+    },
+    "budgeting": {
+      "type": "scene",
+      "scene_text": "As you carefully calculate your expenses, you’re aware that budgeting will play a huge role in your time in Tokyo. The high living costs are heavy, and intentionally cutting back on spending feels like a necessary strategy. While you find comfort in sticking to a plan, feelings of isolation creep in as you prioritize finances over interaction with new peers. Maintaining a balance will be crucial to not lose your sense of belonging.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek out free cultural events and festivals.",
+          "next_node": "cultural_events",
+          "stat_delta": {
+            "health": 2,
+            "mood": 4,
+            "money": 0
+          },
+          "stat_reason": "Attending free events can enhance mood and cultural understanding without monetary cost."
+        },
+        {
+          "text": "Stick to alone time and manage stress.",
+          "next_node": "academic_success",
+          "stat_delta": {
+            "health": -3,
+            "mood": -7,
+            "money": 0
+          },
+          "stat_reason": "Isolating time can result in mood declines, adding to the financial pressure."
+        }
+      ]
+    },
+    "cultural_events": {
+      "type": "scene",
+      "scene_text": "Excitement fills the air as you attend a local cultural festival. Traditional dance, art displays, and gourmet street food awaken your senses—a delightful escape from worries. Here you meet other students eager to learn and share experiences, fostering a sense of belonging. However, surrounded by vibrant energy and friendly faces, you can't shake the thought of how much money you've spent lately. Balancing fun and budgeting is a constant struggle.",
+      "image_prompt": "A lively cultural festival in Tokyo, showcasing traditional dances, art, and food amidst crowds of people.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Network with professionals and students for future job opportunities.",
+          "next_node": "networking",
+          "stat_delta": {
+            "health": -2,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Building connections can help future prospects but may involve some costs now."
+        },
+        {
+          "text": "Enjoy the festival but stay within your budget.",
+          "next_node": "budgeting",
+          "stat_delta": {
+            "health": 0,
+            "mood": 3,
+            "money": -5
+          },
+          "stat_reason": "Enjoying while being mindful of your budget supports a healthy balance."
+        }
+      ]
+    },
+    "networking": {
+      "type": "scene",
+      "scene_text": "You engage with tech professionals and other students at the festival, trading stories about your aspirations in computer science. Networking here builds a sense of excitement for the future, and you begin to feel that traditional hierarchies within universities can be navigated through connections. But as you gather business cards and contacts, you understand the weight of expectations that come with such opportunities, adding yet another layer to your academic pressure.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek an internship opportunity through connections.",
+          "next_node": "internship",
+          "stat_delta": {
+            "health": -5,
+            "mood": 4,
+            "money": 15
+          },
+          "stat_reason": "Securing an internship provides financial support but requires commitment and may impact health."
+        },
+        {
+          "text": "Focus on studying instead of pursuing internships.",
+          "next_node": "academic_success",
+          "stat_delta": {
+            "health": 2,
+            "mood": -3,
+            "money": 0
+          },
+          "stat_reason": "Focusing on studies maintains academic performance but may limit networking."
+        }
+      ]
+    },
+    "internship": {
+      "type": "scene",
+      "scene_text": "You land a part-time internship with a local tech firm, gaining valuable experience that will bolster your resume. The job is demanding, filled with tasks that challenge your coding skills—but you embrace the opportunity. Yet, as you dedicate long hours, the strain on your health and academic responsibilities begins to surface. Balancing work and study amidst Japan’s competitive atmosphere is a test of your limits.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Prioritize work and seek guidance from your employer.",
+          "next_node": "work_guidance",
+          "stat_delta": {
+            "health": -10,
+            "mood": 3,
+            "money": 30
+          },
+          "stat_reason": "Focusing on work can lead to financial success, but diminishes personal wellbeing."
+        },
+        {
+          "text": "Try to maintain your studies while managing the internship.",
+          "next_node": "study_balance",
+          "stat_delta": {
+            "health": -5,
+            "mood": -4,
+            "money": 0
+          },
+          "stat_reason": "Balancing both can stress you but also support academic goals."
+        }
+      ]
+    },
+    "work_guidance": {
+      "type": "scene",
+      "scene_text": "Guidance from your supervisor proves invaluable; they help you sharpen your skills and provide crucial insight into the tech industry. The experience boosts your confidence and reinvigorates your motivation. However, the relentless pace threatens your health and personal life balance. While improving your prospects for the future is comforting, you feel the impact on your wellbeing more than ever.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on your internship hours to focus more on health.",
+          "next_node": "health_focus",
+          "stat_delta": {
+            "health": 5,
+            "mood": -2,
+            "money": -15
+          },
+          "stat_reason": "Reducing hours improves health but decreases income."
+        },
+        {
+          "text": "Keep pushing hard for professional development.",
+          "next_node": "full_time_conversion",
+          "stat_delta": {
+            "health": -10,
+            "mood": 2,
+            "money": 30
+          },
+          "stat_reason": "Prioritizing development brings financial gains but harms personal wellbeing."
+        }
+      ]
+    },
+    "study_balance": {
+      "type": "scene",
+      "scene_text": "Balancing work and academics becomes an obstacle, demanding your energy and focus. Juggling competing priorities unleashes stress that compounds with cultural adaptation and the pressures of living in Tokyo. As you fight fatigue, you realize that maintaining motivation is crucial for survival in this bustling environment. You long for a strategy to better navigate these competing aspects of life.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek a mentor to provide guidance in both academic and work areas.",
+          "next_node": "mentor_relationship",
+          "stat_delta": {
+            "health": 2,
+            "mood": 4,
+            "money": -5
+          },
+          "stat_reason": "Mentorship can be a stabilizing force but may require some investment."
+        },
+        {
+          "text": "Try solo studying methods that match your learning style.",
+          "next_node": "health_focus",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "A solo approach can enhance focus but may reduce social interaction and support."
+        }
+      ]
+    },
+    "mentor_relationship": {
+      "type": "scene",
+      "scene_text": "With a mentor by your side, you navigate the complexities of both your studies and internship. They introduce you to important networking events, provide academic guidance, and offer personal support as you adapt to life in Tokyo. As the mentor-mentee relationship deepens, you're challenged to explore new opportunities, but also feel the expectation to excel. The careful guidance allows for growth, but the sense of responsibility persists in your mind.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Use this momentum to apply for further internships or part-time roles.",
+          "next_node": "more_work",
+          "stat_delta": {
+            "health": -5,
+            "mood": 3,
+            "money": 30
+          },
+          "stat_reason": "More work can fortify your career prospects but may compromise health."
+        },
+        {
+          "text": "Focus entirely on your studies to maintain balance.",
+          "next_node": "academic_success",
+          "stat_delta": {
+            "health": 3,
+            "mood": -3,
+            "money": 0
+          },
+          "stat_reason": "Academic success requires focus, affecting work opportunities."
+        }
+      ]
+    },
+    "more_work": {
+      "type": "scene",
+      "scene_text": "You take on more internships, excited about the chance to deepen your experience in the tech sector. However, the weight of responsibility mounts quickly as stress from balancing multiple roles erodes your physical and mental stamina. You grapple with whether your current workload is sustainable; the stakes are high as you try to outperform peers in a competitive environment.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue to excel and hope for a conversion to full-time after graduation.",
+          "next_node": "full_time_conversion",
+          "stat_delta": {
+            "health": -10,
+            "mood": 4,
+            "money": 40
+          },
+          "stat_reason": "Hard work leads to financial stability but negatively impacts overall health."
+        },
+        {
+          "text": "Scale back to prioritize well-being and maintain grades.",
+          "next_node": "health_focus",
+          "stat_delta": {
+            "health": 8,
+            "mood": -2,
+            "money": -15
+          },
+          "stat_reason": "Focusing on health helps restore balance but decreases income."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "health_focus": {
+      "scene_text": "You decide to step back, finding that prioritizing your health ultimately led to a more holistic experience during your time in Tokyo. With a sharper sense of balance, your grades begin to stabilize, and so does your mood. You explore more of the city, building memories and relationships that redefine your perspective on study abroad. Although the pressure is always there, you navigate it with newfound resilience and self-awareness, prepared for what comes next.",
+      "image_prompt": "A scenic view of Tokyo with cherry blossoms, a serene park atmosphere, and students enjoying leisure time.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "full_time_conversion": {
+      "scene_text": "Your hard work pays off as you're offered a full-time role at a prestigious tech company after graduation. The exhaustion from balancing studies and internships was intense, and the journey taught you the importance of resilience and networking in a competitive environment. You reflect on your growth during your time in Tokyo and feel a deep sense of accomplishment and gratitude for the experiences and connections you've made. The foundation of your career has solidified amidst the very challenges you once thought insurmountable.",
+      "image_prompt": "A triumphant graduate in a business suit, holding a diploma with Tokyo cityscape in the background.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "academic_success": {
+      "scene_text": "You focus all your efforts on your studies, pushing through the intense curriculum of Tokyo's computer science program. The sacrifices you made resonate in your grades, reflecting the dedication and commitment that you cultivated. You learn vital lessons on self-discipline and time management. Although you had to forgo some social experiences, you recognize that this decision set the tone for your future career aspirations. The journey was challenging, but ultimately, it molds you into a capable professional ready for the demands ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

@@ -1,0 +1,500 @@
+{
+  "story_id": "tokyo_e97df6576289",
+  "framework_type": "convergence",
+  "framework_reason": "Tokyo presents a shared challenge due to the high cost of living, academic pressures, and cultural adaptation hurdles for all international students.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You arrive in Tokyo, stepping off the plane into a city buzzing with energy, its skyline towering above. The bright neon lights contrast with the traditional temples you're eager to visit. However, as a graduate student in Computer Science, the weight of your responsibilities quickly settles in. The cost of living looms large as you prepare to settle in, worrying about your budget while trying to embrace this vibrant culture. The crowded streets push you to want to retreat into the familiarity of your studies, but you know there’s so much to explore.",
+      "image_prompt": "A breathtaking view of Tokyo's skyline with neon lights and traditional temples, bustling streets filled with people.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Find a budget-friendly apartment quickly.",
+          "next_node": "find_apartment",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "Focusing on quick accommodation choices may alleviate stress but could lead to delays in settling in."
+        },
+        {
+          "text": "Take time to explore the city first.",
+          "next_node": "explore_city",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Exploring can boost mood but may deplete energy and finances early on."
+        }
+      ]
+    },
+    "find_apartment": {
+      "type": "standard",
+      "scene_text": "You hustle through the streets of Shibuya, searching for an apartment that fits your student budget. After a few stressful hours, you secure a modest place in a shared building for ¥90,000 a month. While it’s more than your ideal budget, you feel relieved to have a roof over your head. Nevertheless, the long commute raises concerns about your daily health and study balance as your start date looms closer. Additionally, the lack of nearby amenities worries you about food options.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a local grocery co-op to save on food costs.",
+          "next_node": "grocery_coop",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Joining a co-op may help while allowing for community connections, but it entails additional costs."
+        },
+        {
+          "text": "Ignore food budgeting and eat out frequently.",
+          "next_node": "frequent_dining",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": -20
+          },
+          "stat_reason": "Eating out often will drain finances rapidly and may not be sustainable for health."
+        }
+      ]
+    },
+    "explore_city": {
+      "type": "standard",
+      "scene_text": "As you wander the vibrant streets of Tokyo, you're enveloped by the sounds of arcades and the whispers of tea houses. Yet, the language barrier and cultural nuances make interactions feel overwhelming. You smile at a few locals, trying to push past the awkwardness, but the lack of fluency holds you back. Frustration builds as you apprehensively glance at your school orientation schedule, reminding you of the academic expectations ahead while missing a sense of belonging sparked by others.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join an international student meetup for support.",
+          "next_node": "student_meetup",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Connecting with peers can uplift your mood, albeit at a small financial cost."
+        },
+        {
+          "text": "Return to your apartment to rest and study.",
+          "next_node": "apartment_rest",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Resting may restore health but may exacerbate feelings of loneliness and academic pressure."
+        }
+      ]
+    },
+    "grocery_coop": {
+      "type": "standard",
+      "scene_text": "You become a member of a local grocery co-op and find a community of other grad students. They share tips on budgeting and cooking, and you save a bit each week. However, the commitment takes up valuable time, limiting your capacity for academic responsibilities. You find yourself juggling meal prep while also preparing for upcoming research deadlines.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Focus on cooking and skip some classes.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on your meals might increase mood but could leave you behind academically."
+        },
+        {
+          "text": "Attending classes while managing cooking.",
+          "next_node": "leave_early",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Trying to balance both adds stress and fatigue to your schedule."
+        }
+      ]
+    },
+    "frequent_dining": {
+      "type": "standard",
+      "scene_text": "Opting for meals from the bustling street food vendors feels easy but quickly drains your money. As you spend excessively, your health deteriorates under the weight of oily foods, and late nights studying take their toll. The fatigue mounts as you feel overwhelmed by your academics, reminding you of a crucial research deadline looming ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on meals to save money.",
+          "next_node": "lead_organization",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Reducing meal spending may boost finances but severely impacts energy and mood."
+        },
+        {
+          "text": "Seek a scholarship to ease financial burdens.",
+          "next_node": "strain",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 30
+          },
+          "stat_reason": "Applying for roles or scholarships may increase your finances, but this takes time and effort."
+        }
+      ]
+    },
+    "student_meetup": {
+      "type": "standard",
+      "scene_text": "The meetup not only introduces you to other international students but also fosters friendships and finding shared experiences. You feel a weight lift as language barriers start to dissolve among friends with similar struggles. However, you also recognize the ongoing pressure to excel in your studies, with a tough advisor waiting for progress on research goals—prioritizing social life pushes deadlines further away.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Dedicate more time to socializing.",
+          "next_node": "socializing_time",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Focusing on socializing enhances mood but may negatively affect study time."
+        },
+        {
+          "text": "Limit social activities to focus on research.",
+          "next_node": "research_focus",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Reducing social interactions harms your mood but could help maintain academic performance."
+        }
+      ]
+    },
+    "apartment_rest": {
+      "type": "standard",
+      "scene_text": "Back in your apartment, you sink into your bed, gazing at the timetables for your courses on the wall. You feel a muddling mix of relief and loneliness. The quiet contrasts starkly with the city buzz outside. As you rest and recharge, yet the pressure to connect and maintain momentum in your studies tugs at your conscience. Unattended deadlines and the need to learn Japanese loom larger by the hour.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Get back to studying for your first project.",
+          "next_node": "first_project",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Diving back into studies increases academic connectivity, though at the cost of health and mood."
+        },
+        {
+          "text": "Try a late-night exploring session again.",
+          "next_node": "night_explore",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "A late-night city adventure can brighten your spirits but affects your morning productivity."
+        }
+      ]
+    },
+    "socializing_time": {
+      "type": "standard",
+      "scene_text": "You dive into weekends filled with laughter and shared meals at the local ramen shops with friends. Yet, as the weeks go by, pending assignments and looming deadlines become increasingly daunting. You feel a creeping anxiety about your advisor's expectations, paired with your inability to fluently communicate in Japanese. The camaraderie is uplifting but it increasingly weighs on your academic performance.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Skip the next meetup for studying.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing study time can help recover performance but erodes social well-being."
+        },
+        {
+          "text": "Try to balance both but with little sleep.",
+          "next_node": "volunteer_festival",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Overcommitting to both areas will lead to sleep deprivation, increasing health risks."
+        }
+      ]
+    },
+    "research_focus": {
+      "type": "standard",
+      "scene_text": "Focusing on your research brings structure to your academic life but also enforces isolation. Your computer screen glows with articles and projects awaiting completion, while the feeling of separation reigns. The competitive environment keeps you on edge as the impending deadlines loom larger. The initial excitement of the city fades, buried under reports, programming assignments, and group presentations yet unmet.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Request guidance from your advisor.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Asking for help may ease some worries but could also invoke higher pressure from your advisor."
+        },
+        {
+          "text": "Try to tackle everything alone.",
+          "next_node": "lead_organization",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Working in isolation might compound issues without support, causing frustration."
+        }
+      ]
+    },
+    "first_project": {
+      "type": "standard",
+      "scene_text": "You delve into the intricacies of your first project, surrounded by a sea of code and algorithms. As days turn into nights, ideas flow furiously but your health diminishes from stress and fatigue. A creeping illness hints at the weight of sleep lost to sticking to unreasonable timelines, and the pressure from the lofty goals laid out by your advisor behind your back can be suffocating. An overwhelming sense of responsibility fills the air inside the lab, challenging your resolve.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Work through the weekend for a head start.",
+          "next_node": "weekend_work",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Intensifying your focus may yield short-term benefits but places your health at serious risk."
+        },
+        {
+          "text": "Ask a classmate to collaborate.",
+          "next_node": "collaborate",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Working with a classmate can ease pressure and lift your mood but requires effective communication."
+        }
+      ]
+    },
+    "night_explore": {
+      "type": "standard",
+      "scene_text": "The streets of Tokyo glimmer under the moonlight, inviting you to discover hidden gems like unique cafes and shrines. You breathe in the atmosphere, letting the cool evening air revitalize your spirit. However, the late nights are consuming your precious sleeping hours again. The allure of new experiences teeters on finding balance with your studies. The first sight of cherry blossoms in the park reminds you of natural beauty as well as the responsibilities you left behind.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a local festival for cultural immersion.",
+          "next_node": "local_festival",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Attending a festival can enhance your feelings of belonging but at a monetary and health cost."
+        },
+        {
+          "text": "Head back home to catch up on sleep.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing rest will improve health but might mean missing out on socializing."
+        }
+      ]
+    },
+    "weekend_work": {
+      "type": "standard",
+      "scene_text": "You commit to a weekend of intensive work, furiously typing away as the hours fly by. It feels productive until fatigue envelops your body. By the end, you've made progress but fall ill due to the lack of sleep and stress. Your health is now hanging by a thread, with upcoming deadlines whispering incessantly in your ear. In those moments of toxicity, your love for tech seems overshadowed by academic pressures that come with being in the competitive space.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Consult a health professional about your stress.",
+          "next_node": "health_consult",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 10
+          },
+          "stat_reason": "Consulting for health impacts your mood but provides invaluable relief for your wellbeing."
+        },
+        {
+          "text": "Push through without seeking help.",
+          "next_node": "strain",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Ignoring signs of distress can severely affect your health and overall mood."
+        }
+      ]
+    },
+    "collaborate": {
+      "type": "standard",
+      "scene_text": "Reaching out to a classmate brings an unexpected relief; together you tackle the project much more efficiently than anticipated. With camaraderie and shared ideas, your mood lifts. However, a sudden realization that you still have to manage group dynamics and communication stresses you out. The deadlines remain as urgent as ever, even as you share the load. Balancing collaboration with academic expectations can feel tricky in a competitive environment.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Remember to facilitate communication during meetings.",
+          "next_node": "meetings",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Fostering good communication reduces individual stress but has its own dynamics to manage."
+        },
+        {
+          "text": "Take the lead on organizing tasks.",
+          "next_node": "lead_organization",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Stepping up enhances your responsibility but may neglect your health as an individual."
+        }
+      ]
+    },
+    "local_festival": {
+      "type": "challenging",
+      "scene_text": "The festival dazzles, colored by the sounds of drums and bright lights illuminating the night. You immerse in cultural experiences, tasting street food, and dancing with locals. Your mood skyrockets—until you remember your mounting projects and absences from studying. The mingling of joy and anxiety creates a whirlwind of emotions. Yet the excitement draws you in, reminding you of why you wanted to study in Tokyo, adding a bittersweet note to your adventure.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Volunteer to help at the festival.",
+          "next_node": "volunteer_festival",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Volunteering can boost your mood significantly but at the cost of health and time."
+        },
+        {
+          "text": "Leave early to catch up on studies.",
+          "next_node": "leave_early",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing studies preserves health but diminishes the joy of cultural experiences."
+        }
+      ]
+    },
+    "health_consult": {
+      "type": "standard",
+      "scene_text": "After expressing your concerns about stress to a health professional, you received strategies to manage workload and lifestyle. Anxiety ebbs slightly as you implement these changes; however, you must remain vigilant. While this brings healthier habits, it requires diligence. Living in a new country poses unique challenges, and the delicate balance is vital to prevent eroding your progress in school.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Share these tips with classmates.",
+          "next_node": "share_tips",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Sharing resources reinforces bonds among peers which enhances mood."
+        },
+        {
+          "text": "Focus solely on personal application.",
+          "next_node": "personal_focus",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Keeping the tips to yourself allows for personal reflection but limits collective improvement."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "success": {
+      "scene_text": "Through the myriad of struggles, you emerge from challenges faced in Tokyo as a robust individual, adapting to both the academic rigor and cultural swirls. Your hard work pays off, featuring opportunities for positive networking experiences, scholarship debts cleared, and connections that only broaden your outlook. The sunset over the Tokyo skyline reminds you of how far you’ve come, filled with resilience and bravery. The journey has just begun, and the future glows promising.",
+      "image_prompt": "A view of the Tokyo skyline during a vibrant sunset, with schools of students celebrating against the backdrop.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "bitter_end": {
+      "scene_text": "While you managed to shoulder the burdens of Tokyo, the toll on your health rings loud. As graduation approaches, you look back at drained experiences, trading social connections for sleepless nights battling academic pressures. You may have reached your academic milestone, yet with it comes a yearning for balance lost amid chaos. The ringing ambiance of Tokyo city carries bittersweet memories of lessons learned but at a cost that makes you question; was it worth it?",
+      "image_prompt": "A poignant view of the Tokyo skyline underneath a starlit sky, evoking a somber, reflective atmosphere.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "failure": {
+      "scene_text": "The journey presses on relentlessly, but the toll from neglecting your well-being becomes unsustainable. Compounding pressures strip away not only academic progress but also crucial relationships along the way. The end comes unexpectedly, filled with shattered hopes and an opportunity lost. As you sit quietly in a crowded Tokyo café wondering where it went awry, you realize the goalposts shifted interminably, leaving only echoes of ambitions suspended in the air.",
+      "image_prompt": "A lonely café table in a bustling Tokyo coffee shop, reflecting deep introspection and unfulfilled ambitions.",
+      "has_image": true,
+      "tone": "challenging"
+    },
+    "strain": {
+      "scene_text": "You push through endless late nights, fueled by only coffee and worry. By now, you’re battling exhaustion, your health falling dangerously low. When the deadlines finally come, the quality of your work suffers under the weight of neglect. Despondency creeps in, leaving you feeling lost—accomplishments overshadowed by the overwhelming pressure to prove yourself. The weight of expectations collide bitterly with the reasons you came to Japan in the first place.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "volunteer_festival": {
+      "scene_text": "Volunteering at the festival immerses you deeper into Japanese culture. You bond with locals and experience first-hand the differences in communal celebration. However, physically exerting yourself amidst festivities takes a toll on your already fragile health. The joy of cultural connection is tempered with increasing fatigue as your academic workload inches up. Balancing the demands of your studies with the joy of communal experiences proves even more challenging.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "leave_early": {
+      "scene_text": "You reluctantly exit the festival early, glancing back at the festivities. The guilt lingers, but you’re driven by responsibilities—an upcoming project due that could define your academic standing. Battling loneliness again, the empty streets heighten the sense of isolation. You dive back into your studies, but the experience leaves an imprint, reminding you of the vibrant community you’re still trying to connect with amidst academic pressures.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "meetings": {
+      "scene_text": "Amidst demanding meetings for your project, you prioritize communication, ensuring that everyone’s voice is heard. The stress of group dynamics swirls, yet there's progress in your collaborative efforts. As the project nears its final stages, you find camaraderie, yet also realize how well you handle duties in a communal space. However, this success creates pressure for performance in future projects, a constant reminder to exceed expectations in your academic journey.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "lead_organization": {
+      "scene_text": "Taking charge of organizing tasks makes you feel empowered, yet it quickly leads to overcommitment. You forego sleep managing the project and your studies, and it chips away at your health as deadlines loom fierce ahead. While the team begins to flourish, the burden becomes increasingly isolating. You wonder if this demanding culture of high expectations is something you can keep up with without sacrificing well-being.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "personal_focus": {
+      "scene_text": "By choosing to reflect on your insights alone, you create space for self-growth, yet isolation casts a long shadow. The need for connection still pulls at your heart as you struggle with the feeling of being distant from peers. As time passes, pressures from academia continue to compound; you realize the importance of community support is essential in sustaining your journey. An introspective battle starts regarding the definition of success amidst loneliness.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "share_tips": {
+      "scene_text": "By sharing the valuable tips you received, bonds between classmates strengthen, and the collective pressure eases. Yet challenges arise as adapting these strategies across diverse lifestyles complicates the group dynamic. This camaraderie feels good, but academic struggles remain a shared burden under the weight of deadlines that never seem to let up. At that moment, you wonder if harmony in group work can hold all the pressures of academic challenges.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

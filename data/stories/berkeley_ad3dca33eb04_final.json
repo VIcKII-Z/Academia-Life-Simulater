@@ -6,7 +6,11 @@
     "country": "United States",
     "city": "Berkeley",
     "grade": "Graduate",
-    "major": "MS in Computer Science"
+    "major": "MS in Computer Science",
+    "school": "University of California, Berkeley",
+    "department": "Department of Computer Science",
+    "program": "MS in Computer Science",
+    "semesters": 4
   },
   "initial_stats": {
     "health": 70,
@@ -51,10 +55,10 @@
     },
     "node2": {
       "type": "scene",
-      "scene_text": "You finally unpack and glance over your course schedule. The prospect of **CS 188: Introduction to Artificial Intelligence** excites you, but concerns about **affording rent** linger. You look at the chilly weather outside and realize the importance of keeping your health in check while balancing your studies. **Class starts next week**, but the apartment hunt is daunting.",
+      "scene_text": "You finally unpack and glance over your course schedule. The prospect of **[CS 188: Introduction to Artificial Intelligence](https://www2.eecs.berkeley.edu/Courses/CS188/)** excites you, but concerns about **affording rent** linger. You look at the chilly weather outside and realize the importance of keeping your health in check while balancing your studies. **Class starts next week**, but the apartment hunt is daunting.",
       "image_prompt": "A cozy apartment filled with computer science books, an unmade bed, and a laptop with the campus schedule open.",
       "has_image": true,
-      "insight": "Navigating Berkeley’s cost of living includes grappling with housing affordability and ensuring a healthy study-life balance.",
+      "insight": "Navigating Berkeley\u2019s cost of living includes grappling with housing affordability and ensuring a healthy study-life balance.",
       "choices": [
         {
           "text": "Start networking for a roommate or affordable housing options.",
@@ -85,7 +89,7 @@
     },
     "node3": {
       "type": "scene",
-      "scene_text": "As classes begin, you find the pace and **workload intense**. The first week’s assignment for **CS 170: Efficient Algorithms and Intractable Problems** looms. You're starting to experience signs of **homesickness** but also try to join a few student events. Balancing academic and social lives can feel overwhelming.",
+      "scene_text": "As classes begin, you find the pace and **workload intense**. The first week\u2019s assignment for **CS 170: Efficient Algorithms and Intractable Problems** looms. You're starting to experience signs of **homesickness** but also try to join a few student events. Balancing academic and social lives can feel overwhelming.",
       "image_prompt": "Students gathered around laptops in a collaborative workspace filled with textbooks and coffee mugs.",
       "has_image": true,
       "insight": "The rigorous coursework in UC Berkeley's CS program can elevate stress and homesickness, necessitating a strong support system.",
@@ -289,7 +293,7 @@
     },
     "node9": {
       "type": "scene",
-      "scene_text": "With a part-time job secured, you feel a bit more financially stable, but balancing these demands while maintaining your grades is tough. You’re also eager about the **EECS Annual Research Symposium** coming up. Will you find a balance and have time to showcase your work?",
+      "scene_text": "With a part-time job secured, you feel a bit more financially stable, but balancing these demands while maintaining your grades is tough. You\u2019re also eager about the **EECS Annual Research Symposium** coming up. Will you find a balance and have time to showcase your work?",
       "image_prompt": "A busy event room filled with students presenting their research posters to groups of peers and professors.",
       "has_image": true,
       "insight": "Participation in research symposiums provides excellent exposure and can enhance academic profiles for graduate students.",
@@ -391,7 +395,7 @@
     },
     "node12": {
       "type": "scene",
-      "scene_text": "You’ve submitted several applications to top tech companies, such as **Google** and **Microsoft**. The anticipation is exhilarating, but the pressure of potential rejection looms large as finals approach. Maintaining focus and health while preparing for **interviews** is vital to showcase your skills effectively. You've come so far but now face big decisions.",
+      "scene_text": "You\u2019ve submitted several applications to top tech companies, such as **Google** and **Microsoft**. The anticipation is exhilarating, but the pressure of potential rejection looms large as finals approach. Maintaining focus and health while preparing for **interviews** is vital to showcase your skills effectively. You've come so far but now face big decisions.",
       "image_prompt": "A student in a business suit practicing interview skills in front of a mirror, with scattered job application materials around.",
       "has_image": true,
       "insight": "Job applications in high-demand sectors like tech can be mentally taxing and require excellent preparation to navigate effectively.",
@@ -460,7 +464,7 @@
   },
   "endings": {
     "ending": {
-      "scene_text": "Your journey has underscored the importance of resilience and community. As you embark on the next phase, every lesson and connection you’ve nurtured at UC Berkeley will be woven into your future endeavors, empowering not just yourself but also those around you. Looking forward with hope, you're ready to make a meaningful difference.",
+      "scene_text": "Your journey has underscored the importance of resilience and community. As you embark on the next phase, every lesson and connection you\u2019ve nurtured at UC Berkeley will be woven into your future endeavors, empowering not just yourself but also those around you. Looking forward with hope, you're ready to make a meaningful difference.",
       "image_prompt": "An expansive view of the Berkeley skyline at dusk, embodying hope and future possibilities.",
       "has_image": true,
       "insight": "Successful transitions are often built on perseverance and community support, shaping future opportunities and aspirations.",
@@ -468,7 +472,7 @@
       "image_url": "/assets/generated/berkeley_ad3dca33eb04_ending.png"
     },
     "node14": {
-      "scene_text": "Days pass, and acceptance emails start rolling in. Your heart races as you find out you got the position! The excitement propels you forward, though the pressure of adult responsibilities intensifies. Plans for life after graduation create an array of emotions. You’re ready for the next chapter, reflecting on your growth and resilience.",
+      "scene_text": "Days pass, and acceptance emails start rolling in. Your heart races as you find out you got the position! The excitement propels you forward, though the pressure of adult responsibilities intensifies. Plans for life after graduation create an array of emotions. You\u2019re ready for the next chapter, reflecting on your growth and resilience.",
       "image_prompt": "A student gleefully opening an acceptance email, surrounded by friends celebrating in their small apartment.",
       "has_image": true,
       "insight": "Success in tech roles is incredibly competitive, requiring strong resilience and adaptability from advanced degree students.",
@@ -486,7 +490,7 @@
       "image_url": "/assets/generated/berkeley_ad3dca33eb04_node15.png"
     },
     "node16": {
-      "scene_text": "Embracing your new role, you reflect on the supportive network at UC Berkeley, the faculty’s guidance, and the friendships that helped you succeed. From turning in challenging assignments to tackling competitive job interviews, every step solidified your determination. You feel grateful for every moment, knowing it shaped your future.",
+      "scene_text": "Embracing your new role, you reflect on the supportive network at UC Berkeley, the faculty\u2019s guidance, and the friendships that helped you succeed. From turning in challenging assignments to tackling competitive job interviews, every step solidified your determination. You feel grateful for every moment, knowing it shaped your future.",
       "image_prompt": "A new tech employee at a desk in a corporate environment, with a family photo and diploma prominently displayed.",
       "has_image": true,
       "insight": "Successful transitions into the tech industry often depend on the foundational experiences and networks built during graduate studies.",
@@ -504,7 +508,7 @@
       "image_url": "/assets/generated/berkeley_ad3dca33eb04_node17.png"
     },
     "node18": {
-      "scene_text": "Over time, new opportunities arise, and you find yourself considering further learning or certification to advance your career. The spirit of Berkeley lives on; you appreciate how far you’ve come yet remain aware of the journey ahead. Life beyond campus is a realm of possibilities, ready to be explored.",
+      "scene_text": "Over time, new opportunities arise, and you find yourself considering further learning or certification to advance your career. The spirit of Berkeley lives on; you appreciate how far you\u2019ve come yet remain aware of the journey ahead. Life beyond campus is a realm of possibilities, ready to be explored.",
       "image_prompt": "An employee contemplating career paths at a desk, looking at a new course announcement on their monitor with a thoughtful expression.",
       "has_image": true,
       "insight": "Continuous professional development is essential in tech roles to keep pace with evolving industry standards and practices.",
@@ -540,7 +544,7 @@
       "image_url": "/assets/generated/berkeley_ad3dca33eb04_node21.png"
     },
     "node22": {
-      "scene_text": "As you round off your day, the satisfaction of navigating your career path feels profound. The significance of UC Berkeley resonates within you — it was not merely an educational institution but a launchpad for your future. Reflecting on these times with gratitude drives you toward continuous exploration, personal and professional alike.",
+      "scene_text": "As you round off your day, the satisfaction of navigating your career path feels profound. The significance of UC Berkeley resonates within you \u2014 it was not merely an educational institution but a launchpad for your future. Reflecting on these times with gratitude drives you toward continuous exploration, personal and professional alike.",
       "image_prompt": "A serene scene of an employee leaving the office, taking a moment to appreciate the sunset over the city skyline.",
       "has_image": true,
       "insight": "Reflecting on educational experiences can inspire ongoing exploration and motivation in personal and professional endeavors.",
@@ -558,7 +562,7 @@
       "image_url": "/assets/generated/berkeley_ad3dca33eb04_node23.png"
     },
     "node24": {
-      "scene_text": "As time passes, you nurture the dreams of future scholars, recalling how each step transformed your path. You stand poised to build new legacies for those following you, reaffirming the importance of education, connection, and the pursuit of knowledge — a lifelong journey touching lives, igniting passions, and cultivating communities.",
+      "scene_text": "As time passes, you nurture the dreams of future scholars, recalling how each step transformed your path. You stand poised to build new legacies for those following you, reaffirming the importance of education, connection, and the pursuit of knowledge \u2014 a lifelong journey touching lives, igniting passions, and cultivating communities.",
       "image_prompt": "An inspirational scene of a former student guiding young scholars in the library, filled with books and bright energy.",
       "has_image": true,
       "insight": "Engaging with future generations of students can be fulfilling, showcasing the lasting impact of academic and professional journeys.",

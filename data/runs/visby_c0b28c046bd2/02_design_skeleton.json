@@ -1,0 +1,250 @@
+{
+  "story_id": "visby_c0b28c046bd2",
+  "framework_type": "turning_point",
+  "framework_reason": "The need for a residence permit creates a sharp high-risk factor for non-EU students studying in Sweden.",
+  "user_profile": {
+    "country": "Sweden",
+    "city": "Visby",
+    "grade": "Graduate",
+    "major": "Game Design"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "You arrive in Visby, a picturesque medieval town on Gotland filled with cobblestone streets and lush greenery. The air is crisp, and the excitement of beginning your Master's Programme in Game Design at Uppsala University fills you with hope. With a relatively moderate cost of living, you start thinking about budgeting for the upcoming months. The ambiance is welcoming, with locals and students mingling in the lively market square, but the thought of navigating the bureaucratic requirements for your residence permit looms large.",
+      "image_prompt": "A scenic view of Visby with medieval architecture, students mingling and a market square atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Begin the process of applying for a residence permit.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "The application process is time-consuming and stressful."
+        },
+        {
+          "text": "Postpone the application and explore the town.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Exploring Visby lifts your spirits but costs money."
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "As you attend your first few classes at Uppsala University’s campus Gotland, you dive into the core of the Master's Programme in Game Design. Courses like 'Introduction to Games Research' and 'Game Design Studio' are both captivating and challenging. However, adjusting to the Swedish academic system and the distinctive teaching style creates a significant learning curve. You find that collaboration is key, but a group project feels overwhelming at times.",
+      "image_prompt": "Inside a game design classroom with students collaborating on projects, laptops open and sketches around.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to classmates for group study sessions.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Social support boosts your mood, but it costs money for snacks during sessions."
+        },
+        {
+          "text": "Focus on self-study to understand the material better.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Isolating yourself adds pressure and affects your health."
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "After a month, you realize that the cost of living in Visby is higher during tourist season, impacting your budgeting. You also feel the weight of fitting in with Swedish culture, as the punctuality and work-life balance can be quite a change from what you're used to. The initial culture shock is setting in, and balancing your studies with personal time is becoming increasingly challenging.",
+      "image_prompt": "A cozy café in Visby where students are studying, with a hushed ambiance and warm lighting.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a local student organization like Gotland Game Hub.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -10
+          },
+          "stat_reason": "Being part of a community improves mood but could strain your budget."
+        },
+        {
+          "text": "Continue focusing solely on academics.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Neglecting social engagements increases stress and reduces health."
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "In the midst of your studies, your focus shifts to securing internships for your third semester. The limited local game industry poses great difficulty, hinting at the necessity to venture to the mainland for opportunities. You begin networking at events like the Gotland Game Conference, but the pressure to present yourself well weighs heavily on you.",
+      "image_prompt": "A buzzing game conference hall filled with booths and students engaging with game developers and recruiters.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Practice your pitch for networking.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Rehearsing relieves anxiety but may add to fatigue."
+        },
+        {
+          "text": "Attend the conference without a pitch ready.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Going unprepared increases anxiety levels."
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "After the conference, you network with industry professionals and receive positive feedback. However, the high competition for internships raises your anxiety about future prospects. Returning to classes, projects take precedence, and you face the rigors of deadlines in your game design projects. Thoughts of your residence permit countdown creep back into your mind, adding unexpected stress.",
+      "image_prompt": "A busy game design studio filled with screens and students focused on their projects.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Seek help from your advisor, Jakob Berglund Rogert.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Advisor support improves mood but incurs costs for necessary materials."
+        },
+        {
+          "text": "Try to manage your projects independently.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Going solo can lead to burnout and frustration."
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "As you approach the end of your first year, completing core courses, the deadline for your master's thesis looms. The academic intensity peaks, raising feelings of isolation amidst rigorous expectations. Making time for socializing becomes harder, and despite your achievements, moments of self-doubt seep in, questioning your worth in the game design field.",
+      "image_prompt": "A cluttered desk with notes and sketches, the weight of thesis deadlines reflected in the atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to friends for support.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Conversations with friends boost mood and provide encouragement."
+        },
+        {
+          "text": "Stay isolated to focus on your thesis.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Isolation can jeopardize your mental health."
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "Finally, upon submitting your thesis, the relief is palpable, but soon you must consider your post-graduate path. The job market in the game design industry is competitive, with employers like King and DICE seeking top talent. You also receive an invitation to a final networking event, where numerous potential collaborators and employers will be present, offering a perfect platform for building connections.",
+      "image_prompt": "An elegant networking event setting with graduates mingling with industry representatives, creating vibrant conversations.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Attend the networking event to meet future employers.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Opportunities arise, but attending costs money for travel and preparation."
+        },
+        {
+          "text": "Skip the event to focus on job applications instead.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Choosing not to network might make job applications harder."
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "Your choice impacts your future, whether it garners new opportunities or limits your prospects. After reflecting on your journey through Visby, you realize the profound lessons learned in a serene yet challenging town, embracing both solitude and community. Now, as graduation approaches, you feel a mix of anticipation and anxiety about what lies ahead.",
+      "image_prompt": "A serene view of Visby at sunset, symbolizing transition, with graduates walking towards their future.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Embrace the uncertainty and look forward to the future.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Anticipation elevates your mood, preparing you for the next chapter."
+        },
+        {
+          "text": "Stress over potential outcomes and what-ifs.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Focusing on negativity impacts your well-being as graduation nears."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Graduation day dawns bright and clear, filled with hope for new beginnings. As you stand among your peers, the journey through the challenges of studying in Visby has shaped you into a resilient, adaptable person. Though uncertainties lie ahead, you're equipped with skills and connections from your time at university. Whether you pursue a career with companies like Toadman Interactive or find your path in a different realm, the experiences here will forever resonate within you.",
+      "image_prompt": "A joyful graduation ceremony with students in caps and gowns, celebrating new beginnings amidst Visby's scenic backdrop.",
+      "has_image": true,
+      "tone": "hopeful"
+    }
+  }
+}

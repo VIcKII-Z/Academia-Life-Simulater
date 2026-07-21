@@ -1,0 +1,52 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "Tokyo has high living costs compared to other Japanese cities. Monthly expenses for a single student typically range from ¥130,000–¥200,000 ($920–$1,410 USD), including rent, food, and commuting. Rent alone varies from ¥40,000–¥80,000 depending on the accommodation type. Scholarships and affordable dormitories often exist, but students must plan meticulously for initial expenses. [University Living](https://www.universityliving.com/blog) [YOLO JAPAN](https://www.yolo-japan.com)",
+    "academic": "Japan's computer science programs offer research-oriented curricula with ties to industries like AI, robotics, and software development. The Tokyo Institute of Technology stands out nationally, but language barriers can limit access to resources for non-fluent Japanese speakers. English is increasingly common at top-tier universities. [Tokyo Tech Admissions](https://www.titech.ac.jp/english/admissions) [JASSO](https://www.studyinjapan.go.jp)",
+    "visa": "Undergraduate students require a Student Visa, which allows part-time work up to 28 hours/week. It is valid for the program duration plus 3 months. Visa renewal and compliance require financial proof and academic engagement. [Immigration Official Website](https://www.mofa.go.jp/j_info/visit/visa)",
+    "culture_shock": "Tokyo offers a mix of cosmopolitan life and traditional Japanese customs. International students often face isolation due to group-based university culture and language barriers in daily interactions. However, cultural immersion programs, clubs, and events at universities can help bridge gaps. [Tokyo University Guide](https://www.u-tokyo.ac.jp)",
+    "community": "International student networks like JASSO provide peer mentors and tutors. Tokyo hosts numerous cultural exchange programs, but integration into academic or social circles can still be limited for non-Japanese speakers. [JASSO](https://www.jasso.go.jp)",
+    "career": "Tokyo provides robust career opportunities in tech, including internships at companies like Rakuten or Panasonic. Entry-level salaries for Computer Science grads range between ¥3M–¥6M/year, with higher rates at multinational firms for skilled developers. [Tokyo Tech Career Resources](https://www.titech.ac.jp/english/admissions/prospective-students/career-paths)",
+    "safety": "Tokyo is one of the safest cities globally, with low crime rates and well-lit, secure public areas. Students should still avoid walking alone at night in less populous areas. Emergency hotlines (110 for police, 119 for fire/medical) are ready and efficient. [Tokyo Cheapo](https://tokyocheapo.com) [Safety Official Info](https://www.u-tokyo.ac.jp/adm/inbound/en/life-safety-info.html)",
+    "climate": "Tokyo's humid summers and cold winters can be overwhelming without preparation. Summers average 30°C (86°F), but air conditioning is common. Winters drop to 5°C (41°F) but rarely hit freezing. [Global Livability Index](https://www.globalliveabilityindex.com/tokyo-liveability-guide)",
+    "part_time_work": "Student visas permit up to 28 hours/week in roles like tutoring or retail, with wages ranging between ¥1,000–¥1,500/hour. Prohibited sectors include nightlife-related establishments. [Study-Abroad Works](https://www.study-abroad.org/study-in-japan/work-and-career)"
+  },
+  "gameplay_signals": {
+    "health": [
+      "Humid summers leading to heat fatigue (air conditioning available).",
+      "Secure public streets with well-lit paths reduce crime-related stress.",
+      "Navigating local clinics without Japanese fluency may be a challenge.",
+      "Commuting 1-2 hours daily can cause physical exhaustion.",
+      "Accessible clean tap water and healthy dining options improve well-being."
+    ],
+    "mood": [
+      "High loneliness due to cultural isolation from local students.",
+      "Availability of international clubs helps combat a sense of 'outsidership.'",
+      "Pressure builds from adapting to hierarchical lab environments.",
+      "Large cultural events offer relief and primary social bonding spaces.",
+      "Students may feel disconnected during long planning phases for high-pressure exams."
+    ],
+    "money": [
+      "¥40,000–¥80,000 monthly rent creates housing stress despite cheaper dorm options.",
+      "Scholarships provide partial relief but require academic performance validation.",
+      "Well-paying tech jobs/internships can offer high returns but need skills and interviews.",
+      "Frequent ¥500–700 train daily commutes strain budgets further.",
+      "Unexpected startup costs like key money during initial rental processes take time."
+    ],
+    "city_major_specific_challenges": [
+      "Undergraduate Computer Science workloads combined with Tokyo's long commutes (often >1hr).",
+      "Humid climate strains physical stamina in summer lab schedules.",
+      "Limited programming internships outside advanced coding levels.",
+      "Mental stress from peers preferring tighter Japanese hierarchical circle closings.",
+      "English graduate curriculum less aligned research Japanese/immerses context deeply yet isolated from real intern pools early job-hunting pros lays groundwork rejection stakeholders.",
+      "Social restriction outside larger private businesses discourage easier-co-sourced forums culture private CS creative-ends well consultated specialist wars/potential mismatched later employment teams.",
+      "Top-tier companies reject young-stock requests blocking higher incremental low-intermediate exit-review cases."
+    ]
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "story_id": "tokyo_cs_1784420081538",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Tokyo creates a shared challenge for all students, especially those in graduate programs.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You step off the plane and into the bustling world of Tokyo. The vibrant energy of the city hits you instantly. Skyscrapers tower over you, and advertisements dance in a surreal mix of Japanese and English. Having just landed for your graduate studies in Computer Science, a mix of excitement and anxiety fills your chest. You need to find accommodation soon, as the high rents are already on your mind. The humid summer air invites you to adjust quickly to your new surroundings, but reminders of the bureaucratic hurdles ahead linger, like the impending visa renewals and potential job prospects that dance at the back of your mind.",
+      "image_prompt": "A bustling Tokyo airport with towering skyscrapers visible outside. A nervous but excited international graduate student wields an itinerary, ready to begin a new chapter.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Look for accommodation near campus.",
+          "next_node": "housing_near_campus",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": -20
+          },
+          "stat_reason": "Choosing convenience comes at a high cost, increasing financial pressure."
+        },
+        {
+          "text": "Find cheaper housing further away.",
+          "next_node": "housing_further_away",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 10
+          },
+          "stat_reason": "While saving money, the longer commute may affect your social life and wellbeing."
+        }
+      ]
+    },
+    "housing_near_campus": {
+      "type": "non-ending",
+      "scene_text": "You've found a small yet cozy apartment just a stone's throw from your university. The convenience of being close to classes and labs is undeniable, but the rent drains a significant part of your stipend. Each month, the weight of your finances grows heavier, causing you stress during your demanding program. The nearby convenience store beckons with ready-made meals, but you know relying too heavily on them could hurt your health. You realize the need to balance lifestyle choices while adjusting to rigorous lab work demands.",
+      "image_prompt": "A small, cozy Tokyo apartment with a view of a bustling street. The atmosphere is both comforting and hectic, reflecting a graduate student's packed lifestyle.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Apply for a part-time job to cover expenses.",
+          "next_node": "part_time_job",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 20
+          },
+          "stat_reason": "Working part-time can help financially, but it also adds to your workload and fatigue."
+        },
+        {
+          "text": "Join a local student organization to network.",
+          "next_node": "student_organization",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Engaging with peers can improve your mood but may incur small costs."
+        }
+      ]
+    },
+    "housing_further_away": {
+      "type": "non-ending",
+      "scene_text": "After settling into a more affordable apartment miles away from campus, you breathe a sigh of relief financially. However, your daily commute is exhausting, especially with Tokyo's humid summers weighing down on you. The longer hours on the train leave little time for socializing or studying, which is essential given the pressure of your AI lab projects that loom overhead. Balancing budget constraints and academic performance becomes a real challenge with each passing day.",
+      "image_prompt": "A crowded Tokyo train during rush hour, showing a weary student clutching a laptop bag, reflecting the challenges of long commutes.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Dedicate more time to your lab work.",
+          "next_node": "lab_dedication",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on academics helps grades, but neglecting health adds stress."
+        },
+        {
+          "text": "Attend a cultural exchange event to make friends.",
+          "next_node": "cultural_exchange",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Networking may ease feelings of isolation but costs some money."
+        }
+      ]
+    },
+    "part_time_job": {
+      "type": "non-ending",
+      "scene_text": "You've landed a part-time job at a tech startup, providing a much-needed financial boost. However, juggling your work schedule with research demands proves challenging. Late nights spent coding and early mornings for classes leave you exhausted. Your health starts to suffer as fatigue sets in, and motivation begins to dwindle. The pressure of both roles feels like a tightrope walk, and finding time to rest becomes imperative, especially as climate stress from Tokyo's humid heat grows more unmanageable.",
+      "image_prompt": "A tired student working late in a modern office with a laptop open, papers scattered everywhere, embodying the struggle between work and studies.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Cut back on work hours.",
+          "next_node": "reduce_hours",
+          "stat_delta": {
+            "health": 10,
+            "mood": -5,
+            "money": -15
+          },
+          "stat_reason": "Reducing hours improves health and mood but sacrifices financial stability."
+        },
+        {
+          "text": "Neglect health for deadlines.",
+          "next_node": "neglect_health",
+          "stat_delta": {
+            "health": -25,
+            "mood": -10,
+            "money": 5
+          },
+          "stat_reason": "Ignoring health may push projects forward but creates burnout."
+        }
+      ]
+    },
+    "student_organization": {
+      "type": "non-ending",
+      "scene_text": "Joining the international student organization has opened doors to friendships and support. You find encouragement among peers who are experiencing the same culture shock in Tokyo. However, balancing meetings and events with study time is tough. While your mood improves thanks to the sense of belonging, financial spending on activities has put additional strain on your already tight budget. Finding a way to maintain connections while being frugal becomes a real-life challenge as deadlines loom.",
+      "image_prompt": "An energetic gathering of international students at a university function, filled with laughter and mingling, showcasing a supportive community.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Volunteer for a project within the organization.",
+          "next_node": "short_term_goals",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Getting involved boosts your mood but costs money and time."
+        },
+        {
+          "text": "Limit your attendance to save money.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": 0,
+            "mood": -8,
+            "money": 5
+          },
+          "stat_reason": "Saving money might help financially, but it could diminish your network and mood."
+        }
+      ]
+    },
+    "lab_dedication": {
+      "type": "non-ending",
+      "scene_text": "With relentless focus on the AI lab project, your initial excitement turns into stress. The project deadline looms closer while you face heavy criticism from your advisor's hierarchical expectations. Each lab meeting feels like a test of your resilience, and although you see the project's potential, the mounting stress from your advisor's demands puts your mental health at risk. As the humidity heightens, you need to decide how to navigate the pressure on both academic and personal fronts.",
+      "image_prompt": "A tense lab meeting room filled with stressed students and a stern advisor, creating an atmosphere of pressure and competition in an academic setting.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Seek guidance from a mentor.",
+          "next_node": "mentor_guidance",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Getting advice alleviates some academic pressure but doesn't alter your finances."
+        },
+        {
+          "text": "Work late to meet the deadline.",
+          "next_node": "work_late",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Staying late may help you deliver better results, but it greatly harms your health."
+        }
+      ]
+    },
+    "cultural_exchange": {
+      "type": "non-ending",
+      "scene_text": "Participating in the cultural exchange event was uplifting, and meeting locals and fellow students improved your mood significantly. However, the longing for deeper connections can still be felt, especially when addressing the language barrier that hampers more significant interactions. Although you learned a few new phrases, mastering Japanese to communicate is an uphill battle. Additionally, the financial cost of attending such events puts renewed pressure on your budget, offering lessons on the cost of social engagement.",
+      "image_prompt": "A lively cultural exchange event with students sharing experiences, laughter, and language, showcasing a vibrant atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Invest in Japanese language classes.",
+          "next_node": "japanese_classes",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Investing in language classes can boost confidence and social connections, but drains finances."
+        },
+        {
+          "text": "Continue learning informally through socialization.",
+          "next_node": "informal_learning",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Practicing conversationally improves mood but may not help you progress as fast as classes."
+        }
+      ]
+    },
+    "reduce_hours": {
+      "type": "non-ending",
+      "scene_text": "By cutting back on work hours, you find a little breathing room. The extra time allows you to rejuvenate and even socialize with others. However, the financial constraints intensify, and with rent bills due, you often find yourself stressed about money. While your health and mood improve slightly, the looming pressure of academic success remains a constant companion. Adapting to the Tokyo lifestyle continues to be a unique journey filled with compromises and trade-offs.",
+      "image_prompt": "A balanced brew of tranquility and stress, the student is meditating at a quiet park, reflecting on their life choices amidst Tokyo's concrete jungle.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Look for a cheaper alternative living option.",
+          "next_node": "cheaper_living",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Searching for cheaper accommodation will ease financial strain but may impact comfort."
+        },
+        {
+          "text": "Reach out for more social support.",
+          "next_node": "financial_support",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Connecting with friends strategically helps your mood, though there's a financial cost."
+        }
+      ]
+    },
+    "neglect_health": {
+      "type": "non-ending",
+      "scene_text": "For weeks, you have been pushing your limits, prioritizing deadlines over your health. The exhaustion settles heavily upon you, and a nagging cold starts to emerge. While your technical skills might improve, the overall pressure proves to be crushing. One sleepless night turns into another, and the need to complete your projects leaves little room for self-care. As your health declines, so does your ability to perform academically—a self-destructive cycle that demands reckoning.",
+      "image_prompt": "A tired student overwhelmed with stress, eyes red from sleepless nights, working on a project in a dimly lit room.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prioritize health and take a day off.",
+          "next_node": "take_day_off",
+          "stat_delta": {
+            "health": 20,
+            "mood": 5,
+            "money": -5
+          },
+          "stat_reason": "Taking time off increases recovery, but financial concerns linger."
+        },
+        {
+          "text": "Find methods to cope while working hard.",
+          "next_node": "continue_routine",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Ignoring the need for rest leads to a dip in health and mood."
+        }
+      ]
+    },
+    "mentor_guidance": {
+      "type": "non-ending",
+      "scene_text": "Reaching out to a mentor has been a game changer. Their advice not only clarifies your research but also helps you manage your stress levels during lab projects. With newfound confidence, you navigate the hierarchy of your advisor's preferences. Your health begins to show improvement as you feel supported, and you align your project goals with the expectations outlined. Yet the challenges of daily life in Tokyo still linger, reminding you of the delicate balance needed to succeed.",
+      "image_prompt": "A supportive meeting between a student and mentor, discussion lively, showing a vibrant academic atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue seeking feedback from peers.",
+          "next_node": "long_term_strategies",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Collaborating with peers can further boost morale and understanding."
+        },
+        {
+          "text": "Hide weaknesses and focus on self-reliance.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Ignoring support may prevent growth and cause unnecessary stress."
+        }
+      ]
+    },
+    "work_late": {
+      "type": "non-ending",
+      "scene_text": "As the deadline looms, you find yourself working late into the night, clutching coffee by the gallon. The urgency to produce quality results has come at a heavy price—your health is deteriorating, and you feel irritable and exhausted. While your grades may see an upturn, the inability to care for yourself is a high cost. Navigating the demands of academic excellence in the bustling environment of Tokyo weighs heavily. You realize the need for change before reaching a breaking point.",
+      "image_prompt": "A student laboring late at a desk filled with notes and coffee, surrounded by lab equipment, embodying the pressure to succeed.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Establish a more manageable schedule.",
+          "next_node": "manageable_schedule",
+          "stat_delta": {
+            "health": 15,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Creating a better schedule improves wellbeing, but project output may initially lag."
+        },
+        {
+          "text": "Continue with the current routine.",
+          "next_node": "continue_routine",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Maintaining this pace risks further health decline while creating dependency on stress."
+        }
+      ]
+    },
+    "japanese_classes": {
+      "type": "non-ending",
+      "scene_text": "Investing in Japanese language classes propels you into a world of deeper connections. Progress in understanding the local culture opens doors that once felt shut. Attending weekly sessions brings both excitement and pressure; each lesson is packed, and financial strain is palpable. However, the boost in confidence transforms daily interactions—from purchasing groceries to casual chats with classmates—and slowly but surely, your feelings of isolation begin to dissipate.",
+      "image_prompt": "A focused student in a lively Japanese language class, surrounded by engaging materials and supportive peers, greeting new cultural experiences.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Practice Japanese in daily interactions.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Using language skills boosts confidence and socialization opportunities."
+        },
+        {
+          "text": "Dedicate time to study at home.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Studying at home improves class retention but risks social isolation."
+        }
+      ]
+    },
+    "informal_learning": {
+      "type": "non-ending",
+      "scene_text": "Building friendships through informal learning is a gratifying experience. Conversations with locals enhance your understanding of cultural nuances, making adjusting to life in Tokyo easier. However, relying solely on social interactions without formal guidance can sometimes feel stagnant, especially when faced with academic pressures. Still, the natural friendships you are forming provide the foundational support needed, reminding you of the value of connection within unfamiliar settings.",
+      "image_prompt": "A close group of international students discussing and laughing over coffee, enjoying the comforts of friendship in a vibrant cafe.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Pursue formal education in Japanese.",
+          "next_node": "japanese_classes",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Investing in education can strengthen language skills but costs additional money."
+        },
+        {
+          "text": "Continue building social connections.",
+          "next_node": "social_connections",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on social ease improves mood but lacks formal structures for learning."
+        }
+      ]
+    },
+    "cheaper_living": {
+      "type": "non-ending",
+      "scene_text": "Moving to a cheaper living situation brings a sigh of relief, easing your financial pressure significantly. With more disposable income, you contemplate joining new social activities and interactions. However, this comes with downsides, as your new surroundings lack familiarity and comfort. You find yourself balancing the excitement of saving money against the risk of feeling disconnected in your more isolated environment. As you navigate this shift, the choice of maintaining connections with friends is essential.",
+      "image_prompt": "A cozy, more affordable living space with simple furniture and personal touches, feeling both comfortable and unfamiliar, as the student settles in.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Invest in transportation to meet friends.",
+          "next_node": "take_day_off",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Investing in transport helps maintain friendships but costs money."
+        },
+        {
+          "text": "Host a meetup at your new place.",
+          "next_node": "host_meetup",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Inviting friends over improves social networks but incurs expense."
+        }
+      ]
+    },
+    "financial_support": {
+      "type": "non-ending",
+      "scene_text": "Reaching out to friends for support and understanding was a wise decision. You find new avenues for financial and emotional relief as you share experiences with others. This multiple perspective approach on managing life in Tokyo helps alleviate some lonelier feelings. Everyone faces similar pressures, and the sense of shared struggle leads to a more resilient outlook. However, the strain of finances still looms large amidst newfound support—balancing personal resources continues to be a tightrope act.",
+      "image_prompt": "An uplifting gathering of students around a living room, sharing stories and brainstorming about life in Tokyo, embodying solidarity.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore scholarship opportunities together.",
+          "next_node": "long_term_strategies",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Working together in seeking support fosters confidence but may involve costs."
+        },
+        {
+          "text": "Commit to a part-time job with friends.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 20
+          },
+          "stat_reason": "Working with friends can ease some stress but may hinder personal health."
+        }
+      ]
+    },
+    "host_meetup": {
+      "type": "non-ending",
+      "scene_text": "Hosting a meetup proves to be an enriching experience. Friends gather around, sharing their stories and navigating the struggles of Tokyo life together. The laughter and camaraderie lift your spirits, reminding you of the importance of connections amid the noise of academia. However, the aftermath has financial implications—ordering pizza and snacks adds pressure to an already tight budget. Despite the cost, the emotional payoff seems worth it as you forge bonds that will last through your journey in Tokyo.",
+      "image_prompt": "A lively gathering in a small apartment filled with laughter and warmth, symbolizing friendships forming within the Tokyo experience.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan a regular meeting schedule.",
+          "next_node": "continue_routine",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Regular interactions to foster bonds are beneficial but require investment."
+        },
+        {
+          "text": "Limit gatherings to save money.",
+          "next_node": "continue_routine",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 5
+          },
+          "stat_reason": "Cutting back may ease financial pressure but could diminish social opportunities."
+        }
+      ]
+    },
+    "social_connections": {
+      "type": "non-ending",
+      "scene_text": "As you foster your social connections informally, the bond with peers slowly grows. Yet deep down, you recognize that reverting to the comfort of academic isolation might be tempting. You realize the importance of balance between working on your studies and actively participating within your cultural environment. The strength of those relationships echoes within Tokyo's vibrant streets—a dynamic city that challenges both your skillset and personal development.",
+      "image_prompt": "A vibrant street scene in Tokyo with student friends walking together, sharing experiences and laughter, embodying camaraderie.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Maintain good academic standing while socializing.",
+          "next_node": "daily_practice",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Balancing studies with community makes for a rich experience but costs time and money."
+        },
+        {
+          "text": "Focus entirely on studies for success.",
+          "next_node": "short_term_goals",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Focusing solely on academics may limit social skills, leading to isolation."
+        }
+      ]
+    },
+    "manageable_schedule": {
+      "type": "non-ending",
+      "scene_text": "Crafting a more manageable schedule revitalizes your wellbeing. You find the time to engage in hobbies, socialize, and fulfill academic responsibilities all while keeping stress levels at bay. However, some lingering deadlines push you to remind yourself discipline is necessary. You swiftly realize achieving a harmonious balance will require constant adjustments and reflections on your choices throughout your journey.",
+      "image_prompt": "A serene café scene showcasing a student reviewing their planner with a warm coffee in hand, symbolizing balance and introspection.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Focus on short-term academic goals.",
+          "next_node": "short_term_goals",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing immediate tasks makes study easier to manage."
+        },
+        {
+          "text": "Explore long-term career strategies.",
+          "next_node": "long_term_strategies",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Investing time in long-range planning can boost career confidence but may impact budget."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "continue_routine": {
+      "scene_text": "Despite the consequences, you persevere, maintaining your current routines. However, as pressure mounts, your health reaches critical levels, and your mood spirals downwards. You miss deadlines, and opportunities slip away, leaving you further isolated within the academic grind. Ultimately, success depends on balance—but you realize too late that neglecting personal and communal needs leads to a heartbreaking result. Striving for excellence without care leaves you stranded in a city that demands both mental strength and cultural adaptability.",
+      "image_prompt": "A somber room filled with papers and coffee cups, symbolizing the struggle and eventual burnout faced by the student.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "take_day_off": {
+      "scene_text": "Taking a day off allowed you to rest and recharge. When you return, your focused energy re-energizes your academic pursuits. The carefully balanced routine ensures that you're both responsible and present in the social aspects of life. This reflective choice became instrumental in crafting your overall experience in Tokyo—ultimately proving that success is not just about relentless work but also about understanding the need for self-care. You leave semester completed, ready to engage further in both academics and community.",
+      "image_prompt": "A refreshed student walking through a sunny Tokyo park, symbolizing renewal and future potential after a much-needed day off.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "daily_practice": {
+      "scene_text": "By engaging in daily Japanese practices, your language skills soar, along with your confidence. Making new friends and navigating Tokyo life feels significantly easier. The struggles you faced in the beginning began to fade as you finally understand how to express yourself and bond with peers. This commitment pays off tremendously, creating not only a grounded sense of belonging but also establishing a vibrant network of friends. With every conversation, you find brighter paths opening before you in this exciting city.",
+      "image_prompt": "A joyful scene with a student conversing confidently in Japanese with a local, surrounded by the energy of Tokyo's vibrant streets.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "short_term_goals": {
+      "scene_text": "By prioritizing short-term academic goals, you turn your Tokyo experience around. Balancing your studies while engaging with friends proves rewarding. The strong connections you built along the way serve as support when challenges arise. This mix of focused academic performance and socialization sets you up to transition successfully into the next chapter of your life, with newfound confidence. Tokyo’s vibrant atmosphere becomes a backdrop to your journey of growth as you navigate a future filled with possibility.",
+      "image_prompt": "A confident student celebrating small academic victories amidst vibrant Tokyo scenery, symbolizing newfound hope and balance.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "long_term_strategies": {
+      "scene_text": "Exploring long-term career strategies opens new avenues for growth. Your investment pays off, leading to internships and meaningful connections with potential employers in the tech world. Each mentorship meeting adds a new layer of understanding not just of your field, but of the intricate world lurking beneath Tokyo's busy streets. As you embrace opportunities with confidence, knowing you've built a strong network, it becomes apparent that the experiences you gained throughout your journey will set the stage for an exciting future.",
+      "image_prompt": "A dynamic networking event in a modern setting, students engaged in meaningful conversations, showcasing the vibrancy of career growth opportunities.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

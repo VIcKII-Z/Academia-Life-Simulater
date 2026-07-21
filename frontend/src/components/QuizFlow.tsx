@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import type { UserProfile } from "../types";
 import {
-  findExactUniversity,
   getCitiesForCountry,
   getCountries,
   getUniversitiesForCity,
   searchUniversitiesScoped,
   type UniversityEntry,
 } from "../data/universities";
-import { searchUniversitiesLive } from "../lib/api";
+import { fetchCountries, searchCitiesLive, searchUniversitiesLive } from "../lib/api";
 
 /**
  * Multi-layer search: country -> city -> university -> degree level ->
@@ -202,112 +201,164 @@ function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdi
   );
 }
 
-/** Layer 1: pick (or type) a country. */
+/** Layer 1: pick a country — search-only, no manual free-text submission.
+ * Two tiers, same pattern as City/University steps:
+ * 1. Curated countries (frontend/src/data/universities.ts) as instant
+ *    quick-pick chips — the countries our offline university data covers.
+ * 2. A full real-world country list fetched once from the backend
+ *    (`/api/countries`), filtered locally as the player types — covers
+ *    every country, not just our curated eight. The player must click an
+ *    actual suggestion; the text input only narrows the search. */
 function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
   const [draft, setDraft] = useState("");
+  const [allCountries, setAllCountries] = useState<string[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchCountries().then((countries) => {
+      if (!cancelled) setAllCountries(countries);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const curatedCountries = getCountries();
+  const query = draft.trim().toLowerCase();
+  const filteredCurated = query
+    ? curatedCountries.filter((country) => country.toLowerCase().includes(query))
+    : curatedCountries;
+
+  const curatedLower = new Set(curatedCountries.map((c) => c.toLowerCase()));
+  const filteredOthers = query
+    ? allCountries.filter((country) => country.toLowerCase().includes(query) && !curatedLower.has(country.toLowerCase()))
+    : [];
+
   return (
     <div className="quizStepActive">
       <h2>Where in the world?</h2>
-      <p>Pick a country to start narrowing down your future.</p>
+      <p>Search countries and pick one from the list.</p>
+      <input
+        className="journalInput"
+        placeholder="Search countries..."
+        value={draft}
+        onChange={(event) => setDraft(event.target.value)}
+        autoFocus
+      />
       <div className="quizChips">
-        {getCountries().map((country) => (
+        {filteredCurated.map((country) => (
           <button key={country} className="quizChip" onClick={() => onSubmit(country)}>
             {country}
           </button>
         ))}
       </div>
-      <input
-        className="journalInput"
-        placeholder="Or type another country..."
-        value={draft}
-        onChange={(event) => setDraft(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && draft.trim()) onSubmit(draft.trim());
-        }}
-      />
-      <div className="journalButtonRow">
-        <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
-          Next
-        </button>
-      </div>
+      {filteredOthers.length > 0 && (
+        <div className="universitySuggestions">
+          {filteredOthers.slice(0, 8).map((country) => (
+            <button key={country} className="universitySuggestion" onClick={() => onSubmit(country)}>
+              <span className="universitySuggestionName">{country}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      {filteredCurated.length === 0 && filteredOthers.length === 0 && query.length > 0 && (
+        <p className="journalHint">
+          {allCountries.length > 0 ? `No matching country found.` : "Loading countries..."}
+        </p>
+      )}
     </div>
   );
 }
 
-/** Layer 2: pick a city within the chosen country. When we have curated
- * cities for the country, this is a dropdown/search-select only — the
- * player filters by typing but must click a real suggestion, no free-text
- * submit, so the city always stays within the chosen country. Falls back
- * to manual free-text entry only when the country isn't in our curated
- * data at all (no cities to search against). */
+/** Layer 2: pick a city within the chosen country — search-only, no
+ * manual free-text submission. Two tiers:
+ * 1. Curated cities for this country (frontend/src/data/universities.ts)
+ *    shown as instant quick-pick chips — popular study-abroad cities that
+ *    already have hand-authored university entries.
+ * 2. A debounced live search against a real worldwide city API (proxied
+ *    through the backend, scoped by country) — covers any real city, e.g.
+ *    "Santa Barbara"/"Santa Cruz"/"Santa Fe", which the tiny curated list
+ *    never had at all.
+ * The player must click an actual suggestion (curated chip or live
+ * result); the text input is for narrowing the search only, so every
+ * chosen city is a real, backend-verified place. */
 function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () => void; onSubmit: (city: string) => void }) {
   const [draft, setDraft] = useState("");
+  const [liveResults, setLiveResults] = useState<string[]>([]);
+  const [liveLoading, setLiveLoading] = useState(false);
   const curatedCities = getCitiesForCountry(country);
-  const hasCuratedData = curatedCities.length > 0;
 
   const query = draft.trim().toLowerCase();
-  const filteredCities = query ? curatedCities.filter((city) => city.toLowerCase().includes(query)) : curatedCities;
+  const filteredCurated = query ? curatedCities.filter((city) => city.toLowerCase().includes(query)) : curatedCities;
+
+  useEffect(() => {
+    setLiveResults([]);
+    if (query.length < 2) {
+      setLiveLoading(false);
+      return;
+    }
+    setLiveLoading(true);
+    const timer = window.setTimeout(async () => {
+      const results = await searchCitiesLive(country, draft.trim());
+      // Don't repeat cities already shown as curated chips.
+      const curatedLower = new Set(curatedCities.map((c) => c.toLowerCase()));
+      setLiveResults(results.filter((city) => !curatedLower.has(city.toLowerCase())));
+      setLiveLoading(false);
+    }, 400);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, country]);
 
   return (
     <div className="quizStepActive">
       <h2>Which city?</h2>
-      <p>
-        {hasCuratedData
-          ? `Search cities in ${country} — pick one from the list.`
-          : `Type the city in ${country}.`}
-      </p>
+      <p>Search cities in {country} and pick one from the list.</p>
 
-      {hasCuratedData ? (
-        <>
-          <input
-            className="journalInput"
-            placeholder="Search cities..."
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            autoFocus
-          />
-          <div className="quizChips">
-            {filteredCities.map((city) => (
-              <button key={city} className="quizChip" onClick={() => onSubmit(city)}>
-                {city}
-              </button>
-            ))}
-            {filteredCities.length === 0 && <p className="journalHint">No matching city in {country}.</p>}
-          </div>
-        </>
-      ) : (
-        <input
-          className="journalInput"
-          placeholder="e.g. Shanghai"
-          value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-          autoFocus
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && draft.trim()) onSubmit(draft.trim());
-          }}
-        />
+      <input
+        className="journalInput"
+        placeholder="Search cities... e.g. Santa Barbara"
+        value={draft}
+        onChange={(event) => setDraft(event.target.value)}
+        autoFocus
+      />
+
+      <div className="quizChips">
+        {filteredCurated.map((city) => (
+          <button key={city} className="quizChip" onClick={() => onSubmit(city)}>
+            {city}
+          </button>
+        ))}
+      </div>
+
+      {liveLoading && <p className="journalHint">Searching cities worldwide...</p>}
+
+      {liveResults.length > 0 && (
+        <div className="universitySuggestions">
+          {liveResults.map((city) => (
+            <button key={city} className="universitySuggestion" onClick={() => onSubmit(city)}>
+              <span className="universitySuggestionName">{city}</span>
+              <span className="universitySuggestionMeta">{country}</span>
+            </button>
+          ))}
+        </div>
       )}
 
-      <div className="journalButtonRow">
-        {!hasCuratedData && (
-          <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
-            Next
-          </button>
-        )}
-      </div>
+      {filteredCurated.length === 0 && liveResults.length === 0 && !liveLoading && query.length > 0 && (
+        <p className="journalHint">No matching city found in {country}. Keep typing to search.</p>
+      )}
     </div>
   );
 }
 
 /** Layer 3: search for the university, scoped to the already-chosen
- * country/city. Three tiers, cheapest/fastest first:
+ * country/city — search-only, no manual free-text submission. Two tiers:
  * 1. Local curated offline list (src/data/universities.ts), scoped/sorted
  *    by the chosen country+city — instant.
  * 2. If there's no local match, a debounced live search against the free
  *    Hipolabs University API (proxied through the backend, scoped by
  *    country) — covers essentially any real university worldwide.
- * 3. A manual free-text entry, always available, so the flow is never
- *    blocked even if the exact name isn't in either source. */
+ * The player must click an actual suggestion; the text input only
+ * narrows the search, so every chosen university is real/verified. */
 function UniversityStep({
   country,
   city,
@@ -328,36 +379,35 @@ function UniversityStep({
   // they type, narrow to a scoped text search within the same country+city.
   const localMatches: UniversityEntry[] =
     query.trim().length > 0 ? searchUniversitiesScoped(query, country, city) : getUniversitiesForCity(country, city);
-  const exact = query.trim().length > 0 ? findExactUniversity(query) : undefined;
-  const hasLocalMatch = localMatches.length > 0 || Boolean(exact);
+  const hasLocalMatch = localMatches.length > 0;
 
   useEffect(() => {
     setLiveResults([]);
-    if (hasLocalMatch || query.trim().length < 3) {
+    if (hasLocalMatch || query.trim().length < 2) {
       setLiveLoading(false);
       return;
     }
     setLiveLoading(true);
     const timer = window.setTimeout(async () => {
-      const results = await searchUniversitiesLive(query.trim(), country);
+      const results = await searchUniversitiesLive(query.trim(), country, city);
       setLiveResults(results);
       setLiveLoading(false);
     }, 450);
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, hasLocalMatch, country]);
+  }, [query, hasLocalMatch, country, city]);
 
   return (
     <div className="quizStepActive">
       <h2>Which university?</h2>
       <p>
         Search universities in {city ? `${city}, ` : ""}
-        {country}, or type the exact name.
+        {country} and pick one from the list.
       </p>
 
       <input
         className="journalInput"
-        placeholder="Type a university name..."
+        placeholder="Search a university name..."
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         autoFocus
@@ -389,13 +439,9 @@ function UniversityStep({
         </div>
       )}
 
-      <p className="journalHint">Can't find it in the list? You can type the exact name and continue directly.</p>
-
-      <div className="journalButtonRow">
-        <button className="journalButton" disabled={!query.trim()} onClick={() => onSubmit(query.trim())}>
-          Next
-        </button>
-      </div>
+      {!hasLocalMatch && !liveLoading && liveResults.length === 0 && query.trim().length > 0 && (
+        <p className="journalHint">No matching university found. Keep typing to search.</p>
+      )}
     </div>
   );
 }
@@ -465,10 +511,6 @@ function SemesterStep({
   return (
     <div className="quizStepActive">
       <h2>How many semesters is your stay?</h2>
-      <p>
-        This sets how long your story runs — more semesters means a longer journey with a different kind
-        of ending, not just a longer version of the same one.
-      </p>
 
       <div className="semesterSlider">
         <div className="semesterSliderReadout">

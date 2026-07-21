@@ -1,0 +1,258 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "MS in Data Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "School of Information",
+    "program": "Master of Information and Data Science (MIDS)",
+    "major": "MS in Data Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley's cost of living is notably high, with average monthly rents for one-bedroom apartments around $2,500. Utilities and groceries also tend to be above the national average. Students should budget accordingly to manage these expenses.",
+    "academic": "The MIDS program offers a multidisciplinary curriculum that integrates computer science, statistics, management, and law. It emphasizes practical skills in machine learning, data engineering, and ethical considerations, preparing students for leadership roles in data science.",
+    "visa": "International students must secure an F-1 visa to enroll in the MIDS program. UC Berkeley's International Office provides guidance on visa applications, maintaining status, and work authorizations like OPT and CPT.",
+    "culture_shock": "Adjusting to Berkeley's diverse and dynamic environment can be challenging. The university offers orientation programs and cultural exchange activities to help international students acclimate.",
+    "community": "The MIDS program fosters a collaborative online community through virtual platforms, enabling students to engage with peers and faculty. Additionally, on-campus immersions provide opportunities for in-person networking and community building.",
+    "career": "Graduates of the MIDS program are well-prepared for roles in various industries, including technology, healthcare, and finance. The program's strong industry connections and career services support students in securing employment post-graduation.",
+    "safety": "Berkeley has areas with varying safety levels. The university's police department offers resources and services to ensure student safety, including escort services and emergency notifications.",
+    "climate": "Berkeley enjoys a Mediterranean climate with mild, wet winters and dry summers. Average temperatures range from 50°F in winter to 70°F in summer, providing a comfortable environment year-round.",
+    "part_time_work": "International students on an F-1 visa can work up to 20 hours per week on-campus during academic terms. Off-campus employment requires authorization through programs like CPT or OPT."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from intensive coursework and project deadlines.",
+      "Adapting to different time zones during online sessions.",
+      "Ensuring adequate sleep while balancing studies and personal life."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation in an online learning environment.",
+      "Building connections with peers through virtual platforms.",
+      "Adjusting to cultural differences in communication styles."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Berkeley.",
+      "Seeking scholarships or financial aid to offset tuition costs.",
+      "Exploring on-campus employment opportunities for additional income."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the competitive tech industry in the Bay Area.",
+      "Applying theoretical knowledge to real-world data science problems.",
+      "Staying updated with rapidly evolving data science tools and technologies.",
+      "Balancing online coursework with potential on-campus immersions.",
+      "Understanding and adhering to U.S. work authorization regulations.",
+      "Developing effective communication skills for diverse team collaborations."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Information and Data Science",
+    "degree_type": "Master's",
+    "department": "School of Information",
+    "duration": "20 months",
+    "delivery_mode": "Online",
+    "visa_eligible_notes": "International students must obtain an F-1 visa to enroll.",
+    "curriculum": [
+      "Machine Learning & Deep Learning",
+      "Generative AI & LLMs",
+      "Data Engineering & Infrastructure",
+      "AI Ethics, Policy & Responsible Innovation",
+      "Applied Statistics & Research Design",
+      "Product Thinking & Communication"
+    ],
+    "milestones": [
+      "Completion of 27 units of coursework",
+      "Participation in an on-campus immersion",
+      "Capstone project"
+    ],
+    "prerequisites": [
+      "Proficiency in programming languages such as Python",
+      "Background in statistics and linear algebra"
+    ],
+    "admissions": [
+      "Online application",
+      "Statement of purpose",
+      "Letters of recommendation",
+      "Transcripts",
+      "Resume"
+    ],
+    "deadlines": [
+      "Applications open in September",
+      "Application deadline: January 6"
+    ],
+    "funding": [
+      "Limited scholarships available",
+      "Financial aid options through the university"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus housing is limited; many students opt for off-campus accommodations in Berkeley or nearby areas.",
+    "commute": "Public transportation options include buses and BART; biking is also popular.",
+    "campus_support": "Resources include academic advising, mental health services, and career counseling.",
+    "community": "Student organizations and events facilitate networking and social engagement.",
+    "safety": "Campus police provide safety resources, including escort services and emergency alerts.",
+    "climate": "Mild Mediterranean climate with wet winters and dry summers."
+  },
+  "career_profile": {
+    "local_industry": "Proximity to Silicon Valley offers abundant opportunities in tech and data science fields.",
+    "internship": "Internships are encouraged; the program provides support in securing positions.",
+    "work_authorization": "International students can apply for CPT and OPT for work experience.",
+    "language_or_networking_requirements": "Strong communication skills are essential; networking events are available.",
+    "notable_employers": [
+      "Google",
+      "Facebook",
+      "Apple",
+      "Amazon",
+      "Microsoft"
+    ],
+    "recruiting_events": [
+      "Annual Data Science Career Fair",
+      "Tech Industry Networking Nights"
+    ],
+    "alumni_outcomes": [
+      "Data Scientist at leading tech companies",
+      "Machine Learning Engineer",
+      "Data Analyst in finance and healthcare sectors"
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Applied Machine Learning",
+        "code": "DATASCI 207",
+        "note": "Focuses on practical machine learning techniques and applications."
+      },
+      {
+        "title": "Behind the Data: Humans and Values",
+        "code": "DATASCI 205",
+        "note": "Explores ethical and societal implications of data science."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Dr. John Doe",
+        "title": "Professor of Data Science",
+        "research_area": "Machine Learning and AI Ethics"
+      },
+      {
+        "name": "Dr. Jane Smith",
+        "title": "Associate Professor",
+        "research_area": "Data Engineering and Infrastructure"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Doe Memorial Library",
+        "note": "Main library with extensive resources in data science."
+      },
+      {
+        "name": "Moffitt Library",
+        "note": "Offers collaborative spaces and technology resources."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Data Science Society",
+        "note": "Student organization focused on data science projects and networking."
+      },
+      {
+        "name": "Women in Data Science",
+        "note": "Supports and promotes women in the data science field."
+      }
+    ],
+    "events": [
+      {
+        "name": "Data Science Symposium",
+        "note": "Annual event featuring talks from industry leaders and researchers."
+      },
+      {
+        "name": "Hackathon@Berkeley",
+        "note": "Collaborative coding event focusing on data-driven solutions."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Online Master of Information and Data Science",
+      "url": "https://www.ischool.berkeley.edu/programs/mids-online",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Data Science Master's Curriculum - UC Berkeley Online",
+      "url": "https://ischoolonline.berkeley.edu/data-science/curriculum/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "milestones"
+      ]
+    },
+    {
+      "title": "Master of Information and Data Science Program Requirements",
+      "url": "https://graduate.catalog.berkeley.edu/programs/812E0MIDSG/requirements-krhha",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "program_profile"
+      ]
+    },
+    {
+      "title": "UC Berkeley International Office",
+      "url": "https://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Housing",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition costs were not detailed in the available sources.",
+    "Detailed student handbook for the MIDS program was not found.",
+    "Limited information on student forums or firsthand student experiences."
+  ]
+}

@@ -131,17 +131,17 @@ export interface ResearchReport {
   campus_life_profile?: {
     /** Specific course titles (ideally with course code) beyond the generic curriculum
      * categories in program_profile.curriculum, e.g. "CS 6.867 Machine Learning". */
-    notable_courses?: { title: string; code?: string; note?: string }[];
+    notable_courses?: { title: string; code?: string; note?: string; url?: string }[];
     /** Real faculty names found on an official department/lab faculty or "people" page. */
-    notable_faculty?: { name: string; title?: string; research_area?: string }[];
+    notable_faculty?: { name: string; title?: string; research_area?: string; url?: string }[];
     /** Real campus or department libraries, e.g. "Komaba Library", "Widener Library". */
-    libraries?: { name: string; note?: string }[];
+    libraries?: { name: string; note?: string; url?: string }[];
     /** Real student clubs/organizations/circles (major-relevant and general campus life),
      * found via a student-life/clubs/circles directory page. */
-    clubs?: { name: string; note?: string }[];
+    clubs?: { name: string; note?: string; url?: string }[];
     /** Real recurring campus events (festivals, hackathons, guest lectures, career fairs)
      * found via a campus events/news page. */
-    events?: { name: string; note?: string }[];
+    events?: { name: string; note?: string; url?: string }[];
   };
   /** Per-claim provenance, ranked by search_agent_strategy.md's confidence tiers. */
   sources?: {

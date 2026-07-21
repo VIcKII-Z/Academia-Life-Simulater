@@ -1,0 +1,211 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "unspecified",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "omit",
+    "program": "omit",
+    "major": "unspecified",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley has a high cost of living, with expensive housing being a primary concern. Living in university housing is typically more affordable than private rentals, but availability is limited. Also, dining and transportation costs trend higher than the national average. Still, students may save on public transport due to free transit passes available for UC Berkeley students.",
+    "academic": "UC Berkeley offers a broad range of graduate programs with interdisciplinary opportunities, highly ranked faculty, and cutting-edge research facilities. Despite the high academic standard, students may encounter challenges due to intense competition and rigorous coursework.",
+    "visa": "UC Berkeley's international office provides robust support for student visa applications, particularly F-1 and J-1 visas. Resources include workshops, advice sessions, and assistance with Optional Practical Training (OPT) applications.",
+    "culture_shock": "Berkeley is culturally diverse, but international students may face adjustment challenges due to the fast-paced academic environment and differences in social norms. Campus organizations greatly support integration.",
+    "community": "UC Berkeley boasts a vibrant student community with more than 1,000 student organizations. Graduate students may benefit from mentorship programs, diversity initiatives, and community events.",
+    "career": "UC Berkeley provides excellent career resources such as GradPro and industry connections through career fairs. Alumni often secure competitive positions in academia, tech, or research roles globally.",
+    "safety": "While the UC Berkeley campus is generally safe, some areas in Berkeley experience higher crime rates. The university offers safety resources like campus shuttles and emergency services.",
+    "climate": "Berkeley's Mediterranean climate is generally mild and pleasant. Summers are warm but not excessively hot, and winters are cool and rainy, which may require adjustment.",
+    "part_time_work": "International students with an F-1 visa can work on-campus for up to 20 hours per week. Off-campus work requires special authorization through CPT or OPT."
+  },
+  "gameplay_signals": {
+    "health": [
+      "High rent costs may force students to live farther from campus, increasing commute times and reducing sleep.",
+      "Stress from rigorous coursework can impact mental health if not properly managed.",
+      "Good access to healthcare facilities through student health insurance plans."
+    ],
+    "mood": [
+      "Large, diverse community offers many opportunities for social interactions and forming friendships.",
+      "High academic pressure may cause stress and self-doubt.",
+      "Opportunities to join cultural clubs or mentorship programs that foster belonging."
+    ],
+    "money": [
+      "UC Berkeley offers on-campus jobs for students, easing financial pressure.",
+      "Part-time work requires careful visa compliance under F-1/OPT rules.",
+      "Scholarships and fellowships are competitive but available through the Graduate Division."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating visa requirements and OPT/CPT processes while juggling academic deadlines.",
+      "Finding affordable housing in a competitive rental market.",
+      "Managing the stress of rigorous courses and research expectations.",
+      "Adapting to the cultural diversity and liberal socio-political environment of Berkeley.",
+      "Coping with noise in high-density housing areas near campus.",
+      "Balancing finances amidst high living expenses and limited work hours."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": false,
+    "department_official": false,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": true
+  },
+  "program_profile": {
+    "official_name": "omit",
+    "degree_type": "omit",
+    "department": "omit",
+    "duration": "omit",
+    "delivery_mode": "omit",
+    "visa_eligible_notes": "UC Berkeley supports F-1 and J-1 visa processing and provides resources for CPT/OPT applications.",
+    "curriculum": [
+      "omit"
+    ],
+    "milestones": [
+      "omit"
+    ],
+    "prerequisites": [
+      "omit"
+    ],
+    "admissions": [
+      "UC Berkeley requires a minimum GPA of 3.0 for admission to most graduate programs",
+      "Graduate programs may have program-specific requirements, including GRE scores; review individual program guidelines."
+    ],
+    "deadlines": [
+      "Most program deadlines are in December or early January; check each program's page for specifics."
+    ],
+    "funding": [
+      "Competitive fellowships, grants, research assistantships, and teaching assistantships are available"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "UC Berkeley offers limited graduate student housing, with alternatives like International House providing community-oriented living.",
+    "commute": "Campus is well-served by public transport, especially AC Transit and BART, which are free for students.",
+    "campus_support": "UC Berkeley provides access to mental health resources and academic guidance at the Graduate Student Mental Health and Graduate Writing Center.",
+    "community": "The campus hosts over 1,000 student groups and regular networking events for students of diverse backgrounds.",
+    "safety": "UC Berkeley's safety services include free nighttime shuttle service (Bear Transit) and campus safety patrols.",
+    "climate": "The climate is generally mild, but students need to prepare for frequent rain during winters."
+  },
+  "career_profile": {
+    "local_industry": "Located in the Bay Area, UC Berkeley has proximity to tech hubs, which attract industry leaders like Google and Apple.",
+    "internship": "Strong opportunities for internships in software, biotech, and engineering firms due to university partnerships.",
+    "work_authorization": "OPT and CPT programs allow international students to engage in short-term work as part of the study program.",
+    "language_or_networking_requirements": "Networking in Berkeley benefits from professional associations and alumni events; English proficiency is critical.",
+    "notable_employers": [
+      "Google",
+      "Apple",
+      "Lawrence Berkeley National Laboratory"
+    ],
+    "recruiting_events": [
+      "Career fairs hosted by UC Berkeley's career services department.",
+      "Hackathons organized by the College of Engineering."
+    ],
+    "alumni_outcomes": [
+      "Many alumni secure advanced research, academia, or industry leadership roles due to UC Berkeley's global reputation."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [],
+    "notable_faculty": [],
+    "libraries": [
+      {
+        "name": "Doe Memorial Library",
+        "note": "Main campus library with vast research materials."
+      },
+      {
+        "name": "C.V. Starr East Asian Library",
+        "note": "Hosts collections of Chinese, Japanese, and Korean texts."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Berkeley Energy and Resources Collaborative",
+        "note": "A club focusing on energy and sustainability initiatives."
+      },
+      {
+        "name": "Berkeley Entrepreneurs Association",
+        "note": "Connects students with startup opportunities and entrepreneurship resources."
+      }
+    ],
+    "events": [
+      {
+        "name": "Grad Slam Competition",
+        "note": "Elevator-pitch competition showcasing research by Berkeley graduate students."
+      },
+      {
+        "name": "California Grad Fair",
+        "note": "Enhances networking between students and potential employers."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Berkeley Graduate Division Website",
+      "url": "https://grad.berkeley.edu/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "money",
+        "visa"
+      ]
+    },
+    {
+      "title": "UC Berkeley Catalog",
+      "url": "https://graduate.catalog.berkeley.edu/",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions"
+      ]
+    },
+    {
+      "title": "Berkeley Graduate Housing Information",
+      "url": "https://housing.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "housing",
+        "safety"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Services",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "money",
+        "community"
+      ]
+    },
+    {
+      "title": "Berkeley Graduate Forums (Reddit)",
+      "url": "https://www.reddit.com/r/berkeley/",
+      "source_type": "forum",
+      "confidence": "medium",
+      "used_for": [
+        "community",
+        "housing",
+        "academic"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific program information was not given, so research focused on UC Berkeley's general graduate-level resources."
+  ]
+}

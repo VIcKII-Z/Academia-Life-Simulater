@@ -4,7 +4,7 @@
    See fls-design.md for the full design rationale.
    ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap");
 
 :root {
   --paper: #fcfaef;
@@ -28,7 +28,7 @@
   --theme-yellow: #ffd93d;
   --theme-green: #6bcb77;
 
-  --font-display: "Pixelify Sans", "Fraunces", "Georgia", serif;
+  --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Nunito Sans", system-ui, sans-serif;
 }
 
@@ -77,6 +77,15 @@
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+/* ---- Centered single-card stages (admission / time-skip / error) --
+   These sit in the same viewport as onboarding but should read as a
+   standalone "interstitial" screen — vertically centered in the middle of
+   the page instead of pinned under the top padding. */
+.journal--centered {
+  justify-content: center;
+  min-height: 100vh;
 }
 
 /* ---- shared card shell ------------------------------------ */
@@ -220,7 +229,6 @@
 
 .journalInput:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(184, 134, 59, 0.28);
 }
 
 .journalHint {
@@ -524,16 +532,6 @@
   animation: mascotBob 2.4s ease-in-out infinite;
 }
 
-.mascotDreaming {
-  width: 92px;
-  height: 92px;
-  object-fit: contain;
-  image-rendering: pixelated;
-  margin: 0 auto 10px;
-  display: block;
-  animation: mascotBob 1.4s ease-in-out infinite;
-}
-
 @keyframes mascotBob {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
   50% { transform: translateY(-8px) rotate(2deg); }
@@ -736,23 +734,19 @@
 
 .admissionDate {
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 1rem;
-  color: var(--ink);
-  margin: 0 0 14px;
-}
-
-.admissionAccentBar {
-  height: 4px;
-  background: var(--terracotta);
-  margin: 0 0 24px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
 }
 
 .admissionHeader {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--terracotta);
 }
 
 .admissionSealIcon {
@@ -765,7 +759,7 @@
 
 .admissionUniversity {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   letter-spacing: 0.01em;
   margin: 0 0 2px;
   color: var(--ink);
@@ -791,7 +785,38 @@
   font-size: 1.05rem;
   line-height: 1.65;
   color: var(--ink);
-  margin: 0 0 26px;
+  margin: 0 0 22px;
+}
+
+.admissionBody--closing {
+  margin: 18px 0 26px;
+}
+
+/* Bold color banner announcing the university, styled after a real
+ * acceptance-email's "Welcome to {University}!" hero block. */
+.admissionBanner {
+  background: var(--terracotta);
+  border-radius: 6px;
+  padding: 28px 20px;
+  margin: 0 -8px 12px;
+  text-align: center;
+}
+
+.admissionBannerTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--paper);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.admissionTagline {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0 0 24px;
 }
 
 .admissionFooterBar {
@@ -1347,6 +1372,26 @@
   z-index: 20;
 }
 
+/* ---- In-app-bar variants -----------------------------------------
+   While playing, the Travel key + image toggle chips live inline in the
+   sticky top bar itself — stat meters, a flexible gap, then these two
+   chips — instead of floating as separate fixed overlays on top of it. */
+.appBarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  justify-self: end;
+}
+
+.apiKeyEditTrigger--inline,
+.imageGenerationToggle--inline {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+}
+
 .imageGenerationToggle.active {
   color: var(--tone-hopeful);
   border-color: rgba(79, 122, 91, 0.35);
@@ -1420,15 +1465,24 @@
   position: sticky;
   top: 0;
   z-index: 15;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 20px;
   width: 100%;
-  padding: 10px 168px 10px 24px; /* right gutter reserves room for the fixed API-key chip */
+  padding: 10px 24px;
   background: rgba(252, 250, 239, 0.86);
   backdrop-filter: saturate(1.2) blur(10px);
   border-bottom: 1px solid rgba(44, 36, 24, 0.1);
   box-shadow: 0 2px 14px rgba(44, 36, 24, 0.05);
+}
+
+.appBarStart {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+  justify-self: start;
 }
 
 .appBarBrand {
@@ -1480,12 +1534,67 @@
   text-overflow: ellipsis;
 }
 
+/* ---- Stat change flyers ------------------------------------------
+   Little sticker icons that fly from the clicked choice up into the app
+   bar when a stat rises, or drop out of the bar and tumble away when a
+   stat falls — a lightweight, self-cleaning visual link between the
+   player's decision and the number that just changed. */
+.statFlyerField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.statFlyer {
+  position: fixed;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(44, 36, 24, 0.35));
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+.statFlyer--gain {
+  animation: statFlyGain 0.85s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+.statFlyer--loss {
+  animation: statFlyLoss 0.7s ease-in forwards;
+}
+
+@keyframes statFlyGain {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.45);
+    opacity: 0;
+  }
+}
+
+@keyframes statFlyLoss {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.7) rotate(50deg);
+    opacity: 0;
+  }
+}
+
 /* ---- Compact stat meters (pixel sticker + slim bar) ------------- */
 .statMeters {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-left: auto;
+  justify-self: center;
   flex-shrink: 0;
 }
 
@@ -2054,13 +2163,17 @@
 
 @media (max-width: 720px) {
   .appBar {
-    flex-wrap: wrap;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
     padding: 10px 16px;
-    gap: 12px;
+  }
+  .appBarStart,
+  .statMeters,
+  .appBarActions {
+    justify-self: stretch;
   }
   .statMeters {
     width: 100%;
-    margin-left: 0;
     justify-content: space-between;
     gap: 10px;
   }
@@ -2072,7 +2185,7 @@
     top: 10px;
   }
   .journal--play .imageGenerationToggle {
-    top: 62px;
+    top: 10px;
   }
   .stage {
     padding: 18px 14px 0;

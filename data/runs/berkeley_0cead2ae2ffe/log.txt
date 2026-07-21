@@ -1,0 +1,7 @@
+2026-07-20T02:32:24.523Z Run started for story_id=berkeley_0cead2ae2ffe
+2026-07-20T02:32:24.523Z [search] started
+2026-07-20T02:32:39.134Z [search] completed in 14610ms -> 01_search_report.json
+2026-07-20T02:32:39.134Z [design] started
+2026-07-20T02:33:09.494Z [design] completed in 30359ms -> 02_design_skeleton.json
+2026-07-20T02:33:09.494Z [artist] started
+2026-07-20T02:33:11.193Z [pipeline] FAILED: 429 当前分组上游负载已饱和，请稍后再试 (request id: 20260720103311244082495RRogSamo)

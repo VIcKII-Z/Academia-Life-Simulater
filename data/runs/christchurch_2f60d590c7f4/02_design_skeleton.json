@@ -1,0 +1,244 @@
+{
+  "story_id": "christchurch_2f60d590c7f4",
+  "framework_type": "convergence",
+  "framework_reason": "There are shared challenges faced by international PhD students in Christchurch, including cultural adjustment and managing academic pressures.",
+  "user_profile": {
+    "country": "New Zealand",
+    "city": "Christchurch",
+    "grade": "PhD",
+    "major": "HCI"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "node2": {
+      "type": "scene",
+      "scene_text": "Setting up your housing brings mixed feelings. On-campus accommodation seems convenient, but private rentals offer more freedom. You notice that housing costs could strain your budget, requiring careful budgeting from the start.",
+      "image_prompt": "An image depicting a student comparing on-campus housing options with private rental listings, surrounded by paperwork and a laptop.",
+      "has_image": true,
+      "insight": "Choosing the right housing can significantly impact finances for PhD students. Understanding local rental trends is essential to manage living costs effectively.",
+      "choices": [
+        {
+          "text": "Choose on-campus housing for convenience.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "On-campus housing provides easy access to university facilities, boosting mood but incurring costs."
+        },
+        {
+          "text": "Opt for private rentals to gain independence.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "Private rentals allow for independence but can be more expensive and stressful to secure."
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "You attend the Orientation Week, filled with lively discussions and networking opportunities. While the cultural differences stand out, you feel a budding sense of belonging as you engage with fellow students who share your interests.",
+      "image_prompt": "A vibrant orientation event at the university, with students mingling, flyers scattered, and busy networking sessions.",
+      "has_image": true,
+      "insight": "Orientation Week is designed to help students acclimate to university life, providing crucial networking opportunities that can ease cultural shocks.",
+      "choices": [
+        {
+          "text": "Join the ProdSoc club to meet more peers.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Joining a club boosts social connections but incurs minor fees."
+        },
+        {
+          "text": "Focus on settling in alone without club distractions.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Opting to avoid clubs may help you concentrate on your adjustments, but can increase feelings of isolation."
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "As research becomes your focus, balancing academic pressures with personal well-being is essential. You establish a routine, but deadlines loom, and you feel the weight of high expectations to contribute original ideas to HCI.",
+      "image_prompt": "A PhD student in a study space surrounded by textbooks and a laptop, deep in thought while reviewing research notes.",
+      "has_image": true,
+      "insight": "PhD programs in HCI at Canterbury require original research contributions, leading to intense academic pressures that can challenge personal health.",
+      "choices": [
+        {
+          "text": "Prioritize work by pulling an all-nighter.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -25,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Staying up late may help meet deadlines, but significantly harms health and mood."
+        },
+        {
+          "text": "Take a break and go for a stroll in the campus gardens.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Taking breaks can rejuvenate health and mood, aiding productivity over time."
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "Excitingly, you identify your research supervisor, a renowned expert in HCI. Meeting with them inspires you but balancing expectations with self-care remains a challenge as you navigate your research project milestones.",
+      "image_prompt": "A meeting with a faculty member in an academic office filled with books and research materials, conveying a sense of inspiration.",
+      "has_image": true,
+      "insight": "Securing a supportive research supervisor is crucial for PhD success but requires students to manage expectations and health during rigorous research phases.",
+      "choices": [
+        {
+          "text": "Offer to present your initial research findings at a departmental seminar.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Presenting increases confidence and visibility but may be stressful."
+        },
+        {
+          "text": "Delay presenting to focus on perfecting your study.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on perfection can boost quality but may hinder networking opportunities and visibility."
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "During your research, you encounter funding opportunities for your project. These can alleviate financial worries but require additional paperwork and time commitment to pursue. The pressure mounts as deadlines approach.",
+      "image_prompt": "A desk cluttered with grant applications and research notes, stressing the importance of funding for academic projects.",
+      "has_image": true,
+      "insight": "Applying for funding is a critical part of PhD research, which can help alleviate financial pressures but also adds workload stress.",
+      "choices": [
+        {
+          "text": "Dedicate time to apply for multiple scholarships.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Seeking scholarships can alleviate financial pressure but requires sacrificing health and time."
+        },
+        {
+          "text": "Focus solely on your research, ignoring funding for now.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": -5
+          },
+          "stat_reason": "Focusing only on research sacrifices financial opportunities and can lead to stress later."
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "As you near the end of your first year, the pressure to prepare for a conference looms. With your supervisor’s encouragement, you feel a mix of terror and excitement at sharing your work with a wider audience.",
+      "image_prompt": "A student presenting at a conference, with attendees engaged and a projector screen displaying detailed research findings.",
+      "has_image": true,
+      "insight": "Preparing for academic conferences is pivotal for PhD students in HCI, enhancing their visibility and networking in the field.",
+      "choices": [
+        {
+          "text": "Channel fear into focusing on your presentation.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -15,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Intense preparation can increase mood and confidence but strongly impacts health."
+        },
+        {
+          "text": "Take time to rehearse casually with peers to relieve stress.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Rehearsing with peers can improve confidence and health without causing extra stress."
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "Your hard work culminates as you present at the conference. The engagement from the audience rejuvenates you, reinforcing your decision to take part in academic life here. Feedback is constructive, and you feel validated.",
+      "image_prompt": "A successful conference presentation with an engaging audience, highlighting the climax of academic effort and achievement.",
+      "has_image": true,
+      "insight": "Presenting research at conferences validates efforts and provides essential feedback for improvement, forming an integral part of academic development.",
+      "choices": [
+        {
+          "text": "Network with conference attendees for future opportunities.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Networking boosts mood and future prospects but may stretch health due to time investment."
+        },
+        {
+          "text": "Rush home to rest and recuperate after the presentation.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Resting post-conference can revive health but may result in missed connections."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Your determination allows you to thrive in Christchurch’s academic environment. You secure a position in an HCI research lab, marking the beginning of your professional journey. The initial struggles have transformed into opportunities for growth and fulfillment.",
+      "image_prompt": "A proud graduate holding a diploma outdoors at the University of Canterbury, with the campus building in the background.",
+      "has_image": true,
+      "insight": "Graduating with a PhD opens doors to various career paths in academia and industry, particularly in rapidly evolving fields like Human-Computer Interaction.",
+      "tone": "hopeful"
+    },
+    "opening": {
+      "scene_text": "Upon arriving in Christchurch, you're overwhelmed by the beauty of the surroundings. The temperate climate and stunning landscapes stretch around you as you make your way to the University of Canterbury. You can't help but feel excited about the opportunities ahead, though the thought of adapting to life in a new country begins to weigh on your mind.",
+      "image_prompt": "A scenic view of Christchurch with lush greenery and academic buildings in the background, showing a new international student arriving.",
+      "has_image": true,
+      "insight": "Christchurch's natural beauty can be a source of inspiration for newcomers, but adapting to a new environment can be challenging, especially for PhD students focused on specialized research.",
+      "tone": "bittersweet"
+    },
+    "node9": {
+      "scene_text": "Reflecting on your journey, you realize that adapting to PhD life in Christchurch has posed numerous challenges, but connection with peers and faculty has made it rewarding. You're hopeful for continued success and growth in the HCI field.",
+      "image_prompt": "A thoughtful scene showing a student overlooking the Christchurch landscape, contemplating accomplishments and future endeavors.",
+      "has_image": true,
+      "insight": "The journey through a PhD program is complex, but overcoming challenges and building connections plays a crucial role in personal and academic growth.",
+      "tone": "bittersweet"
+    }
+  }
+}

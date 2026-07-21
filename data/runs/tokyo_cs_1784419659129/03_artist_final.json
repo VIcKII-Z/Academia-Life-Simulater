@@ -1,0 +1,654 @@
+{
+  "story_id": "tokyo_cs_1784419659129",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Tokyo creates a universal challenge for all graduate students, influencing health, mood, and financial stability.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "Arriving at Narita Airport, you take a deep breath, filled with excitement and nerves. Tokyo's bustling atmosphere is palpable, a blend of modern skyscrapers and ancient temples. As you travel towards your new home in Shibuya, the vibrant billboards and the buzz of the crowd remind you that this city is alive. However, a whisper of doubt creeps in - can you handle the intense workload of your CS graduate program in this new culture?",
+      "image_prompt": "Scene of Narita Airport transitioning to vibrant Tokyo streets filled with people and colorful advertisements, capturing anticipation and anxiety.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Find affordable housing far from campus.",
+          "next_node": "far_housing",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 10
+          },
+          "stat_reason": "Choosing cheaper housing means longer commutes, potentially causing fatigue."
+        },
+        {
+          "text": "Opt for expensive housing near campus.",
+          "next_node": "near_housing",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -25
+          },
+          "stat_reason": "Close housing reduces commute time and stress but strains your finances."
+        }
+      ]
+    },
+    "far_housing": {
+      "type": "scene",
+      "scene_text": "Settled in a small room a train ride away from campus, you brave the daily long commute. The trains are crowded, and your social interactions are limited. The hum of life outside feels intimidating as you grapple with the language barrier. You push yourself to immerse in your studies, but fatigue is creeping in. The vibrant student community seems just out of reach.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Attend a language class to connect with locals.",
+          "next_node": "language_class",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Classes cost money but may help build connections and increase comfort."
+        },
+        {
+          "text": "Focus solely on your studies and ignore social opportunities.",
+          "next_node": "study_focus",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Neglecting social life can lead to loneliness and decreased health."
+        }
+      ]
+    },
+    "near_housing": {
+      "type": "scene",
+      "scene_text": "Your new apartment is just minutes from campus, a blessing that allows more time for your intense coursework. However, the rent takes a significant chunk of your stipend. As you settle in, you realize that consistent late nights in the lab and minimal cooking due to convenience meals are wearing you down. The exhaustion weighs heavily as academic pressures mount.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a student tech club for networking.",
+          "next_node": "tech_club",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Joining improves networking and mood, but displaces time and energy."
+        },
+        {
+          "text": "Dedicate yourself to solo study sessions.",
+          "next_node": "solo_study",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Pursuing independent study drains health and mood without support."
+        }
+      ]
+    },
+    "language_class": {
+      "type": "scene",
+      "scene_text": "You make the commitment to attend a language class. Surrounded by fellow internationals, the camaraderie helps lift your spirits as you bond over shared experiences and struggles. You feel more empowered to explore Tokyo, yet the added class time cuts into your precious study hours, sparking some anxiety about your upcoming assignments.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Balance language studies with your CS workload.",
+          "next_node": "balance",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Balancing studies will strain health but enhance social integration."
+        },
+        {
+          "text": "Prioritize the language class and cut back on studying.",
+          "next_node": "cut_study",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Focusing more on language can boost mood but may risk academic performance."
+        }
+      ]
+    },
+    "study_focus": {
+      "type": "scene",
+      "scene_text": "As assignments pile up, you immerse yourself in your research project, often skipping social gatherings. The intensive hours spent at the lab lead to burnout. Despite achieving minor progress, you often feel overwhelmed and detached from classmates. The loneliness creeps in as deadlines loom ever closer.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek light connections with peers through online events.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Engaging online can foster connections without committing to too much time."
+        },
+        {
+          "text": "Continue isolating yourself to prioritize lab work.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": -15,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Intense isolation heavily impacts mood and well-being."
+        }
+      ]
+    },
+    "tech_club": {
+      "type": "scene",
+      "scene_text": "Joining the tech club becomes a highlight amidst your study pressure. You enjoy brainstorming with others and believe networking will help your career. However, juggling club meetings with late-night lab sessions leaves you exhausted. While your mood lifts when you're around peers, getting enough rest seems increasingly tougher.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reduce club activities to focus on studies.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Dedicating time away from the club enhances health but impacts socialization."
+        },
+        {
+          "text": "Increase your commitment to meet more people.",
+          "next_node": "increase_commitment",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Diving deeper into club activities can boost your mood but may strain your health."
+        }
+      ]
+    },
+    "solo_study": {
+      "type": "scene",
+      "scene_text": "The solitude of your study sessions results in impressive academic insights, yet the isolation weighs heavily. Your fatigue is piling up as stress mounts from deadlines. Just outside, the vibrancy of Tokyo beckons, but the fluorescent lights of the lab keep you indoors. You question whether this sacrifice is worth it.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Challenge yourself to take breaks and socialize more.",
+          "next_node": "take_breaks",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Taking breaks can enhance well-being and boost morale."
+        },
+        {
+          "text": "Stay locked in your studies regardless of the cost.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Continuing in isolation leads to a significant health decline and low morale."
+        }
+      ]
+    },
+    "balance": {
+      "type": "scene",
+      "scene_text": "Striking a balance between the language class and your CS workload proves challenging. You're learning how to engage with the local culture, yet deadlines loom larger than life. An unexpected typhoon hits, delaying classes and making you spend extra for transport to attend lectures. The pressure of keeping up with both your studies and everyday life intensifies.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Decide to focus solely on your academic projects.",
+          "next_node": "focus_academics",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Neglecting language learning for academics may hurt cultural adaptation."
+        },
+        {
+          "text": "Continue language lessons even with a typhoon's distractions.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -20
+          },
+          "stat_reason": "Sticking to language studies may help long-term adjustment but risks finances."
+        }
+      ]
+    },
+    "cut_study": {
+      "type": "scene",
+      "scene_text": "As you pursue a healthy balance and support system, the pressure of falling behind academically is real. You're torn—do you nurture your development of social skills and personal well-being, or do you risk alienating yourself to catch up on studies? The choices you make will define your path.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Commit to a study schedule without distractions.",
+          "next_node": "study_schedule",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing intensely on studies risks your health and emotional wellness."
+        },
+        {
+          "text": "Participate in study groups to maintain your ties.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Joining encourages bonding but could put strain on your finances."
+        }
+      ]
+    },
+    "increase_commitment": {
+      "type": "scene",
+      "scene_text": "Your increased commitment to the tech club shines through as you find yourself networking with potential future employers. However, the busy social calendar leaves you drained. The next big project deadline is approaching, and despite the fun, you worry about your ability to keep up. The young professional world of tech is both fascinating and intimidating.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Scale back club involvement to focus on project timelines.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Cutting back on club activities helps align efforts with project deadlines."
+        },
+        {
+          "text": "Continue prioritizing club events for networking.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Networking is crucial but strains your health due to busy schedules."
+        }
+      ]
+    },
+    "take_breaks": {
+      "type": "scene",
+      "scene_text": "Taking intentional breaks proves refreshing. You find time to hit a nearby café with friends, sharing a moment of laughter and support. Though your focus improves, the pressure still lurks as deadlines approach. You have to keep momentum going while adjusting to the rhythm of Tokyo life.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Work on maintaining a balanced lifestyle.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Improving your daily rhythm balances your well-being with academic pressures."
+        },
+        {
+          "text": "Push through and sacrifice your relaxation time.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Missing out on breaks deteriorates your health and morale when overworking."
+        }
+      ]
+    },
+    "social_circles": {
+      "type": "scene",
+      "scene_text": "Remaining involved socially helps you cope with feeling academically behind. You find comfort and motivation among peers, despite the looming projects. It's uplifting to speak in English and find shared experiences, yet you have to figure out how to catch up academically while keeping these friendships strong.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Redouble efforts in your coursework during quiet hours.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Serious study sessions risk further health decline while pursuing academic success."
+        },
+        {
+          "text": "Balance studying with maintaining social ties.",
+          "next_node": "maintain_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Striking a balance can enhance mood but may put a strain on finances."
+        }
+      ]
+    },
+    "focus_academics": {
+      "type": "scene",
+      "scene_text": "By prioritizing your academic projects, you manage to submit several deadlines on time. However, feelings of loneliness creep in as you have withdrawn from your classmates. The academic success brings a sense of accomplishment, yet without a support system, it becomes increasingly difficult to stay motivated. You must navigate the lab's hierarchical culture, where seeking help feels daunting.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reach out to your advisor for guidance.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Seeking support can lift spirits and provide clarity in your research."
+        },
+        {
+          "text": "Continue isolating yourself to maintain focus.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Dedicating yourself to isolation may severely compromise your health."
+        }
+      ]
+    },
+    "maintain_balance": {
+      "type": "scene",
+      "scene_text": "Striking a balance between study and social life keeps your mood lifted. You tackle coursework with a refreshed mindset, knowing that solidarity with peers makes a difference. However, financial pressure looms as you soon need to address both tuition and living expenses. The clock ticks on your time management.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look for part-time work to ease financial strains.",
+          "next_node": "part_time_job",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": 15
+          },
+          "stat_reason": "Finding work helps finances, but may overwhelm your schedule."
+        },
+        {
+          "text": "Seek scholarships to stabilize your finances.",
+          "next_node": "scholarship_search",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "Applying for scholarships eases financial pressure but takes time away from studies."
+        }
+      ]
+    },
+    "part_time_job": {
+      "type": "scene",
+      "scene_text": "You land a part-time job, providing a sense of financial relief. However, the hours are long and interfere with your lab hours. You're grateful for the money, but as exhaustion sets in, you realize that your dedication to your coursework is at risk. The social ties that once motivated you begin to fade.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut down your work hours for better time management.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -15
+          },
+          "stat_reason": "Reducing hours allows you to focus but cuts into your income."
+        },
+        {
+          "text": "Keep your work hours as they are despite the toll.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 20
+          },
+          "stat_reason": "Sticking to work boosts finances but severely impacts health and morale."
+        }
+      ]
+    },
+    "scholarship_search": {
+      "type": "scene",
+      "scene_text": "Dedicating time to search for scholarships proves beneficial, as you find a few options that interest you. While the potential funding is heartening, the application process demands high-quality components and attention to detail, which takes effort away from your studies. The pressure of deadlines with rising expectations start to weigh upon you.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Apply to as many as you can, regardless of quality.",
+          "next_node": "apply_many",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Broad applications can yield financial rewards but at the cost of your well-being."
+        },
+        {
+          "text": "Focus on creating high-quality applications for fewer scholarships.",
+          "next_node": "quality_over_quantity",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "High-quality work can enhance chances but might hurt your health due to heightened stress."
+        }
+      ]
+    },
+    "apply_many": {
+      "type": "scene",
+      "scene_text": "Submitting numerous applications warms your heart, knowing you’ve thrown your net wide. However, as deadlines approach, you realize that quantity came at the expense of quality. You now chase after essays that require revisiting while feeling the weight of your studies. The anxiety builds as the semester unfolds, and managing everything is feeling overwhelming.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Focus on your coursework by procrastinating on applications.",
+          "next_node": "procrastinate_applications",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Postponing applications puts academic success at risk due to newfound stress."
+        },
+        {
+          "text": "Attempt to balance your commitments more effectively.",
+          "next_node": "balance_commitments",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Balancing all commitments can alleviate stress but strains your health."
+        }
+      ]
+    },
+    "quality_over_quantity": {
+      "type": "scene",
+      "scene_text": "You decide to pursue quality over quantity for your scholarship applications. The effort pays off as you receive positive feedback, instilling a sense of hope. However, the pressure of keeping your studies afloat while chasing these scholarships simultaneously starts to erode your well-being. Finding revitalization in a strenuous environment is becoming harder.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Dedicate more time to your studies at the cost of applications.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing studies affects your financial aid but supports your morale."
+        },
+        {
+          "text": "Keep balancing, believing that persistence will yield results.",
+          "next_node": "persist_balance",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 5
+          },
+          "stat_reason": "Striking a balance can boost your mood but could take a toll on your well-being."
+        }
+      ]
+    },
+    "study_schedule": {
+      "type": "scene",
+      "scene_text": "Fully devoted to studying, your structured schedule yields results, yet you battle extreme exhaustion. Seminar and lab responsibilities are pressing, and the limited downtime carries heavy consequences. You validate high standards in your work but at the expense of personal health. You are unsure if you can sustain this pace in a city as demanding as Tokyo.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Focus on your individual strengths to ease some pressure.",
+          "next_node": "burnout",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Emphasizing your personal strengths may lift spirits amidst rigorous challenges."
+        },
+        {
+          "text": "Persuade yourself it's worth the sacrifice for success.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Pushing ultimately puts your mental health at risk while aiming for success."
+        }
+      ]
+    },
+    "procrastinate_applications": {
+      "type": "scene",
+      "scene_text": "By choosing to procrastinate on your applications, the burden of your coursework feels much heavier as deadlines draw near. You experience sharp pangs of anxiety as you remember opportunities slipping away. Your evening hours turn into frantic work sessions, and sleep becomes a distant memory. You fear what might happen if you manage to fail in both realms.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Recommit to both studies and applications regardless of personal cost.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": -20,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Dedicating yourself to both paths severely impacts your mental and physical health."
+        },
+        {
+          "text": "Scale back your ambitions temporarily to recover.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Taking a step back can improve well-being though with a decline in financial stability."
+        }
+      ]
+    },
+    "balance_commitments": {
+      "type": "scene",
+      "scene_text": "In a bid to balance everything, the adjustment proves difficult. Your days turn chaotic as you shuffle between lab work, classes, and adjusting to new social expectations. On good days, hope surfaces; on tougher days, fatigue overwhelms you. The challenges bear down as life in Tokyo's fast-paced atmosphere continues pushing you.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Rely on your community to share the burden.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Lean on your community to receive the support that enhances group morale."
+        },
+        {
+          "text": "Double down on your commitment to independence.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Full commitment to independence can erode your well-being while juggling multiple paths."
+        }
+      ]
+    },
+    "persist_balance": {
+      "type": "scene",
+      "scene_text": "With careful persistence, you manage to maintain your studies and applications. However, you start feeling that the city is compressing under the stellar ambitions you've set for yourself. Tokyo's pace makes it hard to navigate feelings of loneliness amidst vibrant success. You are faced with a dilemma: success may not be worth the potential isolation.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Dig deeper for support from your social networks.",
+          "next_node": "failure",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": 0
+          },
+          "stat_reason": "Reaching out can improve morale while funding needs to wait."
+        },
+        {
+          "text": "Commit to achieving your academic goals regardless of personal well-being.",
+          "next_node": "success",
+          "stat_delta": {
+            "health": -30,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing academic success renders significant damage to your health and happiness."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "success": {
+      "scene_text": "You emerge from your experience in Tokyo, your academic accomplishments resounding. A stable career opportunity arises, leading to your dream job. The journey was filled with hurdles—dealing with culture shock and financial pressure, yet you’ve built connections that will last. With a steady footing in your new life, you realize the sacrifices made have been worthwhile. You exit this chapter filled with hope and excitement for what lies ahead.",
+      "image_prompt": "A positive scene of a graduate celebrating their diploma amidst bright Tokyo cityscape, showcasing a blend of personal accomplishment and a vibrant backdrop.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "burnout": {
+      "scene_text": "Despite your academic achievements, the weight of exhaustion feels almost unbearable. You realize that the relentless pace you kept led to isolating encounters rather than enriching experiences. The commitments you pursued lacked joy, leaving you questioning the worth of your journey. You step away from Tokyo, worn out but wiser, hoping to regain a sense of self in the quiet corners of life.",
+      "image_prompt": "A graduate sitting alone on a Tokyo bench at dusk, gazing into the city, a look of exhaustion mixed with reflection highlighting the weight of their journey.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "failure": {
+      "scene_text": "Lost in a whirlpool of academic pressure and social isolation, you fail to secure your expected outcome. The high demands lead to unfulfilled dreams, the foundation you sought to build now crumbled in Tokyo's incessant pace. With regret, you conclude your experience feeling that you missed the chance to truly immerse in the vibrant life around you. You embark on a new journey elsewhere, hoping to rediscover a better balance in life.",
+      "image_prompt": "A dim scene of a graduate leaving Tokyo, a mixture of sadness and determination on their face as they step onto a train heading towards an unknown future.",
+      "has_image": true,
+      "tone": "challenging"
+    }
+  }
+}

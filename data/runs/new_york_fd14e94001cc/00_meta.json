@@ -1,0 +1,27 @@
+{
+  "storyId": "new_york_fd14e94001cc",
+  "mode": "live_search",
+  "profile": {
+    "country": "United States",
+    "city": "New York",
+    "grade": "Graduate",
+    "major": "MS in statistics",
+    "school": "Columbia University",
+    "semesters": 1,
+    "program": "MS in statistics"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-20T03:54:41.015Z"
+}

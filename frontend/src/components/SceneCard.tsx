@@ -5,7 +5,7 @@ import Floaty from "./Floaty";
 // Pixel-art charm stickers (borrowed from the random-life-challenge asset
 // pack) sit next to each stat — deliberately playful pixel accents kept as the
 // product's visual identity even inside the cleaner, more professional shell.
-const STAT_CONFIG: {
+export const STAT_CONFIG: {
   key: keyof StatBlock;
   label: string;
   color: string;
@@ -21,8 +21,19 @@ const STAT_MAX = 100;
 
 /** Compact horizontal stat meters designed to live in the top app bar — pixel
  * sticker + slim bar + value. Replaces the old floating "sticker strip" so the
- * player's vitals read like a product status bar rather than a scrapbook. */
-export function StatMeters({ stats }: { stats: StatBlock }) {
+ * player's vitals read like a product status bar rather than a scrapbook.
+ *
+ * `registerIcon`, when given, hands back each stat's sticker DOM node so a
+ * parent (HomeFlow) can read its on-screen position and animate a little icon
+ * flying in (gains) or dropping out (losses) from that exact spot whenever a
+ * choice changes the player's stats. */
+export function StatMeters({
+  stats,
+  registerIcon,
+}: {
+  stats: StatBlock;
+  registerIcon?: (key: keyof StatBlock, el: HTMLImageElement | null) => void;
+}) {
   return (
     <div className="statMeters" role="group" aria-label="Life stats">
       {STAT_CONFIG.map(({ key, label, color, sticker }) => {
@@ -30,7 +41,12 @@ export function StatMeters({ stats }: { stats: StatBlock }) {
         const isLow = value <= 20;
         return (
           <div className={`statMeter${isLow ? " statMeter--low" : ""}`} key={key} title={`${label}: ${stats[key]}`}>
-            <img className="statMeterSticker" src={sticker} alt="" />
+            <img
+              className="statMeterSticker"
+              src={sticker}
+              alt=""
+              ref={registerIcon ? (el) => registerIcon(key, el) : undefined}
+            />
             <div className="statMeterBody">
               <div className="statMeterHead">
                 <span className="statMeterLabel">{label}</span>
@@ -116,12 +132,14 @@ export function InsightPanel({
   insight,
   sceneText,
   caption,
+  schoolQuery,
   contextNote,
   sources,
 }: {
   insight?: string;
   sceneText?: string;
   caption: string;
+  schoolQuery?: string;
   contextNote?: string;
   sources?: StorySource[];
 }) {
@@ -145,7 +163,7 @@ export function InsightPanel({
           <>
             <h3 className="insightTitle">Why this happens</h3>
             <p className="insightBody">
-              <HighlightedText text={insight} />
+              <HighlightedText text={insight} schoolQuery={schoolQuery} />
             </p>
           </>
         ) : (
@@ -217,15 +235,17 @@ const CHOICE_STICKER: Record<"left" | "right" | "straight", string> = {
 export default function SceneCard({
   node,
   caption,
+  schoolQuery,
   contextNote,
   sources,
   onChoose,
 }: {
   node: StoryNode | EndingNode;
   caption: string;
+  schoolQuery?: string;
   contextNote?: string;
   sources?: StorySource[];
-  onChoose: (choice: Choice) => void;
+  onChoose: (choice: Choice, originRect: DOMRect) => void;
 }) {
   const isEnding = (node as EndingNode).tone !== undefined;
   const choices = !isEnding ? (node as StoryNode).choices : [];
@@ -258,7 +278,7 @@ export default function SceneCard({
                 &ldquo;
               </span>
               <p className="storyText">
-                <HighlightedText text={node.scene_text} mapQuery={caption} />
+                <HighlightedText text={node.scene_text} mapQuery={caption} schoolQuery={schoolQuery} />
               </p>
 
               {!isEnding && choices.length > 0 && (
@@ -273,7 +293,7 @@ export default function SceneCard({
                         <button
                           className={`choicePath${choice.recommended ? " choicePath--recommended" : ""}`}
                           key={`${choice.next_node}-${index}`}
-                          onClick={() => onChoose(choice)}
+                          onClick={(event) => onChoose(choice, event.currentTarget.getBoundingClientRect())}
                         >
                           {choice.recommended && (
                             <img className="choicePathStar" src="/stickers/star.svg" alt="Recommended" />
@@ -298,6 +318,7 @@ export default function SceneCard({
             insight={node.insight}
             sceneText={node.scene_text}
             caption={caption}
+            schoolQuery={schoolQuery}
             contextNote={contextNote}
             sources={sources}
           />

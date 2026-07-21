@@ -1,0 +1,5 @@
+2026-07-19T00:08:39.230Z Run started for story_id=toronto_business_1784419719229
+2026-07-19T00:08:39.230Z [search] started
+2026-07-19T00:08:39.231Z [search] completed in 1ms -> 01_search_report.json
+2026-07-19T00:08:39.231Z [design] started
+2026-07-19T00:12:26.787Z [pipeline] FAILED: Design Agent failed after 4 attempts: TypeError: Cannot set properties of undefined (setting 'successful_collaboration')

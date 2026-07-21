@@ -1,0 +1,401 @@
+{
+  "story_id": "boston_7867de510c6a",
+  "framework_type": "turning_point",
+  "framework_reason": "Northeastern's mandatory co-op program creates a defined mid-program turning point where the international student must choose between staying safely on the academic track or taking a career risk that pays off only if handled well.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Boston",
+    "grade": "Undergraduate",
+    "major": "",
+    "school": "Northeastern University"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "sources": [
+    {
+      "title": "Northeastern University \u2014 Office of Global Services (International Student Handbook)",
+      "url": "https://ogs.northeastern.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "arrival",
+        "F-1 status basics"
+      ]
+    },
+    {
+      "title": "Northeastern University \u2014 Khoury College of Computer Sciences",
+      "url": "https://www.khoury.northeastern.edu/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "co-op program",
+        "advising"
+      ]
+    },
+    {
+      "title": "Northeastern University \u2014 Housing & Residential Life",
+      "url": "https://housing.northeastern.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "dorm assignment",
+        "move-in"
+      ]
+    },
+    {
+      "title": "NerdWallet \u2014 Cost of Living in Boston, MA",
+      "url": "https://www.nerdwallet.com/article/finance/cost-of-living-calculator",
+      "source_type": "third_party",
+      "confidence": "medium",
+      "used_for": [
+        "budgeting",
+        "T-pass cost",
+        "grocery prices"
+      ]
+    },
+    {
+      "title": "MBTA \u2014 Fares & the Student Semester Pass",
+      "url": "https://www.mbta.com/fares",
+      "source_type": "official_registry",
+      "confidence": "official_registry",
+      "used_for": [
+        "commute cost",
+        "T pass"
+      ]
+    },
+    {
+      "title": "r/Northeastern \u2014 International Student Megathread",
+      "url": "https://www.reddit.com/r/Northeastern/",
+      "source_type": "forum",
+      "confidence": "low",
+      "used_for": [
+        "day-to-day survival tips",
+        "co-op interview anecdotes"
+      ]
+    }
+  ],
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "Logan Airport spits you out into a **February wind** that finds every gap in your jacket. Your dorm at **Northeastern's International Village** is only a 20-minute walk, but the map app insists on routing you past a construction pit. Your phone is at 9% and your F-1 paperwork is still zipped inside your backpack, not yet in your hand.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Brave the walk to save the $28 rideshare fare",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -8,
+            "mood": -2,
+            "money": 4,
+            "school": 0
+          },
+          "stat_reason": "Cold exposure costs you some health, but you land in Boston a little richer.",
+          "recommended": false
+        },
+        {
+          "text": "Call a rideshare straight to the dorm",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 2,
+            "mood": 3,
+            "money": -8,
+            "school": 0
+          },
+          "stat_reason": "You arrive warm and settled, at the cost of a chunk of your arrival budget.",
+          "recommended": true
+        }
+      ],
+      "insight": "Boston winters start earlier and hit harder than most international students expect \u2014 Northeastern's Office of Global Services specifically flags **late January/early February arrivals** as the highest-risk window for cold-weather health issues among new arrivals, because students often under-pack for a New England winter based on their home country's climate.",
+      "image_url": "/assets/generated/boston_7867de510c6a_opening.png"
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "Move-in day at International Village is chaos: RAs handing out lanyards, a line for key fobs, and a **mandatory international student check-in** with OGS that everyone insists must happen within 48 hours to stay in status. Your roommate \u2014 already unpacked \u2014 asks if you want to grab dumplings at **Downtown Crossing** or just crash.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Go out for dumplings and worry about check-in tomorrow",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -2,
+            "mood": 8,
+            "money": -6,
+            "school": 0
+          },
+          "stat_reason": "A great first night in Boston, but you're cutting the check-in deadline close.",
+          "recommended": false
+        },
+        {
+          "text": "Finish OGS check-in first, then celebrate",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 4,
+            "money": -3,
+            "school": 3
+          },
+          "stat_reason": "Status secured before anything else \u2014 a quieter but safer first night.",
+          "recommended": true
+        }
+      ],
+      "insight": "Northeastern requires all new international students to complete SEVIS check-in with the Office of Global Services within a strict window after arrival; missing it can jeopardize F-1 status, so it consistently ranks as new students' first real bureaucratic stressor before classes even start.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node2.png"
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "Week one at **Khoury College**: your CS404 professor spends the whole first lecture on the **co-op program**, Northeastern's signature deal where every student does 1-2 full-time, paid semesters at a real company before graduating. Half your international classmates are already panicking about work authorization; the other half are already emailing recruiters.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Skip the info session, you'll figure out co-op later",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 3,
+            "money": 0,
+            "school": -6
+          },
+          "stat_reason": "One less thing on your plate this week, but you're now behind on co-op prep that everyone else already started.",
+          "recommended": false
+        },
+        {
+          "text": "Sign up for the international co-op/CPT workshop",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": -2,
+            "money": 0,
+            "school": 7
+          },
+          "stat_reason": "An extra evening commitment, but you now understand the CPT paperwork before it's urgent.",
+          "recommended": true
+        }
+      ],
+      "insight": "Northeastern's co-op is central to how the university sells its CS degree, but for international students it interacts directly with F-1 **Curricular Practical Training (CPT)** rules \u2014 CPT must be arranged and approved by OGS before the co-op starts, and doing full-time CPT for over 12 months can affect eligibility for OPT after graduation.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node3.png"
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "Rent is due, and so is the **MBTA semester T-pass**. Your dorm meal plan is expensive but simpler; going grocery-only at the Stop & Shop on **Huntington Ave** would save real money but eats your evenings and your patience after a full day of Khoury problem sets.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Keep the dorm meal plan for convenience",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 4,
+            "mood": 4,
+            "money": -10,
+            "school": 2
+          },
+          "stat_reason": "Less stress, less time cooking, but your budget takes a real hit.",
+          "recommended": false
+        },
+        {
+          "text": "Switch to cooking your own groceries",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -2,
+            "mood": -3,
+            "money": 9,
+            "school": -1
+          },
+          "stat_reason": "You save real money, but the extra chores eat into rest and study time.",
+          "recommended": true
+        }
+      ],
+      "insight": "Boston consistently ranks among the most expensive U.S. cities for international students, and unofficial cost-of-living guides put a no-frills monthly budget (T-pass, groceries, phone plan) well above what many home-country families expect \u2014 a common source of quiet financial stress in the first semester.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node4.png"
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "Midterms hit the same week the **NU Tech Club** is running a hackathon with recruiters from three Boston-area startups walking the floor. Your CS404 professor's midterm review session is the same night. You can't tell if skipping the review will actually hurt your grade, or if skipping the hackathon will actually hurt your co-op chances.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Go to the hackathon and network with recruiters",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -6,
+            "mood": 6,
+            "money": 0,
+            "school": -8
+          },
+          "stat_reason": "You make a strong recruiter connection, but your midterm prep suffers.",
+          "recommended": false
+        },
+        {
+          "text": "Attend the midterm review session instead",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -2,
+            "mood": -1,
+            "money": 0,
+            "school": 9
+          },
+          "stat_reason": "You protect your GPA and your co-op eligibility standing, at the cost of a networking opportunity.",
+          "recommended": true
+        }
+      ],
+      "insight": "Khoury students consistently describe hackathons and career-fair-adjacent events as informal 'pre-co-op interviews' \u2014 recruiters remember faces \u2014 but international students on a tight F-1 course load are also warned by academic advisors that a mid-semester GPA dip can jeopardize both scholarship renewal and later CPT approval, which require good academic standing.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node5.png"
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "A group project partner ghosts the shared Google Doc two days before the deadline. It's 11pm, you have a **9am CPT paperwork appointment** with OGS, and the project is worth 20% of your grade. Your roommate offers to help you crash through it if you order food; alternatively, you could email the professor now and ask for an extension, citing your partner's absence.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Pull an all-nighter and finish it solo",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": -4,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "The project gets done, but you're exhausted walking into your CPT appointment.",
+          "recommended": false
+        },
+        {
+          "text": "Email the professor tonight documenting the issue",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -3,
+            "mood": 2,
+            "money": 0,
+            "school": 4
+          },
+          "stat_reason": "You protect your grade and your sleep by handling it the way advisors actually recommend.",
+          "recommended": true
+        }
+      ],
+      "insight": "Group project conflicts disproportionately stress international students, who often feel less comfortable pushing back on domestic classmates or emailing professors informally \u2014 but Khoury faculty explicitly tell advisees that documenting a nonresponsive partner **before** the deadline, in writing, is the standard and expected way to protect your grade.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node6.png"
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "CPT is approved. A **Boston fintech startup** offers you a co-op interview for next semester \u2014 but so does a **larger, more stable healthcare-tech company** across town with a longer commute and a stricter dress code. The startup pays less, the corporate job pays more, and both interviews are Thursday at 2pm.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Interview with the fintech startup",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -2,
+            "school": 3
+          },
+          "stat_reason": "A scrappier, hands-on opportunity with less brand recognition but a shorter commute.",
+          "recommended": false
+        },
+        {
+          "text": "Interview with the healthcare-tech company",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -2,
+            "mood": 1,
+            "money": 6,
+            "school": 4
+          },
+          "stat_reason": "A longer commute and stricter dress code, but stronger pay and a name that travels well on a resume.",
+          "recommended": true
+        }
+      ],
+      "insight": "OGS advisors and Khoury co-op coordinators both note that first co-ops set the tone for a student's resume more than people expect \u2014 international students report that co-op employer **name recognition** matters disproportionately for a later OPT job search, but so does simply getting real production experience, which smaller startups sometimes offer faster.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node7.png"
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "You get the offer. Co-op starts in three weeks, right as **finals** for your last pre-co-op semester begin. Your OGS advisor reminds you the CPT authorization is tied to enrollment status \u2014 if your GPA slips below the co-op eligibility threshold now, the offer could be rescinded before you ever start.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Ease off studying, the offer feels secured",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 3,
+            "mood": 6,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "A relaxing final few weeks, but your GPA cushion shrinks right when it matters most.",
+          "recommended": false
+        },
+        {
+          "text": "Keep grinding through finals to protect the offer",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": -3,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Exhausting, but it locks in the eligibility your co-op offer depends on.",
+          "recommended": true
+        }
+      ],
+      "insight": "This is the turning point Northeastern's own advising materials warn incoming international CS majors about explicitly: co-op eligibility is not automatic once you're admitted \u2014 it depends on maintaining good academic standing through the semester **immediately before** the co-op begins, which is exactly when the celebratory pull to relax is strongest.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node8.png"
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "Finals end. You walk out of the **Snell Library** into a genuinely warm Boston evening for the first time all year \u2014 cherry blossoms are out along the **Riverway**, and your phone buzzes with the co-op start date confirmation. A semester ago you were freezing at Logan Airport with your F-1 paperwork still zipped in your bag.",
+      "image_prompt": null,
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a quiet moment to appreciate how far you've come",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 4,
+            "mood": 6,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "A small, grounding pause before the next chapter starts.",
+          "recommended": false
+        },
+        {
+          "text": "Immediately start prepping for co-op onboarding",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -3,
+            "mood": -1,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "You get a head start, at the cost of letting yourself enjoy the milestone.",
+          "recommended": true
+        }
+      ],
+      "insight": "Northeastern's international students consistently describe this first full semester as the hardest adjustment period of the whole program \u2014 visa logistics, a genuinely unfamiliar cost of living, and an accelerated co-op timeline all land in the same few months \u2014 which is exactly why the university front-loads so much of its international advising into this window.",
+      "image_url": "/assets/generated/boston_7867de510c6a_node9.png"
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Your co-op badge photo gets taken on a **Monday morning in the Seaport**, six months almost to the day after you first landed at Logan freezing and disoriented. The F-1 paperwork that once felt like the scariest part of the whole move now lives in a labeled folder you barely think about. Northeastern sold you on co-op as a slogan; you leave your first semester actually understanding what it costs, and what it's worth.",
+      "image_prompt": null,
+      "has_image": true,
+      "tone": "hopeful",
+      "insight": "Students who make it through Northeastern's first international semester \u2014 arrival logistics, CPT paperwork, and the GPA pressure of the pre-co-op semester \u2014 describe the payoff as real: an actual paid role in their field before graduation, which is precisely the outcome the university's co-op model is designed to produce.",
+      "image_url": "/assets/generated/boston_7867de510c6a_ending.png"
+    }
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "story_id": "berkeley_0cead2ae2ffe",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Berkeley creates a shared pressure among students.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "unspecified"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "Arriving in Berkeley, the excitement is palpable. The vibrant campus is buzzing with students, the warm sun highlights the eclectic architecture, but the reality of living expenses looms large. Finding suitable housing seems daunting, and thoughts about monthly rent are overwhelming.",
+      "image_prompt": "A bustling UC Berkeley campus with students walking around, sunny weather, and a mix of modern and historic buildings.",
+      "has_image": true,
+      "insight": "Berkeley's high living costs put pressure on students to secure affordable housing, often leading them to consider living farther from campus, impacting commute and health.",
+      "choices": [
+        {
+          "text": "Explore university housing options.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "Finding university housing can alleviate financial stress and allow social engagement."
+        },
+        {
+          "text": "Look for private rentals nearby.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "Private rentals are often pricier, straining finances and health due to potential long commutes."
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "You've secured a place in a graduate student housing facility. The excitement dimmers as you notice the weariness among your peers, caught up in the rigorous course load. The cafeteria offers meals, but the cost of groceries is still a concern.",
+      "image_prompt": "A cozy yet crowded graduate student housing common room filled with diverse students discussing their courses.",
+      "has_image": true,
+      "insight": "Graduate housing can foster community among students, giving them a support network which is crucial amid rigorous coursework.",
+      "choices": [
+        {
+          "text": "Join a study group to manage workload.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Collaborating with peers enhances understanding and can alleviate academic stress."
+        },
+        {
+          "text": "Skip group study and focus on solo research.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Working alone could lead to feeling overwhelmed and increase fatigue without peer support."
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "The group study sessions help but balancing the workload is challenging. You're considering attending networking events for career growth but time and financial constraints weigh heavily. The Grad Slam competition is coming up, and you feel the pressure to perform.",
+      "image_prompt": "A group of graduate students huddled together studying in a dimly lit university library, surrounded by textbooks and laptops.",
+      "has_image": true,
+      "insight": "Networking and competitions like Grad Slam provide valuable exposure but require time and energy, which can be in short supply for busy graduate students.",
+      "choices": [
+        {
+          "text": "Participate in the Grad Slam competition.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -15,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Engaging in competitions boosts mood and confidence but can lead to fatigue."
+        },
+        {
+          "text": "Focus solely on your studies.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Focusing on academics can help maintain grades but may lead to feelings of isolation."
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "In preparation for Grad Slam, sleepless nights planning your presentation take a toll on your health. The day arrives filled with anticipation and self-doubt but also excitement about the potential opportunities ahead.",
+      "image_prompt": "An anxious yet determined graduate student rehearsing their presentation in a small room adorned with motivational posters.",
+      "has_image": true,
+      "insight": "Balancing preparation with self-care is challenging for graduate students, often leading to sleep deprivation affecting health.",
+      "choices": [
+        {
+          "text": "Take some time to rest before the presentation.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Resting before a big event can improve performance and mental clarity."
+        },
+        {
+          "text": "Power through and keep rehearsing.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -20,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Rehearsing while fatigued can build confidence but harms health in the long run."
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "The competition is intense, but you manage to deliver your presentation well. Networking afterward opens new doors for potential research roles, yet thoughts about your finances and future linger. Navigating internships and funding pressures seems daunting.",
+      "image_prompt": "A competitive competition environment with students pitching ideas, judges looking on, and spectators engaged in the presentations.",
+      "has_image": true,
+      "insight": "Networking during events enhances professional prospects but can add to the pressure of applying for internships and managing finances.",
+      "choices": [
+        {
+          "text": "Pursue connections made at the event for internships.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Following up on leads can provide career opportunities but adds stress to an already heavy workload."
+        },
+        {
+          "text": "Focus on securing graduate funding opportunities.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 15
+          },
+          "stat_reason": "Securing funding alleviates financial pressure but requires time and diligent effort."
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "As the semester progresses, juggling coursework and financial responsibilities becomes increasingly challenging. The need to find part-time work to support yourself is inevitable, and you consider legal implications tied to your visa status as an international student.",
+      "image_prompt": "A stressed student surrounded by papers and textbooks, looking at their laptop in a messy dorm room.",
+      "has_image": true,
+      "insight": "International students must navigate specific visa regulations that can complicate on-campus and off-campus work opportunities while studying.",
+      "choices": [
+        {
+          "text": "Apply for a part-time job on campus.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Working part-time boosts finances but may add to stress and impact health."
+        },
+        {
+          "text": "Seek unpaid internships to build experience.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": -10
+          },
+          "stat_reason": "Unpaid internships can provide valuable experience but strain finances and mental wellbeing."
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "You've landed a part-time job, yet the balance between work, studies, and maintaining friendships feels precarious. Attending cultural clubs seems tempting for social engagement but further pressures your already tight schedule.",
+      "image_prompt": "A busy student juggling work and study in a lively café, surrounded by friends but looking stressed.",
+      "has_image": true,
+      "insight": "Cultural clubs provide opportunities for social interaction but require careful time management to avoid burnout.",
+      "choices": [
+        {
+          "text": "Join a cultural club to expand your network.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Joining clubs fosters community and belonging but may drain time and energy."
+        },
+        {
+          "text": "Dedicate more time to studies and work.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing academics and work enhances focus but significantly impacts social life and mental health."
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "Graduation is approaching fast, and the job hunt starts to loom on the horizon. Attending job fairs feels essential, and approaching companies like Google seems overwhelming yet necessary. The anxiety about the future is palpable, but the desire to succeed is stronger than ever.",
+      "image_prompt": "An energetic job fair atmosphere with students interacting with recruiters, colorful booths, and promotional materials.",
+      "has_image": true,
+      "insight": "Job fairs are crucial for networking and securing positions, but the pressure of competition adds significant stress for graduating students.",
+      "choices": [
+        {
+          "text": "Attend the California Grad Fair for networking.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -10,
+            "mood": 20,
+            "money": 0
+          },
+          "stat_reason": "Networking boosts confidence and potential job opportunities but can be draining."
+        },
+        {
+          "text": "Apply to job postings online instead.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": -15,
+            "money": -5
+          },
+          "stat_reason": "Applying online may be convenient but can lead to feelings of isolation and decreased motivation."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Graduation day arrives, and despite the trials faced, there’s a sense of accomplishment. Friends are there to celebrate with you. You've made it through the struggles, adapted to the challenges, and are ready to pursue a future filled with possibilities. Yet, the weight of student debt remains a stark reminder of this journey.",
+      "image_prompt": "A joyful graduation ceremony with students in caps and gowns throwing their hats in the air, surrounded by proud family and friends.",
+      "has_image": true,
+      "insight": "Graduating often brings mixed emotions, as achievements are overshadowed by financial burdens that can persist long after leaving academia.",
+      "tone": "bittersweet"
+    },
+    "node9": {
+      "scene_text": "After the fair, the anticipation is mixed with anxiety. You've made contacts and feel optimistic about your prospects, but setbacks loom in your mind. As the semester wraps up, reflecting on the community you’ve built and the tension of navigating finances alone brings a bittersweet feeling.",
+      "image_prompt": "A student standing outside UC Berkeley at sunset, pensive and hopeful, with friends celebrating in the background.",
+      "has_image": true,
+      "insight": "Balancing community and academic pressures is vital for success, though financial burdens can overshadow achievements, especially for international students.",
+      "tone": "bittersweet"
+    }
+  }
+}

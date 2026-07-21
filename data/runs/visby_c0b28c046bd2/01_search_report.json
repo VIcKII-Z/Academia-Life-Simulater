@@ -1,0 +1,225 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Sweden",
+    "city": "Visby"
+  },
+  "major": "Game Design",
+  "grade": "Graduate",
+  "profile": {
+    "country": "Sweden",
+    "city": "Visby",
+    "school": "Uppsala University",
+    "department": "Game Design",
+    "program": "Master's Programme in Game Design",
+    "major": "Game Design",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Visby, located on the island of Gotland, offers a relatively moderate cost of living compared to major Swedish cities. However, as a popular tourist destination, prices can be higher during peak seasons. Students should budget for housing, food, transportation, and personal expenses accordingly.",
+    "academic": "The Master's Programme in Game Design at Uppsala University emphasizes active game literacy, combining theoretical knowledge with practical design skills. The curriculum includes courses such as Introduction to Games Research, Game Design Studio, and Games and Society, preparing students for both industry roles and academic research.",
+    "visa": "Non-EU/EEA students require a residence permit to study in Sweden. The application process involves providing proof of admission, financial means, and health insurance. It's advisable to apply well in advance due to processing times.",
+    "culture_shock": "Sweden's culture is characterized by egalitarianism, punctuality, and a strong emphasis on work-life balance. International students may experience initial culture shock but often find the environment welcoming and inclusive.",
+    "community": "Uppsala University's Campus Gotland fosters a close-knit community with a diverse student body. Various student organizations and events facilitate social integration and support.",
+    "career": "Graduates have pursued careers in renowned game companies such as King, DICE, and Toadman Interactive. The program's focus on both theoretical and practical aspects equips students for various roles in the game industry.",
+    "safety": "Sweden is known for its high safety standards. Visby, in particular, is a peaceful town with low crime rates, providing a secure environment for students.",
+    "climate": "Visby experiences a temperate climate with mild summers and cold winters. Students should be prepared for seasonal variations and ensure they have appropriate clothing.",
+    "part_time_work": "International students are allowed to work part-time during their studies without a specific work permit. However, balancing work and study requires effective time management."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adapting to the cold winters may affect physical well-being.",
+      "Managing stress during intensive project periods is crucial.",
+      "Access to healthcare services is reliable but may require registration."
+    ],
+    "mood": [
+      "Initial culture shock may lead to feelings of isolation.",
+      "Engaging in student organizations can enhance social connections.",
+      "Balancing academic workload with personal time is essential for mental health."
+    ],
+    "money": [
+      "Seasonal fluctuations in living costs require careful budgeting.",
+      "Part-time work opportunities are available but may be competitive.",
+      "Scholarships and financial aid options should be explored early."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the tourist influx during summer months can be challenging.",
+      "Limited local industry may require seeking internships in mainland Sweden.",
+      "Language barriers in daily life, despite courses being in English.",
+      "Adapting to Swedish teaching styles and academic expectations.",
+      "Managing project-based coursework with limited resources.",
+      "Building a professional network in a smaller community setting."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": false,
+    "tuition": false,
+    "housing": false,
+    "career": false,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master's Programme in Game Design",
+    "degree_type": "Master of Arts (120 credits)",
+    "department": "Department of Game Design",
+    "duration": "2 years",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "Non-EU/EEA students require a residence permit to study in Sweden.",
+    "curriculum": [
+      "Introduction to Games Research",
+      "Game Design Studio",
+      "Games and Society",
+      "Critical Making",
+      "Advanced Game Design Research Methods",
+      "Game Research Prototypes and Game Testing",
+      "Master's Thesis"
+    ],
+    "milestones": [
+      "Completion of core courses in the first year.",
+      "Elective courses and potential study abroad or internship in the third semester.",
+      "Master's thesis in the fourth semester."
+    ],
+    "prerequisites": [
+      "Bachelor’s degree with in-depth subject study in a main field of study specializing in games or gaming.",
+      "Knowledge of English corresponding to English 6."
+    ],
+    "admissions": [
+      "Statement of purpose reflecting on approach and attitude to games and game design.",
+      "Selection based on previous university studies and statement of purpose."
+    ],
+    "deadlines": [
+      "Application deadline: January 15, 2027."
+    ],
+    "funding": [
+      "Scholarships available for fee-paying international students."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus housing options are limited; students often seek private rentals in Visby.",
+    "commute": "Visby is a compact town, making commuting to campus convenient, often by walking or cycling.",
+    "campus_support": "The university offers academic advising, counseling services, and career support.",
+    "community": "A variety of student organizations and events promote a vibrant campus life.",
+    "safety": "Visby is known for its low crime rates, providing a secure environment for students.",
+    "climate": "Temperate climate with mild summers and cold winters; appropriate clothing is necessary."
+  },
+  "career_profile": {
+    "local_industry": "Limited local game industry; opportunities may be more abundant in mainland Sweden.",
+    "internship": "Internship opportunities are available, particularly during the third semester.",
+    "work_authorization": "International students can work part-time during studies without a specific work permit.",
+    "language_or_networking_requirements": "While courses are in English, learning Swedish can enhance local networking opportunities.",
+    "notable_employers": [
+      "King",
+      "DICE",
+      "Toadman Interactive",
+      "Eat Create Sleep"
+    ],
+    "recruiting_events": [
+      "Gotland Game Conference"
+    ],
+    "alumni_outcomes": [
+      "Graduates have started their own studios and work at renowned game companies."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Introduction to Games Research",
+        "code": "5SD300"
+      },
+      {
+        "title": "Game Design Studio",
+        "code": "5SD311"
+      },
+      {
+        "title": "Games and Society",
+        "code": "5SD303"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Jakob Berglund Rogert",
+        "title": "Director of Studies"
+      },
+      {
+        "name": "Sabine Harrer",
+        "title": "Researcher"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Campus Gotland Library"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Gotland Game Hub"
+      }
+    ],
+    "events": [
+      {
+        "name": "Gotland Game Conference"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Master's Programme in Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/study/programme/masters-programme-game-design",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Master’s programmes in game design – Uppsala University",
+      "url": "https://www.uu.se/en/study/masters-studies/masters-programmes/subjects/game-design",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "career"
+      ]
+    },
+    {
+      "title": "About us – Department of Game Design – Uppsala University",
+      "url": "https://www.uu.se/en/department/game-design/about-us.html",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "community"
+      ]
+    },
+    {
+      "title": "Outline for Master's Programme in Game Design - Uppsala University",
+      "url": "https://www.uu.se/en/study/outline?query=2299",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "GAME – The department of Game Design at Uppsala University, campus Gotland",
+      "url": "https://game.speldesign.uu.se/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "community",
+        "events"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific information on tuition fees and housing options was not found in the provided sources.",
+    "Details on international student support services and visa application processes were limited."
+  ]
+}

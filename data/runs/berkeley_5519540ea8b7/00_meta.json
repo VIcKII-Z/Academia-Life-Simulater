@@ -1,0 +1,28 @@
+{
+  "storyId": "berkeley_5519540ea8b7",
+  "mode": "live_search",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Undergraduate",
+    "major": "MS in Data Science",
+    "school": "UC Berkeley",
+    "semesters": 2,
+    "program": "MS in Data Science"
+  },
+  "runtimeConfig": {
+    "provider": "relay",
+    "baseURL": "https://xuedingmao.top/v1",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-20T04:57:23.069Z"
+}

@@ -1,0 +1,486 @@
+{
+  "story_id": "tokyo_1784425016640",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights shared challenges such as high living costs and cultural adaptation faced by undergraduate students in Tokyo.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You've just landed in Tokyo, excitement coursing through your veins. The air is warm and filled with the sounds of busy streets and chatter. High-rise buildings tower above you, hinting at countless adventures and challenges ahead. You navigate your way through the bustling airport, feeling both exhilarated and a touch anxious as you catch glimpses of signs in Japanese. As you step outside, the summer heat hits, and you can’t help but think of the adjustments you'll need to make in this vibrant city as an international student in Computer Science. The thought of finding your first apartment, managing costs, and diving into a new culture dances in your mind. What will your adventure here look like?",
+      "image_prompt": "A bustling Tokyo airport scene with international travelers, glowing advertisements, and vibrant energy as summer sunlight pierces through the glass.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head to a student orientation event to meet others.",
+          "next_node": "orientation_event",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Participating helps alleviate culture shock and builds initial connections, but travel costs add up."
+        },
+        {
+          "text": "Go directly to find accommodation.",
+          "next_node": "housing_search",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "The housing search is exhausting, increasing fatigue levels and draining your budget."
+        }
+      ]
+    },
+    "orientation_event": {
+      "type": "node",
+      "scene_text": "You arrive at the orientation, where fellow international students are mingling under a bright banner. The atmosphere is welcoming, and you can feel your mood lift as you exchange introductions. The coordinator discusses the importance of joining clubs to meet people and emphasizes the need for social integration. However, some students voice concerns about the high living costs and the struggle of managing time between studies and work. Energized by the conversations, you consider joining a tech meet-up that was mentioned.",
+      "image_prompt": "An orientation session with a diverse group of international students engaged in conversation, bright banners, and networking opportunities in a campus setting.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Sign up for the tech meet-up.",
+          "next_node": "tech_meetup",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Joining the meet-up boosts your motivation and connects you with peers but requires a small fee."
+        },
+        {
+          "text": "Skip the meet-up and explore Tokyo instead.",
+          "next_node": "explore_tokyo",
+          "stat_delta": {
+            "health": 5,
+            "mood": 6,
+            "money": -10
+          },
+          "stat_reason": "Exploring invigorates your spirit, yet the expenses for public transport add pressure to your budget."
+        }
+      ]
+    },
+    "housing_search": {
+      "type": "node",
+      "scene_text": "The search for an apartment is tougher than expected. After visiting a few places, you realize the rent is higher than your budget. You finally find a small studio in a shared building, but the commute to university is lengthy. As you consider whether to accept the lease, you feel the weight of your money dwindling and the pressure of managing your finances.",
+      "image_prompt": "A modest studio apartment in Tokyo, showcasing a compact living space with basic amenities, crammed but cozy, representing student life.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Accept the lease and move in.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": -25
+          },
+          "stat_reason": "Choosing the apartment secures a place to live but severely dents your finances and narrows your budget."
+        },
+        {
+          "text": "Continue searching for a cheaper place.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "The stress of searching drains your mood, but you might discover a more affordable living arrangement."
+        }
+      ]
+    },
+    "tech_meetup": {
+      "type": "node",
+      "scene_text": "The tech meet-up buzzes with energy. Enthusiastic students are discussing AI projects and upcoming hackathons. You find yourself engrossed in discussions about relevant projects, and networking here feels rewarding. You meet potential collaborators and get some insider tips on part-time jobs. But parting ways feels bittersweet as the evening edges closer to late-night transport woes.",
+      "image_prompt": "A lively tech meet-up with students gathered around tables, brainstorming together and sharing ideas about software projects, filled with enthusiasm.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Ask about internships during the meet-up.",
+          "next_node": "reassess",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Gaining internship insights builds your confidence but comes with the stress of later applications."
+        },
+        {
+          "text": "Leave early to ensure you get home safely.",
+          "next_node": "return_home",
+          "stat_delta": {
+            "health": 0,
+            "mood": -3,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing safety over social satisfaction might reduce your mood."
+        }
+      ]
+    },
+    "explore_tokyo": {
+      "type": "node",
+      "scene_text": "You wander the vibrant streets of Shibuya, absorbing the neon lights and the hum of city life. You find a charming little café and treat yourself to a cup of matcha. As you sip, you notice a bulletin board filled with flyers for local events, hackathons, and tutoring opportunities. It's a delightful yet overwhelming experience, and the warmth of the local culture slowly starts to melt away feelings of isolation.",
+      "image_prompt": "A cozy café in Shibuya with bright lighting and a welcoming atmosphere, filled with excitement and locals enjoying coffee while engaging in conversation.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a language exchange group listed on a flyer.",
+          "next_node": "language_exchange",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": -5
+          },
+          "stat_reason": "Engaging in language exchange enhances your integration and social circle but costs a small fee."
+        },
+        {
+          "text": "Visit a tech store nearby to check out new tools.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "Exploring tech tools boosts your motivation but strains your budget."
+        }
+      ]
+    },
+    "return_home": {
+      "type": "node",
+      "scene_text": "You navigate the busy streets back to the station, relieved to hop on the train before it gets too packed. The swaying motion calms your overactive mind, even as you feel a hint of loneliness returning. Thoughts of balancing your studies and building a social circle back in your mind.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Sleep early to recharge and plan for tomorrow.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing rest helps maintain your health before classes."
+        },
+        {
+          "text": "Research study materials online instead.",
+          "next_node": "reassess",
+          "stat_delta": {
+            "health": -3,
+            "mood": 4,
+            "money": 0
+          },
+          "stat_reason": "Working on studies enhances your academic confidence, but lack of sleep might affect health."
+        }
+      ]
+    },
+    "language_exchange": {
+      "type": "node",
+      "scene_text": "In the language exchange group, you meet a diverse set of students eager to learn and share. The experience is enriching; you develop a few conversational phrases in Japanese while sharing insights about tech projects. The atmosphere grows warm, laughter and camaraderie easing feelings of isolation. However, juggling this group with study demands will require solid time management.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Commit to joining the group regularly.",
+          "next_node": "community_involvement",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Regular interaction boosts your sense of belonging and community."
+        },
+        {
+          "text": "Keep it casual and only attend a few times.",
+          "next_node": "casual_approach",
+          "stat_delta": {
+            "health": -3,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Partial commitment may help balance studies and social demands but lacks the deeper engagement."
+        }
+      ]
+    },
+    "community_involvement": {
+      "type": "node",
+      "scene_text": "As you attend the language exchange regularly, more opportunities unfold. You discover a coding club that meets weekly. Joining it not only enhances your technical skills but also connects you with local students, bridging cultural gaps. Yet, the linear path of increased learning demands comes with the pressure of time management and impending project deadlines.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Volunteer to lead a presentation in the coding club.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": 0
+          },
+          "stat_reason": "Stepping up builds confidence and relationship value, but strains your health."
+        },
+        {
+          "text": "Focus solely on project work instead.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on projects ensures strong academic performance but may limit social growth."
+        }
+      ]
+    },
+    "casual_approach": {
+      "type": "node",
+      "scene_text": "With a casual approach to the exchange, you feel your social life remains balanced but not deep. This leads to mingling at events, keeping your spirit alive yet shaky in the academic realm. You sense a growing disconnect between studies and social adaptation—the dual pressure building up as deadlines close in.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Decide to focus on offensive learning in coding to catch up.",
+          "next_node": "intensive_study",
+          "stat_delta": {
+            "health": -10,
+            "mood": -3,
+            "money": 0
+          },
+          "stat_reason": "Intensive study boosts skills but takes a toll on health and mood."
+        },
+        {
+          "text": "Attend an intervention talk hosted by the faculty.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Seeking out faculty support helps emotionally, but may be costly."
+        }
+      ]
+    },
+    "intensive_study": {
+      "type": "node",
+      "scene_text": "You immerse yourself in study, burning the midnight oil to catch up on projects. The days are long, and while your skills sharpen, sleep deprivation takes its toll. As deadlines loom, the high-pressure environment forces you to wrestle with the waning joy of learning. Friends invite you out, but the thought of unfinished tasks keeps you glued to your desk amid rising tension.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Pull an all-nighter for project submission.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Completing the project ensures academic success but severely affects health."
+        },
+        {
+          "text": "Take a short break and recharge for a bit.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing a break can help refresh your mind and spirit."
+        }
+      ]
+    },
+    "return_to_basics": {
+      "type": "node",
+      "scene_text": "While studying intensely, you decide to take a short break and step outside. The Tokyo summer air fills your lungs, and the vibrant energy of the city returns. You realize you need a balance between academic rigor and social life. This moment becomes a pivotal reminder of the need to embrace both sides of your experience.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Recommit to attending social events regularly.",
+          "next_node": "reassess",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Engaging regularly helps create a balanced outlook amidst growing academic pressure."
+        },
+        {
+          "text": "Set clearer study boundaries but plan to socialize.",
+          "next_node": "set_boundaries",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Establishing boundaries between studies and leisure helps mitigate stress."
+        }
+      ]
+    },
+    "set_boundaries": {
+      "type": "node",
+      "scene_text": "By establishing clearer boundaries, you find respite between studying and attending meet-ups. While there still remains a constant pressure on your time, the balancing act begins to find a rhythm. You start seeing the integration into the culture happening slowly, but surely—ideas flowing easily in your coding projects, while new friendships bloom.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Consider taking on a part-time job to manage finances.",
+          "next_node": "part_time_job",
+          "stat_delta": {
+            "health": -5,
+            "mood": -2,
+            "money": 15
+          },
+          "stat_reason": "A part-time job eases financial stress yet imposes time constraints on studies."
+        },
+        {
+          "text": "Continue networking for internships instead.",
+          "next_node": "internships",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Leveraging connections for internships maintains focus on career growth."
+        }
+      ]
+    },
+    "part_time_job": {
+      "type": "node",
+      "scene_text": "You land a part-time job related to tutoring students in basic programming. While the financial benefits begin to alleviate monetary pressure, the added hours push your limits. Adapting your schedule becomes essential as your health and mood waver under the weight of juggling responsibilities.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on social events to create more time for work.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 20
+          },
+          "stat_reason": "Reducing social interactions might stabilize finances but further isolates you."
+        },
+        {
+          "text": "Find ways to balance work and social life actively.",
+          "next_node": "balance_active",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 10
+          },
+          "stat_reason": "Actively balancing work and life boosts morale and finances simultaneously."
+        }
+      ]
+    },
+    "internships": {
+      "type": "node",
+      "scene_text": "Your networking efforts bear fruit as you successfully apply for an internship at a local tech firm. This opportunity is thrilling but comes with heightened expectations and a competitive environment. Navigating the new role while managing studies requires strategic planning and constant adaptation. Your confidence strengthens but arrives with a level of stress that is palpable.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Commit fully to the internship experience.",
+          "next_node": "full_commitment",
+          "stat_delta": {
+            "health": -10,
+            "mood": 12,
+            "money": 0
+          },
+          "stat_reason": "Diving deeply into your internship will broaden experience but reduces health due to stress."
+        },
+        {
+          "text": "Aim to balance internship with academic work.",
+          "next_node": "balance_internship",
+          "stat_delta": {
+            "health": -5,
+            "mood": 4,
+            "money": 0
+          },
+          "stat_reason": "Trying to balance may lead to burnout but maintains a more sustainable approach."
+        }
+      ]
+    },
+    "balance_active": {
+      "type": "node",
+      "scene_text": "You navigate through work and study beautifully, attending social events that reinvigorate your energy while pulling in extra hours at your job. The sense of community grows as you manage your time well, fostering an inner sense of resilience and assurance in your ability to thrive in the demanding academic landscape of Tokyo.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Expand your social network further by joining new groups.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": -5
+          },
+          "stat_reason": "Further outreach in social circles boosts morale but adds financial pressure."
+        },
+        {
+          "text": "Focus efforts purely on honing tech skills for future opportunities.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -5,
+            "mood": 6,
+            "money": 0
+          },
+          "stat_reason": "Seeking concentrated focus on skills may result in physical drain but fosters long-term growth."
+        }
+      ]
+    },
+    "full_commitment": {
+      "type": "node",
+      "scene_text": "Fully immersing yourself in the internship presents exhilarating challenges that sharpen your skills. However, the lack of downtime becomes an issue, impacting your health as you hover on edge, aware of the mounting academic pressures back at university. You wonder if you've made the right choice in prioritizing professional experience over well-being.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reassess priorities after a busy week and see what's critical.",
+          "next_node": "reassess",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Given workloads, examining responsibilities will help identify what truly matters but will carry fatigue."
+        },
+        {
+          "text": "Push through, relying on caffeine and willpower.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -15,
+            "mood": -2,
+            "money": 0
+          },
+          "stat_reason": "Forcing the pace can help with deadlines but drastically harms health."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "push_through": {
+      "scene_text": "The relentless pace has taken its toll—your health is suffering dramatically. The pressures from coursework, work, and social commitments converge, leading to a breakdown. You realize that while ambitions soar, neglecting health and emotional well-being is a price too heavy to bear. Facing the reality of needing to reassess your lifestyle becomes unavoidable as you reach a critical infusion point in your academic journey.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "reassess": {
+      "scene_text": "You've taken the time to disclose the current pressures looming over your life and initiate a plan to rebalance your priorities. Establishing a healthier routine helps ease the intense demands of your life as an international student. Commitments with peers grow richer, your skills sharpened through consistent effort as you cultivate self-care, leading to a much more harmonious experience amidst the bustling energy of Tokyo.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "balance_internship": {
+      "scene_text": "Striving for balance between your academic roles and the internship pays off; your workload remains manageable, and your social life flourishes as well. Networking opportunities open, enriching both your career and academic experience. Slowly but surely, you feel the sense of belonging solidified in the city. The skills learned, connections made, and the cultural experiences embraced guide you toward success in Tokyo and beyond.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

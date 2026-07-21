@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Graduate",
+  "report": {
+    "cost_of_living": "Tokyo ranks among the most expensive cities in Japan and globally. Graduate students at the University of Tokyo can expect tuition fees of ¥535,800 annually, with a one-time enrollment fee of ¥282,000. Monthly living costs range from ¥120,000 to ¥150,000, depending on lifestyle, with higher expenses associated with rent for urban areas, averaging ¥80,000–¥100,000 for single-room apartments. Additional food and commuting costs can average ¥60,000 monthly. Nonetheless, scholarships such as the MEXT program can significantly reduce financial burdens.",
+    "academic": "The University of Tokyo offers a world-class Computer Science program focused on cutting-edge research areas like AI, machine learning, and computer architecture. Students benefit from strong industry connections but face high academic demands, including publishing in international conferences. Japanese proficiency isn't mandatory for English-taught graduate programs, though it may be advantageous for better integration and local collaboration opportunities.",
+    "visa": "Securing a student visa for Japan requires proof of financial stability to cover tuition and living expenses, alongside offer letters from Japanese universities. The process is typically straightforward, but careful preparation of documents and adherence to deadlines is crucial. Work permits for part-time jobs can be acquired but are limited to 28 hours per week, and delays in initial scholarship disbursement might necessitate temporary financial resources upon arrival.",
+    "culture_shock": "Cultural adaptation in Tokyo may prove challenging due to language barriers and societal norms like hierarchical relationships and strict social etiquette. However, Tokyo offers a diverse and international community, particularly within its universities, providing support through orientation programs and language courses. The vibrant city life allows students to explore various cultural and entertainment outlets, alleviating adjustment pressures.",
+    "community": "Graduate students at the University of Tokyo benefit from a strong support network, including student organizations and international offices easing their integration. However, language barriers and large class sizes may pose challenges to forming deeper connections. Initiatives such as research lab groups foster a strong sense of academic community.",
+    "career": "Post-graduation, Tokyo offers robust job prospects in the tech industry, with companies like Sony, SoftBank, and Hitachi actively recruiting skilled Computer Science graduates. Nevertheless, knowledge of Japanese and a local professional network can significantly impact employment opportunities, as some roles may prioritize Japanese language proficiency.",
+    "safety": "Tokyo ranks as one of the safest major cities globally. Crime rates are low, even at night, though petty crimes like bicycle thefts occur occasionally. Emergency services are swift and highly reliable. However, earthquake preparedness is essential, given Japan's seismic activity.",
+    "climate": "Tokyo experiences humid summers (June to August, around 29°C) and mild winters (3°C). Summers can be uncomfortably hot for outdoor commuting, while efficient cooling systems mitigate indoor challenges. Pollen from cedar trees in spring and high humidity in late summer may impact sensitive individuals' health.",
+    "part_time_work": "Part-time work is regulated by a 28-hour weekly limit during academic terms. Common roles include tutoring or positions in retail and food services. Work conditions are fair, but high competition in urban areas like Tokyo might delay placements. Proficiency in Japanese broadens opportunities significantly."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Stress from long summer commutes in high humidity.",
+      "Frequent minor earthquakes, requiring regular safety awareness.",
+      "High pollen levels in spring triggering allergies for some.",
+      "Minimal safety risks but need for earthquake drills.",
+      "Access to quality health services through mandatory insurance."
+    ],
+    "mood": [
+      "Language barriers causing initial isolation or miscommunication.",
+      "Intensive academic demands increasing mental pressure.",
+      "Opportunities for cultural immersion via festivals and events.",
+      "Frequent academic peer interaction reducing loneliness.",
+      "Networking challenges in labs with Japanese communication norms."
+    ],
+    "money": [
+      "High housing costs draining funds unless scholarships are secured.",
+      "Timing gaps in scholarship payments requiring buffer savings.",
+      "Employment restrictions limiting income to 28 hours weekly.",
+      "Steady living costs in Tokyo for food, transport, etc.",
+      "Availability of MEXT or UTokyo grants to cover tuition and some living costs."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating beginner-level Japanese for grocery shopping or local connections.",
+      "Struggles with high rents near UTokyo’s Hongo campus.",
+      "Adjusting to hierarchical structures in research labs under senior professors.",
+      "Coping with the high pressure of research, publishing deadlines, and advisor expectations.",
+      "Building an industry network in Tokyo’s competitive tech ecosystem.",
+      "Handling seasonal discomfort like Tokyo’s humid summers and allergy-triggering spring.",
+      "Securing part-time jobs without strong Japanese language skills.",
+      "Managing a fluctuating financial buffer due to high initial setup and delayed funding."
+    ]
+  }
+}

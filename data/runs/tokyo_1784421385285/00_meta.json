@@ -1,0 +1,24 @@
+{
+  "storyId": "tokyo_1784421385285",
+  "mode": "live_search",
+  "profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "major": "Computer Science",
+    "grade": "Graduate"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-19T00:36:25.414Z"
+}

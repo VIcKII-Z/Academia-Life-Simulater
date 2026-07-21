@@ -1,0 +1,1214 @@
+{
+  "story_id": "tokyo_dbe4bd2c2a96",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Tokyo presents a shared challenge for all international students, making budgeting a critical aspect of their experience.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step out of Narita Airport and into the bustling streets of Tokyo, the immense energy of the city engulfs you. The sights, sounds, and aromas are overwhelming—food stalls selling steaming ramen, the chatter of pedestrians, and the hum of trains gliding by. You're here for your graduate studies at the University of Tokyo, prepared for the challenges that lie ahead. You can feel both excitement and a hint of apprehension. How will you adapt to this new world?",
+      "image_prompt": "A vibrant Tokyo street scene filled with people, colorful storefronts, and a glimpse of traditional architecture in the background.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Find temporary accommodation while looking for a permanent place.",
+          "next_node": "temporary_accommodation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "Finding temporary housing can provide a sense of security, but it also comes at a higher cost."
+        },
+        {
+          "text": "Push forward and look for a permanent place immediately.",
+          "next_node": "permanent_accommodation",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": -20
+          },
+          "stat_reason": "Rushing to find permanent accommodation can lead to stress and suboptimal choices, impacting both health and finances."
+        }
+      ]
+    },
+    "temporary_accommodation": {
+      "type": "node",
+      "scene_text": "After settling into a quaint yet cramped guesthouse, you feel relieved to have a roof over your head. However, the higher rent puts a strain on your finances. You explore the local neighborhood, discovering a few markets and the nearest subway station, though communication with locals remains challenging due to language barriers. Every day feels like an adventure, yet the need to find a more sustainable living situation lingers in your mind.",
+      "image_prompt": "A cozy guesthouse room with minimal amenities, showing personal items and a small window overlooking a busy Tokyo street.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a local student group to build connections.",
+          "next_node": "student_group",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Joining a student group enhances your sense of belonging but comes with a small fee."
+        },
+        {
+          "text": "Continue hunting for more affordable housing options.",
+          "next_node": "housing_search",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "The search for affordable housing is exhausting and taxing, impacting your health and mood."
+        }
+      ]
+    },
+    "permanent_accommodation": {
+      "type": "node",
+      "scene_text": "You finally secure a small apartment close to the university, providing you with a sense of independence. However, as you delve deeper into the costs, you realize how much of your budget is dedicated to rent. The atmosphere around your apartment is vibrant—cafés and parks are within walking distance—but adjusting to the quiet solitude is tougher than expected. You spend your evenings drowning in coursework, feeling the weight of academic pressure.",
+      "image_prompt": "A small, tidy apartment with a view of a busy Tokyo street, showcasing typical urban living space.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Limit spending on food and cook at home.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Cooking at home saves money and can improve health, but it may lower your mood due to loneliness."
+        },
+        {
+          "text": "Treat yourself to dining out occasionally.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Dining out lifts your spirits and encourages social interactions, but it reduces your budget significantly."
+        }
+      ]
+    },
+    "student_group": {
+      "type": "node",
+      "scene_text": "As you join a vibrant student community group focused on cultural exchange, you find a network of supportive friends who share similar experiences and frustrations. These interactions help ease feelings of loneliness, but navigating cultural norms can be tricky. Workshops and events offer insights into Japanese culture and language, though balancing this with your rigorous coursework could prove challenging.",
+      "image_prompt": "A group of diverse students sitting together, participating in a cultural exchange event, set in a cheerful community space.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Participate actively in the group activities.",
+          "next_node": "active_participation",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Involvement boosts your mood through connection, but may lead to fatigue from time commitment."
+        },
+        {
+          "text": "Attend only occasional events to maintain balance.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Staying balanced keeps your health intact, but may limit social interactions."
+        }
+      ]
+    },
+    "housing_search": {
+      "type": "node",
+      "scene_text": "Your relentless search for suitable housing continues. You attend viewings that offer little promise or affordable options. The process is draining, and some places are in inconvenient locations, adding to your commuting stress. Back at your guesthouse, you try to keep your spirits high while juggling schoolwork, but the repetitive cycle of viewings and rejections takes its toll.",
+      "image_prompt": "A tired student standing outside an apartment building, holding a rental listing and looking frustrated.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Consider a longer commute for a more affordable place.",
+          "next_node": "long_commute",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 20
+          },
+          "stat_reason": "Opting for cheaper housing further out helps with finances, but increased travel time and stress impact health and mood."
+        },
+        {
+          "text": "Reach out to the university for housing assistance.",
+          "next_node": "university_assistance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "The university's assistance can lead to better options and reduced stress."
+        }
+      ]
+    },
+    "long_commute": {
+      "type": "node",
+      "scene_text": "After weighing your options, you settle into an apartment that requires a lengthy daily commute. While your rent is significantly reduced, the hours spent in transit drain your energy and disrupt your study schedule. Each day becomes a balancing act between classes, work, and your newly acquired travel routine. Yet, the financial relief gives you a small sense of accomplishment.",
+      "image_prompt": "A student on a crowded subway in Tokyo, holding a bag and books, looking tired but determined.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Use commute time to review academic materials.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Studying on the train helps stay on top of schoolwork, but the stress and fatigue can lead to health issues."
+        },
+        {
+          "text": "Try to relax during your commute by listening to music.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Taking time to unwind can improve mood, but it takes away from productive study time."
+        }
+      ]
+    },
+    "university_assistance": {
+      "type": "node",
+      "scene_text": "Reaching out to the university's support office proves fruitful. They provide information on finding affordable housing options and refer you to fellow students looking for roommates. Feeling encouraged, you attend several viewings with potential roommates, easing financial burdens and fostering new friendships. The weight of academic pressures may still be present, but you've made positive strides towards your budget and social life.",
+      "image_prompt": "A cozy university support office filled with encouraging posters, where students are discussing housing options.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a long-term roommate to share expenses.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 30
+          },
+          "stat_reason": "Teaming up with a roommate improves your budget and boosts mood through companionship."
+        },
+        {
+          "text": "Opt for a private room to maintain independence.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": -20
+          },
+          "stat_reason": "Choosing independence comes with higher costs, slightly impacting your mood."
+        }
+      ]
+    },
+    "active_participation": {
+      "type": "node",
+      "scene_text": "As you dive deeper into the community group, that sense of belonging grows stronger. Group gatherings become a highlight of your week, infusing joy into your otherwise rigorous schedule. However, the more time you invest in social activities, the more you neglect coursework, raising concerns about academic performance. Balancing social life and studies becomes your new challenge.",
+      "image_prompt": "A lively group of students at a cultural festival, laughing and celebrating, showcasing diverse sprites.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Set strict study hours to regain academic control.",
+          "next_node": "study_hours",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Regaining academic control may negatively affect your social well-being."
+        },
+        {
+          "text": "Continue with this balance and hope for a strong performance.",
+          "next_node": "wildcard_balancing",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Taking a risk with your studies can both boost your mood and put you in a vulnerable place."
+        }
+      ]
+    },
+    "study_hours": {
+      "type": "node",
+      "scene_text": "After setting strict study hours, you suddenly notice improvements in your academic performance, but there's a marked decline in your social interactions. Friends start to drift as your free time dwindles. With exams around the corner, that sense of isolation creeps in. While your grades might reflect your effort, the emotional stress is palpable. The relentless cycle of studying begins to feel suffocating.",
+      "image_prompt": "A solitary study desk cluttered with textbooks and notebooks, evoking a sense of pressure and focus.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan short weekly reunions with friends to maintain connections.",
+          "next_node": "friend_reunions",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Small reunions may uplift your mood without compromising study hours."
+        },
+        {
+          "text": "Focus solely on your studies until exams are over.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -15,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Intense focus on exams is detrimental to health and mood, risking burnout."
+        }
+      ]
+    },
+    "friend_reunions": {
+      "type": "node",
+      "scene_text": "Planning short weekly reunions allows you to catch up with friends while relieving some academic pressure. These moments of laughter and connection remind you of the joy in life's little experiences, though you feel the impending challenge of upcoming exams weighing heavily on your mind. Balancing social time and academics seems necessary for your overall well-being.",
+      "image_prompt": "A group of friends sharing laughter over tea in a cozy café, with memories of school stress quietly behind them.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Organize study sessions with friends to combine fun and study.",
+          "next_node": "study_sessions",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Combining social time with study improves motivation and mood."
+        },
+        {
+          "text": "Keep them separate to ensure focus during study.",
+          "next_node": "focus_study",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Maintaining separation might heighten focus, but it risks isolation."
+        }
+      ]
+    },
+    "wildcard_balancing": {
+      "type": "node",
+      "scene_text": "Keeping a risk-prone balance between studies and social events results in immediate happiness and connections, but your coursework starts to suffer. It's a rollercoaster of emotions, from exhilaration at events to anxiety over falling grades. You realize the importance of moderation, yet trying to maintain the thrill becomes challenging every day. Exam pressures loom ahead as deadlines approach.",
+      "image_prompt": "A dynamic setting filled with students enjoying a lively event, contrasted with a student curled over a laptop in a quiet corner.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Pull back on social events to focus on studies.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Reducing social outings for study brings temporary stress but needed academic focus."
+        },
+        {
+          "text": "Ride the wave and continue this lifestyle until exams.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -20,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Continuing might spark joy, but also leads to possible burnout and academic performance deterioration."
+        }
+      ]
+    },
+    "focus_study": {
+      "type": "node",
+      "scene_text": "Maintaining focus during study leads to noticeable improvements in grades, but you feel the distance growing with your friends. The pressure mounts as you realign your priorities, taking solace in academic achievements. Yet, loneliness creeps in, especially as your classmates engage in vibrant activities over the weekend while you remain holed up in your books. The cycle of isolation tightens around you.",
+      "image_prompt": "A solitary library table surrounded by study materials, showcasing determination amidst a lonely atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to friends between studies to reconnect.",
+          "next_node": "reconnect_friends",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Reconnecting helps alleviate feelings of loneliness, balancing academics with social health."
+        },
+        {
+          "text": "Continue to prioritize studies until exams are over.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -20,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Intensifying focus on studying pushes you deeper into isolation, risking further emotional issues."
+        }
+      ]
+    },
+    "reconnect_friends": {
+      "type": "node",
+      "scene_text": "Taking the leap to reconnect with friends after a period of isolation proves cathartic. Casual meet-ups yield laughter and shared stories; the warmth of friendship shines through. Despite the looming finals, you feel rejuvenated by their support and camaraderie. Easing academic pressures through this balance leads to a more stable emotional state as you approach exams with a practical strategy.",
+      "image_prompt": "A cheerful gathering of friends outdoors, enjoying the ambiance of a spring day, reflecting joy and connection.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Incorporate their study techniques into your routine.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Sharing strategies enhances motivation and lifts mood as you prepare together."
+        },
+        {
+          "text": "Keep social time limited to maintain focus.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Limiting social time keeps your studies intact, but risks dampening mood."
+        }
+      ]
+    },
+    "study_sessions": {
+      "type": "node",
+      "scene_text": "Organizing joint study sessions with your friends brings an entertaining twist to academic preparations. As each participant shares insights, concepts become clearer and you feel more confident. Your mood improves, accompanied by a strong sense of community. However, this also means more time spent away from potentially relaxing activities. Sustainability of this routine becomes the next question.",
+      "image_prompt": "A study group gathered around a table with laptops and notebooks, filled with enthusiastic discussions and shared materials.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Introduce game nights to balance study stress.",
+          "next_node": "game_night",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Implementing game nights boosts morale, although the cost of snacks adds a minor drain on finances."
+        },
+        {
+          "text": "Stick with the current study format without distractions.",
+          "next_node": "strict_study",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Choosing to remain focused prioritizes academics without introducing potential distractions."
+        }
+      ]
+    },
+    "game_night": {
+      "type": "node",
+      "scene_text": "Game nights provide a fun escape, merging camaraderie with entertainment. The energy of friendly competition dispels stress and revitalizes bonds. While these gatherings come with added expenses, the trade-off feels worthwhile for your mental health. The laughter shared and teamwork cultivated enrich your experience as a new student, but you still feel the crunch of assignments demanding your attention.",
+      "image_prompt": "A lively group of students playing board games, filled with laughter and excitement, embodying joy and fun.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Balance game nights with defined study times.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Creating a schedule enables enjoyment while maintaining academic focus."
+        },
+        {
+          "text": "Let loose and prioritize fun, worrying about studies later.",
+          "next_node": "letting_loose",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing fun may improve mood, but the subsequent stress from academic obligations waits in the shadows."
+        }
+      ]
+    },
+    "strict_study": {
+      "type": "node",
+      "scene_text": "Sticking to a strict study routine proves fruitful in maintaining high grades, but friends begin to drift. The academic pressure intensifies as you clock more hours with textbooks, with less time for social interactions. Your mood declines while keeping academic performance stable. As weekends come, the temptation to socialize pushes against your self-imposed boundaries.",
+      "image_prompt": "A focused student at a desk, surrounded by textbooks and notebooks, highlighting dedication amidst solitude.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Establish short breaks for socializing to recharge.",
+          "next_node": "short_breaks",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Short breaks alleviate stress but make room for social interactions."
+        },
+        {
+          "text": "Resist breaks and push through until exams.",
+          "next_node": "pushing_through",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Neglecting breaks leads to fatigue and emotional distress, risking burnout."
+        }
+      ]
+    },
+    "short_breaks": {
+      "type": "node",
+      "scene_text": "Establishing short breaks to reconnect with friends improves your mental health. However, the weight of looming deadlines often makes your mind race with anxiety while trying to enjoy these moments. The balance you’ve found feels precarious; each cheerful interaction should remind you of joy, contrasting with persistent thoughts of academic responsibilities.",
+      "image_prompt": "A student enjoying a coffee break with friends outdoors, filled with sunlight and laughter.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Integrate mindfulness practices to deal with academic stress.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Mindfulness practices can help ground you, reducing stress while enhancing your emotional state."
+        },
+        {
+          "text": "Limit breaks and keep academic focus steady.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Limiting breaks reinforces studies but increases feelings of isolation."
+        }
+      ]
+    },
+    "letting_loose": {
+      "type": "node",
+      "scene_text": "Choosing to let loose and prioritize fun results in laughter and connection, invigorating your mood temporarily. Friends rally around the joy of enjoying their youth amidst study pressures, further extending the bond shared. As you drift away from assignments and responsibilities, a sense of urgent dread starts sinking in about upcoming exams, creating an ongoing push-and-pull with your happiness and academic obligation.",
+      "image_prompt": "A carefree group of students at a vibrant festival or event, with joyous expressions and camaraderie.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Enjoy the moment but promise to start studying tomorrow.",
+          "next_node": "promise_study",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Committing to studying later boosts your mood now but adds pressure and stress later."
+        },
+        {
+          "text": "Bring friends back to study together later tonight.",
+          "next_node": "group_study",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Sharing the work later brings focus, but the fatigue from earlier can linger into the study session."
+        }
+      ]
+    },
+    "pushing_through": {
+      "type": "node",
+      "scene_text": "Deciding to push through without breaks drains your energy reserves rapidly. Fatigue leads to mistakes in your studies, causing you to miss key information. The consequences include slipping grades, which only heighten anxiety and decrease health. This rollercoaster ride on academic pressure begins to feel overwhelming as the days tick down to exams, clouding your clarity.",
+      "image_prompt": "A weary student struggling at a desk, surrounded by unsorted papers, embodying the weight of stress and fatigue.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prioritize rest to recover before exams.",
+          "next_node": "rest_before_exams",
+          "stat_delta": {
+            "health": 20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Taking rest periods can restore health, but can also magnify anxiety over studies."
+        },
+        {
+          "text": "Continue pressing onward with study sessions.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": -30,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Ignoring health leads to burnout, diminishing not only well-being but academic performance as well."
+        }
+      ]
+    },
+    "promise_study": {
+      "type": "node",
+      "scene_text": "Enjoying the moment lifts your spirits significantly, making it all feel worthwhile. However, as the night wanes and the thought of unsolved problems creeps back in, anxiety begins to mount. That lingering promise to study adds weight, even amidst all the joy. As you laugh with friends, you feel both fulfilled and burdened by what lies ahead.",
+      "image_prompt": "A cheerful scene of friends at a nighttime gathering, celebrating with lighthearted laughter and drinks.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Go home early to start studying right away.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Choosing to return early may set you up for academic success, at the cost of social time."
+        },
+        {
+          "text": "Stay just a little longer and enjoy the festivities.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -15,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Staying longer boosts mood, yet the cost of studying later forgoes needed preparations."
+        }
+      ]
+    },
+    "group_study": {
+      "type": "node",
+      "scene_text": "Inviting friends to join in for a group study later works seamlessly. The energy in the room feels cooperative, and sharing insights helps solidify your knowledge. While you physically drain yourselves during the learning, emotional bonds grow stronger. As a group, you learn to laugh amidst academic challenges, yet the balance between camaraderie and performance becomes crucial to maintain.",
+      "image_prompt": "A vibrant study session with students working together, highlighters and notes scattered on the table, filled with engagement.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Designate a leader to guide the study session for optimal focus.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Having structure enhances focus while lifting morale."
+        },
+        {
+          "text": "Let the session flow naturally without strict plans.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Flowing freely brings enjoyment, but may also lead to unproductive sessions."
+        }
+      ]
+    },
+    "rest_before_exams": {
+      "type": "node",
+      "scene_text": "Prioritizing rest before the exams gives you a refreshing clarity of mind, despite leaving many unresolved studies. You feel revitalized and ready to tackle the challenges ahead. That initial anxiety lessens as you regain your composure, appreciating the value of mental well-being as part of your academic journey. Every breath becomes filled with focus and determination, a stark contrast to earlier stresses.",
+      "image_prompt": "A peaceful setting where a student meditates in a tranquil location, surrounded by calm natural elements, radiant clarity emanates from them.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan a full study day for the next day.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Planning a full study day helps reinforce material but can also drain your energy."
+        },
+        {
+          "text": "Allow yourself to enjoy the rest of the day without studies.",
+          "next_node": "day_off",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Taking time off enhances mental health, but may raise anxiety as exams loom near."
+        }
+      ]
+    },
+    "day_off": {
+      "type": "node",
+      "scene_text": "Taking the day off becomes a liberating decision. You wander through Akihabara, exploring shops, and delighting in local treats. This brief chance to recharge revitalizes your spirit, bringing bright smiles and lighthearted interactions. However, guilt creeps in as the reality of upcoming exams looms larger. Though the day felt well-spent, the knowledge of pressing studies remains.",
+      "image_prompt": "A student joyfully exploring the vibrant streets of Akihabara, surrounded by colorful shops and cheerful ambiance.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Return to studying immediately afterward.",
+          "next_node": "back_to_study",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Diving back into studies might help ease anxiety, but it can feel draining."
+        },
+        {
+          "text": "Enjoy another carefree day to shake off stress.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -10,
+            "mood": 20,
+            "money": -10
+          },
+          "stat_reason": "Choosing additional time may enhance mood, but the risk of stress over studies grows."
+        }
+      ]
+    },
+    "back_to_study": {
+      "type": "node",
+      "scene_text": "Stepping back into study mode brings a mix of anxiety and relief. You appreciate the breaks you took, yet face the urge to consume information at a rapid pace. Jagged thoughts about upcoming challenges swirl, but you're slowly redistributing your focus to ensure readiness. A timely reprieve may ease your academic focus, preparing you for the rigors just ahead.",
+      "image_prompt": "A focused student back at a desk, going through notes and textbooks, showcasing determination and concentration.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Go over difficult material until you grasp it.",
+          "next_node": "grasp_material",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on material alleviates misunderstandings but can drain energy."
+        },
+        {
+          "text": "Review core concepts using flashcards.",
+          "next_node": "use_flashcards",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Using flashcards boosts morale while helping consolidate knowledge."
+        }
+      ]
+    },
+    "grasp_material": {
+      "type": "node",
+      "scene_text": "Diving deep into difficult material may seem grueling, but the clarity that emerges is worth the effort. Ideas that once caused confusion begin to unlock, fueling your determination. However, as your health dips from long hours of study, you remind yourself of the need for self-care to keep pace with upcoming exams. Noticing progress brings motivation but at a cost.",
+      "image_prompt": "A focused student hunched over study materials, surrounded by highlighters and coffee cups, illustrating dedication and fatigue.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a short break to recharge.",
+          "next_node": "take_break",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Resting boosts health and morale while preserving mental focus."
+        },
+        {
+          "text": "Push through the exhaustion to complete the material.",
+          "next_node": "push_exhaustion",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Ignoring health for study risks burnout and academic confidence."
+        }
+      ]
+    },
+    "use_flashcards": {
+      "type": "node",
+      "scene_text": "Utilizing flashcards revives your motivation as concepts click together. While progress feels steady, you notice time slipping away, and your anxiety mounts in anticipation of exams. This method fosters both confidence and retention, reinforcing the undeniable benefits of preparation. Still, the looming pressures continue to tinge your high spirits with doubt.",
+      "image_prompt": "A cheerful student reviewing colorful flashcards with a smile, radiating positivity and confidence.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Create a study schedule based on flashcard review.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Creating a schedule enhances preparedness while boosting motivation."
+        },
+        {
+          "text": "Continue diving into flashcards until you run out.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Maintaining flow fuels momentum, yet risks fatigue as the study extends."
+        }
+      ]
+    },
+    "take_break": {
+      "type": "node",
+      "scene_text": "Taking a short break rejuvenates your energy, allowing fresh ideas to sprout. You notice how clarity improves as you switch gears, embracing a minute to breathe. As moments of respite grow, you welcome the renewed enthusiasm flowing through you. Rest becomes a vital ally in navigating academic complexities, guiding towards a sharper focus.",
+      "image_prompt": "A student stretching by a window, basking in sunlight filtering through, symbolizing recovery and energy.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Resume studying immediately after the break.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Returning to studies helps maintain focus, yet may further strain health."
+        },
+        {
+          "text": "Take a longer walk to ensure full recharge.",
+          "next_node": "long_walk",
+          "stat_delta": {
+            "health": 15,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Taking a longer walk improves health and mood significantly."
+        }
+      ]
+    },
+    "push_exhaustion": {
+      "type": "node",
+      "scene_text": "Choosing to ignore fatigue leads you further down a path of drain and disarray. While the material may eventually be completed, you recognize the adverse effects on health, leading to anxiety and burnout. Crippling doubts seep into your mind as the finish line nears, and each failure starts to feel larger than life. This unrelenting commitment to study leaves you questioning if it's truly worth it.",
+      "image_prompt": "A distressed student surrounded by an overwhelming number of study materials, showcasing exhaustion and disillusionment.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a day off to recuperate and regain balance.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": 20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Taking time off allows health recovery at the cost of anxiety."
+        },
+        {
+          "text": "Finish the material and pay the price of exhaustion.",
+          "next_node": "endurance_finish",
+          "stat_delta": {
+            "health": -25,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Finishing despite exhaustion can be a hollow victory leading towards significant fatigue."
+        }
+      ]
+    },
+    "long_walk": {
+      "type": "node",
+      "scene_text": "A lengthy walk through a tranquil park reinvigorates your spirit. The balance of nature and mindful processing helps you regain perspective, calming turbulent thoughts. Feeling reenergized, you approach your studies with a clear mind and fresh momentum. The importance of self-care resonates deeper this time, as you prepare to dive back into the academic fray.",
+      "image_prompt": "A serene park view with trees and pathways, illustrating peace and freshness as students stroll through.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Dedicate yourself to uninterrupted study after the break.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Pushing into study after self-care lifts your mood, at the expense of health."
+        },
+        {
+          "text": "Acknowledge this time and balance further.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Embracing this moment feels healthy, potentially leading to a sustained positive approach."
+        }
+      ]
+    },
+    "endurance_finish": {
+      "type": "node",
+      "scene_text": "Enduring to finish becomes a consuming feat, but victory feels hollow amidst looming shadows. Your health has taken a hit, and the culmination of stress stirs doubts within. Though the materials are under your belt, academic confidence is shaky as you queue up for finals. The pressure of overcoming looming challenges weighs down, heightening the need for a newfound approach.",
+      "image_prompt": "A fatigued student standing before the university, looking intimidated yet resolute about upcoming exams.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Seek help from professors for additional support.",
+          "next_node": "professor_help",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Reaching out for additional help enhances confidence but incurs costs."
+        },
+        {
+          "text": "Review past papers to get a better grasp.",
+          "next_node": "review_papers",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Reviewing papers can reinforce knowledge, but may also induce fatigue."
+        }
+      ]
+    },
+    "professor_help": {
+      "type": "node",
+      "scene_text": "Reaching out to professors for guidance boosts your morale and instills confidence. Their willingness to help demonstrates the supportive community within the university, reminding you you’re not alone in this academic journey. However, you also realize the importance of maintaining focus across studies while seeking support; the balance becomes more evident as you prepare for exams.",
+      "image_prompt": "A student engaging in conversation with a supportive professor in an academic setting, showcasing a positive mentorship vibe.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Schedule regular check-ins for accountability.",
+          "next_node": "regular_checkins",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Regular check-ins maintain accountability and provide emotional support, though they require time."
+        },
+        {
+          "text": "Focus back on self-study and maintain boundaries.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Maintaining boundaries keeps focus steady but may lack the personal connection."
+        }
+      ]
+    },
+    "review_papers": {
+      "type": "node",
+      "scene_text": "Going through past papers aids in solidifying your understanding and amplifying your readiness for exams. This method proves fruitful in maintaining focus, yet requires discipline and mental resilience. Although the cycle of reviewing can feel monotonous, you appreciate the progress you're making as it prepares you for what's to come.",
+      "image_prompt": "A diligent student reviewing past exam papers at a library, showcasing determination and hard work.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Establish a routine to review chapters systematically.",
+          "next_node": "systematic_review",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Establishing a systematic review routine can boost confidence and reinforce knowledge."
+        },
+        {
+          "text": "Focus on understanding rather than speed.",
+          "next_node": "understanding_focus",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Focusing on deep understanding may be slower, but enhances retention significantly."
+        }
+      ]
+    },
+    "systematic_review": {
+      "type": "node",
+      "scene_text": "Establishing a routine for systematic review enhances your preparation but feels like a laborious undertaking at the onset. However, as the days pass, the pattern becomes comforting, and each repeated engagement solidifies your knowledge base while refining skills. You actively notice how your stress levels begin to decrease with structure in your study approach.",
+      "image_prompt": "A calm study area with well-organized notes and charts, reflecting a methodology of learning and efficiency.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Incorporate peer discussions during reviews to enhance insights.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Peer discussions facilitate better comprehension and reduce feelings of isolation."
+        },
+        {
+          "text": "Stick to the established routine with minimal interruptions.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Maintaining focus consistently helps solidify preparation but may impact overall well-being."
+        }
+      ]
+    },
+    "understanding_focus": {
+      "type": "node",
+      "scene_text": "Focusing on understanding rather than speed deepens your reverence for the material. This approach brings clarity but often demands additional time, straining your schedule as exams approach. With a clear vision, you feel lifted as your comprehension grows; however, you recognize the delicate balance between depth and breadth as exams draw closer.",
+      "image_prompt": "A focused student deeply engaged in reading complex material, with a look of determination and comprehension.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Recommit to speed before exams.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Recommitting to speed diminishes stress but can also strain understanding."
+        },
+        {
+          "text": "Seek timely feedback from peers to clarify concepts.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Peer feedback can clarify doubts, enhancing confidence in preparation."
+        }
+      ]
+    },
+    "regular_checkins": {
+      "type": "node",
+      "scene_text": "Scheduling regular check-ins ensures motivation remains high as it reinforces accountability for your academic progress. Although the added time may slightly strain your energy, the emotional support fosters growth. Those moments of guidance become pivotal in navigating stress, reflecting how a strong support network contributes to overall well-being during exams.",
+      "image_prompt": "A student meeting with an advisor in a supportive academic setting, embodying trust and guidance.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue pursuing additional support from professors.",
+          "next_node": "continue_support",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Seeking continuous support maintains confidence but incurs further costs."
+        },
+        {
+          "text": "Focus on independent learning moving forward.",
+          "next_node": "independent_learning",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Taking an independent approach bolsters self-sufficiency, though it may lack emotional connection."
+        }
+      ]
+    },
+    "continue_support": {
+      "type": "node",
+      "scene_text": "Opting to continue seeking support shows your resilience and determination. The nurturing network contributes significantly to your well-being while reinforcing a sense of belonging in this academic environment. Preparing for exams with this support can lead to enhanced performance, though the pressure remains to balance studies with the continued emotional effort.",
+      "image_prompt": "A group of students collaborating and sharing materials, characterized by positivity and mutual support.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Organize group study sessions to reinforce understanding.",
+          "next_node": "group_sessions",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Group sessions encourage collaborative learning and bolster confidence, with a slight cost."
+        },
+        {
+          "text": "Focus on finalizing solo study techniques.",
+          "next_node": "finalizing_solo",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Emphasizing self-reliance supports growth, but risk falling back into the strain of isolation."
+        }
+      ]
+    },
+    "independent_learning": {
+      "type": "node",
+      "scene_text": "Focusing on independent learning helps you rediscover confidence, showcasing your ability to succeed autonomously. You maneuver through materials at your own pace, savoring the satisfaction of academic discoveries. Yet, the call for social connection lingers in the background; the challenge of navigating effectively alone looms, particularly when time constraints arise during your countdown to exams.",
+      "image_prompt": "A captivated student enjoying a solitary reading session amidst stacks of academic books.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Balance social interactions with study breaks.",
+          "next_node": "balance_social_study",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Finding balance encourages emotional stability but tests discipline."
+        },
+        {
+          "text": "Maintain focus solely on self-study until exams.",
+          "next_node": "sole_focus",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Pushing for out-solo-focused study can lead to burnout and increased isolation."
+        }
+      ]
+    },
+    "balance_social_study": {
+      "type": "node",
+      "scene_text": "Striking a balance between social interactions and study breaks relieves some of the academic stress. Enjoying moments connecting with peers fosters shared experiences—giving you strength during challenging revisions. The push-and-pull between study and social time proves manageable, though the uncertainty of sustaining this balance weighs heavy, given academic deadlines ahead.",
+      "image_prompt": "A student engaging in lively discussions with peers while studying, reflecting collaboration and positivity.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Establish clear deadlines for social interactions.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Establishing structure nurtures focus while allowing room for connection."
+        },
+        {
+          "text": "Relax the social structure to allow for flexibility.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Flexibility brings joy but may undermine discipline, risking academic performance."
+        }
+      ]
+    },
+    "sole_focus": {
+      "type": "node",
+      "scene_text": "Choosing to maintain sole focus on self-study results in a narrowing of perspective. While academic ambitions might flourish in the short term, your emotional state declines as isolation creeps in. With finals inching closer, reflections of past social interactions dissipate into feelings of solitude as grades become your only solace.",
+      "image_prompt": "A solitary student practicing recursive concepts at their desk, punctuated by shadows of isolation.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to friends for support amidst study modes.",
+          "next_node": "reengage_friends",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Reconnecting with friends enhances emotional support during study."
+        },
+        {
+          "text": "Push through alone, trusting your self-study skills.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -20,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Enduring isolation for self-study leads to diminished well-being."
+        }
+      ]
+    },
+    "group_sessions": {
+      "type": "node",
+      "scene_text": "Organizing study sessions with your peers fosters a communal atmosphere filled with shared insights. The group dynamic provides an enriching platform for knowledge exchange, boosting your confidence as you tackle coursework collectively. However, the penalty of added social energy commitment remains, begging the question of balance between study and social needs.",
+      "image_prompt": "A collaborative study group in action, with engaging discussions over charts, notes, and smiles.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Introduce virtual meetings to reinforce connections.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Virtual sessions enhance connectivity, but may add financial strain."
+        },
+        {
+          "text": "Keep the sessions strictly focused on academics.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Limiting sessions to academics enhances productivity but risks camaraderie."
+        }
+      ]
+    },
+    "finalizing_solo": {
+      "type": "node",
+      "scene_text": "The decision to finalize your studying techniques fosters self-reliance, but often at the expense of social links. As exams draw near, isolation can amplify feelings of anxiety amid pressure. However, the knowledge and skills gained let you stand firm; each chapter becomes clearer as you move closer to defining your study technique.",
+      "image_prompt": "A dedicated student preparing notes for upcoming studies, isolated but focused.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan social breaks to reconnect with friends.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Planned breaks can help revitalize your mood and maintain friendships."
+        },
+        {
+          "text": "Stay focused and push until exams are over.",
+          "next_node": "exam_focused",
+          "stat_delta": {
+            "health": -25,
+            "mood": -20,
+            "money": 0
+          },
+          "stat_reason": "Discarding social time strains mental health further, increasing frustration under pressure."
+        }
+      ]
+    },
+    "reengage_friends": {
+      "type": "node",
+      "scene_text": "Reengaging with friends proves counterproductive, as the camaraderie helps alleviate loneliness. Enjoyable interactions remind you of life beyond your academic struggles. Finding time amidst your studies brings comfort, reinforcing the notion that you're not alone in this journey. Yet, that lingering tension of unfinished projects always bubbles beneath, challenging the balance between social and study life.",
+      "image_prompt": "A cheerful reunion of friends sharing experiences amidst study backgrounds.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Follow up with academic support discussions.",
+          "next_node": "outlook_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Academic discussions enhance understanding while bolstering motivation."
+        },
+        {
+          "text": "Set clear boundaries to shift back into study focus.",
+          "next_node": "exams_over",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Returning to set boundaries reinforces focus but decreases interactions."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "outlook_balance": {
+      "scene_text": "Embracing a more balanced outlook between your studies and social life sets a transformative path ahead. Prioritizing both crucial aspects helps navigate the intense academic pressures without succumbing to burnout. This newfound equilibrium allows you to approach challenges with clarity and resilience. As you step toward finals, remember that a healthy balance is key to not just surviving, but thriving.",
+      "image_prompt": "A diverse student walking across the University of Tokyo campus, exuding confidence and determination.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "exam_focused": {
+      "scene_text": "Pushing your studies to the brink becomes a bittersweet journey. While your determination propels you through coursework, the emotional toll is palpable as stress wraps tightly around your spirit. You move through exams with the knowledge you’ve gained, but the sacrifices of connection and health leave their mark. The experience evolves into a dual-edged sword, prompting a wiser approach in your academic future.",
+      "image_prompt": "A student standing in front of an exam hall, feeling a sense of resolve amidst the doubts.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "exams_over": {
+      "scene_text": "The journey through exams becomes a tale of endurance and perseverance. Though challenges became immense, celebrating the small victories throughout your academic path lights the way to future opportunities. The experience teaches you valuable lessons about balance, mental health, and community, preparing you to tackle your future endeavors with fresh perspectives and a resilient spirit.",
+      "image_prompt": "A triumphant student emerging from an exam building, filled with joy and relief, stepping into a brighter future.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "storyId": "berkeley_151f56ca784d",
+  "mode": "live_search",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "department of computer science",
+    "school": "UC Berkeley",
+    "semesters": 4,
+    "department": "department of computer science"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 30
+    }
+  },
+  "startedAt": "2026-07-21T03:51:08.379Z"
+}

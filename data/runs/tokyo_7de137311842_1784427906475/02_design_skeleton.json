@@ -1,0 +1,1030 @@
+{
+  "story_id": "tokyo_7de137311842_1784427906475",
+  "framework_type": "convergence",
+  "framework_reason": "All students face shared challenges like high cost of living, academic pressure, and cultural adjustment.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "event",
+      "scene_text": "You arrive in Tokyo, overwhelmed by the towering skyscrapers and bustling streets. The air is humid, and the excitement of starting your Computer Science degree at the University of Tokyo contrasts sharply with your initial loneliness. Navigating the vibrant neighborhoods, you feel a mix of thrill and anxiety. You realize quickly that adapting to this vibrant yet challenging environment will take effort.",
+      "image_prompt": "A busy Tokyo street with tall buildings, students crossing, and traditional elements blending with modernity, under clear blue skies.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Go explore the city and immerse in the culture.",
+          "next_node": "exploration",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Exploring new places brings joy but costs money and energy."
+        },
+        {
+          "text": "Stay in your apartment and focus on setting up.",
+          "next_node": "health_crisis",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -5
+          },
+          "stat_reason": "Setting up your space is a comforting task but may lead to feelings of isolation."
+        }
+      ]
+    },
+    "exploration": {
+      "type": "event",
+      "scene_text": "Walking through the vibrant streets, you soak in the blend of cultures and cuisines. But the constant hum of conversations in Japanese makes you feel excluded. As the sun begins to set, you realize that you’ve spent more than you intended, and your legs feel heavy from the day's adventures. Yet, the city's energy invigorates you, pushing away some initial doubts.",
+      "image_prompt": "A busy market street in Tokyo, with colorful food stalls and people enjoying local cuisine in the twilight.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a local student club to make friends.",
+          "next_node": "club_join",
+          "stat_delta": {
+            "health": -3,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Joining clubs can be expensive but boosts mood by connecting with others."
+        },
+        {
+          "text": "Return to your apartment and prepare for classes.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": 10,
+            "mood": -5,
+            "money": -5
+          },
+          "stat_reason": "Focusing on academics provides comfort but at the cost of socializing."
+        }
+      ]
+    },
+    "club_join": {
+      "type": "event",
+      "scene_text": "You find a tech club filled with other passionate students. They welcome you warmly, and for the first time, you feel a sense of belonging. However, the club demands time for activities and meetings that can conflict with your study schedule. You drift home with newfound friends but burdened by your responsibilities.",
+      "image_prompt": "A group of diverse students laughing and discussing technology in a cozy club room filled with gadgets.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Commit fully to the club activities.",
+          "next_node": "full_commitment",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Dedicating more time boosts your mood but negatively impacts your health."
+        },
+        {
+          "text": "Limit your involvement to manage academics.",
+          "next_node": "health_crisis",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Managing your time provides balance, but you miss out on club connections."
+        }
+      ]
+    },
+    "full_commitment": {
+      "type": "event",
+      "scene_text": "As you immerse yourself in club activities, you are constantly socializing and brainstorming projects. However, late nights leave you fatigued, and you've begun to neglect your coursework. Your health takes a downturn, making you question whether the social reward is worth the academic sacrifice.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Pull an all-nighter to catch up on studies.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": -25,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Cramming worsens your health significantly, risking burnout."
+        },
+        {
+          "text": "Ask for help in the club to manage time better.",
+          "next_node": "ask_help",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Reaching out for help improves mood but doesn’t immediately fix academic pressures."
+        }
+      ]
+    },
+    "ask_help": {
+      "type": "event",
+      "scene_text": "You reach out to fellow club members for study tips. They share great resources and invite you to a group study session. Feeling motivated, you prepare to balance your commitments. There's still concern about the upcoming assignments, but having a support network lessens the burden of loneliness.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Utilize the group study sessions regularly.",
+          "next_node": "group_study",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Group studies lift your mood while maintaining academic performance."
+        },
+        {
+          "text": "Focus on solo study methods to save time.",
+          "next_node": "health_crisis",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Solo study saves time but could lead to isolation and longer hours alone."
+        }
+      ]
+    },
+    "group_study": {
+      "type": "event",
+      "scene_text": "In the group study sessions, the atmosphere is collaborative. You grasp complex topics faster and feel the stress of deadlines become manageable. Conversely, you realize it's becoming difficult to juggle your time effectively alongside your part-time job, which has its own demands. You ponder how to allocate your hours.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on work hours to prioritize studies.",
+          "next_node": "cut_work_hours",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Less work decreases financial strain but boosts academic focus and mood."
+        },
+        {
+          "text": "Keep current work hours to maintain income.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 20
+          },
+          "stat_reason": "Keeping work hours protects finances but causes health and mood deterioration."
+        }
+      ]
+    },
+    "cut_work_hours": {
+      "type": "event",
+      "scene_text": "Reducing your work hours allows more focus on your studies, and you see improvements in your grades and confidence. However, financial stress begins to creep in again. You wonder whether you can make ends meet on just a part-time income, especially given Tokyo's high living costs.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Apply for scholarships to ease financial worries.",
+          "next_node": "apply_scholarship",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Applying for scholarships costs time but improves mood with potential financial relief."
+        },
+        {
+          "text": "Consider taking on extra freelance work.",
+          "next_node": "extra_work",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 20
+          },
+          "stat_reason": "Freelancing helps financially but risks your health and mood due to added workload."
+        }
+      ]
+    },
+    "apply_scholarship": {
+      "type": "event",
+      "scene_text": "As you draft scholarship applications, the process feels long and tedious. However, securing one could mean less financial pressure, allowing you to focus more on your studies and social activities. As you send off your applications, you feel a sense of optimism for the first time in weeks.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Wait patiently for scholarship results.",
+          "next_node": "wait_results",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Staying positive about the outcomes helps maintain mood."
+        },
+        {
+          "text": "Focus on studies while waiting for results.",
+          "next_node": "focus_studies",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Focusing on studies improves your health but distracts from friendships."
+        }
+      ]
+    },
+    "extra_work": {
+      "type": "event",
+      "scene_text": "Taking on additional freelance work initially seems like a solid plan to ease monetary concerns. However, late nights and longer days lead to fatigue, causing you to miss classes. The balance between work and study begins to feel unsustainable, jeopardizing your academic performance.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on freelance work hours.",
+          "next_node": "reduce_freelance",
+          "stat_delta": {
+            "health": 10,
+            "mood": -10,
+            "money": -10
+          },
+          "stat_reason": "Reducing work improves health but impacts finances and mood."
+        },
+        {
+          "text": "Push through the fatigue and keep working.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 30
+          },
+          "stat_reason": "Seeing higher income gives financial relief but severely impacts health and mood."
+        }
+      ]
+    },
+    "wait_results": {
+      "type": "event",
+      "scene_text": "The waiting becomes a period of reflection. You remind yourself of the effort put into your studies and the more confident social avenues you've begun to pursue. The anxiety of uncertainty lingers, but the moment you receive a scholarship offer fills you with joy. The pressure slightly eases, allowing more time for your interests.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Celebrate your scholarship with friends.",
+          "next_node": "celebrate",
+          "stat_delta": {
+            "health": 10,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Celebrating your success boosts mood but costs money."
+        },
+        {
+          "text": "Save most of the scholarship money for essentials.",
+          "next_node": "save_money",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 30
+          },
+          "stat_reason": "Prioritizing savings allows for security without affecting mood."
+        }
+      ]
+    },
+    "focus_studies": {
+      "type": "event",
+      "scene_text": "While your peers are still focused on fun, you manage to keep a steady pace in your studies. Nevertheless, moments of social isolation strike through the quieter evenings. With exams approaching, your sense of academic confidence grows, though the absence of social interactions begins to weigh you down.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reach out to classmates for study groups.",
+          "next_node": "study_groups",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Establishing connections with classmates enhances your mood."
+        },
+        {
+          "text": "Keep powering through solo studies.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Studying alone can be safer for academics but diminishes your mood."
+        }
+      ]
+    },
+    "celebrate": {
+      "type": "event",
+      "scene_text": "The celebration feels exhilarating as you and your friends bond over the good news. However, the costs pile up as you dine and drink too much, pushing your budget. While the camaraderie restores your mood, the temporary spike in spending hits hard your overall financial situation.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Cut back on luxury expenses in the future.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 20
+          },
+          "stat_reason": "Learning from the past helps stabilize finances."
+        },
+        {
+          "text": "Continue enjoying social life despite financial risk.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": -30
+          },
+          "stat_reason": "Prioritizing social experiences lifts mood while harming finances."
+        }
+      ]
+    },
+    "save_money": {
+      "type": "event",
+      "scene_text": "Deciding to save most of your scholarship money pays off as it grants you a sense of security and peace of mind. You find time to explore more on weekends, allowing a much-needed break from the academic strains. However, the caution makes you miss out on some immediate fun.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Consider investing some in a new tech gadget.",
+          "next_node": "health_crisis",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Investing in interests enhances mood but reduces overall savings."
+        },
+        {
+          "text": "Continue saving for future essentials.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 30
+          },
+          "stat_reason": "Building savings enhances long-term security but might stifle immediate joy."
+        }
+      ]
+    },
+    "study_groups": {
+      "type": "event",
+      "scene_text": "Collaborative study sessions become a norm, and you find your understanding improves significantly. This brings a much-needed boost to your confidence and academic performance. The camaraderie eases the initial culture shock, and for the first time, you feel like a part of a community.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Organize the next study session at your place.",
+          "next_node": "host_study",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Hosting improves connections but can cost money and energy."
+        },
+        {
+          "text": "Keep participating without hosting.",
+          "next_node": "participate_study",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Participating nurtures bonds but keeps your cost low."
+        }
+      ]
+    },
+    "host_study": {
+      "type": "event",
+      "scene_text": "You embrace the role of host, preparing snacks and offering a warm environment for study. Everyone appreciates your efforts, and this fosters an even stronger sense of belonging among the group. However, you're feeling the strain of organizing and the dietary costs accumulate.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Limit the number of attendees to manage costs.",
+          "next_node": "limit_attendees",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "Restricting group size stabilizes finances but can impact social experience."
+        },
+        {
+          "text": "Keep the group open for everyone to foster community.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": -15
+          },
+          "stat_reason": "Openness enhances community support but increases your financial and health burden."
+        }
+      ]
+    },
+    "participate_study": {
+      "type": "event",
+      "scene_text": "Joining the study group without the hosting responsibilities allows you to recharge while still benefiting academically. Connections deepen, and your participation helps to feel like a valued member. However, there's a lingering fear about group assessments that could shake your confidence.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Collaborate more closely with select classmates.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Deeper collaboration improves mood without financial impact."
+        },
+        {
+          "text": "Solo study ahead of group assessments.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": -5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Studying alone reduces group pressures but can lead to more isolation."
+        }
+      ]
+    },
+    "reduce_freelance": {
+      "type": "event",
+      "scene_text": "Reducing your freelancing hours gives you breathing space. You regain some of your health and boost your mood, but the bitter taste of lost income lingers. Prioritizing your studies becomes easier, and you manage to forge deeper connections with classmates.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reassess your academic goals.",
+          "next_node": "academic_goals",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Reflecting on goals brings clarity and empowers your academic journey."
+        },
+        {
+          "text": "Consider ways to balance work, studies, and social life.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Planning for balance stresses the importance of a fulfilling experience."
+        }
+      ]
+    },
+    "push_through": {
+      "type": "event",
+      "scene_text": "Though you manage to earn a significant amount from freelancing, the toll it takes on your health becomes unsustainable. Fatigue leads to missed classes, and anxiety rises as deadlines loom ever closer. The consequences of your choices start to mount.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Invest in a health assessment.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": -50
+          },
+          "stat_reason": "Health assessments cost money, but could illuminate underlying problems."
+        },
+        {
+          "text": "Cut back on work and prioritize health.",
+          "next_node": "health_crisis",
+          "stat_delta": {
+            "health": 10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Acknowledging concerns helps health, but mood drops due to financial worries."
+        }
+      ]
+    },
+    "academic_goals": {
+      "type": "event",
+      "scene_text": "Revisiting your academic aspirations fills you with determination to focus on your major. You engage more with professors and visualise a successful career in tech. Your newfound motivation reflects positively on your mood, enabling you to see the light at the end of the tunnel.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Communicate your goals with an academic adviser.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Engaging with advisers enhances clarity and improves mood."
+        },
+        {
+          "text": "Explore internship opportunities proactively.",
+          "next_node": "search_internships",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Active role in searching shapes professional aspirations while challenging your health."
+        }
+      ]
+    },
+    "search_internships": {
+      "type": "event",
+      "scene_text": "Diving into the world of internships exposes you to the competitive job market. Preparing and applying becomes stressful as you balance academics and language barriers. You feel the weight bear down on your health and mood, and the fear of rejection looms.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Sign up for a language workshop to enhance skills.",
+          "next_node": "language_workshop",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -30
+          },
+          "stat_reason": "Improving language skills boosts confidence but costs money."
+        },
+        {
+          "text": "Network through the university's career events.",
+          "next_node": "university_events",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": -20
+          },
+          "stat_reason": "Networking builds confidence but may lead to fatigue and financial strain."
+        }
+      ]
+    },
+    "language_workshop": {
+      "type": "event",
+      "scene_text": "The language workshop becomes a transformative experience. You connect with fellow international students, easing your feelings of culture shock. Enhanced language skills bolster your confidence as you prepare for internships. However, the investment takes a toll on your finances, leaving you looking for ways to save.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look for part-time opportunities that align with your skills.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 20
+          },
+          "stat_reason": "Part-time jobs aligned with your skills boost mood and finances."
+        },
+        {
+          "text": "Reach out to classmates for study support.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Collaborative support helps maintain balance without financial strain."
+        }
+      ]
+    },
+    "university_events": {
+      "type": "event",
+      "scene_text": "Attending career events exposes you to various industry opportunities, but the process is rife with pressure. You receive valuable insights, but physical and emotional fatigue seeps in as the days pass. You contemplate whether the stress is worth the connections you’re building.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Limit attendance to essential events.",
+          "next_node": "limit_events",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Reducing participation helps maintain energy without losing networking opportunities."
+        },
+        {
+          "text": "Keep attending to maximize networking.",
+          "next_node": "maximize_networking",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -30
+          },
+          "stat_reason": "Energetic participation boosts networking but takes a toll on health and finances."
+        }
+      ]
+    },
+    "limit_events": {
+      "type": "event",
+      "scene_text": "By taking a step back from events, you find the much-needed energy to thrive academically and socially. The careful balance rejuvenates you and fosters deeper relationships with classmates, though some networking opportunities slip away in the process.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Focus on building long-term relationships.",
+          "next_node": "long_term_relationships",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Fostering strong relationships enhances emotional health."
+        },
+        {
+          "text": "Use downtime to develop personal projects.",
+          "next_node": "personal_projects",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Pursuing personal projects boosts mood but has financial implications."
+        }
+      ]
+    },
+    "maximize_networking": {
+      "type": "event",
+      "scene_text": "The networking opportunities you seize do pay off. Connections deepen, and you find various paths to future internships. But your dwindling health and finances cast a shadow over your successes, as balancing all the demands proves to be overwhelming.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Take time to de-stress and recharge.",
+          "next_node": "destress_time",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing self-care promotes health but sometimes distracts from networking."
+        },
+        {
+          "text": "Continue pushing yourself within the networking scene.",
+          "next_node": "continue_networking",
+          "stat_delta": {
+            "health": -20,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Pursuing deeper connections boosts mood but harms overall health."
+        }
+      ]
+    },
+    "long_term_relationships": {
+      "type": "event",
+      "scene_text": "As you focus on nurturing your relationships with classmates, a strong support network becomes your refuge in this bustling city. There are laughs, study sessions, and shared moments. As your academic performance stabilizes and personal connections deepen, you feel a renewed sense of purpose in your journey.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Plan a group trip to unwind together.",
+          "next_node": "group_trip",
+          "stat_delta": {
+            "health": 10,
+            "mood": 15,
+            "money": -30
+          },
+          "stat_reason": "Planning a trip enhances community ties but weighs on finances."
+        },
+        {
+          "text": "Collaborate on a tech project as a team.",
+          "next_node": "tech_project",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": 0
+          },
+          "stat_reason": "Collaborative projects boost morale but can be stressful."
+        }
+      ]
+    },
+    "personal_projects": {
+      "type": "event",
+      "scene_text": "Diving into personal projects keeps your creativity alive. As you build new applications and explore different technologies, your confidence swells. However, the finances weigh on your mind, pressing you to look for ways to monetize your passion for tech.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look into potential startups with classmates.",
+          "next_node": "classmate_startups",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Generating startup ideas cultivates teamwork and creativity."
+        },
+        {
+          "text": "Consider offering tutoring sessions to earn income.",
+          "next_node": "tutoring_sessions",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 20
+          },
+          "stat_reason": "Tutoring brings in income but adds pressure to manage time."
+        }
+      ]
+    },
+    "group_trip": {
+      "type": "event",
+      "scene_text": "The group trip to a nearby historic site becomes a memorable escape from academic pressures. Experiences shared strengthen your bonds, and the collective happiness is palpable. Yet, as you return to reality, the financial aftermath lingers, reminding you to be mindful of your budget moving forward.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Start budgeting strictly for more outings.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 30
+          },
+          "stat_reason": "Adopting budgeting habits secures funds for future enjoyments."
+        },
+        {
+          "text": "Reassess your spending habits for essentials.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Reflecting on spending creates awareness but can feel negative."
+        }
+      ]
+    },
+    "tech_project": {
+      "type": "event",
+      "scene_text": "Working on tech projects with your friends elevates the camaraderie. Sharing knowledge and skills leads to impressive outcomes. However, the project timeline is tight, and stress levels rise. You'll need to navigate this balance to ensure you all thrive.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Set clear goals to manage stress.",
+          "next_node": "goal_management",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Establishing clear objectives eases stress and improves collaboration."
+        },
+        {
+          "text": "Work around the clock to meet deadlines.",
+          "next_node": "deadline_stress",
+          "stat_delta": {
+            "health": -20,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Pushing through tasks yields temporary success but worsens health."
+        }
+      ]
+    },
+    "classmate_startups": {
+      "type": "event",
+      "scene_text": "Brainstorming startup ideas with your classmates enables creative flow. You feel a sense of purpose while channeling your skills and knowledge. However, the reality of the workload looms over you, stirring a sense of anxiety regarding deadlines.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Pitch an idea to a local company for mentorship.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Gaining mentorship is exciting but comes with costs."
+        },
+        {
+          "text": "Develop a prototype to secure funding.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": -10,
+            "mood": 20,
+            "money": -30
+          },
+          "stat_reason": "Creating a prototype fosters excitement but leads to financial strain."
+        }
+      ]
+    },
+    "tutoring_sessions": {
+      "type": "event",
+      "scene_text": "Offering tutoring sessions proves rewarding. You earn money while reinforcing your own understanding. Yet, the balancing act becomes ongoing, with time invested in tutoring leaving less for personal projects and socializing.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Raise your tutoring rates.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 30
+          },
+          "stat_reason": "Increasing fees improves income but may deter some clients."
+        },
+        {
+          "text": "Catch up on personal projects and relax more.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -10
+          },
+          "stat_reason": "Focusing on personal interests boosts health but affects income."
+        }
+      ]
+    },
+    "limit_attendees": {
+      "type": "event",
+      "scene_text": "Limiting study group attendees retains more resources for in-depth discussions. Friendships strengthen as connections deepen. Nonetheless, there’s a vicarious fear of drifting away from wider networks that you try to nurture.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reconnect occasionally with wider networks.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Maintaining connections enriches your experience without financial strain."
+        },
+        {
+          "text": "Focus solely on your tighter circle.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Deepening your circle enhances bonds but may diminish social variety."
+        }
+      ]
+    },
+    "destress_time": {
+      "type": "event",
+      "scene_text": "Taking time off helps you recharge and re-evaluate your strategies. You learn the value of balanced living—pushing hard shouldn't come at the expense of your well-being. Your mood stabilizes, giving you a clearer path ahead with newfound wisdom.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Re-approach your academics with a fresh perspective.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Returning to studies with renewed energy enhances productivity."
+        },
+        {
+          "text": "Invest in self-care routines moving forward.",
+          "next_node": "academic_struggles",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Prioritizing self-care supports your well-being but comes at a justifiable cost."
+        }
+      ]
+    },
+    "continue_networking": {
+      "type": "event",
+      "scene_text": "Your pursuit of networking leads to valuable connections and invitations for internships. The pressure mounts as you balance study with extensive networking. Despite landing opportunities, the toll on your health becomes concerning.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Streamline your networking methods.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -30
+          },
+          "stat_reason": "Improving your networking efficiency strengthens connections but causes fatigue."
+        },
+        {
+          "text": "Continue your efforts as they bear fruit.",
+          "next_node": "successful_graduate",
+          "stat_delta": {
+            "health": -20,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Persisting builds your profile but detracts from health."
+        }
+      ]
+    },
+    "goal_management": {
+      "type": "event",
+      "scene_text": "As you set clear goals, the project begins to take shape. The excitement of collaboration surges among your group, and your confidence grows. However, you realize that tight deadlines can exacerbate stress and physical fatigue.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Delegate tasks to evenly distribute workload.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Distributing tasks relieves pressure and strengthens group bonds."
+        },
+        {
+          "text": "Work independently to meet deadlines.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": -15,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Going solo can enhance focus but risks your health."
+        }
+      ]
+    },
+    "deadline_stress": {
+      "type": "event",
+      "scene_text": "As deadlines approach, nights turn into mornings, and sleep eludes you. The quick success of your project becomes overshadowed by fatigue and heightened anxiety. It's clear you'll need to reassess your studying and working strategies to regain balance.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Communicate with your team about workload management.",
+          "next_node": "team_communication",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Team discussions inspire collaboration and transparency."
+        },
+        {
+          "text": "Push through the stress and finish.",
+          "next_node": "task_delegation",
+          "stat_delta": {
+            "health": -30,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Finishing quickly improves project success but harms your wellbeing."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "successful_graduate": {
+      "scene_text": "After years of navigating challenges, your dedication pays off. You've graduated with honors from the University of Tokyo. The friendships you've built, knowledge gained, and experiences shared sculpted not just your career path in tech but the person you’ve become. Ready to embrace the next chapter, you step confidently into a limitless future.",
+      "image_prompt": "A proud graduate in a traditional kimono standing next to peers outside the University of Tokyo, holding diplomas, filled with joy and promise.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "academic_struggles": {
+      "scene_text": "After tiring efforts, you find it hard to trap your interest in your degree. The demands of juggling studies and maintaining a social life drain you. Though you finish your semester, the pressures ultimately undermine your enthusiasm for learning. You contemplate the path ahead, feeling uncertain.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "health_crisis": {
+      "scene_text": "In the pursuit of success, the weight of stress and exhaustion overwhelms you. Health complications arise from neglecting your wellbeing. Though you regret prioritizing work over health, realizing this too late becomes a harsh lesson. Your aspirations are compromised, and a long recovery lies ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    },
+    "task_delegation": {
+      "scene_text": "Task delegation brings a wave of relief. The collaborative atmosphere enhances your group's spirit and leads to impressive results. Overcoming your challenges together strengthens both your academic performance and friendships. You feel empowered to face future endeavors as a united team.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "team_communication": {
+      "scene_text": "Communication becomes a pivotal moment for your team. Discussing workload and stress opens up a dialogue that fosters trust and understanding. Your bonds strengthen, and you collaborate more effectively, enhancing both your health and academic performance. A sense of community blossoms as you all navigate these challenges together.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

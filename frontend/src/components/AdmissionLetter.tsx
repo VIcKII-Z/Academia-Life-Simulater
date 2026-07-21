@@ -23,10 +23,10 @@ function useConfetti(count: number): ConfettiPiece[] {
         id,
         left: Math.random() * 100,
         color: CONFETTI_COLORS[id % CONFETTI_COLORS.length],
-        delay: Math.random() * 0.6,
-        duration: 2.6 + Math.random() * 1.6,
-        drift: (Math.random() - 0.5) * 160,
-        rotate: 360 + Math.random() * 360,
+        delay: Math.random() * 2.4,
+        duration: 5 + Math.random() * 3.5,
+        drift: (Math.random() - 0.5) * 220,
+        rotate: 360 + Math.random() * 720,
       })),
     [count],
   );
@@ -42,10 +42,24 @@ function useConfetti(count: number): ConfettiPiece[] {
  * program, grade, city/country). Dismisses into the first story node on
  * click.
  */
-export default function AdmissionLetter({ profile, onContinue }: { profile: UserProfile; onContinue: () => void }) {
-  const confetti = useConfetti(28);
+export default function AdmissionLetter({
+  profile,
+  onAccept,
+  onDecline,
+}: {
+  profile: UserProfile;
+  onAccept: () => void;
+  onDecline: () => void;
+}) {
+  const confetti = useConfetti(70);
   const university = profile.school?.trim() || `a university in ${profile.city}`;
-  const programLine = [profile.program, profile.major].filter(Boolean).join(" — ");
+  // `major` is set from `program` (falling back to `department`) upstream, so
+  // showing both together would just repeat the same phrase twice — pick the
+  // most specific single program line, and let department stand on its own.
+  const programLine = profile.program?.trim() || profile.major?.trim() || "";
+  const departmentLine = profile.department?.trim() && profile.department.trim() !== programLine
+    ? profile.department.trim()
+    : "";
   const today = useMemo(
     () => new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }),
     [],
@@ -73,15 +87,14 @@ export default function AdmissionLetter({ profile, onContinue }: { profile: User
       </div>
 
       <div className="admissionLetter">
-        <p className="admissionDate">{today}</p>
-        <div className="admissionAccentBar" />
         <div className="admissionHeader">
-          <img className="admissionSealIcon" src="/branding/mascot.png" alt="" />
+          <img className="admissionSealIcon" src="/branding/badge.png" alt="" />
           <div>
             <h2 className="admissionUniversity">{university}</h2>
             <p className="admissionDept">Admissions &amp; Life Simulator</p>
           </div>
         </div>
+        <p className="admissionDate">{today}</p>
         <p className="admissionSalutation">Dear future {profile.grade.toLowerCase()} student,</p>
         <p className="admissionBody">
           <strong>Congratulations!</strong> We are delighted to inform you that the Admissions Committee has
@@ -91,14 +104,35 @@ export default function AdmissionLetter({ profile, onContinue }: { profile: User
               {" "}
               to pursue <strong>{programLine}</strong>
             </>
-          ) : null}{" "}
-          in <strong>{profile.city}, {profile.country}</strong>. A transformative study-abroad experience
-          awaits you.
+          ) : null}
+          {departmentLine ? (
+            <>
+              {" "}
+              in the <strong>{departmentLine}</strong>
+            </>
+          ) : null}
+          .
         </p>
+
+        <div className="admissionBanner">
+          <p className="admissionBannerTitle">Welcome to {university}!</p>
+        </div>
+        <p className="admissionTagline">
+          We can&rsquo;t wait to see you in {profile.city}, {profile.country}.
+        </p>
+
+        <p className="admissionBody admissionBody--closing">
+          A transformative study-abroad experience awaits you — new routines, new people, and choices only
+          you can make. Your journey begins the moment you turn the page.
+        </p>
+
         <div className="admissionFooterBar" />
         <div className="journalButtonRow">
-          <button className="journalButton" onClick={onContinue}>
-            Begin your story
+          <button className="journalButton" onClick={onAccept}>
+            Accept the offer
+          </button>
+          <button className="journalButton secondary" onClick={onDecline}>
+            Decline the offer
           </button>
         </div>
       </div>

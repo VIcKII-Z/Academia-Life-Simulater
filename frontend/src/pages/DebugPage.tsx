@@ -41,6 +41,7 @@ export default function DebugPage() {
     city: "Tokyo",
     major: "Computer Science",
     grade: "Graduate",
+    semesters: 1,
   });
   const [story, setStory] = useState<StoryDocument | null>(null);
   const [runFiles, setRunFiles] = useState<RunFiles | null>(null);
@@ -301,6 +302,21 @@ export default function DebugPage() {
                   placeholder="e.g. MS in Computer Science"
                   value={profile.program ?? ""}
                   onChange={(event) => updateProfile("program", event.target.value)}
+                />
+              </label>
+              <label className="field">
+                <span>Semesters</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={8}
+                  value={profile.semesters ?? 1}
+                  onChange={(event) =>
+                    setProfile((current) => ({
+                      ...current,
+                      semesters: Math.min(8, Math.max(1, Number.parseInt(event.target.value, 10) || 1)),
+                    }))
+                  }
                 />
               </label>
             </div>

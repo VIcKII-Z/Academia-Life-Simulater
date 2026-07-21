@@ -93,6 +93,17 @@ create meaningful pressure without being random punishment.
   code, or club/event that isn't listed there. If campus_life_profile is absent or a given
   sub-list is missing, keep that part of the story at a generic/unnamed level instead of making
   something up.
+- Whenever a campus_life_profile entry you reference has a "url" field, cite the REAL source
+  instead of just naming it: wrap that mention as a markdown link inside the bold marker, e.g.
+  "**[CS 170: Efficient Algorithms and Intractable Problems](https://www2.eecs.berkeley.edu/Courses/CS170/)**"
+  or "**[Doe Memorial Library](https://www.lib.berkeley.edu/doe-library)**" — the bracketed label
+  is the phrase the player sees highlighted, the parenthesized part is the exact "url" value from
+  that entry, copied verbatim. NEVER invent, guess, or construct a URL yourself — only use a URL
+  that is literally present in the report's campus_life_profile/sources data for that exact item.
+  If an entry has no "url", reference it as plain bold text (no link) as before. Prefer including
+  a few of these real linked mentions per node when the data supports it (courses, faculty pages,
+  libraries, clubs, events) — more grounded links make the story feel demonstrably research-based
+  rather than merely plausible, so don't limit yourself to just one per story.
 - The story must make the selected profile feel different. A PhD story should include advisor,
   research, funding, lab/community, publication or thesis pressure. An undergraduate story should
   include dorm/campus/social adaptation, coursework, clubs, internships, and family budget pressure.
@@ -126,6 +137,11 @@ Choose the most suitable of the following three, and state your reasoning:
   (markdown-bold) so the player can skim the long paragraph — e.g. concrete numbers/costs,
   the key decision or risk of the scene, a pivotal place/deadline. Do not over-mark; only the
   handful of phrases that matter most. Apply the same sparing **bold** marking inside "insight".
+  A bold phrase written as a real linked citation (see the campus_life_profile "url" rule above)
+  counts toward this same 2-4 budget, but if a node naturally has 2-3 real, sourced links worth
+  citing (a course + a library + a club, say), it's fine to go up to 5-6 bold phrases that node —
+  err toward citing more real sources rather than fewer, since that's what makes the story feel
+  demonstrably research-grounded instead of just plausible.
 - Each node should include concrete local details: neighborhood/campus/lab/commute/weather/social
   setting, and at least one detail connected to the user's major or grade.
 - Must include multiple genuine "challenge" type nodes - the story cannot be entirely positive.
@@ -380,6 +396,23 @@ export async function runDesignAgent(
       let doc: StoryDocument;
       try {
         doc = JSON.parse(extractJson(raw)) as StoryDocument;
+        // Deterministically overwrite user_profile with the actual input
+        // profile instead of trusting the LLM's echo: the Design Agent's
+        // JSON schema (see buildDesignSystemPrompt below) only asks for
+        // country/city/grade/major, so school/department/program the
+        // player actually typed (e.g. "UC Berkeley") were silently dropped
+        // and AdmissionLetter fell back to a generic "a university in
+        // {city}" even when a specific school was given.
+        doc.user_profile = {
+          country: report.profile?.country ?? report.location.country,
+          city: report.profile?.city ?? report.location.city,
+          major: report.profile?.major ?? report.major,
+          grade: report.profile?.grade ?? report.grade,
+          school: report.profile?.school,
+          department: report.profile?.department,
+          program: report.profile?.program,
+          semesters: resolvedSemesters,
+        };
         normalizeStats(doc);
         repairChoicelessNodes(doc);
         repairDanglingLinks(doc);

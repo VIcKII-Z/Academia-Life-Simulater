@@ -1,0 +1,27 @@
+{
+  "storyId": "christchurch_2f60d590c7f4",
+  "mode": "live_search",
+  "profile": {
+    "country": "New Zealand",
+    "city": "Christchurch",
+    "grade": "PhD",
+    "major": "HCI",
+    "school": "University of Canterbury",
+    "department": "School of Product Design",
+    "program": "PhD in HCI"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-19T11:53:53.891Z"
+}

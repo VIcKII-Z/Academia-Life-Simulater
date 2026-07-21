@@ -1,0 +1,3 @@
+2026-07-20T04:09:46.520Z Run started for story_id=berkeley_fb45949303e0
+2026-07-20T04:09:46.520Z [search] started
+2026-07-20T04:09:46.521Z [pipeline] FAILED: Live search is disabled in config.ts (features.enableLiveSearch=false)

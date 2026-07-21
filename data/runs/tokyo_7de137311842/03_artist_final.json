@@ -1,0 +1,302 @@
+{
+  "story_id": "tokyo_7de137311842",
+  "framework_type": "convergence",
+  "framework_reason": "All students must navigate Tokyo's high cost of living and cultural isolation while managing academic pressures.",
+  "user_profile": {
+    "country": "USA",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step out of the Narita Airport into the vibrant chaos of Tokyo, the sights and sounds are overwhelming yet exhilarating. The humid air greets you, and the myriad of neon lights promise adventures ahead. You clutch your backpack tightly, feeling a cocktail of nerves and excitement. This city is famed for its advanced technology, and as a Computer Science major, you hope to leverage the opportunities available. Yet, faces seem unfamiliar, and fear of loneliness seeps in.",
+      "image_prompt": "A bustling Tokyo airport arrival area with travelers, neon signs, and a sense of excitement and nervousness in the air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Find a dormitory to stay in.",
+          "next_node": "dorm_choice",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -30
+          },
+          "stat_reason": "Choosing a dorm helps with social integration but reduces your money due to rent."
+        },
+        {
+          "text": "Book a hotel for the first week.",
+          "next_node": "hotel_choice",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": -60
+          },
+          "stat_reason": "Staying in a hotel offers comfort but severely strains your initial budget."
+        }
+      ]
+    },
+    "dorm_choice": {
+      "type": "choice",
+      "scene_text": "After settling in the dormitory, you meet diverse people from various countries, easing the initial culture shock. However, dorm life has its quirks; communal bathrooms and kitchens make you miss home comforts. You spend some time exploring the campus, and the Tokyo Institute of Technology looms overhead, impressive and intimidating. Yet, as classes begin, the workload piles up with little time to socialize or explore more thoroughly.",
+      "image_prompt": "A busy dormitory common area filled with students socializing and navigating the communal space.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join an international student club.",
+          "next_node": "club_joining",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Joining a club combats loneliness but costs you some money for dues."
+        },
+        {
+          "text": "Focus solely on studies.",
+          "next_node": "study_focus",
+          "stat_delta": {
+            "health": 0,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Dedicating time to studies raises academic confidence but leaves you feeling isolated."
+        }
+      ]
+    },
+    "hotel_choice": {
+      "type": "choice",
+      "scene_text": "Settling into the hotel offers a bubble of comfort amidst the bustling city. You have privacy and the ability to plan your next steps. Yet, the costs begin to accumulate, and Tokyo's high living expenses become glaringly evident. You feel a sense of urgency to find work quickly to alleviate the financial strain. The city is bustling outside, but you feel a wave of impending solitude wash over you.",
+      "image_prompt": "A cozy hotel room with city views, the traveler looking at a map of Tokyo with a determined expression.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Search for part-time work immediately.",
+          "next_node": "job_search",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 15
+          },
+          "stat_reason": "Starting work will increase your funds but may be tiring alongside studies."
+        },
+        {
+          "text": "Explore the city before settling in.",
+          "next_node": "city_exploration",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Exploring helps with culture shock but costs money while reducing your budget."
+        }
+      ]
+    },
+    "club_joining": {
+      "type": "choice",
+      "scene_text": "The international club welcomes you with open arms. You bond over shared experiences, exchanges of local food, and stories of homesickness. As you dive deeper into Tokyo's social fabric, you begin to feel less like an outsider. Yet, frequent club events and outings consume your time and resources, leaving you juggling the pressures of studies alongside newfound friendships.",
+      "image_prompt": "A vibrant club meeting with students sharing stories and food, showcasing diverse backgrounds.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Withdraw from some club activities to focus on studies.",
+          "next_node": "balance_struggle",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Scaling back on clubs might lower social time but relieves academic pressure."
+        },
+        {
+          "text": "Commit fully, regardless of studies.",
+          "next_node": "social_immersed",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Diving into social life elevates mood but bears a health penalty due to stress."
+        }
+      ]
+    },
+    "study_focus": {
+      "type": "choice",
+      "scene_text": "Every lecture is a reminder of the rigorous journey ahead. You study late into the night, pushing through challenging programming assignments and trying to grasp complex ideas. Yet, as time passes in isolation, exhaustion creeps in, and the pressures mount; academic confidence begins to waver as you struggle without peers for support.",
+      "image_prompt": "A student buried in textbooks in a dimly lit room filled with snack wrappers and coffee cups.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to professors for help.",
+          "next_node": "interview_unsure",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Reaching out offers some academic confidence but can be intimidating."
+        },
+        {
+          "text": "Continue grinding solo.",
+          "next_node": "balance_struggle",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Studying alone retains focus but severely impacts health and mood."
+        }
+      ]
+    },
+    "job_search": {
+      "type": "choice",
+      "scene_text": "The job hunting process proves daunting. You apply to multiple positions, ranging from tutoring to tech internships, but face competition. Each interview feels like an uphill battle, and the pressure mounts from both your studies and looming financial challenges, consuming your mental energy as you wonder if you will find the right opportunity.",
+      "image_prompt": "A student sitting in front of a laptop filled with job applications, looking stressed yet determined.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Network with classmates for job leads.",
+          "next_node": "classmate_network",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Connecting with peers may open doors but requires additional time and social effort."
+        },
+        {
+          "text": "Apply indiscriminately to all suitable jobs.",
+          "next_node": "wild_application",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 20
+          },
+          "stat_reason": "Broad applications could yield quick financial benefits but risk overwhelming you."
+        }
+      ]
+    },
+    "city_exploration": {
+      "type": "choice",
+      "scene_text": "As you venture through the city’s intricate streets, you discover hidden gems: local food stalls, peaceful shrines, and vibrant markets. Each experience cultivates a deeper appreciation for Japanese culture, yet as you spend precious money indulging in these delights, you start to worry about your budget constraints in this expensive city.",
+      "image_prompt": "A beautiful Tokyo street market bustling with life, colors, and traditional elements.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Visit more local attractions with free or minimal costs.",
+          "next_node": "social_immersed",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Seeking budget attractions can uplift your mood while keeping costs manageable."
+        },
+        {
+          "text": "Continue indulging in food and experiences.",
+          "next_node": "interview_unsure",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Spending on experiences boosts mood but heavily affects your financial situation."
+        }
+      ]
+    },
+    "classmate_network": {
+      "type": "choice",
+      "scene_text": "Networking with classmates leads to opportunities you wouldn't have explored alone. They share insights about local job fairs and even offer to review your applications. With their guidance, you begin to feel a sense of belonging, yet there’s still pressure to not let the burden of academics fall to the wayside.",
+      "image_prompt": "A group of students brainstorming over laptops in a vibrant university setting.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Attend a job fair together with classmates.",
+          "next_node": "interview_unsure",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Doing a group activity strengthens bonds but can be tiring ahead of tests."
+        },
+        {
+          "text": "Hold back from job fairs to focus on studies.",
+          "next_node": "academic_focus",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing studies builds confidence but may hinder job search efforts."
+        }
+      ]
+    },
+    "wild_application": {
+      "type": "choice",
+      "scene_text": "You dive deep into the hustle, applying to every available position you can find. An array of rejection emails flood your inbox, yet amid them, hope springs up; you've landed several interviews. The financial gain is promising, but at what cost? Your studies suffer beneath the weight of the tension, and you start to feel the strain overwhelming your health.",
+      "image_prompt": "A stressed student surrounded by rejection notices and interview invitations, jotting down notes.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prepare thoroughly for the interviews.",
+          "next_node": "interview_preparation",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Intensive preparation can boost performance but harms your health."
+        },
+        {
+          "text": "Winging the interviews as they come.",
+          "next_node": "interview_unsure",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Going in unprepared might reduce stress temporarily but could hurt your chances."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "academic_focus": {
+      "scene_text": "Focusing solely on your studies pays off. You find a rhythm in assignments and exams while your peers provide support. Networking is pushed aside for a while, but you achieve strong grades. The sense of accomplishment is gratifying, despite the sacrifices. With renewed clarity, you feel prepared to tackle the future with confidence. You realize success is a marathon, not a sprint, and you are better equipped than before.",
+      "image_prompt": "A student smiling at their laptop with grades displayed, feeling accomplished and hopeful.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "interview_unsure": {
+      "scene_text": "Interviews come and go, but your lack of preparation shows. The thrill of potential opportunity fades as rejection follows. You feel deflated as your financial strain grows heavier. In the haze of culture shock, the pressure mounts, and your foundational stability in health, mood, and money falters. The lessons of adaptation weigh on you, but they also point towards resilience.",
+      "image_prompt": "A dejected student holding their head in hands after a disappointing interview experience.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "interview_preparation": {
+      "scene_text": "Your efforts pay off after thorough interview preparations. You land a part-time role that fits your academic schedule. The combination of practical experience and supportive coworkers transforms your perspective on living in Tokyo. Slowly but surely, the once daunting city begins to feel like home. You balance your studies while understanding the wider tech industry landscape, gaining confidence as you navigate your new reality.",
+      "image_prompt": "A student triumphantly walking through a busy tech office, feeling accomplished in their role.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "social_immersed": {
+      "scene_text": "Full of energy, you dive into the life of the international club. Friends surround you, and cultural exchanges bring joy. However, the academic fallout is apparent; exams approach with little focus, and your health dwindles. Despite the vibrant friendships formed, a lingering sense of anxiety grows as you balance social life and studies precariously. The journey brings you closer to what this city can offer but leaves enduring questions about your priorities.",
+      "image_prompt": "A group of students celebrating amidst traditional Japanese festivities, laughter echoing in the air.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "balance_struggle": {
+      "scene_text": "Choosing to scale back on clubs restores your focus on studies, leading to improved grades. Yet, the isolation of limiting social engagement weighs heavily as almost every day blurs into the next. After months of this balanced struggle, you emerge with a solid GPA but feel fragmented and disconnected from the vibrant community around you. You realize that navigating Tokyo's life requires not just academic excellence, but a healthy social network.",
+      "image_prompt": "A somber student studying alone in an empty library, feeling the impact of isolation on their journey.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

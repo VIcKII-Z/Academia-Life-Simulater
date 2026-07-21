@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "Tokyo is one of the most expensive cities for students in Japan, averaging ¥130,000–200,000/month for living expenses depending on lifestyle. Rent alone can range from ¥50,000–80,000/month for an apartment. Food, utilities, and transportation costs further elevate monthly bills, but the city offers amenities like cheap eateries and efficient public transport for budget-conscious students. Potential financial stress stems from the high upfront costs such as admission fees (¥282,000) and health insurance.",
+    "academic": "Tokyo hosts prestigious computer science programs at institutions like the University of Tokyo and Tokyo Institute of Technology, focusing on AI, software engineering, and data systems. However, the curriculum emphasizes hardware integration alongside software, which may require adaptation for students used to more software-centric education systems. Some programs offer courses in English, but others demand Japanese proficiency, limiting flexibility for non-native speakers.",
+    "visa": "International students typically require a student visa to study in Tokyo, sponsored by their school after admission. The visa allows part-time work up to 28 hours/week. Renewing or extending visas requires documentation like proof of enrollment and sufficient funds. The process is generally straightforward but can be bureaucratic, with occasional delays.",
+    "culture_shock": "Students in Tokyo often face challenges adapting to Japan’s indirect communication style and hierarchical academic structures. Social norms, such as formal greetings, can feel restrictive. However, many institutions provide cultural orientation and mentor programs to help ease the transition. Language barriers remain one major challenge, particularly in everyday interactions and navigating public services.",
+    "community": "Tokyo has robust international student networks and university-specific support centers, such as the International Student Support Room at the University of Tokyo. Various clubs and associations foster community among expatriates. However, native students may initially appear reserved, impacting the ease of forming local friendships.",
+    "career": "Graduates from Tokyo’s computer science programs gain access to careers at global companies such as NTT Data and CyberAgent. Japan’s demand for IT professionals remains high, particularly in fields like AI and cybersecurity. However, local tech firms traditionally prioritize hardware over software roles, and proficiency in Japanese can significantly expand job opportunities.",
+    "safety": "Tokyo is recognized as one of the safest cities globally due to low crime rates and public trust. Violent crimes are rare, but petty theft and overcrowding during major events or rush hour pose minor risks. Emergency services are reliable and readily accessible across the city.",
+    "climate": "Tokyo’s climate includes hot, humid summers and cold, dry winters. Summers (June to August) often go above 35°C with high humidity, posing discomfort and potential health risks. Winters are milder but can feel colder due to lack of centralized heating systems. Spring and autumn, however, offer mild weather and iconic seasonal beauty.",
+    "part_time_work": "Student visas allow work up to 28 hours/week with approval from immigration authorities. While part-time jobs are plentiful, they often pay modestly, averaging ¥1,000/hour. Japanese language ability significantly improves prospects in customer service. Balancing work with academics can be challenging for those studying demanding majors like computer science."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Humid summers require hydration and air conditioning.",
+      "Limited heating in winter increases reliance on personal coping measures.",
+      "Stress from dense class schedules and commuting on packed trains.",
+      "Local hospitals provide efficient medical care but require upfront fees.",
+      "Adjusting to Japanese food might impact digestion or create stress initially."
+    ],
+    "mood": [
+      "Potential for isolation due to reserved cultural demeanor and language barriers.",
+      "Academic pressure, especially in competitive programs like computer science.",
+      "Community events and international student clubs foster a sense of belonging.",
+      "Tokyo’s vibrant urban life provides distractions for stress relief.",
+      "Assistance from student mentors helps with cultural adaptation."
+    ],
+    "money": [
+      "High rent and daily expenses strain finances; scholarships mitigate costs.",
+      "Language barriers can limit high-paying part-time job opportunities.",
+      "Planning around upfront costs like admission fees is essential.",
+      "Public transportation is cheap but frequent commuting adds up.",
+      "Internship opportunities in Japanese tech firms may provide income."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating Tokyo’s complex public transport systems for long commutes.",
+      "Japanese language needed for tech internships and part-time jobs.",
+      "High heat and humidity in summers affecting study efficiency and health.",
+      "Heavy workload in lab sessions and software design courses.",
+      "Difficulty in collaborating due to Japanese hierarchical norms.",
+      "Adjusting to research methodologies emphasizing hardware over software.",
+      "Balancing academic rigor with part-time work requirements.",
+      "Finding affordable housing close to the campus without heavy commutes."
+    ]
+  }
+}

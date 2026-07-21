@@ -1,0 +1,26 @@
+{
+  "storyId": "boston_64a9403b24d0",
+  "mode": "live_search",
+  "profile": {
+    "country": "United States",
+    "city": "Boston",
+    "grade": "Undergraduate",
+    "major": "",
+    "school": "Boston University",
+    "semesters": 2
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-20T05:38:20.306Z"
+}

@@ -1,0 +1,7 @@
+2026-07-19T07:33:35.519Z Run started for story_id=tokyo_cs_linear_test
+2026-07-19T07:33:35.519Z [search] started
+2026-07-19T07:33:35.520Z [search] completed in 1ms -> 01_search_report.json
+2026-07-19T07:33:35.520Z [design] started
+2026-07-19T07:33:58.590Z [design] completed in 23069ms -> 02_design_skeleton.json
+2026-07-19T07:33:58.590Z [artist] started
+2026-07-19T07:34:02.064Z [pipeline] FAILED: 429 当前分组上游负载已饱和，请稍后再试 (request id: 20260719153401586852158fEYxHQ62)

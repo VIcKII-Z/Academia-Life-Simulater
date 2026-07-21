@@ -1,0 +1,193 @@
+{
+  "story_id": "toronto_business_1784345814794",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights similar challenges faced by students, particularly regarding high living costs and the competitive job market.",
+  "user_profile": {
+    "country": "string",
+    "city": "string",
+    "grade": "Undergraduate",
+    "major": "Business Administration"
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step out of the airport into the brisk Toronto air, excitement blends with a twinge of anxiety. The vibrant city buzzes with life around you, filled with people from all corners of the globe. You feel the weight of your dreams and goals resting on your shoulders as you prepare to navigate this multicultural landscape.",
+      "image_prompt": "A bustling Toronto airport arrival area, featuring diverse travelers with luggage, the excitement of arrival contrasted with the chill of winter air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore downtown Toronto",
+          "next_node": "explore_downtown"
+        },
+        {
+          "text": "Head to your accommodation",
+          "next_node": "find_accommodation"
+        }
+      ]
+    },
+    "explore_downtown": {
+      "type": "node",
+      "scene_text": "Wandering through downtown, the skyline looms overhead, a mix of modern buildings and historic sites. The vibrant energy of the streets invites you in, but the high cost of living quickly becomes apparent as you compare housing prices online. You’re torn between the allure of city life and the practicality of savings.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look for shared housing options",
+          "next_node": "shared_housing"
+        },
+        {
+          "text": "Consider moving to the suburbs",
+          "next_node": "suburbs"
+        }
+      ]
+    },
+    "find_accommodation": {
+      "type": "node",
+      "scene_text": "Settling into your chosen accommodation, you feel a sense of security amidst the city’s chaos. You’ve opted for a shared flat, significantly easing your financial burden. Meeting your housemates, you realize that diverse backgrounds offer rich exchanges, but the reality of balancing studies and living together begins to sink in.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a student club",
+          "next_node": "join_club"
+        },
+        {
+          "text": "Focus on studying",
+          "next_node": "study_hard"
+        }
+      ]
+    },
+    "shared_housing": {
+      "type": "node",
+      "scene_text": "You dive into the search for shared housing, and after a few days, you find a cozy apartment with other international students. The rent is much more manageable, and you feel a sense of community right away. However, adjusting to group dynamics and shared responsibilities becomes a steady challenge.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Connect with your housemates",
+          "next_node": "connect_housemates"
+        },
+        {
+          "text": "Keep to yourself and study",
+          "next_node": "bittersweet_experience"
+        }
+      ]
+    },
+    "suburbs": {
+      "type": "node",
+      "scene_text": "Choosing to live in the suburbs, you find a more affordable option and enjoy a quieter lifestyle. However, the commute to school can be lengthy, and the isolation from campus life feels daunting at times. You wrestle with a sense of missing out on the social aspects of student life.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a local community event",
+          "next_node": "challenging_exit"
+        },
+        {
+          "text": "Go back to studying",
+          "next_node": "study_hard"
+        }
+      ]
+    },
+    "join_club": {
+      "type": "node",
+      "scene_text": "Joining a student club opens up new opportunities for networking and friendship. Yet, as you dive into activities, the competition for internships becomes apparent, and balancing these commitments with academic deadlines feels increasingly overwhelming. You realize engagement is key to success in this bustling environment.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reach out for help from career services",
+          "next_node": "challenging_exit"
+        },
+        {
+          "text": "Try to manage everything on your own",
+          "next_node": "manage_alone"
+        }
+      ]
+    },
+    "study_hard": {
+      "type": "node",
+      "scene_text": "Focusing solely on your studies, you bury yourself in textbooks and assignments, hoping that dedication will pay off. While your grades improve, you begin to realize the importance of networking and practical experiences that could enhance your career prospects. It's a crucial moment of self-reflection.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Attend networking events",
+          "next_node": "networking_events"
+        },
+        {
+          "text": "Continue to prioritize studying",
+          "next_node": "bittersweet_experience"
+        }
+      ]
+    },
+    "connect_housemates": {
+      "type": "node",
+      "scene_text": "Taking the initiative, you connect with your housemates over shared meals and cultural exchanges. This camaraderie provides a comforting anchor in the midst of academic pressures. However, you sometimes feel the tension of managing different personalities and expectations, reminding you that collaboration can be both rewarding and challenging.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Plan a house outing",
+          "next_node": "bittersweet_experience"
+        },
+        {
+          "text": "Focus on your studies",
+          "next_node": "bittersweet_experience"
+        }
+      ]
+    },
+    "manage_alone": {
+      "type": "node",
+      "scene_text": "Choosing to manage everything independently, you soon find yourself overwhelmed by the workload and emotional strain. The lack of social support weighs heavily, and you question your decision as the stress becomes palpable. It’s a turning point where you must reconsider your approach to life in the city.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek support from friends",
+          "next_node": "challenging_exit"
+        },
+        {
+          "text": "Continue pushing through alone",
+          "next_node": "bittersweet_experience"
+        }
+      ]
+    },
+    "networking_events": {
+      "type": "node",
+      "scene_text": "You muster the courage to attend networking events, meeting industry professionals and fellow students. Although nerve-wracking, these interactions begin to open doors to internships, and you discover the importance of building connections. The path ahead feels brighter, but the competition still looms large.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Apply for an internship",
+          "next_node": "bittersweet_experience"
+        },
+        {
+          "text": "Join another club for more connections",
+          "next_node": "successful_internship"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "successful_internship": {
+      "scene_text": "After months of effort, you land a rewarding internship that opens up new horizons in your career. The challenges you faced only strengthened your resolve, and you now feel more equipped for the path ahead. Toronto has shaped your identity and ambitions in ways you never imagined.",
+      "image_prompt": "A successful intern at a corporate office in Toronto, filled with bustling colleagues, showcasing a sense of achievement and newfound confidence.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "bittersweet_experience": {
+      "scene_text": "Though you graduate, the challenges of competition and high living costs leave you with mixed emotions. You’ve made lifelong friends and wonderful memories, but the reality of the job market feels daunting. Toronto has been a journey of growth, leaving you with bittersweet lessons about ambition and life.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "challenging_exit": {
+      "scene_text": "Despite your best efforts, the pressures of academic life and high competition lead you to reconsider your path. You return home with a heavy heart, but a newfound understanding of what it takes to succeed. Your time in Toronto was a challenge that will inform your future choices.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    }
+  }
+}

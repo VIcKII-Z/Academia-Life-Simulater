@@ -1,0 +1,5 @@
+2026-07-19T00:04:33.749Z Run started for story_id=tokyo_cs_1784419473748
+2026-07-19T00:04:33.749Z [search] started
+2026-07-19T00:04:33.750Z [search] completed in 0ms -> 01_search_report.json
+2026-07-19T00:04:33.750Z [design] started
+2026-07-19T00:06:42.717Z [pipeline] FAILED: Design Agent failed after 4 attempts: Error: Node "lead_study_group" must have at least one choice

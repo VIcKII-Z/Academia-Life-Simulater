@@ -1,0 +1,222 @@
+{
+  "story_id": "tokyo_cs_linear_test",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living and rigorous academic demands present a shared challenge for all students.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "You arrive in Tokyo, the bustling metropolis filled with towering skyscrapers and neon lights. Excitement and anxiety swirl within you as you navigate the crowded streets towards your new school. The rigorous Computer Science program awaits, but so does the high cost of living. You need to find housing soon, preferably close to campus. This decision will impact your finances and well-being significantly.",
+      "image_prompt": "A busy Tokyo street with towering buildings and bustling pedestrians, capturing the excitement and tension of arrival.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Opt for a cheap apartment further away from campus.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Cheaper rent allows for some savings but longer commutes can lead to fatigue."
+        },
+        {
+          "text": "Choose a more expensive but closer apartment to campus.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -20
+          },
+          "stat_reason": "Closer proximity reduces commute stress but increases financial pressure."
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "Settled into your new apartment, you soon realize the academic pressure of your Computer Science graduate program. Your advisor emphasizes research output, and the first group project is looming on the horizon. It's time to focus on your studies, but your first month in Tokyo is also about acclimatizing to a new culture and possibly feeling some isolation.",
+      "image_prompt": "A cozy apartment with a desk cluttered with study materials, showcasing the mix of personal space and academic pressure.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Focus solely on studies and skip social outings.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Neglecting social interaction increases feelings of loneliness."
+        },
+        {
+          "text": "Join an international student meet-up to connect with others.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Socializing boosts mood but incurs some costs."
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "Classes have started, and the pace is relentless. Late-night lab sessions are becoming routine. Your coursework requires extensive programming and project management skills. Balancing the workload with possible part-time work looms large on your mind, and Tokyo's humid summers are taking a toll on your stamina.",
+      "image_prompt": "A dimly lit lab with late-night students working in front of computers, symbolizing dedication and fatigue.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prioritize work on your group project, ignoring sleep.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -25,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on academics at the cost of sleep affects your health."
+        },
+        {
+          "text": "Take on a part-time job to relieve some financial burden.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Earning money helps, but juggling work and school pressures your health."
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "Your first significant project deadline is nearing, and excitement turns into stress. Compounded by the looming typhoon season, you must ensure your work is submitted while keeping an eye on your visa renewal paperwork. You can feel the weight of the challenges settling in.",
+      "image_prompt": "A stormy Tokyo afternoon showing dark clouds gathering over the city, representing pressure and urgency.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Ask for an extension on your project to focus on paperwork.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Focusing on the paperwork can reduce stress but impacts academic progress."
+        },
+        {
+          "text": "Rally to finish the project despite the typhoon risk.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -20,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Submitting on time boosts confidence but drains your health."
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "Typhoon season has arrived, disrupting routines. You navigate marshy transport systems while wrestling with both your studies and the anxiety from your personal life. You are invited to an academic networking event, which could enhance your career prospects but requires a financial commitment.",
+      "image_prompt": "A flooded Tokyo street during a typhoon, with students navigating their surroundings anxiously.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Skip the networking event to save money.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -5,
+            "mood": -15,
+            "money": 5
+          },
+          "stat_reason": "Avoiding costs keeps finances stable but misses networking opportunities."
+        },
+        {
+          "text": "Invest in attending the networking event for potential job leads.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -15
+          },
+          "stat_reason": "Attending the event boosts future job prospects but costs money and health."
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "The event passes, and you find connections in the tech industry. Yet, the rigorous demands of your program remain, and navigating daily life in a foreign culture continues to be challenging. You feel the simultaneous pull towards social circles and the heavy academic expectations. Final exams draw closer as you try to balance everything.",
+      "image_prompt": "A bustling networking event filled with students and industry professionals, blending excitement and apprehension.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue studying intensely for finals, neglecting networking.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing only on studies at the expense of networking may cost future opportunities."
+        },
+        {
+          "text": "Spend extra time networking, risking study time.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Building connections may help future employment but decreases study time."
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "Final exams have arrived and your plate is fuller than ever. The feeling of overwhelming pressure weighs down on you, and you're desperate to succeed. You manage to keep your head above water, but the toll is visible. Success here could open doors to your desired career path, but what if you crash under the stress?",
+      "image_prompt": "A student studying late at night in their room, surrounded by textbooks and notes, embodying the pressure of finals.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Pull an all-nighter to finish your study.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -30,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Forcing yourself to study extensively may secure better grades but harms your health."
+        },
+        {
+          "text": "Get some rest and study in the morning.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 10,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Rest is crucial for mental health, but may impact the final study."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "The finals are over, and you've done your best. Despite the sacrifices, the outcome is uncertain. As you reflect on this intense journey, you realize that every decision has shaped your experience in Tokyo. Whether you're heading to a job interview or considering another semester here, the challenges of student life in this bustling city will stay with you.",
+      "image_prompt": "A reflective scene at sunset in Tokyo, overlooking the city from a quiet spot, capturing a moment of contemplation and hope.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

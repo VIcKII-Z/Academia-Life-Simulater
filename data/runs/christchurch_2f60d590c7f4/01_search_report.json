@@ -1,0 +1,260 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "New Zealand",
+    "city": "Christchurch"
+  },
+  "major": "HCI",
+  "grade": "PhD",
+  "profile": {
+    "country": "New Zealand",
+    "city": "Christchurch",
+    "school": "University of Canterbury",
+    "department": "School of Product Design",
+    "program": "PhD in HCI",
+    "major": "HCI",
+    "grade": "PhD"
+  },
+  "report": {
+    "cost_of_living": "Christchurch offers a moderate cost of living compared to other major cities in New Zealand. International PhD students at the University of Canterbury pay domestic tuition fees, estimated between NZD 8,570 and NZD 10,321 per 120 points for 2026. Additional expenses include the Student Services Levy and mandatory health insurance. Accommodation options range from on-campus housing to private rentals, with costs varying accordingly.",
+    "academic": "The PhD in Human-Computer Interaction (HCI) at the University of Canterbury is research-intensive, requiring original contributions to the field. The program is housed within the School of Product Design, which offers access to specialized facilities such as design studios, makerspaces, and computer suites. Prospective students must identify a research area and secure a supervisor prior to application.",
+    "visa": "International PhD students must obtain a student visa to study in New Zealand. The University of Canterbury's International Office provides guidance on visa applications, health insurance requirements, and compliance with New Zealand immigration policies. It's essential to maintain full-time enrollment and adhere to visa conditions throughout the study period.",
+    "culture_shock": "Christchurch is a culturally diverse city with a blend of urban and natural environments. International students may experience cultural differences but can access support services, including orientation programs and cultural integration workshops, to ease the transition.",
+    "community": "The University of Canterbury fosters a supportive community for international students through various clubs, societies, and support services. The School of Product Design hosts student societies such as ProdSoc and GameDevSoc, offering opportunities for networking and professional development.",
+    "career": "Graduates of the PhD in HCI program have opportunities in academia, research institutions, and industry roles focusing on user experience and interface design. The university's career services provide resources for job placements, internships, and networking events to support career advancement.",
+    "safety": "Christchurch is considered a safe city with a low crime rate. The University of Canterbury has campus security services and offers safety resources to ensure a secure environment for students.",
+    "climate": "Christchurch experiences a temperate climate with mild summers and cool winters. Students should be prepared for variable weather conditions and plan accordingly for seasonal changes.",
+    "part_time_work": "International PhD students in New Zealand are typically allowed to work up to 20 hours per week during the academic year and full-time during scheduled breaks. It's important to verify specific visa conditions and seek employment opportunities that align with academic commitments."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adjusting to Christchurch's variable climate may affect physical well-being.",
+      "Balancing research demands with personal health requires effective time management.",
+      "Access to campus health services provides support for medical needs."
+    ],
+    "mood": [
+      "Engaging with student societies like ProdSoc can alleviate feelings of isolation.",
+      "Cultural differences may lead to initial discomfort but offer growth opportunities.",
+      "Academic pressures necessitate stress management strategies."
+    ],
+    "money": [
+      "Managing living expenses within a moderate cost of living environment.",
+      "Navigating part-time work opportunities to supplement income.",
+      "Budgeting for tuition fees, insurance, and additional university levies."
+    ],
+    "city_major_specific_challenges": [
+      "Securing a research supervisor aligned with HCI interests.",
+      "Accessing specialized facilities within the School of Product Design.",
+      "Integrating into the local tech community for networking opportunities.",
+      "Understanding and complying with New Zealand's research ethics guidelines.",
+      "Balancing independent research with available academic support.",
+      "Adapting to the academic culture and expectations of a New Zealand university.",
+      "Managing time effectively between research, work, and personal life.",
+      "Exploring funding opportunities specific to HCI research projects."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": false,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Doctor of Philosophy in Human-Computer Interaction",
+    "degree_type": "PhD",
+    "department": "School of Product Design",
+    "duration": "Typically 3-4 years full-time",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "International PhD students are eligible for domestic tuition fees if residing in New Zealand during their study.",
+    "curriculum": [
+      "Original research leading to a thesis in HCI."
+    ],
+    "milestones": [
+      "Confirmation of candidature.",
+      "Regular progress reviews.",
+      "Completion and defense of thesis."
+    ],
+    "prerequisites": [
+      "A research-focused honours or master's degree with First-Class or Second-Class Division I honours (or equivalent)."
+    ],
+    "admissions": [
+      "Identification of a research area and potential supervisor.",
+      "Submission of a research proposal.",
+      "Meeting English language proficiency requirements."
+    ],
+    "deadlines": [
+      "Applications are accepted year-round; specific deadlines may vary by department."
+    ],
+    "funding": [
+      "Various scholarships and awards are available for doctoral students."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Options include on-campus accommodations and private rentals in Christchurch.",
+    "commute": "The university is accessible via public transportation and offers parking facilities for students.",
+    "campus_support": "Services include academic advising, counseling, and health services.",
+    "community": "Active student societies and clubs provide opportunities for engagement and networking.",
+    "safety": "Campus security services ensure a safe environment for students.",
+    "climate": "Temperate climate with mild summers and cool winters; students should prepare for variable weather conditions."
+  },
+  "career_profile": {
+    "local_industry": "Christchurch has a growing tech industry with opportunities in HCI-related fields.",
+    "internship": "Opportunities may be available through university partnerships and local companies.",
+    "work_authorization": "International students can work part-time during studies and full-time during breaks, subject to visa conditions.",
+    "language_or_networking_requirements": "Proficiency in English is required; networking through university events is encouraged.",
+    "notable_employers": [
+      "Local tech companies specializing in software development and user experience design."
+    ],
+    "recruiting_events": [
+      "University-hosted career fairs and networking events."
+    ],
+    "alumni_outcomes": [
+      "Graduates have secured positions in academia, research institutions, and industry roles focusing on HCI."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Design Critique and Research Methods",
+        "code": "PROD601"
+      },
+      {
+        "title": "Design Ethics",
+        "code": "PROD614"
+      },
+      {
+        "title": "Systems Thinking for Product Design",
+        "code": "PROD602"
+      },
+      {
+        "title": "Design and Manufacture",
+        "code": "PROD611"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Professor Mark Billinghurst",
+        "title": "Professor",
+        "research_area": "Human-Computer Interaction"
+      },
+      {
+        "name": "Dr. Christoph Bartneck",
+        "title": "Associate Professor",
+        "research_area": "Human-Robot Interaction"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Macmillan Brown Library",
+        "note": "Specializes in New Zealand and Pacific studies."
+      },
+      {
+        "name": "EPS Library",
+        "note": "Focuses on Engineering and Physical Sciences resources."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "ProdSoc",
+        "note": "Product Design Society for student engagement and projects."
+      },
+      {
+        "name": "GameDevSoc",
+        "note": "Game Development Society for students interested in game design."
+      }
+    ],
+    "events": [
+      {
+        "name": "UC Careers Fair",
+        "note": "Annual event connecting students with potential employers."
+      },
+      {
+        "name": "Orientation Week",
+        "note": "Week-long event to welcome new students to campus life."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "International tuition fees | UC",
+      "url": "https://www.canterbury.ac.nz/study/getting-started/study-and-living-costs/study-costs/international-tuition-fees",
+      "source_type": "tuition",
+      "confidence": "high",
+      "used_for": [
+        "cost_of_living",
+        "visa"
+      ]
+    },
+    {
+      "title": "PhD | Doctor of Philosophy Degrees | UC",
+      "url": "https://www.canterbury.ac.nz/study/getting-started/about-our-qualifications/phds-and-doctoral-degrees",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions"
+      ]
+    },
+    {
+      "title": "Postgraduate Product Design | UC",
+      "url": "https://www.canterbury.ac.nz/study/academic-study/engineering/schools-and-departments-engineering-forestry-product-design/school-of-product-design/postgraduate-product-design",
+      "source_type": "department_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "PROD790-26A (C) | University of Canterbury",
+      "url": "https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=PROD790&occurrence=26A%28C%29&year=2026",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Admission and Enrolment | UC",
+      "url": "https://www.canterbury.ac.nz/study/getting-started/admission-and-enrolment",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "admissions"
+      ]
+    },
+    {
+      "title": "School of Product Design Showcase Booklet",
+      "url": "https://www.canterbury.ac.nz/content/dam/uoc-main-site/documents/pdfs/c-brochures/study-options/school-of-product-design/SoPD-2023-showcase-booklet.pdf",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "community",
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "2026 International Prospectus",
+      "url": "https://www.canterbury.ac.nz/content/dam/uoc-main-site/documents/pdfs/c-brochures/international-students/international-prospectus-uc.pdf",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "cost_of_living",
+        "tuition",
+        "student_life_profile"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific program handbook not found; used department-level sources instead.",
+    "Limited information on housing options; general city-level data used.",
+    "No specific student forums or firsthand accounts found; general information provided."
+  ]
+}

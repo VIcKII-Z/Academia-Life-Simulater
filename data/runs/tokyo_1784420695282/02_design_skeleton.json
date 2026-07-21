@@ -1,0 +1,240 @@
+{
+  "story_id": "tokyo_1784420695282",
+  "framework_type": "convergence",
+  "framework_reason": "High costs of living and cultural adjustments present unavoidable shared challenges for international students in Tokyo.",
+  "user_profile": {
+    "country": "USA",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step off the plane into the bustling atmosphere of Tokyo, you're immediately engulfed by the vibrant energy of the city. The bright advertisements and the sounds of the crowd create an electric environment, but beneath the excitement, a sense of apprehension lingers. This city will test your limits, both academically and personally. The humid summer air wraps around you, prompting thoughts of your housing search and the precarious balance of your budget. You must navigate through orientation at the University of Tokyo while adjusting to a culture that feels both exhilarating and alien. Will you thrive or merely survive in this heart of technological innovation? Your journey begins now.",
+      "image_prompt": "Arrival at Tokyo International Airport, bustling with travelers and bright neon signs, the protagonist appearing slightly overwhelmed.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Look for affordable accommodation immediately.",
+          "next_node": "housing_search",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": -10
+          },
+          "stat_reason": "Urgent accommodation search causes initial stress and financial strain."
+        },
+        {
+          "text": "Explore the campus and meet other international students.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Socializing with peers boosts mood and eases culture shock."
+        }
+      ]
+    },
+    "housing_search": {
+      "type": "challenge",
+      "scene_text": "Finding a place to live is proving to be more challenging than anticipated. The monthly rent for a one-room apartment is staggering, and you're skimming through listings that will place a significant dent in your budget. As you struggle to communicate your needs to landlords, Tokyo begins to feel less welcoming. You weigh your options on a bustling street dotted with cafes and noodle shops, trying to focus on the fact that once a home is secured, the worst will be over.",
+      "image_prompt": "Narrow streets of Tokyo with apartment postings, the protagonist looking stressed while on the phone.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Opt for a cheaper room share to save on rent.",
+          "next_node": "shared_accommodation",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Sharing rent alleviates immediate financial pressure but brings adjustment challenges."
+        },
+        {
+          "text": "Choose a pricier solo apartment for comfort.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": -25
+          },
+          "stat_reason": "Comfort comes at a high cost, creating greater financial strain."
+        }
+      ]
+    },
+    "shared_accommodation": {
+      "type": "challenge",
+      "scene_text": "Your decision to share an apartment quickly exposes the stress of living with new roommates from different backgrounds. Cultural misunderstandings arise about shared responsibilities that could shake your newly found sense of belonging. Similarly, your health wanes as you adjust to different dietary preferences and reduced cooking experiences. Nevertheless, you find solace in communal living; your roommates help alleviate some of the loneliness.",
+      "image_prompt": "A small Tokyo apartment with a shared kitchen area, the protagonist and roommates sitting around the table looking strained yet friendly.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join an international student group for support.",
+          "next_node": "student_group",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Connecting with the international community boosts mood but may slightly impact budget."
+        },
+        {
+          "text": "Focus solely on studies and ignore the social scene.",
+          "next_node": "study_only",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Neglecting social support results in increased loneliness and stress."
+        }
+      ]
+    },
+    "student_group": {
+      "type": "challenge",
+      "scene_text": "Participating in the international student group provides a refreshing breath of ease amidst your hectic studies. Sharing your experiences with fellow students breaks down feelings of isolation. While some members share their insights on navigating the job landscape in Tokyo's competitive tech sector, you feel pressured by the inevitable academic workload. Balancing your studies with socializing might become a tightrope act as midterms approach.",
+      "image_prompt": "A lively gathering of international students in a coffee shop, discussing plans and experiences while laughing.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Attend networking events with industry professionals.",
+          "next_node": "networking_event",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Networking enriches connections and mood but draws on financial resources and time."
+        },
+        {
+          "text": "Skip events and focus on preparing for midterms.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing academics lowers mood but ensures better preparation and potential success."
+        }
+      ]
+    },
+    "networking_event": {
+      "type": "challenge",
+      "scene_text": "Diving headfirst into the networking event proves exhilarating yet stressful. Surrounded by seasoned professionals, you find the conversation flowing naturally, despite the language barrier. The opportunity to engage with industry insiders feels promising for future job prospects. However, the pressure to impress is weighing on you, and the expenses associated with these events are starting to show on your wallet. As you interact, reassurance comes from knowing others share your struggle.",
+      "image_prompt": "A bustling networking event with tech professionals and students mingling, the protagonist engaged in conversation while enjoying hors d'oeuvres.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Leverage connections to find an internship opportunity.",
+          "next_node": "internship_opportunity",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Pursuing internships elevates mood through potential career growth but adds stress."
+        },
+        {
+          "text": "Withdraw from conversations and network less.",
+          "next_node": "balance_boundary",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Withdrawing from networking diminishes opportunities and mood."
+        }
+      ]
+    },
+    "internship_opportunity": {
+      "type": "challenge",
+      "scene_text": "Landing the internship feels like a victory, yet the demands are overwhelming. The intense focus on hardware development leaves you questioning whether you can demonstrate your software skills effectively. The commute is long and draining, placing additional physical strain on your health. Rent, tuition, and living expenses loom over you, creating an incessant anxiety. You navigate the stress, hoping to find opportunities to showcase your talents in a city that thrives on innovation.",
+      "image_prompt": "The protagonist in a busy office setting, looking at a computer screen filled with code while surrounded by colleagues.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Stay late to impress your supervisor.",
+          "next_node": "overtime_stress",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Getting noticed comes at the expense of vital health and well-being."
+        },
+        {
+          "text": "Set work-life boundaries to maintain balance.",
+          "next_node": "balance_boundary",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Maintaining boundaries feels good for health but could hinder career visibility."
+        }
+      ]
+    },
+    "overtime_stress": {
+      "type": "challenge",
+      "scene_text": "The late nights at the office leave you feeling drained but accomplished. You've secured a few compliments from your supervisor, yet your health is suffering. The weekend comes with exhaustion rather than rejuvenation, leaving you short on energy to tackle coursework. You begin to question whether the ambition is worth the toll it takes on your overall well-being, and financial realities come crashing back.",
+      "image_prompt": "Dimly lit office late at night with the protagonist at their desk, looking fatigued yet focused on their work.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a day off to recover and recharge.",
+          "next_node": "recovery_day",
+          "stat_delta": {
+            "health": 15,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "Restoring health is key but comes with financial implications."
+        },
+        {
+          "text": "Push through the fatigue to meet deadlines.",
+          "next_node": "push_through",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Ignoring health and wellness for work creates a deeper toll on mood."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "push_through": {
+      "scene_text": "Continuing to neglect your well-being leads to burnout, where the lines between work and life blur. The vibrant city of Tokyo has become a place filled with pressure instead of excitement. As grades slip and your energy wanes, you realize that the balance required to thrive has slipped away. The vibrant tech community is now less about innovation and more about survival, prompting reflection on your journey through both trials and triumphs.",
+      "image_prompt": "The protagonist sitting alone on a park bench in Tokyo, looking pensive surrounded by the busy city.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "recovery_day": {
+      "scene_text": "Opting to take a day off allows you to reclaim your health and perspective. As you enjoy the calmness of a day spent reconnecting with your surroundings and your goals. You find time to breathe deeply and consider your long-term aspirations in this city of boundless opportunity. Armed with newfound clarity, you're ready to approach your studies and career with renewed focus while also remaining mindful of the balance you desperately need.",
+      "image_prompt": "The protagonist relaxing in a Tokyo park, surrounded by green trees and enjoying a peaceful moment.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "balance_boundary": {
+      "scene_text": "Setting firm boundaries allows you to navigate both your internship and academic life with a sense of peace. While the tension between software and hardware remains, you've cultivated a supportive community that values your contributions. Taking breaks and prioritizing your health ensures you remain engaged and happy. With your sights set on career growth and fulfilling your academic goals, the once daunting metropolis now feels like a land of opportunities waiting for you to seize.",
+      "image_prompt": "A bright office environment where the protagonist is collaborating happily with colleagues, showing a positive atmosphere.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "study_only": {
+      "scene_text": "Focusing solely on your studies leads to commendable grades but deepens your sense of isolation. The academic journey consumes your time and energy, leaving you yearning for the connections that fuel motivation. While your grades shine bright, the cost is apparent as you reflect on the personal sacrifices made in pursuit of excellence. The streets of Tokyo remain unfamiliar, and as graduation approaches, you wonder whether you truly engaged with the life around you.",
+      "image_prompt": "The protagonist studying late at a desk, surrounded by books and notes in a sparse apartment.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

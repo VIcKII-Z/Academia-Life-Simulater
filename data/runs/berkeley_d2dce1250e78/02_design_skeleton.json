@@ -1,0 +1,325 @@
+{
+  "story_id": "berkeley_d2dce1250e78",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights shared challenges like high living costs and academic pressures affecting all students in the program.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "MS in Data Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "Arriving in **Berkeley**, the buzz of the campus is palpable. The Mediterranean climate welcomes you with its **mild winds**. You step into your temporary housing, surrounded by the beauty of nature and a vibrant student community. However, the **high cost of living** looms over your budget as you settle in.",
+      "image_prompt": "A student standing in their temporary housing in Berkeley, colorful surroundings, excited yet slightly overwhelmed.",
+      "has_image": true,
+      "insight": "Berkeley is known for its high living costs, particularly in housing, which can be a significant challenge for new students adjusting to budget constraints.",
+      "choices": [
+        {
+          "text": "Explore local housing options to find something affordable.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Searching for affordable housing relieves initial anxiety but may strain your budget.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on settling down and buy supplies for your new home.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Investing in supplies may initially feel comforting but significantly affects your finances.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "scene",
+      "scene_text": "Classes start next week, and you're feeling the **pressure** to get ahead. You refine your schedule, considering courses like **Applied Machine Learning** and **Data Visualization**. As deadlines loom, the stress is tangible, but you remember that finding balance is essential.",
+      "image_prompt": "A student surrounded by textbooks and a laptop, focusing on coursework in a cozy study corner.",
+      "has_image": true,
+      "insight": "Graduate coursework in data science can be intense, often requiring time management and effective study strategies to stay on top of assignments.",
+      "choices": [
+        {
+          "text": "Join the Data Science Society at Berkeley to meet peers.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Connecting with peers raises motivation and mood, fostering a sense of community.",
+          "recommended": true
+        },
+        {
+          "text": "Skip the meeting and focus on studying at home.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Focusing solely on studies may boost academic standing but negatively impacts your mood due to isolation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "scene",
+      "scene_text": "Diving into coursework, you realize the **academic rigor** is demanding. You push yourself through late nights in Doe Library, but fatigue is setting in. Balancing your workload with self-care is challenging. It’s vital to stay healthy amid intense focus on studies.",
+      "image_prompt": "A tired student at a library desk, surrounded by books and coffee, a large clock showing late hours.",
+      "has_image": true,
+      "insight": "Graduate students often grapple with high workloads, making effective time management and self-care crucial elements of success.",
+      "choices": [
+        {
+          "text": "Take a break and grab coffee with classmates to recharge.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -5,
+            "school": 0
+          },
+          "stat_reason": "Taking breaks helps rejuvenate spirit and build social connections, which are integral for long-term success.",
+          "recommended": true
+        },
+        {
+          "text": "Power through and complete your assignments despite feeling tired.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -15,
+            "mood": -10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Prioritizing assignments may lead to academic gains but at the expense of health and mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "scene",
+      "scene_text": "The on-campus immersion is approaching, presenting a valuable chance to meet professors like **Marti Hearst** and industry peers. Yet, preparing costs time and money. It’s critical to balance this precious opportunity against looming deadlines.",
+      "image_prompt": "A student researching online event details at a computer, feeling the anticipation of an upcoming immersion.",
+      "has_image": true,
+      "insight": "Participating in on-campus events can enhance networking opportunities, but students must balance readiness with academic responsibilities.",
+      "choices": [
+        {
+          "text": "Invest time into preparing a strong presentation for the immersion.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Preparing well can boost school performance and confidence, despite causing temporary stress.",
+          "recommended": true
+        },
+        {
+          "text": "Put off preparation to revisit coursework instead, fearing poor grades.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 10,
+            "mood": -10,
+            "money": 0,
+            "school": -15
+          },
+          "stat_reason": "Ignoring preparation for immersion may lower school standing but provides a mental break.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "scene",
+      "scene_text": "The chaos of finals week approaches, and the need to deliver your **capstone project** looms larger. Late nights spent working lead to constant fatigue. While you’re focused on academics, feelings of isolation grow parallel to your workload.",
+      "image_prompt": "A visually harried student in a study space, surrounded by papers and coffee cups, under a ticking clock.",
+      "has_image": true,
+      "insight": "Finals week can be overwhelming for students, increasing stress levels and potentially leading to feelings of loneliness, especially in online programs.",
+      "choices": [
+        {
+          "text": "Reach out for help from advisors or classmates on the capstone project.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Seeking support fosters stronger connections and improves academic performance, alleviating stress.",
+          "recommended": true
+        },
+        {
+          "text": "Choose to work alone to avoid distractions.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": -15,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Isolating may seem productive but leads to increased fatigue and lowered mood.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "scene",
+      "scene_text": "You successfully complete your **capstone project**, but the pressure of the semester is exhausting. Reflecting on your journey, you think about all the friendships formed and the academic skills acquired. The closing days of this semester hold bittersweet victory.",
+      "image_prompt": "A relieved student standing in front of a university building, reflecting on the semester's journey amidst celebration.",
+      "has_image": true,
+      "insight": "Completing a capstone project is a significant milestone for graduate students, symbolizing both accomplishment and the stresses endured throughout the semester.",
+      "choices": [
+        {
+          "text": "Join a celebration event with classmates to commemorate the end of the semester.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Socializing can boost mental well-being and community building, but may slightly impact finances.",
+          "recommended": true
+        },
+        {
+          "text": "Use the free time to start planning your upcoming semester's courses and projects.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on the future enhances school readiness but detracts from immediate relaxation and recovery.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "scene",
+      "scene_text": "With the semester behind you, you begin to feel the **relief** of accomplishment. Despite the hurdles faced, you're excited about the future. There are still challenges ahead, and your growth journey isn’t over, but you've gained invaluable knowledge and connections.",
+      "image_prompt": "A student smiling broadly while walking through a campus park, looking forward to the future.",
+      "has_image": true,
+      "insight": "Completing a semester in a demanding program fosters resilience and personal growth, preparing students for future challenges in their careers.",
+      "choices": [
+        {
+          "text": "Plan to stay in touch with peers for potential collaboration in the future.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Maintaining connections can enhance future opportunities and foster a sense of belonging.",
+          "recommended": true
+        },
+        {
+          "text": "Take a break from academic thoughts and relax before the next semester begins.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Allowing time for relaxation promotes mental health and prepares you for the next academic round.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "scene",
+      "scene_text": "As the semester ends, your experiences accumulate into a tapestry of **growth** and persistence. Challenges like financial pressures, rigorous courses, and social adjustments have sculpted a resilient version of yourself. You believe these lessons will serve you well moving forward.",
+      "image_prompt": "A student looking thoughtfully at a sunset over Berkeley, contemplating the journey ahead.",
+      "has_image": true,
+      "insight": "Experiencing challenges and overcoming them is an integral part of student life, particularly in demanding programs that promote both academics and community engagement.",
+      "choices": [
+        {
+          "text": "Prepare for job applications and start networking with classmates.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 5
+          },
+          "stat_reason": "Preparing for the job market can elevate academic and career readiness but may require time management and energy.",
+          "recommended": true
+        },
+        {
+          "text": "Spend your break exploring more of Berkeley and relaxing.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Taking time off for leisure enhances health but may impact budget and future study preparations.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "scene",
+      "scene_text": "As you submit applications, hope fills the air for what’s next. Your hard work culminates in opportunities in various industries, from **technology** to **healthcare**. The connections you’ve forged will support you in this next phase, and you’re ready to embrace the future with confidence.",
+      "image_prompt": "A student sitting at a desk, surrounded by applications, with a background showing possibilities related to data science employment.",
+      "has_image": true,
+      "insight": "Networking and building relationships are crucial for graduate students as they transition from academia to the workforce, especially in competitive fields like data science.",
+      "choices": [
+        {
+          "text": "Follow-up with networking contacts and prepare for interviews.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Engaging with contacts reinforces connections and increases opportunities.",
+          "recommended": true
+        },
+        {
+          "text": "Relax and wait for responses before getting involved in any more networking.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Taking a moment to breathe can be essential for mental health as one transitions to the next step.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "At the culmination of your efforts, you secure a fulfilling role in a reputable **tech company**, where you can apply what you’ve learned. The journey was steep, but the experience enriched not just your career but your personal growth, forging a truly transformative chapter in your life.",
+      "image_prompt": "A student in business attire, excited, standing in front of a modern tech building, symbolizing a new career.",
+      "has_image": true,
+      "insight": "Securing a position after graduation is a significant achievement for many students, particularly in competitive fields like data science in the tech industry.",
+      "tone": "hopeful"
+    }
+  }
+}

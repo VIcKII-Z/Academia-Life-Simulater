@@ -1,0 +1,243 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "MS in Computer Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "Department of Computer Science",
+    "program": "MS in Computer Science",
+    "major": "MS in Computer Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "The cost of living in Berkeley is significantly high due to proximity to the Bay Area and Silicon Valley. Rent for a one-bedroom apartment ranges from $2,000 to $3,500, and general living costs are above average compared to other U.S. cities.",
+    "academic": "UC Berkeley’s MS in Computer Science is highly competitive and renowned globally. The program emphasizes research and innovation, offering rich opportunities in areas such as AI, quantum computing, and computer security.",
+    "visa": "Visa support services are strong, with dedicated offices for international students. F-1 visa holders are eligible for OPT after program completion, allowing up to 36 months of employment in STEM fields.",
+    "culture_shock": "Berkeley has a highly diverse and inclusive culture, but the liberal political climate and fast-paced Bay Area lifestyle may require adjustment for some.",
+    "community": "UC Berkeley offers numerous student communities and clubs, including tech and cultural organizations. However, competitiveness in academics may impact collaboration among peers.",
+    "career": "Graduates are highly sought after by leading tech companies like Google, Apple, and Meta. The program also supports networking and internships within Silicon Valley.",
+    "safety": "While the campus is reasonably safe, areas closer to downtown Berkeley may have higher rates of petty crime. Students are advised to exercise caution at night.",
+    "climate": "Berkeley features a Mediterranean climate with mild, wet winters and warm, dry summers. Allergies may arise due to seasonal pollen.",
+    "part_time_work": "F-1 visa holders can work up to 20 hours per week on campus, but off-campus work requires CPT authorization tied to internships or research."
+  },
+  "gameplay_signals": {
+    "health": [
+      "High cost of healthcare in the U.S.; health insurance is mandatory.",
+      "Mediterranean climate reduces extreme weather stress but may aggravate allergies.",
+      "Mental strain from academic workload may impact sleep and well-being."
+    ],
+    "mood": [
+      "Stress from competitive academic culture may impact morale.",
+      "Wide array of student clubs and events offers social connectivity.",
+      "Bay Area’s liberal diverse atmosphere can mitigate cultural isolation for many international students."
+    ],
+    "money": [
+      "Costs of living are very high; rent and daily expenses are significant burdens.",
+      "Campus offers limited scholarships that reduce tuition costs for top-performing students.",
+      "Part-time work on-campus contributes to modest income but is insufficient to cover living expenses entirely."
+    ],
+    "city_major_specific_challenges": [
+      "Managing an excellent academic workload alongside research expectations.",
+      "Balancing Silicon Valley internship opportunities with program requirements.",
+      "Adapting to the high cost of living in Berkeley and the Bay Area.",
+      "Navigating the tech-leader networks where communication skills are as valuable as technical expertise.",
+      "Dealing with F-1 CPT regulations and ensuring internships align with program criteria.",
+      "Finding affordable housing near campus amidst intense demand.",
+      "Collaborating amid intense academic competition within Berkeley’s elite program."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": true
+  },
+  "program_profile": {
+    "official_name": "Master of Science in Computer Science",
+    "degree_type": "Research-Based Master’s",
+    "department": "Electrical Engineering and Computer Science (EECS)",
+    "duration": "24 months",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "OPT available for up to 36 months after graduation.",
+    "curriculum": [
+      "Advanced coursework and seminars in AI and networking.",
+      "Independent research with faculty mentorship.",
+      "Comprehensive preliminary and qualifying exams."
+    ],
+    "milestones": [
+      "Preliminary examinations at the end of Year 1.",
+      "Qualifying exams for research focus in Year 2.",
+      "Capstone research project tied to publications."
+    ],
+    "prerequisites": [
+      "Bachelor’s degree in Computer Science or related field.",
+      "Minimum GPA of 3.0 on a 4.0 scale.",
+      "TOEFL/IELTS scores required for international students."
+    ],
+    "admissions": [
+      "Statement of Purpose and CV required.",
+      "Three recommendation letters mandatory.",
+      "Research experience highly desired."
+    ],
+    "deadlines": [
+      "Fall intake: December 1, 2025"
+    ],
+    "funding": [
+      "Limited merit scholarships available.",
+      "Teaching Assistantships and Research Assistantships reduce expenses."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Housing offers include on-campus dorms and nearby apartments, but both options are expensive.",
+    "commute": "Most students use bicycles or public transport due to limited parking options.",
+    "campus_support": "Strong mental health support services; dedicated offices for international students.",
+    "community": "Vibrant campus life includes clubs like Berkeley Artificial Intelligence Research (BAIR).",
+    "safety": "Campus itself is secure, though precautions are advised when walking downtown Berkeley at night.",
+    "climate": "Mild weather may reduce extreme seasonal adaptation stress."
+  },
+  "career_profile": {
+    "local_industry": "Silicon Valley offers excellent career opportunities for graduates.",
+    "internship": "Numerous paid internships and co-ops available with leading tech firms.",
+    "work_authorization": "OPT for up to 36 months ensures work after graduation in STEM roles.",
+    "language_or_networking_requirements": "English is critical for professional networking and career success.",
+    "notable_employers": [
+      "Google",
+      "Apple",
+      "Meta",
+      "Amazon",
+      "Intel"
+    ],
+    "recruiting_events": [
+      "Silicon Valley Career Fair",
+      "Berkeley Startup Job Fair"
+    ],
+    "alumni_outcomes": [
+      "Software engineers, AI researchers, and startup founders consistently report high salaries and global impact."
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "CS 294: Topics in Artificial Intelligence",
+        "code": "CS294",
+        "note": "Focus on advanced AI specialization."
+      },
+      {
+        "title": "CS 261: Computer Security",
+        "code": "CS261",
+        "note": "Core cybersecurity concepts covered."
+      },
+      {
+        "title": "CS 250: Computer Architecture",
+        "code": "CS250",
+        "note": "Deep dive into systems design principles."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Dawn Song",
+        "title": "Professor",
+        "research_area": "AI and computer security."
+      },
+      {
+        "name": "Ruzena Bajcsy",
+        "title": "Professor Emerita",
+        "research_area": "Robotics and computer vision."
+      },
+      {
+        "name": "Jitendra Malik",
+        "title": "Professor",
+        "research_area": "Computer vision and machine learning."
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Kresge Engineering Library",
+        "note": "Engineering and CS-specific resources available."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Berkeley Artificial Intelligence Research (BAIR)",
+        "note": "AI-focused research and networking."
+      },
+      {
+        "name": "HackBerkeley",
+        "note": "Hackathons and tech innovation."
+      }
+    ],
+    "events": [
+      {
+        "name": "Silicon Valley Career Fair",
+        "note": "Networking with top employers from Silicon Valley."
+      },
+      {
+        "name": "Grad Slam",
+        "note": "Students showcase research projects."
+      },
+      {
+        "name": "Berkeley AI Guest Lectures",
+        "note": "Talks by world-renowned AI researchers."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Berkeley Graduate Division - Computer Science MS Program Overview",
+      "url": "https://grad.berkeley.edu/program/computer-science/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "money",
+        "visa"
+      ]
+    },
+    {
+      "title": "Berkeley EECS Department Overview",
+      "url": "https://eecs.berkeley.edu/cs/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "career"
+      ]
+    },
+    {
+      "title": "UC Berkeley MS Admission Details",
+      "url": "https://www.gyandhan.com/study-abroad/usa/universities/university-of-california-berkeley-ucb/courses/master-of-science-in-computer-science",
+      "source_type": "third_party",
+      "confidence": "medium",
+      "used_for": [
+        "money",
+        "culture_shock",
+        "career"
+      ]
+    },
+    {
+      "title": "TestGlider MS Computer Science Admission Guide",
+      "url": "https://www.testglider.com/study-abroad/portal/university/university-of-california-berkeley/computer-science-ms/166",
+      "source_type": "third_party",
+      "confidence": "medium",
+      "used_for": [
+        "academic",
+        "visa"
+      ]
+    }
+  ],
+  "gaps": [
+    "Handbook data was unavailable; details on specific program rules could not be verified."
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "story_id": "tokyo_e97df6576289_1784425030201",
+  "framework_type": "convergence",
+  "framework_reason": "The research highlights shared pressures faced by all graduate students in Tokyo, such as high living costs and academic demands.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "scene",
+      "scene_text": "As you step off the plane at Narita International Airport, the buzz of Tokyo envelops you. The air is thick with humidity, hinting at the summer heat awaiting outside. The excitement of being in one of the world's most vibrant cities melds with the weight of your new responsibilities as a graduate student at the University of Tokyo. You know that the cost of living is high, and your academic journey will be challenging. You brace yourself for the adventure ahead, feeling a mixture of anticipation and anxiety.",
+      "image_prompt": "Arrival at Narita International Airport, bustling crowd, sense of excitement and uncertainty, summer humidity evident.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head to your temporary accommodation in the city center.",
+          "next_node": "finding_accommodation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -150
+          },
+          "stat_reason": "You chose to take a taxi to your accommodation, feeling excited to settle in but spending a hefty amount."
+        },
+        {
+          "text": "Use public transport to reach your accommodation.",
+          "next_node": "finding_accommodation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -30
+          },
+          "stat_reason": "Using the efficient but crowded public transport saves money, but the commute is exhausting."
+        }
+      ]
+    },
+    "finding_accommodation": {
+      "type": "scene",
+      "scene_text": "You arrive at your accommodation, a small single-room apartment. The cost of rent is more than you'd hoped, and the space is cramped, but it's centrally located. As you unpack, you slip into thoughts of the university and the rigorous Computer Science program ahead. You remember the late-night studying and the pressure to publish research work. The evening heat is stifling, and you feel your energy waning.",
+      "image_prompt": "Small single-room apartment in Tokyo, minimalistic decor, a suitcase open on the bed, feeling tense and tired.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore the neighborhood and adjust to the local surroundings.",
+          "next_node": "exploring_neighborhood",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -50
+          },
+          "stat_reason": "A walk through the bustling streets lifts your spirits and helps you feel connected to the city, though you spend on food."
+        },
+        {
+          "text": "Stay inside to rest and mentally prepare for university.",
+          "next_node": "thesis_fear",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "While resting, you miss opportunities to socialize and explore, leading to feelings of isolation."
+        }
+      ]
+    },
+    "exploring_neighborhood": {
+      "type": "scene",
+      "scene_text": "Wandering the streets of Tokyo is exhilarating; various shops, restaurants, and cultural landmarks beckon. You stumble upon a small tech store that catches your eye. Engaging in a bit of window shopping, you're reminded of the academic community you'll soon be a part of. However, the reality of tight finances looms over you as the prices in the city are steep. You notice students talking about summer internships; it makes you anxious about securing your own.",
+      "image_prompt": "Vibrant Tokyo street filled with shops and cafes, students mingling, tension of academic pressures in the air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Engage with some students to network.",
+          "next_node": "networking_event",
+          "stat_delta": {
+            "health": -5,
+            "mood": 20,
+            "money": 0
+          },
+          "stat_reason": "Networking boosts your mood and connections, though it tires you and requires time."
+        },
+        {
+          "text": "Visit the nearest convenience store to stock up on essentials.",
+          "next_node": "job_offer",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": -20
+          },
+          "stat_reason": "Buying snacks is convenient but adds up, and you feel the pinch of your budget."
+        }
+      ]
+    },
+    "networking_event": {
+      "type": "scene",
+      "scene_text": "At the networking event, the energy is palpable. You meet several fellow graduate students and exchange information about your research interests. Despite some language barriers, the atmosphere is welcoming, and you feel less isolated. However, you're overwhelmed by realizing the level of competition in securing research opportunities; the pressure is intense. Connecting with others provides insight but also heightens your academic stress.",
+      "image_prompt": "Active networking event with students discussing projects, mixed expressions of enthusiasm and anxiety.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Share your research interests openly.",
+          "next_node": "research_collaboration",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Expressing your ideas energizes you and opens potential collaboration, but it takes energy."
+        },
+        {
+          "text": "Keep your ideas to yourself for now.",
+          "next_node": "urban_collision",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Hoarding thoughts creates isolation, but you conserve energy for more important moments."
+        }
+      ]
+    },
+    "research_collaboration": {
+      "type": "scene",
+      "scene_text": "You've entered a promising collaboration with some peers focusing on AI research. As the excitement grows, reality hits about your struggle to balance part-time jobs and academic demands. You meet regularly, but the expectations are high, and the deadlines loom closer. Balancing collaboration with personal studies becomes tough. The academic pressure mounts as you aim for publications, your motivation at risk.",
+      "image_prompt": "Students brainstorming in a tech workspace, vibrant ideas but under a cloud of stress and deadlines.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Dedicate more hours to this project.",
+          "next_node": "thesis_fear",
+          "stat_delta": {
+            "health": -15,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Committing more time nourishes your academic ambitions but drastically reduces your physical well-being."
+        },
+        {
+          "text": "Balance project work with job hunting.",
+          "next_node": "job_hunting",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 10
+          },
+          "stat_reason": "Juggling tasks can lead to overwhelming pressure, but any income helps with bills."
+        }
+      ]
+    },
+    "job_hunting": {
+      "type": "scene",
+      "scene_text": "While searching for part-time jobs, you encounter the harsh reality of Tokyo's competitive job market. Even with your relevant skills, being limited to 28 hours per week is frustrating; you consider whether to prioritize part-time work or focus solely on your academic pursuits. Conversations with other students lead to mixed advice on finding roles without Japanese language skills.",
+      "image_prompt": "Desperate job hunting scene with students at laptops, bustling coffee shops, and stressed expressions.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Accept a part-time job to ease finances, despite study pressures.",
+          "next_node": "juggling_work_study",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": 40
+          },
+          "stat_reason": "Earning extra money is critical, but the long hours directly impact your health."
+        },
+        {
+          "text": "Focus on securing internships and research instead.",
+          "next_node": "internships",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Committing to your studies boosts morale and career prospects while draining your finances."
+        }
+      ]
+    },
+    "juggling_work_study": {
+      "type": "scene",
+      "scene_text": "With a part-time job in a local tech firm, your days are nothing short of chaotic. Balancing work hours with studying for AI and machine learning projects stretches you thin. Fatigue sets in, and late-night study sessions eat away at your health. The pressure to perform in both arenas takes a toll on your well-being as you navigate deadlines and expectations.",
+      "image_prompt": "Late-night study scene at a cluttered desk, tiredness visible, a laptop open with heavy textbooks strewn around.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a day off to recuperate.",
+          "next_node": "urban_collision",
+          "stat_delta": {
+            "health": 15,
+            "mood": 5,
+            "money": -50
+          },
+          "stat_reason": "Resting helps restore health and motivation but reduces your earning potential."
+        },
+        {
+          "text": "Push through the exhaustion.",
+          "next_node": "job_offer",
+          "stat_delta": {
+            "health": -25,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Persisting in studies may jeopardize your health, but academic success seems crucial."
+        }
+      ]
+    },
+    "internships": {
+      "type": "scene",
+      "scene_text": "Your focus on academics pays off; you land a competitive internship. The experience is invaluable but also demanding, with early morning commutes and intense project deadlines. Each completed task builds your confidence, yet the pressure mounts as you need to balance this with coursework. You feel yourself riding the wave of excitement and anxiety, constantly pushing for excellence in a tough environment.",
+      "image_prompt": "Intense work setting at a tech firm, students collaborating on project deliverables, energetic yet tense atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Request support from your professor.",
+          "next_node": "professor_support",
+          "stat_delta": {
+            "health": -15,
+            "mood": 20,
+            "money": 0
+          },
+          "stat_reason": "Seeking help is empowering, lifting spirits despite the extra stress of creating discourse."
+        },
+        {
+          "text": "Try to manage tasks independently.",
+          "next_node": "job_offer",
+          "stat_delta": {
+            "health": -20,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Going it alone can be daunting and draining, risking burnout amid chaotic expectations."
+        }
+      ]
+    },
+    "professor_support": {
+      "type": "scene",
+      "scene_text": "Your professor responds positively to your request for guidance, offering you resources and feedback on your project. This interaction boosts your confidence and alleviates some academic pressure. You're beginning to feel more integrated into the academic culture, though you recognize the ongoing challenges that lie ahead. Having support enables you to tackle your internship and studies with new vigor.",
+      "image_prompt": "A supportive professor meeting with students, an atmosphere of collaboration and encouragement.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue building relations in your lab this way.",
+          "next_node": "lab_integration",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Strengthening ties within your academic environment enhances your sense of belonging."
+        },
+        {
+          "text": "Focus solely on the internship experience.",
+          "next_node": "urban_collision",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 10
+          },
+          "stat_reason": "Diverting focus sacrifices support opportunities but optimizes your income."
+        }
+      ]
+    },
+    "lab_integration": {
+      "type": "scene",
+      "scene_text": "With growing rapport among your peers and professors, you find yourself more involved in group projects. Your efforts start to pay off; the sense of community reinforces your motivation. However, the academic workload is still overwhelming, and the pressure to meet deadlines weighs heavy. Balancing your newfound connections with competitive academic demands provides a boost yet challenges your organizational skills.",
+      "image_prompt": "Active student research environment, collaboration among peers with visible sense of community amid stacks of papers and tech tools.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prepare a presentation for an upcoming conference.",
+          "next_node": "job_offer",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Engaging in academic expos boosts mood and skills, though preparation strains your health."
+        },
+        {
+          "text": "Spend time relaxing and recharge.",
+          "next_node": "thesis_fear",
+          "stat_delta": {
+            "health": 10,
+            "mood": 0,
+            "money": -20
+          },
+          "stat_reason": "Taking a break is essential for mental health but impacts your budget."
+        }
+      ]
+    },
+    "connection_building": {
+      "type": "scene",
+      "scene_text": "As your internship concludes and you finish coursework, you've built a strong network. Nevertheless, the feelings of culture shock haven’t fully dissipated, and you grapple with anxiety when stepping into professional settings. With graduation around the corner, feelings of belonging begin to settle in; you've started carving a niche for yourself within the tech community. Navigating the final academic hurdles challenges your confidence.",
+      "image_prompt": "Graduation atmosphere with students celebrating amidst a bustling Tokyo backdrop, mixed emotions of pride and apprehension.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take proactive steps to secure a job offer.",
+          "next_node": "job_offer",
+          "stat_delta": {
+            "health": -15,
+            "mood": 20,
+            "money": 50
+          },
+          "stat_reason": "Pursuing job prospects boosts spirits and finances, but adds stress."
+        },
+        {
+          "text": "Focus on completing your thesis first.",
+          "next_node": "thesis_fear",
+          "stat_delta": {
+            "health": -20,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Pressure mounts from the workload, leading to health deterioration."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "job_offer": {
+      "scene_text": "The hard work has paid off; you receive a job offer from a leading tech company in Tokyo. There's a sense of triumph as you reflect on your time spent navigating through academic pressures, financial strain, and cultural challenges. Although your journey was fraught with difficulty, the supportive network and resilience you've built now open new doors. You feel a renewed sense of purpose as you step into your future, armed with both knowledge and experience.",
+      "image_prompt": "A content graduate receiving a job offer, a mix of joy and relief against the Tokyo skyline on a bright day.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "thesis_fear": {
+      "scene_text": "As you focus on completing your thesis, the pressure mounts, and your well-being declines. You find yourself overwhelmed with the academic workload, feeling isolated and anxious as deadlines loom. You strive hard, but the constant fatigue affects both your health and confidence. The end of this chapter is bittersweet; although you manage to finish, the toll on your mental and emotional health is a stark reminder of the challenges faced. You're left to reflect on what sacrifices were worth it, as you ponder your next steps.",
+      "image_prompt": "A tired student completing a thesis, stacks of papers and empty coffee cups around, a mix of relief and exhaustion.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "urban_collision": {
+      "scene_text": "Returning to your accommodation after the initial networking event, you feel uneasy; the weight of cultural shock bears down heavily. Despite meeting fellow students, you still grapple with feelings of isolation. The city seems vast and overwhelming, and the ongoing struggle with making meaningful connections looms large. However, this experience teaches you resilience and the importance of seeking support from your community. With time, you learn to navigate life in Tokyo and adjust gradually to both its challenges and rewards.",
+      "image_prompt": "Lonely student looking out at the Tokyo skyline from a cramped apartment, feeling the weight of cultural shock.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Graduate",
+  "report": {
+    "cost_of_living": "Tokyo is among the most expensive cities globally, ranking 10th in cost of living. For single students, monthly expenses range from JPY 60,000 to JPY 130,000, excluding tuition. Accommodation costs vary: share houses start at JPY 29,000, while single apartments near central areas like Bunkyo ward range from JPY 70,000 to JPY 90,000. Commuting expenses average JPY 10,000 monthly, though living closer to campus can reduce this cost. [Source: turn0search12]",
+    "academic": "Tokyo offers a robust academic environment for Computer Science graduate students. Institutions like the University of Tokyo's Graduate School of Information Science and Technology provide comprehensive programs covering areas such as computer systems, programming languages, artificial intelligence, and bioinformatics. These programs emphasize both theoretical foundations and practical applications, preparing students for advanced research and industry roles. [Source: turn0search4]",
+    "visa": "International students must obtain a 'Student' visa to study in Japan. The application process requires proof of admission, financial stability, and a valid passport. Visa durations typically align with the academic program length but may require periodic renewals. It's essential to stay informed about visa regulations to maintain legal status throughout the study period.",
+    "culture_shock": "Adapting to Tokyo's culture can be challenging due to language barriers and different social norms. While many academic programs offer courses in English, daily interactions often require basic Japanese proficiency. The city's fast-paced lifestyle and hierarchical societal structures may also require adjustment. However, Tokyo's international community and university support services can aid in easing this transition.",
+    "community": "Tokyo's universities foster diverse communities, offering various clubs, organizations, and events that encourage student interaction. Support services, including counseling and academic advising, are readily available. Additionally, the city's extensive public transportation system facilitates easy exploration and social engagement, enhancing the overall student experience.",
+    "career": "Graduating from a Tokyo-based institution can significantly enhance career prospects. Japan's tech industry is renowned for its innovation, and companies often seek graduates with advanced computer science skills. Proficiency in Japanese can broaden job opportunities, though some multinational firms operate in English. Networking events and university career services further support job placement.",
+    "safety": "Tokyo is considered one of the safest cities globally, with low crime rates and efficient emergency services. However, being in an earthquake-prone region, it's crucial for residents to familiarize themselves with safety protocols and participate in regular drills to ensure preparedness.",
+    "climate": "Tokyo experiences a humid subtropical climate with four distinct seasons. Summers are hot and humid, with temperatures often exceeding 30°C (86°F), which can be uncomfortable. Winters are mild, averaging around 5°C (41°F). The city also experiences a rainy season in June and typhoons between August and October, which may disrupt daily activities.",
+    "part_time_work": "International students in Japan can engage in part-time work up to 28 hours per week during academic terms and full-time during vacations, provided they obtain the appropriate work permit. Common jobs include teaching English, retail, and hospitality roles. Balancing work and studies requires careful time management to maintain academic performance."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Navigating Tokyo's crowded public transportation during peak hours can lead to commuting fatigue.",
+      "Hot and humid summers may cause climate-related stress, affecting physical well-being.",
+      "Access to healthcare is efficient, but language barriers can complicate medical consultations.",
+      "Long study hours and research commitments may lead to sleep deprivation.",
+      "Earthquake preparedness is essential, adding an element of safety concern."
+    ],
+    "mood": [
+      "Language barriers can contribute to feelings of isolation and culture shock.",
+      "High academic expectations may lead to increased stress and pressure.",
+      "Limited time for social activities due to research commitments can affect mood.",
+      "Participation in university clubs can provide a sense of community and belonging.",
+      "Navigating hierarchical relationships with advisors may impact emotional well-being."
+    ],
+    "money": [
+      "High rent costs in central Tokyo can strain financial resources.",
+      "Daily expenses, including food and transportation, add to the financial burden.",
+      "Availability of scholarships can alleviate some financial pressures.",
+      "Part-time work opportunities exist but require balancing with academic responsibilities.",
+      "Internships in tech companies can provide valuable income and experience."
+    ],
+    "city_major_specific_challenges": [
+      "Managing long commutes to university labs can be time-consuming and tiring.",
+      "Adapting to the hierarchical structure in research labs may require cultural sensitivity.",
+      "Meeting strict research deadlines can add to academic pressure.",
+      "Limited availability of affordable housing near campus can pose challenges.",
+      "Language barriers in daily life and academic settings may hinder communication.",
+      "Navigating the complex process of obtaining and renewing student visas requires attention to detail.",
+      "Balancing part-time work with demanding research schedules can be challenging.",
+      "Engaging in networking events to enhance career prospects requires proactive effort."
+    ]
+  }
+}

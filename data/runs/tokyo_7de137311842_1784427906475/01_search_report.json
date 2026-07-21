@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "The cost of living in Tokyo is among the highest in Japan. International students should budget around ¥1.5M–¥2.5M (USD 10,000–17,000) annually, including tuition and living expenses. Monthly housing costs in Tokyo typically range from ¥80,000 to ¥100,000, with food and other daily expenses adding considerable costs. Scholarships and tuition waivers can significantly reduce financial burden, but these are not guaranteed and require planning [University of Tokyo](https://www.u-tokyo.ac.jp/en/prospective-students/undergraduate.html).",
+    "academic": "The University of Tokyo is Japan's highest-ranking institution, notable for its rigorous academic environment. The Computer Science program is especially strong, with a focus on core subjects like data structures, algorithms, and operating systems in undergraduate years. First-year students focus on liberal arts before specializing in later years. However, academic pressure is high, and competition is significant [University of Tokyo Overview](https://www.u-tokyo.ac.jp/en/prospective-students/undergraduate.html).",
+    "visa": "International students require a 'Student Visa' (留学ビザ) to study in Tokyo. This visa allows up to 28 hours of part-time work per week and up to 8 hours daily during vacations. Permissions must be requested at immigration, either upon arrival or later at a regional immigration office. Stringent attendance and academic requirements need to be met to maintain the visa [Japan Student Visa 2026](https://japan-visa.com/visas/student).",
+    "culture_shock": "Adapting to Tokyo's culture involves navigating polite social norms, hierarchical social structures, and a relatively low level of English fluency in daily interactions. Students may feel initial isolation but can find comfort in Tokyo's diverse community and significant population of international students. Familiarizing oneself with Japanese customs and basic language phrases is key to smoother adaptation [Study in Japan Official Website](https://www.studyinjapan.go.jp/en/).",
+    "community": "The University of Tokyo fosters a globally diverse environment with strong support systems, including academic advising, career counseling, and clubs. However, the culture of student organizations may come with formalistic routines, requiring effort to build strong connections [University of Tokyo Student Services](https://www.u-tokyo.ac.jp/adm/inbound/en/finance-living.html).",
+    "career": "Tokyo offers significant career opportunities, particularly in technology sectors. Major corporations like Sony, Toyota, and Google actively recruit University of Tokyo graduates. However, securing employment often requires fluency in Japanese and familiarity with Japan's unique job-hunting practices ('shukatsu') [University of Tokyo Career Paths](https://educ.titech.ac.jp/cs/eng/future/).",
+    "safety": "Tokyo consistently ranks as one of the safest cities in the world. Crime rates are low but students should still stay vigilant about petty theft in crowded areas or personal safety during late-night activities [MSM Unify Guide on Tokyo](https://www.msmunify.com/blogs/study-in-tokyo/).",
+    "climate": "Tokyo has a humid subtropical climate with hot, humid summers and mild winters. Summers can be challenging due to high humidity and occasional typhoons, while winters are cold but snowfall is rare. Proper clothing and hydration during summer are critical [Wikipedia](https://en.wikipedia.org/wiki/Tokyo).",
+    "part_time_work": "International students on a Student Visa can work part-time for up to 28 hours per week (and up to 8 hours a day during vacations). Common jobs include convenience store clerks, tutors, or restaurant staff, with hourly compensation ranging from ¥1,000 to ¥1,400. However, students must obtain preliminary work authorization from Immigration Services [Working Part-Time in Japan](https://migaku.com/blog/language-fun/part-time-jobs-in-japan-for-student-visa-holders)."
+  },
+  "gameplay_signals": {
+    "health": [
+      "High humidity in summer causes physical discomfort.",
+      "Long commutes to campus result in commuting fatigue due to a pricey housing market.",
+      "Limited access to affordable healthcare services without insurance.",
+      "Day-night time zone differences with family back home may lead to sleep disruptions.",
+      "Navigating crowded public transport during rush hours can be physically draining."
+    ],
+    "mood": [
+      "Initial loneliness or isolation due to cultural differences and language barriers.",
+      "High academic pressure associated with a competitive learning environment.",
+      "Opportunities for belonging through student clubs and language exchanges.",
+      "Culture shock from polite and hierarchical social norms.",
+      "Support systems like career counseling and academic advisers improve emotional well-being."
+    ],
+    "money": [
+      "High monthly housing costs between ¥80,000 to ¥100,000.",
+      "Part-time work opportunities offering ¥1,000–1,400 per hour, with capped hours for students.",
+      "Scholarship and fee waiver availability but limited access based on merit.",
+      "Tuition of ¥535,800/year, with an additional ¥282,000 one-time admission fee.",
+      "Initial setup costs for residence and health insurance (~¥150,000)."
+    ],
+    "city_major_specific_challenges": [
+      "Meeting tight academic deadlines amid structured curricula of data structures and computation models.",
+      "Struggling with Japanese fluency while seeking high-paying internships.",
+      "Managing time between early-morning commutes and lecture-heavy schedules.",
+      "Facing the hierarchical lab culture or research advising challenges.",
+      "Handling unexpected costs for entrance fees and daily Tokyo expenses on a limited budget.",
+      "Maximizing earning potential during legal 28-hours-per-week work caps.",
+      "Addressing summer heat or unexpected long commutes to campus in metropolitan Tokyo.",
+      "Balancing social engagement with intense academic and financial pressures."
+    ]
+  }
+}

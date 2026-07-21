@@ -1,0 +1,147 @@
+{
+  "story_id": "toronto_business_1784345186541",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights the shared challenge of high living costs across different living arrangements in Toronto.",
+  "user_profile": {
+    "country": "Canada",
+    "city": "Toronto",
+    "grade": "Undergraduate",
+    "major": "Business Administration"
+  },
+  "nodes": {
+    "opening": {
+      "type": "arrival",
+      "scene_text": "As you step off the plane, the brisk Toronto air greets you. The large terminal buzzes with diverse accents and languages, hinting at the multicultural tapestry of the city. You feel a mix of excitement and anxiety, ready to embark on a journey in one of the world’s most vibrant metropolises.",
+      "image_prompt": "A bustling Toronto airport terminal filled with diverse travelers, warm greetings, and a sense of anticipation in the air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head to your new apartment downtown.",
+          "next_node": "arriving_downtown"
+        },
+        {
+          "text": "Explore the nearby suburbs for more affordable housing.",
+          "next_node": "exploring_suburbs"
+        }
+      ]
+    },
+    "arriving_downtown": {
+      "type": "scene",
+      "scene_text": "You arrive at your downtown apartment, but the rent takes your breath away—it's higher than you expected. The excitement is tinged with a sense of foreboding about your budget. The vibrant city bustles outside your window, full of potential and opportunities; how will you make ends meet?",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Consider finding a roommate to share costs.",
+          "next_node": "finding_roommate"
+        },
+        {
+          "text": "Accept the high rent and focus on your studies.",
+          "next_node": "focusing_on_studies"
+        }
+      ]
+    },
+    "exploring_suburbs": {
+      "type": "scene",
+      "scene_text": "Venturing into the suburbs, you find charming neighborhoods offering competitive rents. It’s quieter here, and you envision a cozy home away from home. As you weigh the pros and cons, the thought of commuting to downtown classes lingers in your mind. Is comfort worth the travel?",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Choose a suburban apartment for peace and affordability.",
+          "next_node": "suburban_living"
+        },
+        {
+          "text": "Decide to keep looking for something closer to campus.",
+          "next_node": "networking_classmates"
+        }
+      ]
+    },
+    "finding_roommate": {
+      "type": "scene",
+      "scene_text": "You post an ad online for a roommate and quickly receive multiple responses. Meeting potential roommates is both exciting and nerve-wracking. You share laughs and stories, but how do you evaluate who will be a good fit for your new life in Toronto?",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Trust your instincts and choose someone you connect with.",
+          "next_node": "roommate_decision"
+        },
+        {
+          "text": "Conduct interviews to find the best option.",
+          "next_node": "interview_process"
+        }
+      ]
+    },
+    "focusing_on_studies": {
+      "type": "scene",
+      "scene_text": "You throw yourself into your coursework, keeping the high rents at bay for now. The business program’s competitiveness is palpable, and you realize the importance of connecting with career services. The pressure mounts as you balance academics and your finances, hoping for a future payoff.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a study group for support.",
+          "next_node": "joining_study_group"
+        },
+        {
+          "text": "Network with classmates to find job leads.",
+          "next_node": "networking_classmates"
+        }
+      ]
+    },
+    "suburban_living": {
+      "type": "scene",
+      "scene_text": "Settling in the suburbs, life feels both peaceful and isolating. While the commute to school is longer, the warmth of your surroundings offers a homely feel. You miss the buzz of downtown but enjoy the affordable living. Will you keep this routine or venture back to the city’s heartbeat?",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Stay and adapt to suburban life.",
+          "next_node": "adapting_suburb"
+        },
+        {
+          "text": "Move closer to downtown despite the costs.",
+          "next_node": "moving_downtown"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "roommate_decision": {
+      "scene_text": "After considering several applicants, you decide on a roommate who shares your values and respects your space. Living together proves beneficial, and your finances stabilize. Just as you find a balance, Toronto’s job market seems to open up with opportunities for you in the business world.",
+      "image_prompt": "Two students sharing a cozy apartment, filled with laughter and productive energy, creating a supportive living environment.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "interview_process": {
+      "scene_text": "Through the rigorous roommate interview process, you choose someone who not only becomes a friend but also a collaborator in studying. This partnership boosts your confidence, leading you to excel in your coursework and build meaningful connections, ready to tackle the competitive job market.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "adapting_suburb": {
+      "scene_text": "Adapting to suburban living takes time, but the experience teaches you resilience. While friends in the city thrive in a fast-paced life, your quieter lifestyle allows you to pursue personal interests. The reality of different paths sets in; you appreciate the balance you’ve found.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "moving_downtown": {
+      "scene_text": "Deciding to move back to downtown, the vibrant energy reignites your passion. You face the hefty rent with optimism, believing that the proximity to internships and networking events will enhance your career prospects. Toronto buzzes around you again, full of promise and challenge.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    },
+    "joining_study_group": {
+      "scene_text": "Joining a study group opens up new friendships, and together, you navigate the challenging coursework. The camaraderie awakens a sense of belonging, but the competitive atmosphere weighs heavily as job prospects loom ever closer. Each late-night study session brings both joy and stress.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    },
+    "networking_classmates": {
+      "scene_text": "Networking with your classmates quickly reveals the competitive nature of the job market. You find yourself hustling for internships alongside driven peers, using every event to your advantage. The pressure builds as you realize success depends as much on connections as on performance.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    }
+  }
+}

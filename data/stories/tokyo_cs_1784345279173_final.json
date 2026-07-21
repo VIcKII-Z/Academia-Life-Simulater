@@ -1,0 +1,145 @@
+{
+  "story_id": "tokyo_cs_1784345279173",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights a universal challenge of high living costs for graduate students in Tokyo, impacting all new arrivals.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step off the bustling Narita International Airport, the cool air bursts with a blend of excitement and anxiety. Tokyo, where tradition meets innovation, sprawls before you. The skyscrapers paint a dramatic skyline as you prepare to dive into an entirely new life chapter. But your thoughts quickly turn towards the high cost of living and the challenges that await, making your heart race with anticipation and apprehension.",
+      "image_prompt": "A vibrant view of Tokyo skyline with skyscrapers and traditional elements, capturing the essence of a bustling city atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Look for student housing options.",
+          "next_node": "housing_search"
+        },
+        {
+          "text": "Contact the international student office.",
+          "next_node": "community_support"
+        }
+      ]
+    },
+    "housing_search": {
+      "type": "regular",
+      "scene_text": "You browse various online platforms for student-friendly housing in Tokyo. Prices soar as you realize that rent will take up a significant part of your stipend. You encounter myriad options, but most are deceptively expensive, pressing a heavy weight on your chest. Will you settle for a small, shared room in a downtown apartment or look for something more spacious outside the city center?",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Choose a downtown apartment.",
+          "next_node": "downtown_apartment"
+        },
+        {
+          "text": "Opt for a larger room outside the city center.",
+          "next_node": "suburban_room"
+        }
+      ]
+    },
+    "community_support": {
+      "type": "regular",
+      "scene_text": "Reaching out to the international student office, you find a welcoming environment filled with fellow newcomers. They offer numerous resources, including social events and networking opportunities, making the initial isolation feel less daunting. However, the language barrier still looms large in your mind as you think about the cultural adjustments ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join a student orientation event.",
+          "next_node": "orientation_event"
+        },
+        {
+          "text": "Ask about part-time job resources.",
+          "next_node": "part_time_job"
+        }
+      ]
+    },
+    "downtown_apartment": {
+      "type": "regular",
+      "scene_text": "Choosing to live in a downtown apartment, you experience the thrill of being in the heart of Tokyo. Yet, as bills pile up, the reality of your financial situation sinks in. Every yen counts. You contemplate the possibility of juggling academics with a part-time job, knowing it could help ease your monetary stress.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Start looking for part-time jobs.",
+          "next_node": "part_time_job"
+        },
+        {
+          "text": "Cut back on expenses instead.",
+          "next_node": "ending_one"
+        }
+      ]
+    },
+    "suburban_room": {
+      "type": "regular",
+      "scene_text": "Opting for a larger room in the suburbs gives you more space, but you find the commute to university exhausting. The distance weighs on your already packed schedule. You grapple with the choice of staying here or moving closer to campus, knowing well the financial implications of each decision.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Move closer to campus.",
+          "next_node": "ending_one"
+        },
+        {
+          "text": "Stay and adapt to the long commute.",
+          "next_node": "ending_two"
+        }
+      ]
+    },
+    "orientation_event": {
+      "type": "regular",
+      "scene_text": "At the orientation event, you meet fellow students from various countries, sharing dreams and worries alike. The energy in the room buzzes with stories and laughter. You feel a sense of relief, realizing that you are not alone in facing challenges. Still, the trepidation of adapting to a new academic environment lingers.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Exchange contact information with new friends.",
+          "next_node": "ending_three"
+        },
+        {
+          "text": "Discuss academic pressures with peers.",
+          "next_node": "ending_two"
+        }
+      ]
+    },
+    "part_time_job": {
+      "type": "regular",
+      "scene_text": "Determined to ease your financial burdens, you seek a part-time job that suits your schedule. The search proves daunting as competition is fierce, but you remain hopeful. Balancing academic rigor with work will be a challenge, yet your resolve to make this experience worthwhile pushes you forward.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Apply to a tech-related position.",
+          "next_node": "ending_two"
+        },
+        {
+          "text": "Look for general student jobs.",
+          "next_node": "ending_three"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending_one": {
+      "scene_text": "You successfully navigated the challenges of adjusting to life in Tokyo, balancing your studies alongside part-time work. With a strong support network and newfound friendships, you celebrate your first year with pride. The hurdles you overcame taught you resilience, leaving you hopeful for the future.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "hopeful"
+    },
+    "ending_two": {
+      "scene_text": "Though you managed to complete your studies, the stress of financial strain took its toll. You look back on a bittersweet year, where achievements were overshadowed by constant worry. Yet, the experience has armed you with valuable life lessons and a determination to succeed.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "ending_three": {
+      "scene_text": "Facing an overwhelming academic workload combined with financial stress, you found yourself at a breaking point. Adapting to this challenging environment proved harder than you anticipated. While you learned much, you also realized the importance of mental health and the need to seek help.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    }
+  }
+}

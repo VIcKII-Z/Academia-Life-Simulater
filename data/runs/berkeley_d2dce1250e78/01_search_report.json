@@ -1,0 +1,217 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "MS in Data Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "School of Information",
+    "program": "Master of Information and Data Science (MIDS)",
+    "major": "MS in Data Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley, California, has a high cost of living, with housing being particularly expensive. Students should budget accordingly for rent, utilities, and other living expenses.",
+    "academic": "The MIDS program offers a multidisciplinary curriculum that includes courses in machine learning, data engineering, and ethics, preparing students for leadership roles in data science.",
+    "visa": "International students must obtain an appropriate visa to study in the U.S. The program's online format may have specific visa implications; it's essential to consult the university's international office for guidance.",
+    "culture_shock": "Berkeley is known for its diverse and inclusive community. However, adapting to the academic rigor and cultural nuances may require time and effort.",
+    "community": "The program includes an on-campus immersion, providing opportunities to build connections with peers and faculty, fostering a supportive learning environment.",
+    "career": "Graduates have pursued roles in various industries, including technology, healthcare, and finance. The program's strong industry connections enhance career prospects.",
+    "safety": "Berkeley has areas with varying safety levels. Students should stay informed about their surroundings and utilize campus safety resources.",
+    "climate": "Berkeley enjoys a Mediterranean climate with mild, wet winters and dry summers, which is generally comfortable year-round.",
+    "part_time_work": "International students should verify their visa conditions regarding part-time work. The program's online nature may influence work opportunities; consulting the international office is recommended."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from a rigorous academic schedule.",
+      "Ensuring adequate sleep while balancing coursework and personal life.",
+      "Adapting to a new climate and potential allergies."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation in an online learning environment.",
+      "Building a sense of community during on-campus immersions.",
+      "Adjusting to cultural differences and academic expectations."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Berkeley.",
+      "Exploring scholarship and financial aid options.",
+      "Understanding visa restrictions on employment opportunities."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the high cost of living in Berkeley while studying.",
+      "Balancing online coursework with potential on-campus requirements.",
+      "Building professional networks remotely in the data science field.",
+      "Accessing resources and support services from a distance.",
+      "Managing time effectively in a flexible online program.",
+      "Staying motivated without a traditional classroom environment."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": false,
+    "tuition": false,
+    "housing": false,
+    "career": false,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Information and Data Science",
+    "degree_type": "Master's",
+    "department": "School of Information",
+    "duration": "20 months (standard path)",
+    "delivery_mode": "Online with on-campus immersion",
+    "visa_eligible_notes": "Consult the international office for visa requirements related to online programs.",
+    "curriculum": [
+      "Introduction to Data Science Programming",
+      "Research Design and Applications for Data and Analysis",
+      "Statistics for Data Science",
+      "Applied Machine Learning",
+      "Data Visualization",
+      "Capstone Project"
+    ],
+    "milestones": [
+      "Completion of foundation courses",
+      "Completion of advanced courses",
+      "Participation in on-campus immersion",
+      "Capstone project completion"
+    ],
+    "prerequisites": [
+      "Bachelor’s degree from an accredited institution",
+      "Superior scholastic record, typically above a 3.0 GPA"
+    ],
+    "admissions": [
+      "Online application",
+      "Official transcripts",
+      "Statement of Purpose",
+      "Two professional letters of recommendation",
+      "Current resume",
+      "Application fee"
+    ],
+    "deadlines": [
+      "Application deadlines vary; refer to the program's official website for current information."
+    ],
+    "funding": [
+      "Information on tuition and financial aid is available on the program's official website."
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Students are responsible for securing their own housing; options include apartments and shared housing in Berkeley and surrounding areas.",
+    "commute": "As the program is primarily online, commuting is minimal, except for the on-campus immersion.",
+    "campus_support": "The School of Information offers academic advising, career services, and technical support to online students.",
+    "community": "Opportunities to engage with peers and faculty through online platforms and during the on-campus immersion.",
+    "safety": "Students should familiarize themselves with campus safety resources and stay informed about local safety conditions.",
+    "climate": "Berkeley's mild climate allows for comfortable living conditions throughout the year."
+  },
+  "career_profile": {
+    "local_industry": "The San Francisco Bay Area is a hub for technology and data science industries, offering numerous opportunities.",
+    "internship": "The program's online format may affect traditional internship opportunities; students should seek virtual or local options.",
+    "work_authorization": "International students must comply with visa regulations regarding employment; consult the international office for guidance.",
+    "language_or_networking_requirements": "Proficiency in English is required; networking opportunities are available through online platforms and during the immersion.",
+    "notable_employers": [],
+    "recruiting_events": [],
+    "alumni_outcomes": []
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Applied Machine Learning",
+        "code": "DATASCI 207",
+        "note": "Focuses on applying machine learning techniques to real-world problems."
+      },
+      {
+        "title": "Data Visualization",
+        "code": "DATASCI 209",
+        "note": "Teaches principles and techniques for effective data visualization."
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Marti Hearst",
+        "title": "Professor",
+        "research_area": "Natural Language Processing, Information Visualization"
+      },
+      {
+        "name": "John Canny",
+        "title": "Professor",
+        "research_area": "Human-Computer Interaction, Machine Learning"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Doe Library",
+        "note": "Main library offering extensive resources for research and study."
+      },
+      {
+        "name": "Moffitt Library",
+        "note": "Provides collaborative study spaces and access to digital resources."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Data Science Society at Berkeley",
+        "note": "Student organization focused on data science projects and networking."
+      },
+      {
+        "name": "Graduate Assembly",
+        "note": "Represents graduate student interests and organizes events."
+      }
+    ],
+    "events": [
+      {
+        "name": "Data Science Immersion",
+        "note": "On-campus event for MIDS students to engage with peers and faculty."
+      },
+      {
+        "name": "School of Information Speaker Series",
+        "note": "Regular talks by experts in information and data science fields."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Online Master of Information and Data Science | UC Berkeley School of Information",
+      "url": "https://www.ischool.berkeley.edu/programs/mids-online",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Information and Data Science: MIDS | Berkeley Academic Guide",
+      "url": "https://guide.berkeley.edu/graduate/degree-programs/information-data-science/",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "curriculum",
+        "program structure"
+      ]
+    },
+    {
+      "title": "UC Berkeley School of Information",
+      "url": "https://www.ischool.berkeley.edu/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "department information",
+        "faculty"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific information on tuition and financial aid was not found in the provided sources; refer to the program's official website for current details.",
+    "Details on international student support services and visa guidance were not available; consulting the university's international office is recommended.",
+    "Information on housing options and costs specific to MIDS students was not found; students should explore local housing resources."
+  ]
+}

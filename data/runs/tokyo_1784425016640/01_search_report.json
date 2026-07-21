@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "Tokyo has one of the highest living costs in Japan, with monthly student expenses averaging ¥120,000–¥150,000 (about $850–$1,050). Rent for a one-room apartment ranges from ¥70,000–¥120,000 ($490–$840), and groceries may cost ¥25,000–¥40,000 monthly. Public transport is efficient but adds around ¥10,000–¥15,000 to the budget. While dining out can be affordable, Western-style meals are expensive. Tokyo offers excellent discounts with a student ID. It is recommended to carefully budget as scholarships often cover tuition but don't fully subsidize living costs. [Japan Living Life](https://japanlivinglife.com/articles/student-cost-living-japan-guide)",
+    "academic": "Tokyo hosts premier institutions like the University of Tokyo and Tokyo Institute of Technology, which are globally renowned for their Computer Science programs. Many universities offer English-taught courses, especially for STEM fields. However, Japanese language proficiency might still be necessary for communication and accessing research opportunities. Students are introduced to modern technological fields, such as AI and robotics, but they may face challenges navigating lab hierarchies and balancing core courses with practical projects. [Leverage Edu](https://leverageedu.com/learn/best-computer-science-universities-in-japan/)",
+    "visa": "International students require a 'Student' visa, which is typically issued for the duration of their program and grants the right to part-time work (up to 28 hours per week). Students can apply for 'Permission to Engage in Activity Other Than That Permitted under the Status of Residence Previously Granted' either at the airport or afterward at regional immigration offices. [Japan Living Life](https://japanlivinglife.com/articles/part-time-work-rules-japan-foreigners)",
+    "culture_shock": "Cultural adaptation in Tokyo can be challenging due to social norms like indirect communication and high-context interactions. International students may feel isolated in academic settings where Japanese is spoken predominantly. Proactive participation in social events and language classes is essential for integrating successfully. However, the city's cosmopolitan nature and student support services can ease cultural barriers, especially for tech-focused individuals who often find tight communities in labs. [CiNii Research](https://cir.nii.ac.jp/crid/1390299673816423552)",
+    "community": "Tokyo has active international student communities and organizations that offer support, including language exchanges, community events, and campus orientations. Tech meetups and hackathons provide networking opportunities. However, establishing deeper cross-cultural ties might require effort due to cultural perceptions of outsiders and language barriers. Students can find resources at universities and international support offices for social adjustment. [Study in Japan Official Website](https://www.studyinjapan.go.jp/en/)",
+    "career": "Japan offers lucrative career opportunities for Computer Science graduates in industries like AI, data science, and software engineering. Companies such as Sony, SoftBank, and Toyota invest heavily in innovation. However, limited Japanese language proficiency can restrict access to non-English-speaking workplaces. Networking through internships or university affiliations is key to career success in Tokyo’s tech sectors. [Japan Dev](https://japan-dev.com/blog/computer-science-in-japan)",
+    "safety": "Japan is considered one of the safest countries globally, with low crime rates. Tokyo offers excellent public transit, well-lit streets, and local kōban (police booths) for assistance. However, international students are advised to exercise caution walking alone at night and to be aware of scams targeting foreigners. Earthquake preparedness is emphasized; students receive safety briefings during campus orientations. [Go! Go! Nihon](https://gogonihon.com/en/blog/is-japan-safe-for-students/)",
+    "climate": "Tokyo experiences humid, rainy summers (average 28°C/82°F in August) and mild winters (average 6°C/43°F in January). The city’s urban heat island effect amplifies summer discomfort. September and October bring heavy rainfall due to typhoons. Seasonal changes are distinct, allowing exploration of cherry blossoms in spring and autumn foliage. Heat stress during summer can tire students, especially during long commutes. [Climates To Travel](https://www.climatestotravel.com/climate/japan/tokyo)",
+    "part_time_work": "International students with 'Student' visas can work up to 28 hours per week during semesters and up to 40 hours per week during long breaks (summer or winter holidays). Popular jobs include tutoring, event support, and convenience stores. Hourly wages average ¥1,100–¥1,300 in Tokyo. Students must strictly adhere to work-hour limits to maintain visa eligibility and avoid penalties. [Japan Living Life](https://japanlivinglife.com/articles/part-time-jobs-students-japan-guide)"
+  },
+  "gameplay_signals": {
+    "health": [
+      "Commuting fatigue during peak hours and hot summers",
+      "Earthquake preparedness as a physical stress",
+      "Diet adjustment due to unfamiliar Japanese cuisine",
+      "Possible isolation from inadequate healthcare access for foreigners",
+      "Potential health risks in crowded living setups"
+    ],
+    "mood": [
+      "Loneliness from perceived outsider status in Japanese academia",
+      "Language barrier limiting social bonding",
+      "Stress from balancing part-time work, studies, and Japanese cultural expectations",
+      "Relief from English-speaking tech meetups and support groups",
+      "Cultural insights gained from immersion into Tokyo's diverse subcultures"
+    ],
+    "money": [
+      "High rent costs in central Tokyo affecting budget",
+      "Opportunities for tech-related internships with competitive pay",
+      "Challenge managing high tuition fees without full scholarships",
+      "Availability of well-paying language tutoring side jobs",
+      "Visa regulations constraining part-time work hours"
+    ],
+    "city_major_specific_challenges": [
+      "Navigating Tokyo’s packed transport system during humid summers",
+      "Adjusting daylight hours for optimized lab and study routines during short winter days",
+      "High-pressure student expectations in prestigious universities such as UTokyo",
+      "Prolonged periods of cultural disconnection without Japanese language skills",
+      "Finding affordable housing within proximity to campus amidst fierce competition",
+      "Leveraging tech-related internship networks for skill development and income",
+      "Dealing with safety incidents like scams targeted at foreign students",
+      "Balancing typhoon season concerns with ongoing academic deadlines"
+    ]
+  }
+}

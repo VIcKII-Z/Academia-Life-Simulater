@@ -1,0 +1,328 @@
+{
+  "story_id": "tokyo_1784421385285",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights an unavoidable high cost of living and cultural adaptation challenges common to many international students in Tokyo.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you descend from Narita Express at Tokyo Station, a tide of humanity sweeps past you in the bustling underground. Though you’ve prepared for months, the sea of people and flashing kanji signs overwhelm your senses. You clutch the letter of admission from the University of Tokyo, a sense of excitement tempered by the looming logistical challenges of settling in a foreign city.",
+      "image_prompt": "A crowded Tokyo train station with rushing crowds, a lone student holding an admission letter looks around with mixed emotions.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore Tokyo using public transport",
+          "next_node": "commute",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": -10
+          },
+          "stat_reason": "Crowded public transport can be exhausting, and exploring the city incurs some travel costs."
+        },
+        {
+          "text": "Head to the university dormitory directly",
+          "next_node": "dormitory",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Settling in quickly boosts mood but incurs transport costs."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_arrival.png"
+    },
+    "commute": {
+      "type": "challenge",
+      "scene_text": "Navigating the crowded Tokyo metro, you endure frequent shoves and apologetic bows as you make your way to Shibuya. The pulsing energy of the city hums with stories, but it's a strain figuring out the lines and transfers. Later, you arrive at the serene Hongo campus, the towering buildings a testament to academic prestige.",
+      "image_prompt": "A bustling Tokyo subway filled with commuters, a student looks at a metro map while balancing on a crowded platform.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a city tour group",
+          "next_node": "city_tour",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Touring reduces stress and increases mood through social interaction, though it costs money."
+        },
+        {
+          "text": "Visit a nearby café to relax",
+          "next_node": "cafe_break",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Taking a break in a quiet café refreshes health and mood but involves spending."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_commute.png"
+    },
+    "dormitory": {
+      "type": "decision",
+      "scene_text": "Arriving at the university dormitory in the leafy Bunkyo ward, you get a moment to breathe. The dorm is modest but convenient—your first real taste of home in Tokyo. Unpacking, you find relief in the routine tasks, but knowing deeper challenges lie ahead.",
+      "image_prompt": "A cozy but small student dorm room in Tokyo, surrounded by trees and other students settling in.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Attend university's orientation program",
+          "next_node": "orientation",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Orientation programs help integration, boosting mood with no cost."
+        },
+        {
+          "text": "Catch up on sleep from travel",
+          "next_node": "rest",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Resting improves health and mood, cost-free."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_dormitory.png"
+    },
+    "city_tour": {
+      "type": "exploration",
+      "scene_text": "The organized city tour exposes you to Tokyo's eclectic mix of tradition and futurism. From the ancient temples in Asakusa to the tech-laden wonderland of Akihabara, the stories and connections ease your culture shock, though your wallet feels lighter.",
+      "image_prompt": "Groups of tourists at a historic Tokyo temple, a student looks around with fascination and a hint of belonging.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Network with fellow students",
+          "next_node": "networking",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Making connections enhances mood but incurs minor social costs."
+        },
+        {
+          "text": "Explore job opportunities at Akihabara's tech district",
+          "next_node": "job_hunt",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "Job hunting is stressful but has the potential for financial gain."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_city_tour.png"
+    },
+    "cafe_break": {
+      "type": "leisure",
+      "scene_text": "The café's aroma offers refuge as you sip a matcha latte, observing people pass by. It's a moment of peace amid the chaos. Your thoughts drift to future courses, the daunting research, and the promise of new friendships.",
+      "image_prompt": "A serene Tokyo café with patrons sipping coffee, the protagonist smiles slightly, feeling at ease and contemplative.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Strike up a conversation with a local student",
+          "next_node": "schedule",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Positive interactions boost mood without monetary cost."
+        },
+        {
+          "text": "Study Japanese to better integrate",
+          "next_node": "japanese_class",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Studying is tiring but improves mood due to academic confidence."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_cafe_break.png"
+    },
+    "orientation": {
+      "type": "community",
+      "scene_text": "The orientation program is a whirlwind introduction to student life and services. You meet fellow international students and local mentors. It's comforting finding others in a similar boat. Clubs introduce themselves, stirring interest and offering a sense of belonging.",
+      "image_prompt": "A bustling university orientation with students gathering information, an international student smiles, feeling welcomed.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a student tech club",
+          "next_node": "tech_club",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Joining a club boosts mood and social circle, though requires a fee."
+        },
+        {
+          "text": "Focus on academic sessions",
+          "next_node": "academic_prep",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing academics causes stress but provides academic confidence."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_orientation.png"
+    },
+    "rest": {
+      "type": "recovery",
+      "scene_text": "Finally comfortable in your dorm room, you collapse onto the bed. As you drift into sleep, the city sounds fade, replaced by the calm reassurance of your dreams. Although initial challenges loom, this rest invigorates your resolve to face them.",
+      "image_prompt": "A peaceful dorm room at dusk with a student resting, streetlights casting a gentle glow through the window.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prepare a detailed study schedule",
+          "next_node": "schedule",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Planning boosts mood but requires time and attention."
+        },
+        {
+          "text": "Explore the local neighborhood",
+          "next_node": "neighborhood",
+          "stat_delta": {
+            "health": 5,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Exploration lifts mood and enhances health at a small cost."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_rest.png"
+    },
+    "networking": {
+      "type": "career",
+      "scene_text": "Amidst the whirring of coffee grinders, you share stories with a diverse group of students. They speak of opportunities and the unseen challenges of tech life in Japan. You gain insights and tentative allies, though the road ahead is demanding.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Attend a tech meetup downtown",
+          "next_node": "meetup",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "Late nights are tiring, but connections can lead to paid opportunities."
+        },
+        {
+          "text": "Focus on language classes instead",
+          "next_node": "japanese_class",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -5
+          },
+          "stat_reason": "Language classes improve mood but are financially and physically taxing."
+        }
+      ]
+    },
+    "job_hunt": {
+      "type": "challenge",
+      "scene_text": "The neon-lit streets of Akihabara expose you to the dizzying array of tech opportunities, but finding a job proves tougher than expected. Language barriers and high competition leave you overwhelmed yet determined.",
+      "image_prompt": "A bright bustling Akihabara street with tech shops and job advertisements; the student looks determined but weary.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Persevere through applications",
+          "next_node": "applications",
+          "stat_delta": {
+            "health": -20,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Application processes strain health and mood but offer future financial rewards."
+        },
+        {
+          "text": "Re-evaluate academic priorities",
+          "next_node": "academics_focus",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Refocusing boosts health but temporarily reduces mood due to perceived setbacks."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_1784421385285_job_hunt.png"
+    }
+  },
+  "endings": {
+    "tech_club": {
+      "scene_text": "Through the tech club, you thrive on cutting-edge projects and form valuable networks. The friends and experiences you gather become a pivotal part of your study abroad journey, enriching both your academic and personal life.",
+      "image_prompt": "A group of enthusiastic students working on a tech project, collaborative and encouraging atmosphere, the protagonist feels integrated.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "academic_prep": {
+      "scene_text": "Diving deeply into your studies, you build a solid academic foundation but at the cost of isolation and fatigue. The pressure is intense, and while professional prospects are bright, you miss out on social experiences.",
+      "image_prompt": "A focused student in a library surrounded by tech books, solitude mixed with determination.",
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "schedule": {
+      "scene_text": "Your meticulously planned schedule balances studies, social activities, and rest effectively. The satisfaction of achieving your goals lifts your spirits, and the structure enables you to enjoy the best of both worlds.",
+      "image_prompt": "A tidy desk with a well-organized study schedule, the protagonist smiles with satisfaction and calm happiness.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "neighborhood": {
+      "scene_text": "Exploring your vibrant neighborhood leads to unexpected friendships with locals and uncovering hidden gems of Tokyo. Though studies remain demanding, the cultural richness leaves you feeling deeply connected to your temporary home.",
+      "image_prompt": "A student enjoying a lively Tokyo neighborhood with local markets and friendly faces, a sense of belonging evident.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "meetup": {
+      "scene_text": "The tech meetup downtown opens doors, but the late nights and exhaustive networking take their toll. Your mood fluctuates between optimism and weariness, and maintaining focus in such a demanding environment proves difficult.",
+      "image_prompt": "A bustling tech meetup with diverse participants, the protagonist engages but looks slightly drained yet hopeful.",
+      "has_image": true,
+      "tone": "challenging"
+    },
+    "japanese_class": {
+      "scene_text": "Dedicated language classes help bridge the cultural divide, yet the process is laborious, and balancing this with tech studies tests your resolve. Despite the struggle, knowing the language boosts your confidence in daily life.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "applications": {
+      "scene_text": "After numerous applications, you finally secure an internship at a tech startup. The workplace challenges sharpen your skills, but balancing this with studies drains your energy and leaves little room for leisure.",
+      "image_prompt": "A dynamic tech startup environment with diverse team members collaborating on screens, the protagonist looks fatigued yet fulfilled.",
+      "has_image": true,
+      "tone": "challenging"
+    },
+    "academics_focus": {
+      "scene_text": "Refocusing on academics ensures steady progress and accolades from professors, but at the expense of a broader experience. While career opportunities blossom, you find yourself wistful for the unpursued friendships and experiences.",
+      "image_prompt": "A student receiving praise in a tech seminar, a mix of pride and underlying loneliness evident.",
+      "has_image": false,
+      "tone": "bittersweet"
+    }
+  }
+}

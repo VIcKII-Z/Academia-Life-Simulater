@@ -19,21 +19,60 @@ export async function fetchPresets(): Promise<string[]> {
   return (await res.json()) as string[];
 }
 
-/** Live university name search, proxied through the backend (see
- * server.ts) to avoid the Hipolabs API's missing CORS headers. Best-effort:
- * network errors resolve to an empty array instead of throwing, so
- * QuizFlow's manual country/city fallback still works if this is down. */
+/** Live worldwide university name search, proxied through the backend (see
+ * server.ts) to avoid the upstream APIs' missing CORS headers. When `city`
+ * is given, the backend uses a geocode-bounded OpenStreetMap search so
+ * results are actually scoped to that city (not just the country) —
+ * without it, unrelated same-name-match universities from other cities in
+ * the same country could show up. Best-effort: network errors resolve to
+ * an empty array instead of throwing, so QuizFlow's curated fallback still
+ * works if this is down. */
 export async function searchUniversitiesLive(
   name: string,
   country?: string,
+  city?: string,
 ): Promise<{ name: string; country: string }[]> {
   try {
     const params = new URLSearchParams();
     if (name) params.set("name", name);
     if (country) params.set("country", country);
+    if (city) params.set("city", city);
     const res = await fetch(`/api/universities/search?${params.toString()}`);
     if (!res.ok) return [];
     return (await res.json()) as { name: string; country: string }[];
+  } catch {
+    return [];
+  }
+}
+
+/** Full list of real country names, used so CountryStep is a search-only
+ * picker instead of accepting arbitrary free text. Best-effort: network
+ * errors resolve to an empty array, so the curated quick-pick chips still
+ * work if this is down (though free typing is then unavailable — matches
+ * intended "no free-type" behavior rather than silently degrading it). */
+export async function fetchCountries(): Promise<string[]> {
+  try {
+    const res = await fetch("/api/countries");
+    if (!res.ok) return [];
+    return (await res.json()) as string[];
+  } catch {
+    return [];
+  }
+}
+
+/** Live, accurate worldwide city search scoped to a country, proxied
+ * through the backend (see server.ts) to avoid the upstream city API's
+ * missing CORS headers. Best-effort: network errors resolve to an empty
+ * array, so QuizFlow's curated-city chips + manual free-text entry still
+ * work if this is down. */
+export async function searchCitiesLive(country: string, name: string): Promise<string[]> {
+  try {
+    const params = new URLSearchParams();
+    params.set("country", country);
+    if (name) params.set("name", name);
+    const res = await fetch(`/api/cities/search?${params.toString()}`);
+    if (!res.ok) return [];
+    return (await res.json()) as string[];
   } catch {
     return [];
   }

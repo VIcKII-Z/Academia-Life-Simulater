@@ -1,0 +1,265 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "United States",
+    "city": "Berkeley"
+  },
+  "major": "Data Science",
+  "grade": "Graduate",
+  "profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "school": "UC Berkeley",
+    "department": "School of Information",
+    "program": "Master of Information and Data Science",
+    "major": "Data Science",
+    "grade": "Graduate"
+  },
+  "report": {
+    "cost_of_living": "Berkeley, California, has a high cost of living, with housing being particularly expensive. Students should budget accordingly for rent, utilities, and other living expenses.",
+    "academic": "The MIDS program offers a multidisciplinary curriculum that includes computer science, statistics, management, and law, preparing students for leadership roles in data science.",
+    "visa": "International students must obtain an F-1 visa and should consult UC Berkeley's International Office for guidance on maintaining status and work authorizations.",
+    "culture_shock": "Adjusting to Berkeley's diverse and dynamic environment may be challenging, but the university offers resources to help international students acclimate.",
+    "community": "UC Berkeley provides a supportive community with various student organizations and events that foster connections among peers.",
+    "career": "The program emphasizes practical skills and offers career services to assist with job placement in the data science field.",
+    "safety": "Berkeley has areas with varying safety levels; students should stay informed about their surroundings and utilize campus safety resources.",
+    "climate": "Berkeley enjoys a Mediterranean climate with mild, wet winters and dry summers, which is generally comfortable year-round.",
+    "part_time_work": "International students on an F-1 visa are typically allowed to work up to 20 hours per week on campus during the academic year."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Managing stress from a rigorous academic schedule.",
+      "Adjusting to a new climate and potential allergies.",
+      "Ensuring access to healthcare services on campus."
+    ],
+    "mood": [
+      "Overcoming feelings of isolation in a new cultural environment.",
+      "Balancing academic pressures with social activities.",
+      "Engaging in student organizations to build a support network."
+    ],
+    "money": [
+      "Budgeting for high living expenses in Berkeley.",
+      "Seeking on-campus employment opportunities.",
+      "Exploring scholarships and financial aid options."
+    ],
+    "city_major_specific_challenges": [
+      "Navigating the competitive job market in the Bay Area.",
+      "Staying updated with rapidly evolving data science technologies.",
+      "Building a professional network in the tech industry.",
+      "Managing time effectively between coursework and internships.",
+      "Understanding and complying with visa work restrictions.",
+      "Accessing resources for mental health support during high-stress periods."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master of Information and Data Science",
+    "degree_type": "Master's",
+    "department": "School of Information",
+    "duration": "Approximately 20 months",
+    "delivery_mode": "Online",
+    "visa_eligible_notes": "International students should verify visa eligibility for online programs.",
+    "curriculum": [
+      "Introduction to Data Science Programming",
+      "Research Design and Applications for Data and Analysis",
+      "Statistics for Data Science",
+      "Data Engineering",
+      "Machine Learning at Scale",
+      "Data Visualization",
+      "Privacy, Security, and Ethics"
+    ],
+    "milestones": [
+      "Completion of core courses",
+      "Capstone project"
+    ],
+    "prerequisites": [
+      "Proficiency in programming languages such as Python or Java",
+      "Background in statistics and linear algebra"
+    ],
+    "admissions": [
+      "Bachelor's degree from an accredited institution",
+      "Statement of purpose",
+      "Letters of recommendation",
+      "GRE scores (optional)"
+    ],
+    "deadlines": [
+      "Fall admission: April 1",
+      "Spring admission: October 1"
+    ],
+    "funding": [
+      "Limited scholarships available",
+      "Federal financial aid for eligible students"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus housing is limited; many students opt for off-campus housing in Berkeley or nearby areas.",
+    "commute": "Public transportation options include buses and BART; biking is also popular.",
+    "campus_support": "Resources include academic advising, mental health services, and career counseling.",
+    "community": "A variety of student organizations and cultural events foster a vibrant community.",
+    "safety": "Campus safety services are available, including night escorts and emergency call boxes.",
+    "climate": "Mild climate with occasional rain in winter; comfortable for outdoor activities year-round."
+  },
+  "career_profile": {
+    "local_industry": "Proximity to Silicon Valley offers abundant opportunities in tech and data science fields.",
+    "internship": "Students are encouraged to pursue internships; the program offers support in securing positions.",
+    "work_authorization": "International students should consult the International Office regarding CPT and OPT options.",
+    "language_or_networking_requirements": "Proficiency in English is required; networking events are available to build industry connections.",
+    "notable_employers": [
+      "Google",
+      "Facebook",
+      "Apple",
+      "Amazon",
+      "LinkedIn"
+    ],
+    "recruiting_events": [
+      "UC Berkeley Data Science Career Fair",
+      "Tech Talks hosted by leading companies"
+    ],
+    "alumni_outcomes": [
+      "Data Scientist at major tech companies",
+      "Data Analyst in various industries",
+      "Continued education in PhD programs"
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Introduction to Data Science Programming",
+        "code": "DataSci 200"
+      },
+      {
+        "title": "Machine Learning at Scale",
+        "code": "DataSci 210"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "David Bamman",
+        "title": "Associate Professor",
+        "research_area": "Natural language processing, computational social science, machine learning, digital humanities"
+      },
+      {
+        "name": "Coye Cheshire",
+        "title": "Professor",
+        "research_area": "Trust, social exchange, social psychology, and information exchange"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Doe Library",
+        "note": "Main library with extensive resources in data science."
+      },
+      {
+        "name": "Moffitt Library",
+        "note": "Popular study space with collaborative work areas."
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Data Science Society at Berkeley",
+        "note": "Student organization focused on data science projects and networking."
+      },
+      {
+        "name": "Machine Learning at Berkeley",
+        "note": "Club dedicated to machine learning education and applications."
+      }
+    ],
+    "events": [
+      {
+        "name": "Data Science Discovery Program",
+        "note": "Program connecting students with real-world data science projects."
+      },
+      {
+        "name": "Berkeley Data Science Symposium",
+        "note": "Annual event showcasing data science research and applications."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Online Master of Information and Data Science",
+      "url": "https://www.ischool.berkeley.edu/programs/mids-online",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "admissions",
+        "curriculum"
+      ]
+    },
+    {
+      "title": "Data Science | UC Berkeley School of Information",
+      "url": "https://www.ischool.berkeley.edu/research-areas/data-science",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "notable_faculty",
+        "research_areas"
+      ]
+    },
+    {
+      "title": "Course Catalog: Data Science | UC Berkeley School of Information",
+      "url": "https://www.ischool.berkeley.edu/courses/datasci",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "notable_courses"
+      ]
+    },
+    {
+      "title": "Data Science Undergraduate Studies | CDSS at UC Berkeley",
+      "url": "https://cdss.berkeley.edu/dsus",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "student_organizations",
+        "events"
+      ]
+    },
+    {
+      "title": "UC Berkeley Libraries",
+      "url": "https://www.lib.berkeley.edu/",
+      "source_type": "housing",
+      "confidence": "high",
+      "used_for": [
+        "libraries"
+      ]
+    },
+    {
+      "title": "UC Berkeley International Office",
+      "url": "https://internationaloffice.berkeley.edu/",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "UC Berkeley Career Center",
+      "url": "https://career.berkeley.edu/",
+      "source_type": "career",
+      "confidence": "high",
+      "used_for": [
+        "career",
+        "internship",
+        "recruiting_events"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific program handbook not found; used program official and department pages instead.",
+    "Limited information on student forums; relied on official sources for student life and community details."
+  ]
+}

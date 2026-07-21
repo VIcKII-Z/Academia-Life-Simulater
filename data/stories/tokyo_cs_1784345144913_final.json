@@ -1,0 +1,172 @@
+{
+  "story_id": "tokyo_cs_1784345144913",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights the shared challenge of high living costs that all students must navigate during their study abroad experience in Tokyo.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "nodes": {
+    "arrival_start": {
+      "type": "opening",
+      "scene_text": "You step off the plane at Narita Airport, a mix of excitement and trepidation coursing through you. Tokyo's sprawling beauty greets you, a chaos of neon lights and tranquil temples. Despite the thrill, anxiety bubbles beneath the surface—will you manage the high cost of living and the demanding academic workload ahead?",
+      "image_prompt": "A newcomer arriving at Narita Airport, surrounded by bustling crowds and bright neon signs, feeling both excited and anxious about their new adventure in Tokyo.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Dive into the local culture and explore the city.",
+          "next_node": "exploring_culture"
+        },
+        {
+          "text": "Focus on settling in and preparing for studies.",
+          "next_node": "settling_in"
+        }
+      ]
+    },
+    "exploring_culture": {
+      "type": "node",
+      "scene_text": "You decide to embrace the vibrant heart of Tokyo, immersing yourself in its culture. From traditional tea ceremonies to modern art galleries, the city fascinates. However, lingering language barriers make interactions challenging, leaving you hesitant and occasionally isolated.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Join an international student group for support.",
+          "next_node": "joining_group"
+        },
+        {
+          "text": "Keep trying to communicate with locals despite the confusion.",
+          "next_node": "local_interaction"
+        }
+      ]
+    },
+    "settling_in": {
+      "type": "node",
+      "scene_text": "Back in your small apartment, you set up a study area. The living costs are daunting, with rent eating away at your stipend. You realize securing a part-time job may be essential for comfort. It’s a heavy weight on your already full plate.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Start looking for part-time work immediately.",
+          "next_node": "job_hunt"
+        },
+        {
+          "text": "Rely on budgeting skills to stretch your funds.",
+          "next_node": "budgeting"
+        }
+      ]
+    },
+    "joining_group": {
+      "type": "node",
+      "scene_text": "Joining the international student group opens up a new world of support. You find friends who understand the struggles, and together, you navigate the complexities of life in Tokyo. The shared experiences fill you with hope and a sense of belonging.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Plan group outings to explore the city together.",
+          "next_node": "group_adventures"
+        },
+        {
+          "text": "Focus on academic schedules and stay serious.",
+          "next_node": "academic_focus"
+        }
+      ]
+    },
+    "local_interaction": {
+      "type": "node",
+      "scene_text": "Your attempts to converse with locals often lead to amusing misunderstandings. While the language barrier is frustrating, you find that gestures and smiles transcend the gap. Gradually, your confidence builds, and so does your language skill.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Enroll in a language class to improve.",
+          "next_node": "language_class"
+        },
+        {
+          "text": "Keep trying to engage with local culture.",
+          "next_node": "cultural_engagement"
+        }
+      ]
+    },
+    "job_hunt": {
+      "type": "challenge",
+      "scene_text": "You dive into the job market, but the competition is fierce. Many roles require Japanese language proficiency. The pressure mounts as you juggle applications with your rigorous studies. Some days feel insurmountable, with stress overshadowing your passion for computer science.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek help from the student services for job placements.",
+          "next_node": "student_services"
+        },
+        {
+          "text": "Take a break and reset before continuing the search.",
+          "next_node": "break"
+        }
+      ]
+    },
+    "budgeting": {
+      "type": "node",
+      "scene_text": "You meticulously track your spending, but even with careful budgeting, the costs still loom large. Each grocery trip feels like a gamble. The weight of financial uncertainty becomes a growing worry, making it hard to focus on your studies.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Consider a student loan to ease financial fears.",
+          "next_node": "student_loan"
+        },
+        {
+          "text": "Discuss your situation with a financial advisor.",
+          "next_node": "financial_advisor"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "group_adventures": {
+      "scene_text": "As you embark on group outings, your perspective shifts. You find joy in shared laughter and experiences, even amidst the challenges. Forming deep connections with fellow students brings hope and new promise to your time in Tokyo.",
+      "image_prompt": "A group of international students enjoying a vibrant Tokyo street, immersed in laughter and culture, their faces radiating joy and connection amidst the city’s bustle.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "academic_focus": {
+      "scene_text": "Diving deep into your studies pays off as you excel academically. Despite the high costs and cultural hurdles, your dedication opens doors to research opportunities and a bright future. You emerge stronger, with skills that set you apart.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "student_services": {
+      "scene_text": "With guidance from student services, you land a suitable part-time job, balancing work and studies. It may not be easy, but the experience enriches your life and eases financial worries. You learn invaluable lessons that prepare you for the future.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "break": {
+      "scene_text": "Taking a break allows you to reassess your mental health. After time spent recharging, you're ready to tackle your challenges with renewed vigor. A more balanced approach brings new clarity to your life, endless possibilities ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "hopeful"
+    },
+    "language_class": {
+      "scene_text": "Enrolling in a language class proves transformative. You gradually feel more at home, breaking down barriers and fostering deeper interactions with locals. Your confidence blooms, creating opportunities you never thought possible.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "hopeful"
+    },
+    "cultural_engagement": {
+      "scene_text": "Continued engagement with cultural activities fosters a profound connection with Tokyo. You grow to appreciate its rhythms, feel at ease, and find a home away from home. It’s a lasting bond that enriches both your heart and mind.",
+      "image_prompt": null,
+      "tone": "hopeful"
+    },
+    "student_loan": {
+      "scene_text": "Considering a student loan provides temporary relief, but it creates new pressures for the future. You navigate the balance of managing current needs and long-term debts, leading to mixed emotions as you traverse your academic journey.",
+      "image_prompt": null,
+      "tone": "challenging"
+    },
+    "financial_advisor": {
+      "scene_text": "Talking to a financial advisor sheds light on new budgeting strategies. You learn to manage your resources wisely, transforming anxiety into proactive steps. It’s a process, but you begin to feel empowered to handle future challenges.",
+      "image_prompt": null,
+      "tone": "hopeful"
+    }
+  }
+}

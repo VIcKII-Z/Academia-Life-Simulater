@@ -208,6 +208,40 @@ app.get("/api/presets", async (_req, res) => {
 });
 
 /**
+ * In-memory cache of the full official country list (fetched once per
+ * process — the list of ~195 countries is effectively static). Powers
+ * QuizFlow's CountryStep so country selection is validated against real
+ * countries instead of accepting arbitrary free text.
+ */
+let countryListCache: string[] | null = null;
+
+/**
+ * Full list of real country names, used so the "Country" quiz step is a
+ * search-only picker (like City/University) instead of accepting any typed
+ * text. Small enough (~195 entries) to send in one response and let the
+ * frontend filter locally rather than round-tripping per keystroke.
+ */
+app.get("/api/countries", async (_req, res) => {
+  if (countryListCache) {
+    res.json(countryListCache);
+    return;
+  }
+  try {
+    const response = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+    if (!response.ok) {
+      res.json([]);
+      return;
+    }
+    const payload = (await response.json()) as { error?: boolean; data?: { name: string }[] };
+    const names = !payload.error && Array.isArray(payload.data) ? payload.data.map((c) => c.name).sort() : [];
+    countryListCache = names;
+    res.json(names);
+  } catch {
+    res.json([]);
+  }
+});
+
+/**
  * Proxies university name search to the free Hipolabs University API
  * (universities.hipolabs.com) so QuizFlow's UniversityStep can search
  * universities beyond the small offline curated list (e.g. China, Germany,
@@ -217,12 +251,133 @@ app.get("/api/presets", async (_req, res) => {
  * to an empty array rather than an error, so the frontend's manual
  * country/city fallback still works if this is unreachable.
  */
+/**
+ * In-memory cache of {country|city -> bounding box}, used to scope the
+ * university search to the actual chosen city (see below) without
+ * re-geocoding on every keystroke of a debounced search.
+ */
+const cityBboxCache = new Map<string, [string, string, string, string] | null>();
+
+/** Nominatim (OpenStreetMap) requires a descriptive User-Agent identifying
+ * the app per its usage policy — a generic/browser-like UA can get requests
+ * throttled or blocked. */
+const NOMINATIM_USER_AGENT = "FutureLifeSimulator/1.0 (study-abroad game prototype)";
+
+async function geocodeCityBbox(country: string, city: string): Promise<[string, string, string, string] | null> {
+  const key = `${country.trim().toLowerCase()}|${city.trim().toLowerCase()}`;
+  if (cityBboxCache.has(key)) return cityBboxCache.get(key) ?? null;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const params = new URLSearchParams({ city, country, format: "json", limit: "1" });
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
+      signal: controller.signal,
+      headers: { "User-Agent": NOMINATIM_USER_AGENT },
+    });
+    if (!res.ok) {
+      cityBboxCache.set(key, null);
+      return null;
+    }
+    const data = (await res.json()) as { boundingbox?: [string, string, string, string] }[];
+    const box = data[0]?.boundingbox ?? null;
+    cityBboxCache.set(key, box);
+    return box;
+  } catch {
+    cityBboxCache.set(key, null);
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/**
+ * Accurate, city-scoped university search via OpenStreetMap/Nominatim: geocodes
+ * the chosen city to a bounding box, then free-text-searches within that box
+ * only, keeping just amenity/building results tagged as an actual
+ * university/college. This is what actually fixes "Columbia University"
+ * (New York) showing up as a suggestion for "Santa Clara" — the previous
+ * Hipolabs-backed search only ever scoped by country (it has no per-record
+ * city field to filter on), so any query text matched regardless of city.
+ * Returns null (not []) when the city itself couldn't be geocoded, so the
+ * caller can fall back to the country-only search instead of silently
+ * showing zero results for a real but unrecognized city.
+ *
+ * Runs two bounded queries in parallel: the raw typed text, and the same
+ * text with " university"/" college" appended. Nominatim's free-text search
+ * behaves like a geocoder (best single place match) rather than a full
+ * substring POI index, so a bare query like "santa clara" alone resolves to
+ * the city's own boundary and never surfaces "Santa Clara University" —
+ * appending the keyword nudges it toward the actual campus entry while the
+ * raw-text query still wins for exact/partial official names typed as-is
+ * (e.g. "columbia").
+ */
+async function searchUniversitiesInCity(
+  name: string,
+  country: string,
+  city: string,
+): Promise<{ name: string; country: string }[] | null> {
+  const bbox = await geocodeCityBbox(country, city);
+  if (!bbox) return null;
+  const [south, north, west, east] = bbox;
+  const viewbox = `${west},${north},${east},${south}`;
+
+  async function boundedSearch(query: string): Promise<{ name: string; type: string }[]> {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    try {
+      const params = new URLSearchParams({ q: query, format: "json", limit: "20", viewbox, bounded: "1" });
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
+        signal: controller.signal,
+        headers: { "User-Agent": NOMINATIM_USER_AGENT },
+      });
+      if (!res.ok) return [];
+      return (await res.json()) as { name: string; type: string }[];
+    } catch {
+      return [];
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  const lowerName = name.toLowerCase();
+  const alreadyHasKeyword = /\b(university|college)\b/.test(lowerName);
+  const [rawResults, keywordResults] = await Promise.all([
+    boundedSearch(name),
+    alreadyHasKeyword ? Promise.resolve([]) : boundedSearch(`${name} university`),
+  ]);
+
+  const seen = new Set<string>();
+  const results: { name: string; country: string }[] = [];
+  for (const entry of [...rawResults, ...keywordResults]) {
+    if (entry.type !== "university" && entry.type !== "college") continue;
+    const key = entry.name.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    results.push({ name: entry.name, country });
+  }
+  return results.slice(0, 8);
+}
+
 app.get("/api/universities/search", async (req, res) => {
   const name = typeof req.query.name === "string" ? req.query.name.trim() : "";
   const country = typeof req.query.country === "string" ? req.query.country.trim() : "";
+  const city = typeof req.query.city === "string" ? req.query.city.trim() : "";
   if (!name && !country) {
     res.json([]);
     return;
+  }
+
+  // When a city is known, prefer the geocode-bounded OSM search — it's the
+  // only source here that's actually scoped to the real city, not just the
+  // country. Only fall back to the country-wide Hipolabs search below if
+  // the city couldn't be geocoded at all (unusual/misspelled city name).
+  if (name && city) {
+    const cityScoped = await searchUniversitiesInCity(name, country, city);
+    if (cityScoped !== null) {
+      res.json(cityScoped);
+      return;
+    }
   }
 
   const controller = new AbortController();
@@ -301,6 +456,84 @@ app.get("/api/universities/search", async (req, res) => {
     res.json([]);
   } finally {
     clearTimeout(timeout);
+  }
+});
+
+/**
+ * In-memory cache of {country -> full city list}, keyed lowercase. The
+ * upstream API (see below) only supports "give me every city in this
+ * country", not a name-filtered query, so we fetch a country's full list
+ * once and filter/rank it locally on every subsequent request — avoids
+ * re-fetching the same (sometimes 10k+ entry) list on every keystroke.
+ * Never expires within a run: city lists don't change during a session,
+ * and a hackathon-scope process restart is an acceptable cache-bust.
+ */
+const cityListCache = new Map<string, string[]>();
+
+async function fetchCitiesForCountry(country: string): Promise<string[]> {
+  const key = country.trim().toLowerCase();
+  const cached = cityListCache.get(key);
+  if (cached) return cached;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 6000);
+  try {
+    const res = await fetch(
+      `https://countriesnow.space/api/v0.1/countries/cities/q?country=${encodeURIComponent(country)}`,
+      { signal: controller.signal },
+    );
+    if (!res.ok) return [];
+    const payload = (await res.json()) as { error?: boolean; data?: string[] };
+    const cities = !payload.error && Array.isArray(payload.data) ? payload.data : [];
+    cityListCache.set(key, cities);
+    return cities;
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/**
+ * Live, accurate worldwide city search scoped to a country, backing
+ * QuizFlow's CityStep. Needed because our offline curated city list
+ * (frontend/src/data/universities.ts) only contains the handful of cities
+ * that already have a hand-authored university entry — e.g. no "Santa
+ * Barbara"/"Santa Cruz"/"Santa Fe" for the US — so typing any real city
+ * outside that tiny set previously had nowhere to go. Proxied through the
+ * backend (like /api/universities/search) since the upstream API has no
+ * CORS headers for a same-origin browser fetch. Best-effort: any failure
+ * resolves to an empty array so the curated chips + manual free-text entry
+ * in CityStep still work if this is unreachable.
+ */
+app.get("/api/cities/search", async (req, res) => {
+  const country = typeof req.query.country === "string" ? req.query.country.trim() : "";
+  const name = typeof req.query.name === "string" ? req.query.name.trim() : "";
+  if (!country) {
+    res.json([]);
+    return;
+  }
+
+  try {
+    const allCities = await fetchCitiesForCountry(country);
+    const q = name.toLowerCase();
+    const matches = q ? allCities.filter((city) => city.toLowerCase().includes(q)) : allCities;
+
+    // Relevance rank: exact match, then starts-with, then contains — same
+    // pattern as /api/universities/search, so "Santa" surfaces "Santa
+    // Barbara"/"Santa Cruz"/"Santa Fe"/etc. before unrelated cities that
+    // merely contain "santa" mid-word.
+    const rank = (city: string): number => {
+      const c = city.toLowerCase();
+      if (c === q) return 0;
+      if (c.startsWith(q)) return 1;
+      return 2;
+    };
+    matches.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+
+    res.json(matches.slice(0, 8));
+  } catch {
+    res.json([]);
   }
 });
 

@@ -1,0 +1,200 @@
+{
+  "story_id": "tokyo_cs_linear_test",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Tokyo creates a shared challenge for graduate students in Computer Science.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "node2": {
+      "type": "challenge",
+      "scene_text": "After settling into a modest apartment, you find yourself immersed in your first week of classes in a rigorous Computer Science program. Demanding coursework fills your schedule, and you realize the importance of maintaining a work-life balance. As you venture out to get groceries in the humidity, you dread the idea of eating convenience food for the workweek, knowing it's not the healthiest option.",
+      "image_prompt": "A grocery store in Tokyo with a variety of food options, showing a graduate student contemplating choices amid the humidity.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Opt for convenient food to save time.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 5
+          },
+          "stat_reason": "Convenience foods save time but negatively impact health."
+        },
+        {
+          "text": "Buy fresh produce, even if it costs more.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Fresh food costs more but improves health."
+        }
+      ]
+    },
+    "node3": {
+      "type": "challenge",
+      "scene_text": "With your course load increasing, you're reminded of the importance of relationships with your advisor. You're feeling a bit overwhelmed, and the cultural nuances of communication in this hierarchical system add to your anxiety. You're considering paying for extra support like language lessons to help you blend in better academically and socially.",
+      "image_prompt": "A student sitting at a small desk, surrounded by books and laptops, looking at a list of language classes.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Enroll in Japanese lessons to help with integration.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Language lessons may boost mood and belonging, but at an added cost."
+        },
+        {
+          "text": "Focus solely on your classes and skip the lessons.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Neglecting language lessons may lead to feelings of isolation."
+        }
+      ]
+    },
+    "node4": {
+      "type": "challenge",
+      "scene_text": "As the semester progresses, you face a looming project deadline in your AI lab. The workload is heavy, and balancing it with part-time work becomes a juggling act. Each day feels longer, and fatigue is settling in. A hurricane warning has just come through, adding stress to your already full schedule. You need to decide between focusing on your project or putting in hours at your part-time job.",
+      "image_prompt": "A busy graduate student working late in a lab, stacks of papers and a computer screen illuminated in a dim atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prioritize your project to avoid penalties.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -20,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Focusing on the project may worsen health due to lack of sleep."
+        },
+        {
+          "text": "Take extra hours at work to cover expenses.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Working extra shifts improves finances but harms health and mood."
+        }
+      ]
+    },
+    "node5": {
+      "type": "challenge",
+      "scene_text": "You manage to submit your project on time, but you feel drained. Following your hectic week, the upcoming typhoon is worrying you. You might need to choose between staying indoors to work on visa paperwork or attending a networking career fair to scout job opportunities in Japan. Both are important for your future.",
+      "image_prompt": "A student looking at a computer showing a career fair flyer while heavy rain falls outside a window.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Attend the career fair for networking.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Networking at the fair boosts mood but costs time and money."
+        },
+        {
+          "text": "Focus on securing your visa paperwork.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Focusing on visa paperwork helps health but risks missing networking."
+        }
+      ]
+    },
+    "node6": {
+      "type": "challenge",
+      "scene_text": "After completing your paperwork, you feel a weight lifted, but your finances are tighter than ever. With bills to pay and rent looming on the horizon, you need to think quickly about finding either an internship or another part-time job. The international student community offers resources but requires you to invest time in socializing, which feels overwhelming.",
+      "image_prompt": "A student sitting in a café with a laptop, looking at job postings and calculating expenses.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Apply for internships to secure future job prospects.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Internships boost mood and career confidence but cost time and health."
+        },
+        {
+          "text": "Join a study group within the international community.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Joining a study group raises mood and health but costs money."
+        }
+      ]
+    },
+    "node7": {
+      "type": "challenge",
+      "scene_text": "With your new internship or study group established, you feel like you're finally making progress academically and socially. However, you realize that managing your time has never been more crucial. You are now juggling more responsibilities between classes, your part-time job, and the new internship, and something has to give. You need to decide how to manage your time and commitments moving forward.",
+      "image_prompt": "A student, stressed but focused, is writing a schedule at a desk surrounded by textbooks and a laptop.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Create a strict study schedule to manage time better.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "A strict schedule improves academic performance but increases stress."
+        },
+        {
+          "text": "Leave some flexibility in your schedule for downtime.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Flexibility increases health and mood, but may hinder academic progress."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "opening": {
+      "scene_text": "You arrive in Tokyo, a vibrant metropolis buzzing with energy, neon lights, and endless opportunities. As a new Computer Science graduate student, the realization of how high the cost of living is starts to settle in, especially as you look around at available apartments near campus. You feel a mix of excitement and apprehension about the journey ahead. With a graduate stipend and the weight of bills lingering in your mind, you know you must navigate this city wisely.",
+      "image_prompt": "A bustling Tokyo street scene filled with neon lights and people, capturing a sense of arrival and excitement.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "ending": {
+      "scene_text": "As the semester comes to a close, you reflect on the struggles you've faced as a graduate student in Tokyo. The balance between health, mood, and finances has been a constant battle. However, the support of your community and the skills you've gained through internships have made it a rewarding experience. As you step outside into the bustling streets of Tokyo, you recognize the growth and resilience you've developed in this vibrant city.",
+      "image_prompt": "A student standing at a busy street corner in Tokyo with bright lights, looking more confident and accomplished.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

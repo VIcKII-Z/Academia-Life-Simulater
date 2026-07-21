@@ -1,0 +1,7 @@
+2026-07-19T11:53:53.892Z Run started for story_id=christchurch_2f60d590c7f4
+2026-07-19T11:53:53.892Z [search] started
+2026-07-19T11:54:10.917Z [search] completed in 17024ms -> 01_search_report.json
+2026-07-19T11:54:10.917Z [design] started
+2026-07-19T11:54:36.988Z [design] completed in 26070ms -> 02_design_skeleton.json
+2026-07-19T11:54:36.988Z [artist] started
+2026-07-19T11:59:45.159Z [artist] completed in 308168ms -> 03_artist_final.json

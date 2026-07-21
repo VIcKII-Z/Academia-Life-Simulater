@@ -1,0 +1,7 @@
+2026-07-20T03:45:50.176Z Run started for story_id=berkeley_d2dce1250e78
+2026-07-20T03:45:50.176Z [search] started
+2026-07-20T03:46:05.953Z [search] completed in 15776ms -> 01_search_report.json
+2026-07-20T03:46:05.953Z [design] started
+2026-07-20T03:46:41.978Z [design] completed in 36023ms -> 02_design_skeleton.json
+2026-07-20T03:46:41.979Z [artist] started
+2026-07-20T03:49:44.053Z [pipeline] FAILED: 400 Billing hard limit has been reached.

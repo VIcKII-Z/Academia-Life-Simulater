@@ -1,0 +1,3 @@
+2026-07-19T05:57:28.949Z Run started for story_id=tokyo_c2be145f8484
+2026-07-19T05:57:28.949Z [search] started
+2026-07-19T05:57:29.714Z [pipeline] FAILED: Live Search failed through the relay. This path uses the OpenAI Responses API with web_search_preview, which many relays do not support. Use official OpenAI for live_search, or confirm the relay supports /responses and web_search_preview. Original error: 401 无效的令牌 (request id: 20260719135729769526427ROWCNRSB)

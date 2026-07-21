@@ -1,0 +1,284 @@
+{
+  "story_id": "berkeley_6243dfd9997b",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights the high cost of living and academic pressures, creating a universal challenge for all students.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "Data Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "You've just arrived in Berkeley, a vibrant city with a diverse culture. The air is crisp, and a sense of excitement fills the atmosphere as students bustle around you, discussing classes and upcoming events. As you step into your new apartment, the reality of high living costs hits you — rent will take up a big chunk of your budget. You remember the stories about the rigorous Master of Information and Data Science program at UC Berkeley and the responsibilities that await you.",
+      "image_prompt": "A bustling street in Berkeley, with students moving between classes, surrounded by colorful buildings and signs of campus life.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore the campus and find student organizations.",
+          "next_node": "campus_explore",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0
+          },
+          "stat_reason": "Engaging with student organizations can enhance your sense of belonging."
+        },
+        {
+          "text": "Focus on budgeting your expenses for the first month.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 8
+          },
+          "stat_reason": "Prioritizing finances helps secure future well-being but can be stressful."
+        }
+      ]
+    },
+    "campus_explore": {
+      "type": "node",
+      "scene_text": "As you wander around the UC Berkeley campus, you discover the Data Science Society, a club focused on networking and projects. The environment is welcoming, and the members encourage you to join their upcoming project. With your heart lifted by the potential connections, you also note that you could use more time to study, but the temptation of social engagement is strong.",
+      "image_prompt": "A lively scene at UC Berkeley’s campus where students gather around tables talking and presenting project ideas.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join the Data Science Society and participate in their projects.",
+          "next_node": "join_society",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": -10
+          },
+          "stat_reason": "Joining the society increases mood through community but reduces finances due to membership costs."
+        },
+        {
+          "text": "Decline the offer and focus on your introduction to Data Science Programming class.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Focusing on academics may decrease social engagement but keeps your priorities straight."
+        }
+      ]
+    },
+    "join_society": {
+      "type": "node",
+      "scene_text": "You've decided to join the Data Science Society. The first meeting is filled with brainstorming for a real-world data science project. While this energizes you, the time commitment is considerable, which makes you worried about keeping up with your core courses. The pressure to perform well in your studies looms large.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Skip the next meeting to study for your Statistics for Data Science course.",
+          "next_node": "study_statistics",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Prioritizing studies at times may hurt social engagement but keeps grades on track."
+        },
+        {
+          "text": "Attend the meeting and try to balance both commitments.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": -10,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Trying to balance commitments could lead to fatigue but boosts mood through social interaction."
+        }
+      ]
+    },
+    "study_statistics": {
+      "type": "node",
+      "scene_text": "As you hit the books for Statistics for Data Science, the concepts feel daunting. You spend hours poring over your notes from the introduction to Data Science Programming class, but the isolation of studying alone is starting to dull your excitement. Your academic confidence is tested as you reflect on complexities of the course.",
+      "image_prompt": "A student surrounded by books and notes in a quiet study space, focusing intently on their studies.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to a classmate for support and study together.",
+          "next_node": "study_together",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Connecting with peers can enhance mood and academic support."
+        },
+        {
+          "text": "Continue studying in isolation, determined to master the material.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": -10,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Studying in isolation improves focus at a cost to health and mood."
+        }
+      ]
+    },
+    "study_together": {
+      "type": "node",
+      "scene_text": "You connected with a classmate and studied statistics together, which turned out to be a fantastic idea. Your understanding deepens and the process is less lonely. However, the time spent with them cuts into your ability to complete assignments on time, raising concerns about your workload.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Prioritize finishing your assignments instead of socializing.",
+          "next_node": "finish_assignments",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Focusing on assignments sacrifices some social benefits but helps maintain grades."
+        },
+        {
+          "text": "Invite them to join you for a program event next week.",
+          "next_node": "leave_job",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Fostering new friendships lifts mood but incurs costs if socializing continues."
+        }
+      ]
+    },
+    "finish_assignments": {
+      "type": "node",
+      "scene_text": "You dedicated time to finish your assignments, ensuring your academic requirements are met. Although your grades improve as a result, the weight of stress settles heavily on your shoulders. Balancing your responsibilities seems to draw closer to breaking point with an upcoming capstone project deadline looming.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek help from Professor David Bamman during office hours.",
+          "next_node": "office_hours_bamman",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0
+          },
+          "stat_reason": "Accessing faculty support enhances mood and academic confidence."
+        },
+        {
+          "text": "Attempt to tackle the project independently.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": -15,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Going solo could lead to burnout and negatively impact both health and mood."
+        }
+      ]
+    },
+    "office_hours_bamman": {
+      "type": "node",
+      "scene_text": "Visiting Professor Bamman's office, you explain your project ideas and seek guidance. His advice is illuminating, and you feel much more confident in your direction. Leaving his office, you feel lighter, but you recall the many expenses you've accrued already this month. It's a fine line between academic success and financial strain.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look for part-time work on campus to help cover costs.",
+          "next_node": "search_part_time",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Seeking work increases finances but might take a toll on health and mood."
+        },
+        {
+          "text": "Apply for scholarships or financial aid with the next deadline approaching.",
+          "next_node": "leave_job",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Applying for aid enhances mood by providing hope for relief, but requires time."
+        }
+      ]
+    },
+    "search_part_time": {
+      "type": "node",
+      "scene_text": "You start searching for part-time jobs around campus, feeling a mix of exhaustion and determination. The possibilities are limited due to your F-1 visa restrictions, but you find a position in the campus library that seems promising. However, working can impact your health and academic performance.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Accept the library position to help pay for rent.",
+          "next_node": "accept_library_job",
+          "stat_delta": {
+            "health": -15,
+            "mood": 0,
+            "money": 20
+          },
+          "stat_reason": "Taking the job helps finances but may lead to exhaustion."
+        },
+        {
+          "text": "Continue looking for other opportunities that fit your schedule.",
+          "next_node": "leave_job",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Holding out for a better fit might hurt finances in the short term."
+        }
+      ]
+    },
+    "accept_library_job": {
+      "type": "node",
+      "scene_text": "You've decided to accept the library position. The work is manageable, but soon you find yourself overwhelmed by your studies, job responsibilities, and social life. Your health begins to suffer, revealing the extent of stress caused by your numerous commitments. The capstone project deadline approaches fast, and you feel the weight of your decisions.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Request a temporary leave from the job to focus on your studies.",
+          "next_node": "leave_job",
+          "stat_delta": {
+            "health": 10,
+            "mood": -10,
+            "money": -20
+          },
+          "stat_reason": "Prioritizing academics might alleviate health issues at a cost to finances."
+        },
+        {
+          "text": "Continue managing both responsibilities, aiming to prove you can handle it all.",
+          "next_node": "prove_yourself",
+          "stat_delta": {
+            "health": -25,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "Attempting to juggle both could lead to burnout and worsened health."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "leave_job": {
+      "scene_text": "You've bravely chosen to leave your job to focus on your capstone project. With your health improving, you immerse yourself in your work, producing something you're proud of. The project is well-received, and you feel a renewed sense of purpose. As graduation approaches, the skills you gained and the connections you made pave the way for exciting career opportunities ahead.",
+      "image_prompt": "A student smiling while presenting their capstone project in front of a panel, displaying confidence and pride.",
+      "has_image": true,
+      "tone": "bittersweet"
+    },
+    "prove_yourself": {
+      "scene_text": "Despite the warning signs of burnout, you push through, juggling your job and studies. Ultimately, you succeed in finishing your capstone project on time, but the toll it takes on your health and mood is evident. Graduation arrives, but the experience leaves you exhausted. You enter the job market, armed with your degree and a mixed sense of accomplishment and fatigue.",
+      "image_prompt": "A weary student receiving their diploma during graduation, reflecting a sense of achievement tinged with exhaustion.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

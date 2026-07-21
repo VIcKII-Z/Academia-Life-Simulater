@@ -1,0 +1,3 @@
+2026-07-20T04:57:23.070Z Run started for story_id=berkeley_5519540ea8b7
+2026-07-20T04:57:23.070Z [search] started
+2026-07-20T04:57:23.481Z [pipeline] FAILED: Live Search failed through the relay. This path uses the OpenAI Responses API with web_search_preview, which many relays do not support. Use official OpenAI for live_search, or confirm the relay supports /responses and web_search_preview. Original error: 401 无效的令牌 (request id: 20260720125723635832919w04St781)

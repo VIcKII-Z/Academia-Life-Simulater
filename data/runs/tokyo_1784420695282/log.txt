@@ -1,0 +1,7 @@
+2026-07-19T00:24:55.302Z Run started for story_id=tokyo_1784420695282
+2026-07-19T00:24:55.302Z [search] started
+2026-07-19T00:25:08.678Z [search] completed in 13375ms -> 01_search_report.json
+2026-07-19T00:25:08.679Z [design] started
+2026-07-19T00:25:34.872Z [design] completed in 26192ms -> 02_design_skeleton.json
+2026-07-19T00:25:34.872Z [artist] started
+2026-07-19T00:25:36.517Z [pipeline] FAILED: 429 当前分组上游负载已饱和，请稍后再试 (request id: 202607190825365205867877s4gJefc)

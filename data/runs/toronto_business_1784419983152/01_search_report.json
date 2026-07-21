@@ -1,0 +1,43 @@
+{
+  "mode": "preset",
+  "location": {
+    "country": "Canada",
+    "city": "Toronto"
+  },
+  "major": "Business Administration",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "Toronto rent is high relative to income, particularly downtown, but shared housing and suburbs offer more affordable options. Daily expenses are comparable to other major North American cities.",
+    "academic": "Business programs are competitive with a strong emphasis on group projects, case studies, and networking events. Coursework is manageable but success depends heavily on proactive engagement with career services.",
+    "visa": "Study permits are relatively straightforward, and Canada offers a well-defined post-graduation work permit pathway, making the visa process one of the more student-friendly in the world.",
+    "culture_shock": "Toronto is highly multicultural, which softens culture shock significantly. Social norms are generally informal and welcoming, though winters can be a real adjustment for students from warmer climates.",
+    "community": "Toronto has an extremely large and active international student and diaspora community across nearly every background, with abundant student clubs and cultural associations.",
+    "career": "Business graduates have solid access to finance, consulting, and tech-adjacent roles in Toronto's large economy, though competition for top-tier roles is intense.",
+    "safety": "Toronto is generally safe with normal big-city precautions; downtown areas are busy but low-violent-crime relative to comparable-sized US cities.",
+    "climate": "Cold, snowy winters from November to March and warm, pleasant summers; the winter adjustment is often cited as the most significant lifestyle change for new arrivals.",
+    "part_time_work": "International students can work up to 24 hours per week off-campus during studies, which is generous and commonly used to gain local work experience and offset costs."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Cold winters and short daylight can reduce energy and make commuting harder.",
+      "Part-time work plus group projects can lead to sleep loss if overloaded.",
+      "Shared housing farther from campus may increase commute fatigue."
+    ],
+    "mood": [
+      "Toronto's multicultural community can improve belonging if the player joins clubs.",
+      "Competitive networking culture can feel stressful and socially draining.",
+      "Winter isolation is a real adaptation challenge for students from warmer climates."
+    ],
+    "money": [
+      "High rent creates constant budget pressure, especially downtown.",
+      "Part-time work and internships can improve finances and local experience.",
+      "Networking events, transit, winter clothing, and case competitions add hidden costs."
+    ],
+    "city_major_specific_challenges": [
+      "Choose between a downtown apartment near networking events and cheaper suburban housing.",
+      "Balance case competition preparation against paid work shifts.",
+      "Spend money on professional clothes and events to improve business career prospects.",
+      "Manage winter fatigue during midterms and internship recruitment season."
+    ]
+  }
+}

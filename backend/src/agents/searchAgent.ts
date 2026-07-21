@@ -137,6 +137,12 @@ citable data for one of these five, omit that array entirely from "campus_life_p
 pad it with invented or generic entries) and note the gap in "gaps". It is completely fine for
 "campus_life_profile" to only have 1-2 of the five populated, or to be omitted altogether if none
 were found — partial real data beats complete fake data.
+Whenever possible, also capture the exact URL of the page each item came from (e.g. the course's
+own catalog/syllabus page like "https://www2.eecs.berkeley.edu/Courses/CS170/", a faculty
+directory profile page, a library's homepage, a club's homepage, an event's official page) in that
+item's "url" field, so the Design Agent can later cite the real source instead of a generic search
+link. Only include a "url" you actually found for that specific item — never guess or construct
+one; omit the field entirely if you don't have it.
 
 Similarly, for "career_profile", only add "notable_employers"/"recruiting_events"/
 "alumni_outcomes" if you found a real careers/recruiting-partners/alumni-outcomes page for this
@@ -174,11 +180,11 @@ Output strictly this JSON structure, no extra text:
   "student_life_profile": { "housing": "string", "commute": "string", "campus_support": "string", "community": "string", "safety": "string", "climate": "string" },
   "career_profile": { "local_industry": "string", "internship": "string", "work_authorization": "string", "language_or_networking_requirements": "string", "notable_employers": ["string, omit if none found"], "recruiting_events": ["string, omit if none found"], "alumni_outcomes": ["string, omit if none found"] },
   "campus_life_profile": {
-    "notable_courses": [{ "title": "string", "code": "string|omit", "note": "string|omit" }],
-    "notable_faculty": [{ "name": "string", "title": "string|omit", "research_area": "string|omit" }],
-    "libraries": [{ "name": "string", "note": "string|omit" }],
-    "clubs": [{ "name": "string", "note": "string|omit" }],
-    "events": [{ "name": "string", "note": "string|omit" }]
+    "notable_courses": [{ "title": "string", "code": "string|omit", "note": "string|omit", "url": "string|omit" }],
+    "notable_faculty": [{ "name": "string", "title": "string|omit", "research_area": "string|omit", "url": "string|omit" }],
+    "libraries": [{ "name": "string", "note": "string|omit", "url": "string|omit" }],
+    "clubs": [{ "name": "string", "note": "string|omit", "url": "string|omit" }],
+    "events": [{ "name": "string", "note": "string|omit", "url": "string|omit" }]
   },
   "sources": [ { "title": "string", "url": "string", "source_type": "official_registry|program_official|department|catalog|handbook|international_office|tuition|housing|career|forum|third_party|reference", "confidence": "official_registry|high|medium|low", "used_for": ["academic","money","visa"] } ],
   "gaps": ["explicit notes on missing/unconfirmed information, or which fallback tier was used"]

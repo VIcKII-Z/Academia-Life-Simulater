@@ -1,0 +1,402 @@
+{
+  "story_id": "tokyo_7de137311842_1784427808576",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living and language barriers create universal challenges for all international students in Tokyo.",
+  "user_profile": {
+    "country": "USA",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As the plane touched down at Narita Airport, a mix of excitement and anxiety coursed through you. Tokyo, a sprawling metropolis, bustled with energy and noise. Tall buildings loomed overhead, and the scent of unfamiliar foods wafted through the air. After completing the immigration process, you stepped out into the humid summer heat—this was it, your new home for the next chapter of your life. You gazed at the vibrant advertising screens and felt both exhilarated and overwhelmed as you made your way to your first accommodation in Shibuya.",
+      "image_prompt": "A bustling Tokyo airport arrival scene, filled with vibrant advertisements and crowded spaces, showcasing the energy of the city.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore Shibuya and find local eateries.",
+          "next_node": "shibuya_exploration",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Venturing into the city boosts mood but leads to spending at local food stalls."
+        },
+        {
+          "text": "Head straight to your accommodation to rest.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Resting improves health but may contribute to feelings of isolation."
+        }
+      ]
+    },
+    "shibuya_exploration": {
+      "type": "normal",
+      "scene_text": "Walking down the bustling streets of Shibuya, neon lights reflecting in your eyes, you discover a small ramen shop tucked away from the main thoroughfare. The comforting smell of broth and pork fills the air, drawing you inside. After finishing your meal, a friendly local strikes up a conversation, helping you practice your Japanese. However, the vibrant energy of the area is also intimidating, and you quickly realize how fast-paced life here is compared to back home.",
+      "image_prompt": "A lively Shibuya street scene filled with people, neon lights, and food stalls, capturing the essence of Tokyo.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Join a nearby international student welcome group.",
+          "next_node": "welcome_group",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Joining the welcome group boosts mood from social interactions but slightly impacts your budget."
+        },
+        {
+          "text": "Stay longer and explore more of Shibuya.",
+          "next_node": "extended_exploration",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "An extended outing increases expenses and fatigue due to the summer heat."
+        }
+      ]
+    },
+    "settling_in": {
+      "type": "normal",
+      "scene_text": "Once settled into your small but cozy apartment, you take a moment to absorb your surroundings. The faint sounds of the city filter through your window, reminding you how alive Tokyo is. You pull out your laptop to tackle coursework for your computer science classes that start soon. However, as you scan through the daunting syllabus, anxiety begins to creep in, making you worry about managing your time and finances.",
+      "image_prompt": "A small, cozy Tokyo apartment with a laptop open on a desk, reflecting a student’s life.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Reach out to a professor for guidance.",
+          "next_node": "lasting_fun",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Seeking guidance from a professor boosts academic confidence."
+        },
+        {
+          "text": "Spend time looking for part-time job opportunities.",
+          "next_node": "job_search",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 15
+          },
+          "stat_reason": "Searching for jobs may relieve money stress but takes a toll on your health."
+        }
+      ]
+    },
+    "welcome_group": {
+      "type": "normal",
+      "scene_text": "The welcome group introduces you to fellow international students, who share their experiences and concerns about adjusting to life in Tokyo. Over snacks, conversations flourish, and you find comfort in sharing challenges. However, you overhear some members discussing the high costs associated with living in the city, which heightens your apprehension about managing your own finances in this new environment.",
+      "image_prompt": "A group of international students gathered in a casual setting discussing their experiences over snacks.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan to attend a cultural orientation.",
+          "next_node": "cultural_orientation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Cultural orientation enhances mood but incurs some cost."
+        },
+        {
+          "text": "Skip it and rely on self-learning.",
+          "next_node": "ending_failure",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Choosing not to engage risks feelings of isolation and lowers mood."
+        }
+      ]
+    },
+    "extended_exploration": {
+      "type": "normal",
+      "scene_text": "The sun begins to set, casting a warm glow over Shibuya as you continue to explore. You marvel at the fashion, street art, and lively conversations around you; yet underneath, weariness settles in from the heat and long day. As you finally find a quiet spot to rest, you sense the emotional toll the day's excitement and your new environment are starting to take.",
+      "image_prompt": "A sunset in Shibuya capturing the vibrant city and its atmosphere, with people enjoying the evening.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head home to recharge.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 10,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Returning home boosts health while decreasing mood due to missing out on fun."
+        },
+        {
+          "text": "Grab a drink and socialize more.",
+          "next_node": "nightlife",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Socializing raises mood but heavily impacts health and finances."
+        }
+      ]
+    },
+    "job_search": {
+      "type": "normal",
+      "scene_text": "As you sift through job listings in Tokyo's online forums, you realize many openings require proficiency in Japanese. Each rejection feels like a blow to your confidence. Nonetheless, you manage to secure an interview for a part-time position in a tech-related café, which gives you some hope. Balancing this job with your studies will be intricate, but the income might relieve some financial stress as tuition fees loom ahead.",
+      "image_prompt": "An overwhelmed student looking at a computer with job listings open on the screen, against a backdrop of classroom items.",
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Prepare thoroughly for the interview.",
+          "next_node": "lasting_fun",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Putting effort into interview preparation can boost mood while affecting health."
+        },
+        {
+          "text": "Practice Japanese with locals to improve communication.",
+          "next_node": "ending_success",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Practicing Japanese enhances mood but incurs transportation costs."
+        }
+      ]
+    },
+    "cultural_orientation": {
+      "type": "normal",
+      "scene_text": "At the cultural orientation, you engage in activities designed to ease your transition—learning about traditional customs, social expectations, and basic language skills. Connecting with a Japanese student who offers to help answer your questions reassures you that you're not alone. Yet as the session wraps, you are reminded of the financial burden of living expenses and tuition, casting a shadow over the positive experience.",
+      "image_prompt": "Students participating in a cultural orientation session, focusing on Japanese customs and language.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Meet your new friend for coffee.",
+          "next_node": "new_friend_coffee",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -15
+          },
+          "stat_reason": "Socializing enhances mood but costs money."
+        },
+        {
+          "text": "Head home to reflect on the day's insights.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Taking time to reflect improves health, yet can lead to loneliness."
+        }
+      ]
+    },
+    "nightlife": {
+      "type": "normal",
+      "scene_text": "As you enjoy a night in Shibuya, the vibrant nightlife enchants you. Surrounded by music and laughter, you find yourself mingling with locals and fellow students. A fleeting moment of joy washes over you, but you notice the toll this outing takes on your body, especially after a long day. By the time you decide to head home, the late hour also makes getting back a challenge. You dread the early class tomorrow.",
+      "image_prompt": "A lively night scene in Shibuya with lights, people dancing, and an atmosphere of celebration.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Take a taxi home to ensure safety.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -25
+          },
+          "stat_reason": "Opting for a safe ride raises mood but is costly."
+        },
+        {
+          "text": "Use the subway to save money.",
+          "next_node": "late_night_subway",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Using the subway saves money but increases fatigue and risk during late hours."
+        }
+      ]
+    },
+    "late_night_subway": {
+      "type": "normal",
+      "scene_text": "The subway is eerily quiet as you navigate the dark corridors, eager to return home. However, the journey tests your endurance as fatigue sets in. You feel a mix of unease and relief as you finally arrive at your station. The city looks different at night, shadows creeping in, and the slight chill in the air hints at the changing seasons ahead. Your mind races with thoughts of tomorrow’s classes, but the need for sleep beckons louder.",
+      "image_prompt": "A dimly lit subway platform in Tokyo, quiet and secluded, with a lone student waiting for a train.",
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Rush home for rest.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 10,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Returning home to rest improves health but worsens mood due to anxiety."
+        },
+        {
+          "text": "Stop for a quick snack on the way.",
+          "next_node": "late_night_snack",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Stopping for a snack can improve mood slightly but affects health and finances."
+        }
+      ]
+    },
+    "new_friend_coffee": {
+      "type": "normal",
+      "scene_text": "Meeting your new friend for coffee brings you joy and laughter, lightening the weight of adjustment. They share experiences that resonate with your own, helping you feel more at home. However, while engaging in this new friendship, you can't help but feel the tight grip of your finances; every yen spent shrinks your budget further. The city feels a little less daunting with shared stories, yet your mind lingers on upcoming expenses.",
+      "image_prompt": "Two students enjoying coffee at a small café in Tokyo, surrounded by a cozy atmosphere and smiles.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Plan future outings to explore Tokyo together.",
+          "next_node": "ending_success",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -20
+          },
+          "stat_reason": "Planning outings boosts mood but takes a toll on finances."
+        },
+        {
+          "text": "Limit social interactions to save money.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Limiting outings can enhance financial stability but affects your mood."
+        }
+      ]
+    },
+    "late_night_snack": {
+      "type": "normal",
+      "scene_text": "As you grab a quick snack at a 24-hour convenience store, the nature of your surroundings strikes you—the familiarity of a late-night food run, yet in a foreign city. You savor the onigiri and feel comforted. However, the creeping exhaustion from your day reminds you of the fine line you walk between indulgence and financial reality as you calculate the cost of each choice. The energy needed for tomorrow’s classes weighs heavily on your mind.",
+      "image_prompt": "A cheerful convenience store at night in Tokyo filled with a variety of snacks and drinks.",
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Head home to rest after the snack.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": -10
+          },
+          "stat_reason": "Returning home after a snack brings health benefits but affects finances."
+        },
+        {
+          "text": "Stay out and explore food options.",
+          "next_node": "additional_exploration",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Exploring more food options boosts mood but impacts both health and your budget."
+        }
+      ]
+    },
+    "additional_exploration": {
+      "type": "normal",
+      "scene_text": "Your curiosity gets the better of you, and you decide to explore the food scene further at this late hour. However, each delicious bite lifts your spirits, while also deepening the financial hole you find yourself in. Engaging with street vendors challenges your language skills, but creating connections feels rewarding. As you wander under the glowing lights, the city's nightlife resonates with you, even as your fatigue grows.",
+      "image_prompt": "Street vendors in Tokyo offering a variety of local delicacies at night, bustling with energy.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head back to rest after indulging.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -20
+          },
+          "stat_reason": "Indulging raises mood but depletes health and finances."
+        },
+        {
+          "text": "Join other students enjoying the nightlife.",
+          "next_node": "end_night_out",
+          "stat_delta": {
+            "health": -20,
+            "mood": 20,
+            "money": -30
+          },
+          "stat_reason": "Joining others enhances mood significantly, but it's at a high cost to your health and wallet."
+        }
+      ]
+    },
+    "end_night_out": {
+      "type": "normal",
+      "scene_text": "The night takes a turn as excitement turns to exhaustion. You realize you’ve spent more than you intended while seeking connection among new friends in the nightlife. Returning home feels like a marathon, with your body protesting against the lack of sleep. Anxiety about upcoming assignments and the pressure of finances crash into your joyous mood. You find yourself increasingly aware that enjoying Tokyo may come with sacrifices.",
+      "image_prompt": "A weary student navigating the bustling streets of Tokyo at night, surrounded by the festive atmosphere.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Prioritize rest and sleep early.",
+          "next_node": "settling_in",
+          "stat_delta": {
+            "health": 15,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Choosing to rest boosts health but risks feeling left out socially."
+        },
+        {
+          "text": "Stay out longer to savor the city.",
+          "next_node": "lasting_fun",
+          "stat_delta": {
+            "health": -30,
+            "mood": 20,
+            "money": -50
+          },
+          "stat_reason": "Staying out risks health and significantly drains finances but enhances mood."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending_success": {
+      "scene_text": "Days blend into weeks as you continue to embrace Tokyo and make strides toward adapting. You've forged connections, improved your Japanese, and learned to navigate the demands of your coursework and living expenses. Although challenges remain, you find strength in your experiences and the support of new friends. Ultimately, Tokyo feels less intimidating and more like home, where every day brings new opportunities for growth and joy.",
+      "image_prompt": "Students happily engaged in coursework at a picturesque café in Tokyo, embodying a sense of growth and adaptation.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "ending_failure": {
+      "scene_text": "The struggles of balancing academics, social life, and financial stress catch up to you. As the weight of pressure mounts, you find yourself feeling overwhelmed, lost in a place that once felt promising. With critical grades slipping and finances in disarray, you realize that without support and changes in your approach, this dream could shatter. The vibrant lights of Tokyo, once enchanting, now serve as a reminder of aspirations unfulfilled.",
+      "image_prompt": "An empty Tokyo street late at night, reflecting a sense of loneliness and disappointment amidst the bright city lights.",
+      "has_image": true,
+      "tone": "challenging"
+    },
+    "lasting_fun": {
+      "scene_text": "Despite the risks, your choice to revel in Tokyo's nightlife pays off in memories forged and friendships built. However, as dawn breaks, you confront the toll of your choices—extreme fatigue and a significantly drained budget. Moving forward, you realize the balance between fun and responsibility will be your greatest challenge. Each choice from now on will weigh heavily on your journey through this vibrant city.",
+      "image_prompt": "A beautiful Tokyo sunrise after a long night out, showcasing the contrast between night and day.",
+      "has_image": true,
+      "tone": "bittersweet"
+    }
+  }
+}

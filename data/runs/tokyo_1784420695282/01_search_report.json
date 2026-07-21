@@ -1,0 +1,53 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Undergraduate",
+  "report": {
+    "cost_of_living": "Tokyo has one of the highest costs of living among Japanese cities. Monthly rent for a one-room apartment ranges from ¥80,000 to ¥100,000. Food costs also challenge international students due to ingredient prices and unfamiliarity, averaging ¥50,000–60,000 per month. Tuition for undergraduate computer science programs at public universities such as the University of Tokyo typically costs approximately ¥535,800 (~$3,600) per year, which is affordable compared to the U.S. and UK [Global Scholarships](https://globalscholarships.com/cost-studying-living-japan/) [Japan Dev](https://japan-dev.com/blog/computer-science-in-japan).",
+    "academic": "Japan offers cutting-edge Computer Science programs at prestigious institutions like the University of Tokyo, Tokyo Institute of Technology, and Kyoto University. These programs focus on AI, robotics, and software engineering, placing students at the forefront of global tech innovation. However, Japanese universities often prioritize hardware over software in their curricula, which may limit exposure to areas like modern software development [Leverage Edu](https://leverageedu.com/learn/best-computer-science-universities-in-japan/) [Japan Dev](https://japan-dev.com/blog/computer-science-in-japan).",
+    "visa": "International students in Japan typically receive a student visa with a duration matching their program length. However, visa regulations require adherence to strict rules, such as part-time work permits and residency conditions. While the government supports students who seek work post-graduation, processes for extensions and status changes can be lengthy [U-Tokyo Inbound](https://www.u-tokyo.ac.jp/adm/inbound/en/life.html).",
+    "culture_shock": "Tokyo's urban vibrance, coupled with its deep-rooted cultural norms, can be overwhelming for newcomers. Challenges include navigating language barriers and adapting to formal customs. However, a thriving international community offers cultural integration opportunities, easing the adjustment process [Study in Japan](https://www.studyinjapan.go.jp/).",
+    "community": "There are multiple resources for international students, including support from university-run centers like the University of Tokyo’s International Student Support Room. Numerous student associations provide community engagement opportunities but may primarily serve Japanese-speaking networks [U-Tokyo Inbound](https://www.u-tokyo.ac.jp/adm/inbound/en/life.html).",
+    "career": "Studying Computer Science in Tokyo can serve as a gateway to Japan’s innovative tech sector. Skilled professionals in AI, IoT, and robotics face growing demand amid an IT workforce shortage projected to reach 369,000 by 2025. However, tech companies tend to favor hardware expertise, which can limit job prospects for software-centered roles [Japan Dev](https://japan-dev.com/blog/computer-science-in-japan) [Leverage Edu](https://leverageedu.com/learn/best-computer-science-universities-in-japan/).",
+    "safety": "Tokyo ranks as one of the safest cities globally, supported by a low crime rate and well-organized emergency systems. Earthquakes are a notable safety concern, but robust disaster management protocols minimize risks [Life in Japan](https://www.u-tokyo.ac.jp/adm/inbound/en/life.html).",
+    "climate": "Tokyo experiences humid summers with temperatures surpassing 30°C and colder winters averaging 5°C. International students often face challenges such as heat stress and energy costs tied to air conditioning during summer months [Study in Japan](https://www.studyinjapan.go.jp/).",
+    "part_time_work": "International students may work part-time for 28 hours per week during the semester, with opportunities ranging from retail to language tutoring. While earning potential offsets some expenses, wages are usually insufficient to fully fund tuition and living costs [Study in Japan](https://www.studyinjapan.go.jp/) [U-Tokyo Finance](https://www.u-tokyo.ac.jp/adm/inbound/en/finance-living.html)."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Frequent physical fatigue due to long commutes typical in Tokyo.",
+      "Heat stress during Tokyo's humid summers requires careful energy and hydration management.",
+      "Availability of health services under Japan's National Health Insurance for emergencies.",
+      "Sleep disruptions linked to earthquake concerns or adjusting to cultural norms.",
+      "Limited nutritious food options for non-Japanese palates, leading to dietary adaptations."
+    ],
+    "mood": [
+      "Potential loneliness from adapting to culturally distinct Japanese social practices.",
+      "Stress from balancing academics with part-time work within limited time.",
+      "Relief from community-building efforts via international student groups.",
+      "Pressure from high academic standards at top-tier universities such as the University of Tokyo.",
+      "Culture shock navigating Tokyo's busy streets and highly formal societal norms."
+    ],
+    "money": [
+      "High rent costs due to Tokyo's housing market, often exceeding ¥80,000 monthly.",
+      "Scholarship opportunities like MEXT easing financial strain for eligible students.",
+      "Part-time jobs offset living costs but are limited by work-hour restrictions.",
+      "Daily commuting expenses due to reliance on extensive public transport networks.",
+      "Affordable tuition fees relative to Western education systems reduce overall debt."
+    ],
+    "city_major_specific_challenges": [
+      "Long commuting hours typical for Tokyo students, increasing fatigue.",
+      "Navigating Japanese language proficiency required for internships and social integration.",
+      "Adherence to hierarchical relationships with lab supervisors in university research programs.",
+      "Balancing research and personal projects under pressure to meet academic deadlines.",
+      "Heat management during Tokyo summers, compounded by busy campus schedules.",
+      "Finding affordable housing in a city with climbing rent levels.",
+      "Career opportunities shifting away from software due to cultural emphasis on hardware development.",
+      "Networking in Tokyo's tech industry often limited to Japanese-speaking contexts."
+    ]
+  }
+}

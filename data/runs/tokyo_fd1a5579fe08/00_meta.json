@@ -1,0 +1,27 @@
+{
+  "storyId": "tokyo_dbe4bd2c2a96",
+  "mode": "live_search",
+  "profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "major": "Computer Science",
+    "grade": "Graduate",
+    "school": "University of Tokyo",
+    "program": "MS in computer Science",
+    "department": "Graduate School of Informatic Sciences"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-19T05:48:34.198Z"
+}

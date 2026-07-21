@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import PassportCard from "../components/PassportCard";
 import QuizFlow from "../components/QuizFlow";
-import DreamingLoader from "../components/DreamingLoader";
+import TimeSkipLoader from "../components/TimeSkipLoader";
 import BackgroundMusic from "../components/BackgroundMusic";
-import SceneCard, { StatMeters } from "../components/SceneCard";
+import SceneCard, { StatMeters, STAT_CONFIG } from "../components/SceneCard";
+import StatFlyers, { type StatFlyer } from "../components/StatFlyers";
 import PostcardEnding from "../components/PostcardEnding";
 import AdmissionLetter from "../components/AdmissionLetter";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
@@ -12,11 +13,13 @@ import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPref
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfile } from "../types";
 
-type FlowStage = "passport" | "quiz" | "dreaming" | "admission" | "play" | "error";
+type FlowStage = "passport" | "quiz" | "admission" | "timeskip" | "play" | "error";
 
 function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
 }
+
+let flyerSeq = 0;
 
 export default function HomeFlow() {
   const [stage, setStage] = useState<FlowStage>(hasStoredApiKey() ? "quiz" : "passport");
@@ -29,6 +32,52 @@ export default function HomeFlow() {
   const [showKeyEditor, setShowKeyEditor] = useState(false);
   const [reusedStory, setReusedStory] = useState(false);
   const [imageGenerationEnabled, setImageGenerationEnabled] = useState(loadImageGenerationPreference);
+  const [flyers, setFlyers] = useState<StatFlyer[]>([]);
+  // Positions of each stat's sticker icon in the top app bar, so a flyer
+  // animation can be aimed at (or launched from) the exact right spot.
+  const statIconRefs = useRef<Partial<Record<keyof StatBlock, HTMLImageElement>>>({});
+  // Holds the in-flight /api/generate request so the agents can keep working
+  // in the background while the player reads the admission letter and makes
+  // their accept/decline call — instead of the player watching a blank
+  // "dreaming" screen and THEN reading the letter, the two happen at once,
+  // which shortens the total time-to-play whenever the letter + decision
+  // takes longer than the agents still needed.
+  const storyRequestRef = useRef<Promise<StoryDocument> | null>(null);
+
+  function registerStatIcon(key: keyof StatBlock, el: HTMLImageElement | null) {
+    if (el) statIconRefs.current[key] = el;
+    else delete statIconRefs.current[key];
+  }
+
+  /** Spawns one little flying sticker per stat the choice actually changed —
+   * gains fly from where the player clicked up into the app bar, losses drop
+   * out of the app bar and tumble away — then self-removes after its
+   * animation via StatFlyers' onAnimationEnd callback. */
+  function spawnStatFlyers(delta: StatBlock | undefined, originRect: DOMRect) {
+    if (!delta) return;
+    const originX = originRect.left + originRect.width / 2;
+    const originY = originRect.top + originRect.height / 2;
+    const next: StatFlyer[] = [];
+    for (const { key, sticker } of STAT_CONFIG) {
+      const change = delta[key] ?? 0;
+      if (change === 0) continue;
+      const iconEl = statIconRefs.current[key];
+      const targetRect = iconEl?.getBoundingClientRect();
+      const targetX = targetRect ? targetRect.left + targetRect.width / 2 : originX;
+      const targetY = targetRect ? targetRect.top + targetRect.height / 2 : originY - 120;
+      const id = `flyer-${flyerSeq++}`;
+      if (change > 0) {
+        next.push({ id, icon: sticker, x: originX, y: originY, dx: targetX - originX, dy: targetY - originY, kind: "gain" });
+      } else {
+        next.push({ id, icon: sticker, x: targetX, y: targetY, dx: (Math.random() - 0.5) * 60, dy: 90, kind: "loss" });
+      }
+    }
+    if (next.length > 0) setFlyers((current) => [...current, ...next]);
+  }
+
+  function removeFlyer(id: string) {
+    setFlyers((current) => current.filter((flyer) => flyer.id !== id));
+  }
 
   function toggleImageGeneration() {
     setImageGenerationEnabled((current) => {
@@ -38,41 +87,51 @@ export default function HomeFlow() {
     });
   }
 
-  async function startStory(nextProfile: UserProfile) {
+  function startStory(nextProfile: UserProfile) {
     setProfile(nextProfile);
-    setStage("dreaming");
     setError(null);
+    storyRequestRef.current = generateStory({
+      mode: "live_search",
+      profile: nextProfile,
+      runtimeConfig: buildRuntimeConfig(undefined, {
+        enableImageGeneration: imageGenerationEnabled,
+        maxImagesPerStory: imageGenerationEnabled ? 30 : 0,
+      }),
+    });
+    // The admission letter only needs the profile the player just entered
+    // (already the authoritative, fully-normalized values — school/program/
+    // department come straight from their search picks), so it can show
+    // immediately without waiting on the agents at all.
+    setStage("admission");
+  }
+
+  async function acceptOffer() {
+    setStage("timeskip");
+    const request = storyRequestRef.current;
     try {
       // Even a cache hit resolves in a few milliseconds (it's just a JSON
-      // file read), which made the "dreaming" loader flash by so fast it
-      // looked broken/skipped. Keep it on screen for a minimum stretch so
-      // the loading phase always feels real, whether the story was freshly
-      // generated or reused from the cache.
-      const minDreamTime = new Promise((resolve) => setTimeout(resolve, 4800));
-      const [doc] = await Promise.all([
-        generateStory({
-          mode: "live_search",
-          profile: nextProfile,
-          runtimeConfig: buildRuntimeConfig(undefined, {
-            enableImageGeneration: imageGenerationEnabled,
-            maxImagesPerStory: imageGenerationEnabled ? 30 : 0,
-          }),
-        }),
-        minDreamTime,
-      ]);
+      // file read), which would make the "time skip" loader flash by so fast
+      // it looked broken/skipped. Keep it on screen for a minimum stretch so
+      // the transition always feels real, whether the story was freshly
+      // generated, already finished while the player was on the letter, or
+      // reused from the cache.
+      const minSkipTime = new Promise((resolve) => setTimeout(resolve, 4200));
+      const [doc] = await Promise.all([request, minSkipTime]);
+      if (!doc) throw new Error("Story generation did not return a result.");
       setStory(doc);
       setCurrentNodeId(Object.keys(doc.nodes)[0] ?? "A");
       setStats({ ...DEFAULT_STATS, ...doc.initial_stats });
       setGameOverReason(null);
       setReusedStory(Boolean(doc.cached));
-      setStage("admission");
+      setStage("play");
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setStage("error");
     }
   }
 
-  function handleChoice(choice: Choice) {
+  function handleChoice(choice: Choice, originRect: DOMRect) {
+    spawnStatFlyers(choice.stat_delta, originRect);
     const nextStats = applyStatDelta(stats, choice.stat_delta);
     setStats(nextStats);
     const failedStat = getFailedStat(nextStats);
@@ -84,6 +143,7 @@ export default function HomeFlow() {
   }
 
   function restart() {
+    storyRequestRef.current = null;
     setStory(null);
     setProfile(null);
     setReusedStory(false);
@@ -92,31 +152,56 @@ export default function HomeFlow() {
 
   const currentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
-  const isPlaying = (stage === "play" || stage === "admission") && Boolean(story);
+  // Only the actual gameplay stage gets the wide, edge-to-edge "app shell"
+  // layout (sticky app bar + two-column stage) — admission/timeskip/error
+  // stay in the same centered single-card layout as onboarding, otherwise
+  // they'd inherit the play shell's stretch/no-padding rules and end up
+  // pinned to the top-left instead of centered on screen.
+  const hasAppBar = stage === "play" && Boolean(story);
+  const isCenteredStage = stage === "admission" || stage === "timeskip" || stage === "error";
 
   return (
-    <main className={`journal ${stage === "passport" || stage === "quiz" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
-      <BackgroundMusic playing={stage === "dreaming" || stage === "admission" || stage === "play"} />
+    <main
+      className={`journal ${stage === "passport" || stage === "quiz" ? "journal--onboarding" : ""} ${hasAppBar ? "journal--play" : ""} ${isCenteredStage ? "journal--centered" : ""}`}
+    >
+      <BackgroundMusic playing={stage === "admission" || stage === "timeskip" || stage === "play"} />
+      <StatFlyers flyers={flyers} onDone={removeFlyer} />
 
-      {isPlaying && story ? (
+      {hasAppBar && story ? (
         <header className="appBar">
-          <div className="appBarBrand">
-            <img className="appBarMascot" src="/branding/mascot.png" alt="" />
-            <img className="appBarLogo" src="/branding/title.png" alt="Future Life Simulator" />
+          <div className="appBarStart">
+            <div className="appBarBrand">
+              <img className="appBarMascot" src="/branding/mascot.png" alt="" />
+              <img className="appBarLogo" src="/branding/title.png" alt="Future Life Simulator" />
+            </div>
+            <div className="appBarProfile">
+              <span className="appBarProfileCity">{story.user_profile.school || story.user_profile.city}</span>
+              <span className="appBarProfileMeta">
+                {[story.user_profile.grade, story.user_profile.major].filter(Boolean).join(" · ")}
+              </span>
+            </div>
           </div>
-          <div className="appBarProfile">
-            <span className="appBarProfileCity">{story.user_profile.school || story.user_profile.city}</span>
-            <span className="appBarProfileMeta">
-              {[story.user_profile.grade, story.user_profile.major].filter(Boolean).join(" · ")}
-            </span>
+          <StatMeters stats={stats} registerIcon={registerStatIcon} />
+          <div className="appBarActions">
+            <button className="apiKeyEditTrigger apiKeyEditTrigger--inline" onClick={() => setShowKeyEditor(true)}>
+              <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
+            </button>
+            <button
+              className={`imageGenerationToggle imageGenerationToggle--inline${imageGenerationEnabled ? " active" : ""}`}
+              type="button"
+              aria-pressed={imageGenerationEnabled}
+              onClick={toggleImageGeneration}
+            >
+              <img className="imageGenerationToggleIcon" src={imageGenerationEnabled ? "/stickers/✅.png" : "/stickers/sparkle.png"} alt="" />
+              {imageGenerationEnabled ? "Images on" : "Images off"}
+            </button>
           </div>
-          <StatMeters stats={stats} />
         </header>
       ) : (
         <img className="journalTitleImage" src="/branding/title.png" alt="Future Life Simulator — Live, Learn, Grow" />
       )}
 
-      {stage !== "passport" && (
+      {stage !== "passport" && !hasAppBar && (
         <>
           <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
             <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> Travel key
@@ -126,7 +211,7 @@ export default function HomeFlow() {
             type="button"
             aria-pressed={imageGenerationEnabled}
             onClick={toggleImageGeneration}
-            disabled={stage === "dreaming"}
+            disabled={stage === "timeskip"}
           >
             <img className="imageGenerationToggleIcon" src="/stickers/sparkle.png" alt="" />
             {imageGenerationEnabled ? "Images on" : "Images off"}
@@ -144,11 +229,9 @@ export default function HomeFlow() {
 
       {stage === "quiz" && <QuizFlow onComplete={startStory} />}
 
-      {stage === "dreaming" && profile && <DreamingLoader profile={profile} />}
+      {stage === "admission" && profile && <AdmissionLetter profile={profile} onAccept={acceptOffer} onDecline={restart} />}
 
-      {stage === "admission" && story && (
-        <AdmissionLetter profile={story.user_profile} onContinue={() => setStage("play")} />
-      )}
+      {stage === "timeskip" && profile && <TimeSkipLoader profile={profile} />}
 
       {stage === "error" && (
         <div className="journalCard passportCard">
@@ -173,6 +256,7 @@ export default function HomeFlow() {
           <SceneCard
             node={currentNode}
             caption={`${story.user_profile.city}, ${story.user_profile.country}`}
+            schoolQuery={story.user_profile.school || story.user_profile.city}
             contextNote={story.framework_reason}
             sources={story.sources}
             onChoose={handleChoice}

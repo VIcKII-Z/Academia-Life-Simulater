@@ -1,0 +1,206 @@
+{
+  "story_id": "berkeley_dbff20bbf457",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Berkeley creates a substantial financial burden for students, leading to shared challenges among all students in the area.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "MS in Data Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "opening",
+      "scene_text": "As a new graduate student in the Master of Information and Data Science program at UC Berkeley, excitement mixes with anxiety. You've just arrived in Berkeley, greeted by the warmth of a Mediterranean climate and the vibrant atmosphere of campus life. The city buzzes with tech innovation, promising a future brimming with opportunities. Yet, the looming cost of living, with rents averaging around $2,500, weighs heavy in your mind. The campus orientation is starting soon, where you’ll meet fellow students in this multidisciplinary program. It's a chance to connect and immerse yourself in the culture—but are you ready?",
+      "image_prompt": "A vibrant scene of UC Berkeley campus under a sunny sky, students walking around, filled with excitement and anticipation.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Did you know that Berkeley has a high cost of living, making budgeting a critical aspect for students? Housing, utilities, and groceries costs can all exceed the national average.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_opening.png"
+    },
+    "node2": {
+      "type": "node",
+      "scene_text": "The orientation day has finally arrived, and the campus is bustling with new faces. You navigate through the lively crowd to attend a session on academic expectations for the MIDS program. The curriculum promises cutting-edge topics like Machine Learning and AI Ethics. However, a thought strikes you: How will you balance this with the potential isolation of online learning?",
+      "image_prompt": "A crowded orientation session at UC Berkeley, students engaged, sitting on chairs, with banners showcasing the MIDS program.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Adjusting to the diverse environment of Berkeley can be a major challenge for new students, particularly with a focus on collaborative online coursework.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node2.png"
+    },
+    "node3": {
+      "type": "node",
+      "scene_text": "Classes begin, and the workload is intense right from week one. You struggle to manage your time, balancing coursework for the Applied Machine Learning class while feeling the pressure to keep up with peers. Fortunately, campus support services are available, but finding time to utilize them seems daunting. You realize the importance of developing a study routine to improve your academic performance. ",
+      "image_prompt": "An academic setting with students studying diligently, laptops open, piles of textbooks scattered over tables.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Intensive coursework from the MIDS program can lead to heightened stress levels for students, highlighting the need for effective time management skills.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node3.png"
+    },
+    "node4": {
+      "type": "node",
+      "scene_text": "As the mid-term approaches, you receive an email about a networking event with local companies like Google and Facebook. You consider attending, knowing connections could lead to internships. However, it's an unpaid event, and you're unsure if you can afford to give up time from studying this crucial week. After deliberating, you decide maintaining academic standing is your priority.",
+      "image_prompt": "A networking event at UC Berkeley, students mingling with recruiters, booths set up for various tech companies.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Networking is essential in the competitive tech industry in the Bay Area, but students often face the dilemma of balancing academic responsibilities with such opportunities.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node4.png"
+    },
+    "node5": {
+      "type": "node",
+      "scene_text": "Mid-terms are here, and sleep has taken a backseat. You manage to pull off decent grades but at the cost of your health and well-being. The idea of grabbing fast food instead of cooking at home becomes tempting as you fall behind in meal prep. With limited finances, stress starts to build. Is it time to explore on-campus job opportunities?",
+      "image_prompt": "A student looking tired and overwhelmed at a desk piled high with notes, snacks, and takeout containers.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Balancing academic pressures with personal well-being is challenging for students, especially when managing health can be overlooked during busy periods.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node5.png"
+    },
+    "node6": {
+      "type": "node",
+      "scene_text": "You take a step back and decide to explore part-time work options. After speaking with the campus career office, you apply for a research assistantship. While it may reduce your available study time, the additional income could alleviate some financial strain. It's a risk worth taking, considering the high living costs in Berkeley.",
+      "image_prompt": "A bustling career center with students lined up for advice and assistance, showcasing potential job opportunities.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "On-campus employment opportunities are available for graduate students, providing essential income while balancing studies during their graduate experience.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node6.png"
+    },
+    "node7": {
+      "type": "node",
+      "scene_text": "After some time, managing your new schedule proves to be a learning experience. However, the mounting workload and the constant pressure of deadlines impact your mood. A feeling of isolation creeps in when you realize most of your interactions happen online. You consider joining a group like the Data Science Society to build connections.",
+      "image_prompt": "A meeting of students in a student club, discussing projects and ideas, creating a sense of community.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Many students in online programs like MIDS can feel isolated, so active participation in student organizations can help build a sense of community and support.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_node7.png"
+    },
+    "node8": {
+      "type": "node",
+      "scene_text": "You attend a Data Science Society meeting and find yourself engaged with like-minded peers who share your interests. The camaraderie makes you feel less lonely and your motivation soars. However, your studies still demand attention, and finding the balance becomes the new challenge.",
+      "image_prompt": "A vibrant meeting with engaged students discussing their projects enthusiastically, fostering an encouraging environment.",
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "Joining student organizations provides a platform for networking and collaboration, which is especially valuable for online learners seeking to overcome feelings of isolation."
+    },
+    "node9": {
+      "type": "node",
+      "scene_text": "The semester comes to a close, and as you reflect upon your journey, the challenges have shaped you. Balancing part-time work, studies, and community engagement in Berkeley has been a demanding but rewarding experience. With graduation around the corner, you feel prepared for the upcoming opportunities in tech and data science.",
+      "image_prompt": "A serene view of UC Berkeley campus at sunset, students walking, symbolizing the journey of growth and accomplishment.",
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Moving forward in the story."
+        }
+      ],
+      "insight": "The culmination of experiences during graduate programs like MIDS emphasizes the importance of resilience and adaptability for future careers."
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Graduation day arrives with a mix of pride and nostalgia. Standing among your peers, you reflect on the journey—endless nights, new friendships, professional connections. The challenges of navigating Berkeley's high cost of living and the demands of online education have only made this moment sweeter. You're filled with hope for a bright future in data science, ready to take on the tech industry armed with the skills and lessons learned.",
+      "image_prompt": "A graduation ceremony at UC Berkeley with students in cap and gown, celebrating their achievements amidst a festive atmosphere.",
+      "has_image": true,
+      "tone": "hopeful",
+      "insight": "Graduates from the MIDS program often find success in top companies, equipped with essential skills and real-world experience, making them competitive in the job market.",
+      "image_url": "/assets/generated/berkeley_dbff20bbf457_ending.png"
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "story_id": "tokyo_cs_1784345758257",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights the shared challenge of high living costs combined with rigorous academic demands faced by all students in the program.",
+  "user_profile": {
+    "country": "USA",
+    "city": "San Francisco",
+    "grade": "Graduate",
+    "major": "Computer Science"
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you step out of Tokyo's Haneda Airport, the air buzzes with energy. Sky-high buildings soar above a sea of people bustling by. You're excited but a bit apprehensive about the challenges ahead. The blend of neon lights and rich culture beckons, but you know that adapting to Japan's busy lifestyle and academic expectations will require resilience.",
+      "image_prompt": "A busy Tokyo airport with travelers moving in all directions, bright neon signs overhead, and a sense of anticipation in the air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Explore Tokyo's streets",
+          "next_node": "exploration"
+        },
+        {
+          "text": "Head directly to the university",
+          "next_node": "university"
+        }
+      ]
+    },
+    "exploration": {
+      "type": "node",
+      "scene_text": "Wandering through Tokyo's vibrant neighborhoods, you soak in the city's unique blend of tradition and modernity. Every corner offers new sights and sounds—colorful shops, aromatic street food, and snippets of conversation in Japanese fill the air. Yet, amidst this wonder, you feel the weight of potential isolation thrumming beneath the surface. Finding a place to belong is important in this big city.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Try local delicacies at a street vendor",
+          "next_node": "street_food"
+        },
+        {
+          "text": "Join an international student group meeting",
+          "next_node": "student_group"
+        }
+      ]
+    },
+    "university": {
+      "type": "node",
+      "scene_text": "Arriving at your new campus, the academic atmosphere is palpable. You notice international students mingling, but there’s a noticeable hierarchy among local students and staff. Classes will demand focus and collaboration, but you remember the importance of building relationships with your advisors. It feels overwhelming yet invigorating; this is a chance to push your boundaries.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Attend the orientation session",
+          "next_node": "difficult_path"
+        },
+        {
+          "text": "Meet with your academic advisor",
+          "next_node": "difficult_path"
+        }
+      ]
+    },
+    "street_food": {
+      "type": "node",
+      "scene_text": "Savoring the taste of freshly made takoyaki, you can’t help but smile. The flavors explode in your mouth, mingling with the friendly chatter of locals. Everything feels perfect until you realize that living here will have its costs. You think about how essential it might be to find part-time work to cover your expenses and what new hurdles that may bring.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Discuss job opportunities with a fellow student",
+          "next_node": "success"
+        },
+        {
+          "text": "Enjoy your food and stay focused on studies",
+          "next_node": "success"
+        }
+      ]
+    },
+    "student_group": {
+      "type": "node",
+      "scene_text": "At the meeting, you find a diverse group of students sharing their experiences. Laughter and camaraderie flow easier than you expected, but soon you learn about the pressures of academics and the costs of living in Tokyo. Everyone seems to be juggling these challenges, suggesting that while you’re not alone, the journey ahead will require hard work and adaptability.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Bond with a fellow student over shared experiences",
+          "next_node": "difficult_path"
+        },
+        {
+          "text": "Ask for advice on managing costs",
+          "next_node": "difficult_path"
+        }
+      ]
+    },
+    "challenge_node": {
+      "type": "node",
+      "scene_text": "As classes start, the workload hits you like a wave. Late night study sessions blend into early morning deadlines, leaving you exhausted. Balancing academics with the high cost of living weighs heavily on you, and the allure of Tokyo dims under the pressure. You must confront the reality of whether you can sustain this pace without compromising your well-being.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reach out for help and support",
+          "next_node": "failure"
+        },
+        {
+          "text": "Ignore the stress and push through",
+          "next_node": "difficult_path"
+        }
+      ]
+    }
+  },
+  "endings": {
+    "success": {
+      "scene_text": "Having navigated the challenges of living and studying in Tokyo, you find yourself graduating with a sense of accomplishment and a firm grasp on your future. You've built a network of friends and mentors, lauded for your hard work and resilience within the international community. The blend of knowledge and experience has reshaped not just your career, but your understanding of what it means to adapt and thrive.",
+      "image_prompt": "A graduation ceremony on a university campus, with students in caps and gowns, celebrating their achievements under a clear blue sky.",
+      "has_image": true,
+      "tone": "hopeful"
+    },
+    "difficult_path": {
+      "scene_text": "The weight of academics proved to be too much as you struggled through your time in Tokyo, never quite finding the harmony between work, study, and personal life. Though you learned valuable lessons about resilience, the experience became bittersweet. You reflect with mixed emotions, knowing that the journey shaped who you are but left an imprint that continues to challenge you.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "failure": {
+      "scene_text": "Despite your efforts, the combination of rigorous classes, living costs, and cultural adjustment became overwhelming. You realize that not every journey leads to a triumphant ending; sometimes it's about lessons learned through persistence. Leaving Tokyo, you carry a mix of regret and valuable experiences, understanding that each step—good or bad—has shaped your journey.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "challenging"
+    }
+  }
+}

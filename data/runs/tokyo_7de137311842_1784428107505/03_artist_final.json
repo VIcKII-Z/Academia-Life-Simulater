@@ -1,0 +1,778 @@
+{
+  "story_id": "tokyo_7de137311842_1784428107505",
+  "framework_type": "convergence",
+  "framework_reason": "The report highlights the pervasive cost of living and rigorous academic expectations that present universal challenges for all international students in Tokyo.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Undergraduate",
+    "major": "Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70
+  },
+  "nodes": {
+    "arrival": {
+      "type": "opening",
+      "scene_text": "As you disembark at Narita International Airport, the vibrant energy of Tokyo envelops you like a warm hug. The air is thick with humidity, and you're reminded of the challenges ahead. Holding your admission letter tightly, you navigate through the bustling airport, filled with excitement and apprehension about your new journey as a Computer Science student. The city's skyscrapers loom above as you think about the costs of living and your future studies at a prestigious Japanese university.",
+      "image_prompt": "Brightly lit Narita Airport with travelers bustling about, overhead signs in Japanese and English. A sense of excitement and nervousness fills the air.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Head to your temporary accommodation in Shinjuku.",
+          "next_node": "temporary_accommodation",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -20
+          },
+          "stat_reason": "Traveling to Shinjuku incurs transportation costs, but you feel excited about settling in."
+        },
+        {
+          "text": "Explore local neighborhoods before settling in.",
+          "next_node": "neighborhood_exploration",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15
+          },
+          "stat_reason": "Exploring local neighborhoods boosts your mood as you experience Tokyo, but it impacts your budget."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_7de137311842_1784428107505_arrival.png"
+    },
+    "temporary_accommodation": {
+      "type": "node",
+      "scene_text": "Your temporary accommodation is a small but cozy room in a shared apartment. As you settle in, you can hear the vibrant city life outside your window. The rent is manageable, but you know that the high living costs in Tokyo can quickly add up. You take a moment to breathe, letting the excitement mingle with your nervousness as you prepare for the academic challenge ahead.",
+      "image_prompt": "A small but tidy room with a bed, desk, and window overlooking a bustling Tokyo street. Sunlight streaming gives a warm, welcoming feel.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Start looking for a part-time job to help with expenses.",
+          "next_node": "job_hunt",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 10
+          },
+          "stat_reason": "Starting a job hunt could help financially but might take a toll on your energy."
+        },
+        {
+          "text": "Join a local student meetup to make friends.",
+          "next_node": "student_meetup",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Joining the student meetup will enhance your social connections but costs a small entrance fee."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_7de137311842_1784428107505_temporary_accommodation.png"
+    },
+    "neighborhood_exploration": {
+      "type": "node",
+      "scene_text": "Wandering through the streets of Shinjuku, the blend of neon lights and traditional bamboo decor captivates you. As you enjoy the bustling shops and street food, you reflect on the cultural differences that lie ahead. The delicious smell of ramen entices you, but you must be mindful of your budget. Each meal could significantly impact your tight finances while studying in this costly city.",
+      "image_prompt": "A lively Shinjuku street filled with diverse food stalls and neon signs. The atmosphere is energetic yet inviting.",
+      "has_image": true,
+      "choices": [
+        {
+          "text": "Grab some ramen to recharge.",
+          "next_node": "ramen_shack",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -10
+          },
+          "stat_reason": "Enjoying a meal boosts your mood, but it's another expense in a high-cost city."
+        },
+        {
+          "text": "Check out a bookstore for study materials.",
+          "next_node": "bookstore_visit",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": -15
+          },
+          "stat_reason": "Buying study materials is necessary, but it adds to your financial strain."
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_7de137311842_1784428107505_neighborhood_exploration.png"
+    },
+    "job_hunt": {
+      "type": "node",
+      "scene_text": "You dedicate a day to searching for part-time jobs, navigating language barriers and cultural expectations. After submitting several applications, you feel a mix of hope and fatigue. The thought of balancing work with your academic responsibilities looms over you. You consider which job might suit your skills best while ensuring compliance with visa restrictions.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Apply for a job at a tech startup.",
+          "next_node": "tech_startup",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 15
+          },
+          "stat_reason": "Tech startups often pay well but may demand high hours, leading to stress."
+        },
+        {
+          "text": "Look for a job tutoring English.",
+          "next_node": "tutoring",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 8
+          },
+          "stat_reason": "Tutoring is manageable and doesn't require extensive hours, increasing mood slightly."
+        }
+      ]
+    },
+    "student_meetup": {
+      "type": "node",
+      "scene_text": "As you arrive at the local student meetup, the diverse group of international students quickly eases your sense of isolation. You share experiences and feel a sense of belonging. However, the common issues of high costs and culture shock surface, reminding you that many face the same challenges.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Help organize the next meetup to connect more.",
+          "next_node": "organizing_meetup",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Engaging in organizing efforts builds community but has a small cost."
+        },
+        {
+          "text": "Join a language exchange group.",
+          "next_node": "language_exchange",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Participating in exchange groups encourages social bonding without costing money."
+        }
+      ]
+    },
+    "ramen_shack": {
+      "type": "node",
+      "scene_text": "You savor every slurp of your ramen, a comforting reminder of home. Yet, as you calculate your expenses, the joy is tainted slightly by the weight of financial responsibility. You make a mental note to budget better moving forward, particularly as the end of the month approaches, bringing concerns about rent.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Head home to do some budgeting.",
+          "next_node": "solo_activities",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Budgeting may bring stress, but it's essential for managing funds."
+        },
+        {
+          "text": "Meet up with newfound friends for further exploration.",
+          "next_node": "friend_exploration",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Exploring with friends can raise your spirits at a cost."
+        }
+      ]
+    },
+    "bookstore_visit": {
+      "type": "node",
+      "scene_text": "Amongst the shelves of the bookstore, you find an array of materials both exciting and critical for your studies. As you fill your basket with textbooks and supplies, the realization hits—you might have overindulged. Even as you grasp essential tools for success, you feel a pang of anxiety about making ends meet this month.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek out cheaper alternatives next time.",
+          "next_node": "more_classmates",
+          "stat_delta": {
+            "health": 0,
+            "mood": -15,
+            "money": -15
+          },
+          "stat_reason": "Realizing financial overspending can negatively impact your mood as you reflect on choices."
+        },
+        {
+          "text": "Share textbooks with classmates to save money.",
+          "next_node": "more_classmates",
+          "stat_delta": {
+            "health": 0,
+            "mood": 7,
+            "money": 10
+          },
+          "stat_reason": "Collaborating with peers helps lighten the academic load and supports budgeting."
+        }
+      ]
+    },
+    "tech_startup": {
+      "type": "node",
+      "scene_text": "You've nailed the interview at a tech startup! They appreciate your skills and offer flexible hours around your academic commitments, but the position will be demanding. Your health will be tested, and you know that managing deadlines could affect your sleep. Nevertheless, the financial reward can help alleviate some of your mounting expenses.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Accept the job and begin right away.",
+          "next_node": "solo_activities",
+          "stat_delta": {
+            "health": -20,
+            "mood": 5,
+            "money": 30
+          },
+          "stat_reason": "Though the job offers financial relief, it will weigh heavy on your health and time."
+        },
+        {
+          "text": "Negotiate terms to balance academics and work.",
+          "next_node": "cheaper_outing",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 20
+          },
+          "stat_reason": "Negotiating terms might help better balance your workload."
+        }
+      ]
+    },
+    "tutoring": {
+      "type": "node",
+      "scene_text": "Teaching students English brings you joy, and hearing their progress fuels your motivation. While it’s not a huge income, the experience enriches your resume. You feel your academic confidence grow as well. However, you must remember to manage your commitments so study time is not compromised.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Continue finding more students to tutor.",
+          "next_node": "tutor_growth",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": 10
+          },
+          "stat_reason": "More students means more money, but it may stretch your health thin."
+        },
+        {
+          "text": "Focus on balancing studies and tutoring.",
+          "next_node": "study_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Focusing solely on balancing will positively impact your mood and health."
+        }
+      ]
+    },
+    "organizing_meetup": {
+      "type": "node",
+      "scene_text": "Taking charge of the meetup allows you to cultivate a supportive community. Yet, behind the scenes, the efforts become overwhelming as you manage logistics and attendance. The joy of connecting is balanced with stress as you navigate social dynamics, but the experience teaches you valuable skills.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Recruit help from fellow students.",
+          "next_node": "study_boundaries",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0
+          },
+          "stat_reason": "Enlisting help relieves some pressure and enhances your mood."
+        },
+        {
+          "text": "Do it all yourself to prove your capability.",
+          "next_node": "solo_organizing",
+          "stat_delta": {
+            "health": -15,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Taking on too much solo may stress your health and mood negatively."
+        }
+      ]
+    },
+    "language_exchange": {
+      "type": "node",
+      "scene_text": "Joining a language exchange brings a rush of excitement as you practice Japanese with local students eager to learn. This experience closes the gap of loneliness, and soon you’re forming friendships, sharing laughs, and exchanging culture. While challenging, you realize adapting to local norms is essential for successful immersion.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Commit to regular meetups to strengthen connections.",
+          "next_node": "regular_meetups",
+          "stat_delta": {
+            "health": 5,
+            "mood": 15,
+            "money": -5
+          },
+          "stat_reason": "Committing to regular meetups increases bonding but slightly costs money."
+        },
+        {
+          "text": "Apply what you learn in your classes.",
+          "next_node": "apply_learning",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0
+          },
+          "stat_reason": "Applying language skills in class enhances academic confidence without financial strain."
+        }
+      ]
+    },
+    "friend_exploration": {
+      "type": "node",
+      "scene_text": "Exploring Tokyo with your newfound friends opens up a world of excitement—neon lights, karaoke nights, and street festivals fill your days. However, the cost of indulgences creates waves of guilt about budgeting, and night after night of late adventures weakens your health as you struggle to maintain energy for your upcoming classes.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Set a budget for outings to avoid overindulging.",
+          "next_node": "set_budget",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": -10
+          },
+          "stat_reason": "Setting a budget can help manage expenses even as you enjoy."
+        },
+        {
+          "text": "Limit outings to prioritize academics.",
+          "next_node": "prioritize_academics",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0
+          },
+          "stat_reason": "Returning to a focus on academics can reduce mood but improve your performance."
+        }
+      ]
+    },
+    "solo_organizing": {
+      "type": "node",
+      "scene_text": "Organizing the meetup single-handedly proves to be an exhausting endeavor. As fatigue sets in and your enthusiasm wanes, you question your capabilities. Friendships you hoped to forge feel strained, as your stress affects your ability to engage. This venture teaches you valuable lessons about teamwork but mentally wears you down.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Take a breather and reassess your approach.",
+          "next_node": "feedback",
+          "stat_delta": {
+            "health": 5,
+            "mood": -10,
+            "money": 0
+          },
+          "stat_reason": "Stepping back allows you to recuperate, but your mood may flounder."
+        },
+        {
+          "text": "Push through to finish what you started.",
+          "next_node": "leisure_time",
+          "stat_delta": {
+            "health": -20,
+            "mood": -15,
+            "money": 0
+          },
+          "stat_reason": "The stress of pushing through takes a toll on your health and mood."
+        }
+      ]
+    },
+    "regular_meetups": {
+      "type": "node",
+      "scene_text": "Attending language exchange meetups weekly solidifies your friendships with local students. The trust you build brings rewards, from shared cultural insights to unique learnings that boost your confidence. Your language skills improve, making daily interactions smoother. However, fostering these bonds takes time and energy as you negotiate social demands with academic pursuits.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Expand the group to include more diverse cultures.",
+          "next_node": "reevaluate_social",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": -5
+          },
+          "stat_reason": "Including more students expands learning opportunities, costing a bit."
+        },
+        {
+          "text": "Focus on deepening existing friendships instead.",
+          "next_node": "solo_activities",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0
+          },
+          "stat_reason": "Fostering existing friendship offers stability without financial impact."
+        }
+      ]
+    },
+    "apply_learning": {
+      "type": "node",
+      "scene_text": "Utilizing your new Japanese language skills in class lays a foundation for academic success. Each interaction boosts your academic confidence and reinforces your grasp of the material. Yet, this newfound confidence comes with pressure to maintain performance amidst the intense coursework and study demands, leading to a delicate balancing act.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Dedicate more time to studying to keep up.",
+          "next_node": "intense_study",
+          "stat_delta": {
+            "health": -20,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Intense dedication can negatively affect health but solidify academic grounding."
+        },
+        {
+          "text": "Collaborate with classmates for study sessions.",
+          "next_node": "study_sessions",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Studying within a group enhances mood without financial stress."
+        }
+      ]
+    },
+    "tutor_growth": {
+      "type": "node",
+      "scene_text": "As your tutoring sessions grow, you’re connecting with more students and enjoying sharing knowledge. Financial relief is gradual; however, you’re beginning to feel the stress of fitting it all into your schedule with demanding coursework. Balancing work and studies is an ongoing challenge that you must navigate cautiously.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Use some earnings to invest in academic resources.",
+          "next_node": "invest_resources",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": -15
+          },
+          "stat_reason": "Investing in resources can yield academic results but costs money."
+        },
+        {
+          "text": "Cut back on tutoring hours to focus on studies.",
+          "next_node": "clubs_for_balance",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -5
+          },
+          "stat_reason": "Reducing hours might ease stress but also limits finances."
+        }
+      ]
+    },
+    "study_balance": {
+      "type": "node",
+      "scene_text": "Focusing on a healthy balance between studies and tutoring starts paying off. You feel accomplished academically and emotionally satisfied as you thrive in the supportive environment. Nonetheless, the financial implications of reduced tutoring hours weigh on your mind as you feel the challenge of managing it all.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Look for freelance opportunities to supplement income.",
+          "next_node": "freelance_opportunities",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 15
+          },
+          "stat_reason": "Freelancing can enhance your financial situation while boosting your mood."
+        },
+        {
+          "text": "Engage in campus clubs to enrich social life.",
+          "next_node": "more_classmates",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": -10
+          },
+          "stat_reason": "Clubs can improve your mood but may strain finances."
+        }
+      ]
+    },
+    "intense_study": {
+      "type": "node",
+      "scene_text": "Committing yourself to endless hours of study leads to exhaustion, wandering awake through late-night revision. While you understand course materials better, your health diminishes. The price of maintaining academic performance heightens, as you struggle with fatigue and stress!",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Seek academic support from advisors.",
+          "next_node": "leisure_time",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Academic support boosts confidence and mood without cost."
+        },
+        {
+          "text": "Tighten your emotional connections with friends for support.",
+          "next_node": "friends_support",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Increased emotional connections mean a bit of stress on health."
+        }
+      ]
+    },
+    "study_sessions": {
+      "type": "node",
+      "scene_text": "Collaborating with friends during study sessions transforms your approach. Support and encouragement elevate your mood as you tackle complex Computer Science concepts together. The energy in the room helps you focus, but balancing social interaction with actual study time requires discipline. Each session strengthens your understanding but can surge your workload.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Plan a study schedule to balance social and academic time.",
+          "next_node": "invest_resources",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0
+          },
+          "stat_reason": "Solid planning improves your mood but requires energy to stick to."
+        },
+        {
+          "text": "Invite more classmates to enhance learning.",
+          "next_node": "more_classmates",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": 0
+          },
+          "stat_reason": "Including others raises spirits but can burden your already stretched health."
+        }
+      ]
+    },
+    "freelance_opportunities": {
+      "type": "node",
+      "scene_text": "Freelancing allows you to leverage your Computer Science skills while staying engaged in the academic realm. Projects vary, from programming to mobile applications. Although the workload can be daunting, each success boosts your confidence and adds extra income that helps alleviate financial tension, as long as you manage your time wisely.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Explore bigger, ongoing projects for more stability.",
+          "next_node": "bigger_projects",
+          "stat_delta": {
+            "health": -15,
+            "mood": 10,
+            "money": 25
+          },
+          "stat_reason": "Larger projects promise financial gain but could drain health with extended hours."
+        },
+        {
+          "text": "Opt for smaller gigs that offer flexibility.",
+          "next_node": "smaller_gigs",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 12
+          },
+          "stat_reason": "Smaller gigs raise mood and bring in cash without overwhelming your schedule."
+        }
+      ]
+    },
+    "bigger_projects": {
+      "type": "node",
+      "scene_text": "While tackling bigger projects offers substantial financial returns, the demand can be overwhelming. Long hours in front of the screen strain your health, leading to fatigue and a backslide in mood. As a Computer Science major, you’re thrilled to improve your skills, but the challenges are challenging to balance.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Prioritize completing the current project efficiently.",
+          "next_node": "complete_project",
+          "stat_delta": {
+            "health": -20,
+            "mood": 10,
+            "money": 50
+          },
+          "stat_reason": "Finishing efficiently boosts finances but at great cost to your well-being."
+        },
+        {
+          "text": "Seek feedback from fellow students for better performance.",
+          "next_node": "feedback",
+          "stat_delta": {
+            "health": 0,
+            "mood": 15,
+            "money": 0
+          },
+          "stat_reason": "Feedback helps mood without affecting finances, but time commitment is necessary."
+        }
+      ]
+    },
+    "smaller_gigs": {
+      "type": "node",
+      "scene_text": "Taking on smaller gigs offers flexibility, allowing you to manage your time between studies and working. As you complete these easier projects, your mood lifts, bringing a sense of accomplishment. Since the income is less than larger commitments, mindful budgeting becomes crucial.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Increase the number of smaller gigs to boost income.",
+          "next_node": "leisure_time",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": 20
+          },
+          "stat_reason": "Increasing work leads to more financial security but drains some energy."
+        },
+        {
+          "text": "Focus on quality over quantity and enjoy leisure time.",
+          "next_node": "leisure_time",
+          "stat_delta": {
+            "health": 10,
+            "mood": 5,
+            "money": -5
+          },
+          "stat_reason": "Focusing on well-being and leisure raises health but reduces financial buffer."
+        }
+      ]
+    },
+    "set_budget": {
+      "type": "node",
+      "scene_text": "Setting a strict budget for your outings becomes essential as the days pass. Coming to terms with limited spending, you develop healthier habits. While contentment is achieved in socializing without overspending, sadness seeps in as fun seems less spontaneous.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Arrange one cheaper outing to maintain connection.",
+          "next_node": "cheaper_outing",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5
+          },
+          "stat_reason": "Sustaining connections while maintaining finances feels good overall."
+        },
+        {
+          "text": "Stick to solo activities that don't incur costs.",
+          "next_node": "solo_activities",
+          "stat_delta": {
+            "health": -5,
+            "mood": 0,
+            "money": 0
+          },
+          "stat_reason": "Solo activities might preserve finance, but they could further isolate you."
+        }
+      ]
+    },
+    "prioritize_academics": {
+      "type": "node",
+      "scene_text": "Focusing on your studies helps you feel competent and engaged, but socializing takes a backseat. You may risk feeling more isolated while striving for academic excellence. Yet, keeping up with coursework lifts your mood when you see your grades begin to rise.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Reevaluate your social priorities for a better balance.",
+          "next_node": "reevaluate_social",
+          "stat_delta": {
+            "health": 0,
+            "mood": 3,
+            "money": 0
+          },
+          "stat_reason": "Reevaluating priorities can help you maintain social and academic balance."
+        },
+        {
+          "text": "Consider joining clubs for like-minded individuals.",
+          "next_node": "clubs_for_balance",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": -5
+          },
+          "stat_reason": "Joining clubs fosters connections but raises expenses slightly."
+        }
+      ]
+    },
+    "friends_support": {
+      "type": "node",
+      "scene_text": "Tightening emotional connections with friends helps soften the stress of studies. Sharing in each other's challenges creates a supportive environment to thrive, but the burden of late-night conversations can strain your health as you balance social time with studying.",
+      "image_prompt": null,
+      "has_image": false,
+      "choices": [
+        {
+          "text": "Set boundaries for study hours.",
+          "next_node": "study_boundaries",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0
+          },
+          "stat_reason": "Establishing boundaries ensures quality study time improves mood."
+        },
+        {
+          "text": "Spend time with friends instead of studying.",
+          "next_node": "more_classmates",
+          "stat_delta": {
+            "health": -10,
+            "mood": 7,
+            "money": 0
+          },
+          "stat_reason": "Choosing friends over study reduces health as stress rises."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "complete_project": {
+      "scene_text": "Completing your project successfully boosts your finances, giving you a sense of relief in a city that demands much. However, the sacrifices you made in your health remind you of the balance needed in life. You experience a bittersweet victory, knowing that from now on, managing workload is essential.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "feedback": {
+      "scene_text": "Seeking feedback enhances your project as colleagues share valuable insights. The collaborative effort catapults your confidence, helping you overcome the isolation you sometimes feel in Tokyo. You discover the importance of connections and support—a lesson that enriches your journey ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "invest_resources": {
+      "scene_text": "Investing in academic resources paid dividends; your grades flourish in the rigorous environment of Tokyo universities. Yet the weight of your financial decisions stays present, reminding you of the balance required. You gained knowledge and experience, but the financial strain remains.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "leisure_time": {
+      "scene_text": "Opting for leisure time grants you joy, but as your finances dwindle, a dilemma emerges. You realize that while enjoying life is vital, managing your expenditures will be crucial moving forward. The lesson learned is that balance is key to a fulfilling experience abroad.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "more_classmates": {
+      "scene_text": "Incorporating more classmates in your study sessions fosters a sense of belonging. As relationships deepen, the weight of cultural differences lightens. You feel a little more at home in Tokyo, knowing these connections will support you through the rigorous academic journey that lies ahead.",
+      "image_prompt": null,
+      "has_image": false,
+      "tone": "bittersweet"
+    },
+    "cheaper_outing": {
+      "scene_text": "Arranging a more budget-friendly outing proved beneficial. Connecting with friends while being mindful of money raised your spirits significantly. Through this, you found a way to enjoy the vibrant culture of Tokyo without overstretching your budget; a valuable lesson for your time ahead.",
+      "image_prompt": null,
+      "tone": "bittersweet"
+    },
+    "solo_activities": {
+      "scene_text": "Choosing to engage in solo activities was a tough decision that allowed you to find peace in your routine. The lack of social interaction stirred feelings of loneliness, yet learning to navigate the city on your own gave you confidence. Balance remains the key as you search for connection.",
+      "image_prompt": null,
+      "tone": "bittersweet"
+    },
+    "study_boundaries": {
+      "scene_text": "Setting clear boundaries between study and social life enhanced the quality of both aspects, relieving stress in academics and personal connections. You discover that managing time effectively is paramount in adapting to life in Tokyo—an essential lesson you aim to carry forward.",
+      "image_prompt": null,
+      "tone": "bittersweet"
+    },
+    "clubs_for_balance": {
+      "scene_text": "Joining clubs helped balance your academic and social life, but financial considerations lingered. Despite the budget constraints, the friendships forged enriched your experience profoundly. You feel optimistic knowing that you’ve navigated an essential part of adapting to Tokyo life.",
+      "image_prompt": null,
+      "tone": "bittersweet"
+    },
+    "reevaluate_social": {
+      "scene_text": "Taking a moment to reevaluate your social priorities brings clarity and boosts your mood. Balancing academics with friendship is a delicate dance, but you embrace the challenge. The journey ahead seems more manageable now as you internalize the importance of balance and care.",
+      "image_prompt": null,
+      "tone": "bittersweet"
+    }
+  }
+}

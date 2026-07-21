@@ -1,0 +1,369 @@
+{
+  "story_id": "berkeley_2a64ae820c01",
+  "framework_type": "convergence",
+  "framework_reason": "The high cost of living in Berkeley creates a shared challenge for all students, affecting finances and overall well-being.",
+  "user_profile": {
+    "country": "United States",
+    "city": "Berkeley",
+    "grade": "Graduate",
+    "major": "MS in Computer Science"
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "arrival",
+      "scene_text": "The warm **Berkeley sun** greets you as you arrive at the **UC Berkeley campus**. You're excited, yet a bit overwhelmed by the **rich academic environment** and the vibrant energy of student life. You grab a coffee at a local café, feeling the pulse of the Bay Area. But first impressions reveal the **high living costs** surrounding you, looming over your mind. As you settle in, you think about how to balance your **academic ambitions** with the need to manage your budget wisely.",
+      "image_prompt": "A sunny day at UC Berkeley with students walking around campus, surrounded by palm trees and historic buildings, creating a lively and welcoming atmosphere.",
+      "has_image": true,
+      "insight": "Did you know that Berkeley's cost of living is significantly higher than average due to its proximity to the tech hub of Silicon Valley? This can create financial pressure for students.",
+      "choices": [
+        {
+          "text": "Explore campus clubs and events to meet new people.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": 0,
+            "mood": 12,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Joining clubs can enhance social connectivity and alleviate culture shock.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on finding a part-time job immediately.",
+          "next_node": "node2",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 10,
+            "school": 0
+          },
+          "stat_reason": "Hastily seeking work may affect your well-being due to time pressure.",
+          "recommended": false
+        }
+      ]
+    },
+    "node2": {
+      "type": "settling_in",
+      "scene_text": "You dive into your **courses**, such as *CS 294: Topics in Artificial Intelligence*, thrilling yet demanding. The **academic rigor** at UC Berkeley pushes your limits, and you begin to feel the weight of deadlines. You also attend a **Grad Slam** event, showcasing amazing research. While it's inspiring, it elevates your stress. Finding a **study group** would help manage your workload, but so would a **social break** to unwind.",
+      "image_prompt": "A busy classroom at UC Berkeley filled with graduate students engaged in discussions, showcasing the collaborative atmosphere of a AI class.",
+      "has_image": true,
+      "insight": "Berkeley's competitive academic culture can lead to stress and pressure among students, highlighting the importance of support networks.",
+      "choices": [
+        {
+          "text": "Join a study group to keep up with coursework.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 8,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Collaboration can enhance understanding and reduce academic stress.",
+          "recommended": true
+        },
+        {
+          "text": "Take a day off to explore local attractions.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -15,
+            "school": -5
+          },
+          "stat_reason": "A break helps with mood but can risk falling behind academically.",
+          "recommended": false
+        }
+      ]
+    },
+    "node3": {
+      "type": "study_struggles",
+      "scene_text": "As you get deeper into the semester, **late-night study sessions** become routine. **Mental fatigue** creeps in, affecting your **health** and **mood**. You struggle with complex algorithms in your assignments, and the pressure of upcoming **qualifying exams** is palpable. Despite efforts in studying, your motivation wanes. A friend mentions a tech networking event nearby; it could be a game-changer for your career path.",
+      "image_prompt": "A dimly lit study room filled with books and a laptop, depicting a student working late into the night surrounded by snacks and study materials.",
+      "has_image": true,
+      "insight": "High workloads can lead to mental strain, impacting sleep and overall well-being for computer science graduate students.",
+      "choices": [
+        {
+          "text": "Attend the networking event for potential job leads.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": -5,
+            "mood": 12,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Networking enhances career opportunities but requires investment in time and money.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize study and skip the event.",
+          "next_node": "node4",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on studies can boost academic performance but may hinder career connections.",
+          "recommended": false
+        }
+      ]
+    },
+    "node4": {
+      "type": "networking",
+      "scene_text": "At the event, you meet representatives from **Google** and **Meta**. Their discussions about internship opportunities ignite your ambition. You feel a renewed sense of **motivation**, but it's quickly tempered with the reality of Berkeley's **high living expenses**. Balancing an internship with your studies can be daunting, and you need to consider financial burdens and additional responsibilities. It's clear this path could lead to invaluable experience, yet it poses a risk to your current stability.",
+      "image_prompt": "An energetic networking event, with attendees engaging with company representatives and exchanging resumes, capturing the vibrant tech atmosphere.",
+      "has_image": true,
+      "insight": "Networking events are crucial for computer science students, especially in high-demand areas like Silicon Valley, to secure internships.",
+      "choices": [
+        {
+          "text": "Pursue an internship opportunity for practical experience.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 10,
+            "money": 20,
+            "school": -5
+          },
+          "stat_reason": "Internships offer valuable experience but can stretch your time and health.",
+          "recommended": true
+        },
+        {
+          "text": "Focus solely on your current coursework.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": -5,
+            "school": 12
+          },
+          "stat_reason": "Maintaining a strong academic focus could enhance future employment prospects.",
+          "recommended": false
+        }
+      ]
+    },
+    "node5": {
+      "type": "balancing_act",
+      "scene_text": "With the internship secured, you split time between deadlines and work at **a major tech firm**. While your money situation improves, **health and sleep** suffer due to your packed schedule. The pressure leads to increased stress levels, as late-night coding sessions leave you exhausted. Amidst these challenges, you attend **Berkeley AI Guest Lectures**, rekindling your passion and boosting your **academic confidence**. However, the looming **qualifying exams** are creeping closer.",
+      "image_prompt": "A student haggard but motivated, juggling work assignments and notes in a bustling coffee shop, emblematic of the intense student lifestyle.",
+      "has_image": true,
+      "insight": "Balancing internships with studies is common among CS graduate students; however, it may impact health and academic performance.",
+      "choices": [
+        {
+          "text": "Reduce hours at your internship to focus on studies.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": 5,
+            "mood": -5,
+            "money": -10,
+            "school": 10
+          },
+          "stat_reason": "Cutting back at work can improve health but may lead to financial strain.",
+          "recommended": true
+        },
+        {
+          "text": "Maintain current workload to maximize financial benefits.",
+          "next_node": "node6",
+          "stat_delta": {
+            "health": -15,
+            "mood": 5,
+            "money": 15,
+            "school": -10
+          },
+          "stat_reason": "Keeping your hours maximizes income but risks health and academic performance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node6": {
+      "type": "exams_pressure",
+      "scene_text": "As **qualifying exams** arrive, anxiety is at an all-time high. Late nights and early mornings culminate in sheer exhaustion, impacting your **health** and **school** scores. You seek out **Professor Jitendra Malik** for guidance, hoping his insights can help clarify complex topics. An unexpected last-minute review session he offers reinvigorates your confidence, yet the ticking clock and worries about **internship commitments** keep you on edge and restless. The stakes feel immense as your future hangs in balance.",
+      "image_prompt": "A dimly lit office with a professor and a student engaged in a deep discussion, books and notes scattered around, reflecting an atmosphere of intense focus.",
+      "has_image": true,
+      "insight": "The pressure of qualifying exams can affect the health and mood of CS graduate students during this pivotal time.",
+      "choices": [
+        {
+          "text": "Prepare rigorously for the exams, focusing on your studies.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": -5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Intensive studying may enhance academic performance but is taxing on mental health.",
+          "recommended": true
+        },
+        {
+          "text": "Cut back on study hours to maintain balance.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": 0,
+            "school": -10
+          },
+          "stat_reason": "Reducing workload can protect health but risks exam performance.",
+          "recommended": false
+        }
+      ]
+    },
+    "node7": {
+      "type": "culmination",
+      "scene_text": "The days leading up to your exams are intense. On the day of the **qualifying exams**, nerves run high. You enter the exam room, equipped with the knowledge you've gained and the support from mentors. Once completed, you feel a wave of relief and uncertainty wash over you. While you await the results, you make plans to revisit **Kresge Engineering Library**, where a wealth of research resources might aid your upcoming capstone project. The thought of completing your graduate degree brings a **sense of achievement** but also the pressure of what comes next.",
+      "image_prompt": "A tense atmosphere in an examination hall, with students seated and focused under the watchful eye of proctors, illustrating the high-stakes environment.",
+      "has_image": true,
+      "insight": "Qualifying exams are a significant milestone for graduate students, determining their academic trajectory and potential for research opportunities.",
+      "choices": [
+        {
+          "text": "Invest time in planning your capstone project.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": 5,
+            "mood": 8,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Active engagement in the capstone enhances morale and academic performance.",
+          "recommended": true
+        },
+        {
+          "text": "Take a break to celebrate completing your exams.",
+          "next_node": "node8",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Breaking for celebration boosts mood but may stir financial concerns.",
+          "recommended": false
+        }
+      ]
+    },
+    "node8": {
+      "type": "capstone_project",
+      "scene_text": "With results in, you passed! Your focus now shifts to the **capstone project**. Supported by **Professor Ruzena Bajcsy**, you delve into exciting research on **AI and robotics**. However, the time commitment necessitates managing your sustainable living expenses in an expensive city. By engaging with **Berkeley's AI community**, you find collaborators and grow your network. The journey toward your degree feels rewarding, but securing your financial stability remains a key concern.",
+      "image_prompt": "A collaborative workspace with students discussing projects, laptops open, surrounded by research materials and notes, displaying excitement and innovation.",
+      "has_image": true,
+      "insight": "Capstone projects harness students' academic learning in real-world applications, often in collaboration with faculty and peers, which is vital for career readiness.",
+      "choices": [
+        {
+          "text": "Continue networking to explore job prospects.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 5
+          },
+          "stat_reason": "Networking can lead to job opportunities but may consume resources.",
+          "recommended": true
+        },
+        {
+          "text": "Focus on completing the project without distractions.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Dedicating time to the project enhances performance but may lead to isolation.",
+          "recommended": false
+        }
+      ]
+    },
+    "node9": {
+      "type": "graduation",
+      "scene_text": "You present your capstone project to faculty and peers. The culmination of hard work opens doors to opportunities, as tech giants conduct interviews with students. Your journey has been filled with challenges, balancing finances, health, and rigorous academic expectations. As graduation approaches, the anticipation of stepping into the tech world energizes you. You've grown significantly during this semester, adapting from a student to a well-prepared professional. The support from your mentors at UC Berkeley has set a strong foundation for your future.",
+      "image_prompt": "A classroom filled with students presenting their projects, showcasing their work and receiving feedback, encapsulating the essence of academic achievement.",
+      "has_image": true,
+      "insight": "Graduation marks the transition from academia to industry, often filled with hiring opportunities in tech fields, especially for those with capstone projects.",
+      "choices": [
+        {
+          "text": "Accept a job offer from a top tech company.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 20,
+            "school": 0
+          },
+          "stat_reason": "Landing a job solidifies your career path and boosts morale.",
+          "recommended": true
+        },
+        {
+          "text": "Pursue a PhD for further research opportunities.",
+          "next_node": "ending",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Choosing to continue studies involves effort and cost but can offer a strong long-term career payoff.",
+          "recommended": false
+        }
+      ]
+    }
+  },
+  "endings": {
+    "ending": {
+      "scene_text": "Upon graduation, the applause of your peers fills the room as you reflect on your journey. You've navigated through intense coursework, built invaluable networks, and adapted to living in Berkeley’s high-paced environment. Accepting the job offer from **Google** marks the end of one chapter and the thrilling beginning of another. As you step into the tech world, you carry the lessons learned, friendships forged, and the enduring spirit of resilience. Your time at UC Berkeley has transformed not only your skills but also your perspective and determination.",
+      "image_prompt": "A graduation ceremony with students in caps and gowns celebrating, symbolizing achievement and new beginnings with a radiant backdrop.",
+      "has_image": true,
+      "insight": "Graduating from UC Berkeley's prestigious program equips students for success in a competitive job market, particularly in tech roles.",
+      "tone": "hopeful"
+    }
+  },
+  "sources": [
+    {
+      "title": "Berkeley Graduate Division - Computer Science MS Program Overview",
+      "url": "https://grad.berkeley.edu/program/computer-science/",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "money",
+        "visa"
+      ]
+    },
+    {
+      "title": "Berkeley EECS Department Overview",
+      "url": "https://eecs.berkeley.edu/cs/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "career"
+      ]
+    },
+    {
+      "title": "UC Berkeley MS Admission Details",
+      "url": "https://www.gyandhan.com/study-abroad/usa/universities/university-of-california-berkeley-ucb/courses/master-of-science-in-computer-science",
+      "source_type": "third_party",
+      "confidence": "medium",
+      "used_for": [
+        "money",
+        "culture_shock",
+        "career"
+      ]
+    },
+    {
+      "title": "TestGlider MS Computer Science Admission Guide",
+      "url": "https://www.testglider.com/study-abroad/portal/university/university-of-california-berkeley/computer-science-ms/166",
+      "source_type": "third_party",
+      "confidence": "medium",
+      "used_for": [
+        "academic",
+        "visa"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "storyId": "tokyo_cs_linear_test",
+  "mode": "preset",
+  "presetId": "tokyo_cs",
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": false,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 8
+    }
+  },
+  "startedAt": "2026-07-19T07:34:54.259Z"
+}

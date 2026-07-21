@@ -1,0 +1,3 @@
+2026-07-19T03:42:09.899Z Run started for story_id=tokyo_1784432529891
+2026-07-19T03:42:09.899Z [search] started
+2026-07-19T03:42:10.384Z [pipeline] FAILED: Live Search failed. Original error: 401 Incorrect API key provided: xx. You can find your API key at https://platform.openai.com/account/api-keys.
