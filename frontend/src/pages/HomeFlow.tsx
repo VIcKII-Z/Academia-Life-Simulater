@@ -94,7 +94,7 @@ export default function HomeFlow() {
   const isPlaying = stage === "play" && Boolean(story);
 
   return (
-    <main className={`journal ${stage === "passport" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
+    <main className={`journal ${stage === "passport" || stage === "quiz" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
       <BackgroundMusic playing={stage === "dreaming" || stage === "play"} />
 
       {isPlaying && story ? (
