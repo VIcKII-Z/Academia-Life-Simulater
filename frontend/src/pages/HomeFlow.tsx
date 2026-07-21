@@ -6,12 +6,13 @@ import DreamingLoader from "../components/DreamingLoader";
 import BackgroundMusic from "../components/BackgroundMusic";
 import SceneCard, { StatMeters } from "../components/SceneCard";
 import PostcardEnding from "../components/PostcardEnding";
+import AdmissionLetter from "../components/AdmissionLetter";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
 import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfile } from "../types";
 
-type FlowStage = "passport" | "quiz" | "dreaming" | "play" | "error";
+type FlowStage = "passport" | "quiz" | "dreaming" | "admission" | "play" | "error";
 
 function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
@@ -64,7 +65,7 @@ export default function HomeFlow() {
       setStats({ ...DEFAULT_STATS, ...doc.initial_stats });
       setGameOverReason(null);
       setReusedStory(Boolean(doc.cached));
-      setStage("play");
+      setStage("admission");
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setStage("error");
@@ -91,11 +92,11 @@ export default function HomeFlow() {
 
   const currentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
-  const isPlaying = stage === "play" && Boolean(story);
+  const isPlaying = (stage === "play" || stage === "admission") && Boolean(story);
 
   return (
     <main className={`journal ${stage === "passport" || stage === "quiz" ? "journal--onboarding" : ""} ${isPlaying ? "journal--play" : ""}`}>
-      <BackgroundMusic playing={stage === "dreaming" || stage === "play"} />
+      <BackgroundMusic playing={stage === "dreaming" || stage === "admission" || stage === "play"} />
 
       {isPlaying && story ? (
         <header className="appBar">
@@ -144,6 +145,10 @@ export default function HomeFlow() {
       {stage === "quiz" && <QuizFlow onComplete={startStory} />}
 
       {stage === "dreaming" && profile && <DreamingLoader profile={profile} />}
+
+      {stage === "admission" && story && (
+        <AdmissionLetter profile={story.user_profile} onContinue={() => setStage("play")} />
+      )}
 
       {stage === "error" && (
         <div className="journalCard passportCard">

@@ -74,11 +74,20 @@
    background), so no separate override is needed here anymore; this class
    is kept only in case the onboarding step ever needs its own tweaks. */
 .journal--onboarding {
-  background-image: url("/branding/background.png");
+  background-image: url("/branding/background1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+/* Nudge the card to sit directly over the plain white card frame that's
+   baked into background1.png's mockup art, so the real (dynamic-height)
+   card visually "covers" it instead of leaving the drawn frame peeking
+   out around the edges. */
+.journal--onboarding .journalCard {
+  max-width: 440px;
+  margin-top: -42px;
 }
 
 /* ---- shared card shell ------------------------------------ */
@@ -659,6 +668,132 @@
 @keyframes stampPulse {
   0%, 100% { transform: scale(1); opacity: 0.85; }
   50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* ---- Admission letter: shown right after loading, before node 1 ---- */
+.admissionOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(44, 36, 24, 0.5);
+  animation: admissionFadeIn 0.4s ease;
+  overflow: hidden;
+}
+
+@keyframes admissionFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confettiField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.confettiPiece {
+  position: absolute;
+  top: -8%;
+  width: 9px;
+  height: 15px;
+  border-radius: 2px;
+  animation-name: confettiFall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes confettiFall {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--drift), 118vh) rotate(var(--rotate));
+    opacity: 0.9;
+  }
+}
+
+.admissionLetter {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: #fffdf8;
+  border-radius: 18px;
+  border: 1px solid rgba(44, 36, 24, 0.1);
+  box-shadow: 0 24px 60px rgba(44, 36, 24, 0.35);
+  padding: 40px 36px;
+  text-align: center;
+  animation: admissionPopIn 0.55s cubic-bezier(0.22, 1.4, 0.36, 1) both;
+}
+
+@keyframes admissionPopIn {
+  0% {
+    transform: scale(0.55) rotate(-4deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.admissionSeal {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  border: 3px double var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+
+.admissionSealIcon {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.admissionKicker {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 6px;
+}
+
+.admissionTitle {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+
+.admissionBody {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+
+.admissionFooter {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 0 0 24px;
 }
 
 .dreamingLine {
