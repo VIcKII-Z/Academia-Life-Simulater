@@ -4,6 +4,24 @@ Multi-agent pipeline that turns a study-abroad profile (country → city → uni
 program, searched layer-by-layer) into a playable text-adventure game: Search Agent → Design Agent
 → Artist Agent → React frontend, presented as a warm "travel journal / postcard" experience.
 
+## 🧑‍⚖️ TL;DR for judges
+
+- **What it is:** you tell it your intended country → city → university → degree → program, and
+  it generates a personalized, playable "preview" of what that specific study-abroad life would
+  actually feel like — real courses/clubs/neighborhoods woven into a choice-driven story with
+  stat consequences (health/mood/money/school), pixel-art scene illustrations, and a tone-based
+  ending (hopeful / bittersweet / challenging).
+- **Why we built it:** study-abroad decisions are high-stakes but low-context — students without
+  paid consultants or personal networks have no way to "try before you buy" a specific school and
+  city. See **"Why we built this"** below for the full motivation.
+- **How to try it in under a minute:** run the two `npm run dev` commands under "Running
+  locally", open `http://localhost:5173`, paste an API key (or use preset mode / a cached story —
+  no key required), and answer the 5-question quiz. See **"How to use it"** below for the full
+  walkthrough.
+- **What's real vs. simulated:** every story is grounded in agent-researched, named real-world
+  details (see "Architecture" and `search_agent_strategy.en.md`) — not generic AI filler. Known
+  limitations/risks are documented under "Known risks / open items" rather than hidden.
+
 Based on the hackathon design doc (v1.0). This README tracks actual implementation status,
 not the original spec — see the design doc for full product context, and **`fls-design.md`**
 for the full visual/UX design spec (fonts, colors, components, copywriting tone), plus
@@ -12,29 +30,14 @@ for the full visual/UX design spec (fonts, colors, components, copywriting tone)
 For a full engineering write-up of everything built this project (architecture decisions, every
 feature added, every bug fixed, and why), see **[`HANDOVER.md`](./HANDOVER.md)**.
 
-## Hackathon highlight: how we used Codex + GPT-5.6
+## 🛠️ Built with
 
-Future Life Simulator was built during the hackathon with **Codex and GPT-5.6 as an active
-development partner**, not just as a code autocomplete tool. We used Codex in three roles:
-
-- **Co-designer:** Codex helped shape the product direction around social good, accessibility,
-  and immersive study-abroad exploration for students who cannot easily access campus visits,
-  consulting, international travel, or reliable firsthand information.
-- **Co-builder:** Codex helped implement the React + TypeScript frontend, Express backend,
-  multi-agent story pipeline, story cache, image-generation controls, source-link handling,
-  multilingual UI, and the playable admission-letter-to-postcard flow.
-- **Co-refiner:** Codex helped debug generation reliability issues, including making sure every
-  chapter can receive a consistent illustration, improving cache matching, balancing academic and
-  everyday-life challenges, and polishing the UX for a more stable demo.
-
-GPT-5.6 was especially useful for turning broad product goals into concrete implementation steps:
-reading the existing codebase, proposing safe changes, editing files, checking regressions, and
-helping us iterate quickly under hackathon time pressure. The final product still uses structured
-application code, explicit validation, caching, and source links so the AI-generated experience is
-guided by engineering guardrails rather than free-form prompting alone.
-
-**Built with:** React, TypeScript, Vite, Node.js, Express, OpenAI APIs, live research/search,
-AI image generation, local story caching, and Codex/GPT-5.6-assisted development.
+This project's code was built with **OpenAI Codex (CLI)**, powered by **GPT-5.6**, as our primary
+AI coding assistant throughout development — from scaffolding the multi-agent backend pipeline
+and React frontend, to iterating on UI/UX bugs and agent-prompt tuning across many rounds of
+testing and feedback. Codex was used interactively, in the loop with our own review at every
+step: we drove the product direction and validated every change (via `tsc --noEmit`, manual
+testing, and live pipeline runs) rather than accepting generated code unreviewed.
 
 ## 🌍 Why we built this
 
@@ -342,10 +345,10 @@ Also queryable live via `GET /api/runs` and `GET /api/runs/:storyId`, or from th
 page's "Agent Outputs" tabs, and every stage transition is logged to the backend console
 (`[RunLogger] {storyId} :: {stage} started/completed`).
 
-## Known risks / open items
+## Open items
 
 - Relay's exact supported model list is unconfirmed — model names in `config.ts` may need
-  updating to match whatever the relay's "支持模型" page calls them, if they differ from
+  updating to match whatever the relay's page calls them, if they differ from
   official OpenAI names (`gpt-4o-mini` and `gpt-4o` confirmed working so far).
 - Image generation works against official OpenAI but fails with 429s against the current relay
   (xuedingmao.top) — use `provider: "openai"` for image gen for now.
