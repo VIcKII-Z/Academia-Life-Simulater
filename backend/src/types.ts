@@ -186,11 +186,8 @@ export interface Choice {
   next_node: string;
   stat_delta?: StatBlock;
   stat_reason?: string;
-  /** Marks the choice the Design Agent considers the "intended"/best path for
-   * this profile — surfaced in the UI with a star badge. Since the game only
-   * generates a single linear content path per node (all choices on a node
-   * share the same next_node, to save generation cost), this is purely a
-   * player-facing hint, not a branch selector. */
+  /** Legacy field from the earlier hint UI. The frontend no longer highlights
+   * a recommended option, but cached stories may still include this safely. */
   recommended?: boolean;
 }
 

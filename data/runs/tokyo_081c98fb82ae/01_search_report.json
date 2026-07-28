@@ -1,0 +1,268 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "MS in Computer Science",
+  "grade": "Exchange Student",
+  "profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "school": "University of Tokyo",
+    "department": "Graduate School of Information Science and Technology",
+    "program": "MS in Computer Science",
+    "major": "MS in Computer Science",
+    "grade": "Exchange Student"
+  },
+  "report": {
+    "cost_of_living": "Tokyo is known for its high cost of living, with expenses such as housing, transportation, and daily necessities being significantly higher than in many other cities. Exchange students should budget accordingly to accommodate these costs.",
+    "academic": "The MS in Computer Science program at the University of Tokyo offers a comprehensive curriculum covering areas like algorithms, programming languages, and artificial intelligence. Students are expected to engage in rigorous coursework and research activities.",
+    "visa": "Exchange students typically require a student visa to study in Japan. The University of Tokyo's International Student Office provides guidance on the application process and necessary documentation.",
+    "culture_shock": "Adapting to Japanese culture may present challenges, including language barriers and different social norms. However, Tokyo's international environment and the university's support services can help ease this transition.",
+    "community": "The University of Tokyo offers various student organizations and events that facilitate community building among international and local students, fostering a supportive environment.",
+    "career": "Graduates from the program have opportunities in Japan's robust tech industry, with companies like Sony and SoftBank actively recruiting. The university's career services assist students in navigating the job market.",
+    "safety": "Tokyo is considered one of the safest cities globally, with low crime rates and efficient emergency services, providing a secure environment for students.",
+    "climate": "Tokyo experiences a temperate climate with hot, humid summers and mild winters. Students should prepare for seasonal variations and potential typhoons during the summer months.",
+    "part_time_work": "International students in Japan are allowed to work part-time up to 28 hours per week during academic terms, provided they obtain the appropriate work permit. This can help offset living expenses."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Adjusting to Tokyo's humid summers may cause discomfort and fatigue.",
+      "Navigating crowded public transportation can be physically taxing.",
+      "Accessing healthcare services may be challenging due to language barriers."
+    ],
+    "mood": [
+      "Experiencing culture shock and homesickness in a new environment.",
+      "Balancing rigorous academic demands with social activities.",
+      "Building a new support network away from home."
+    ],
+    "money": [
+      "Managing high living expenses in Tokyo on a student budget.",
+      "Securing part-time work to supplement income.",
+      "Navigating currency exchange rates and banking systems."
+    ],
+    "city_major_specific_challenges": [
+      "Understanding and adapting to Japanese academic expectations and teaching styles.",
+      "Overcoming language barriers in daily life and academic settings.",
+      "Finding affordable housing in Tokyo's competitive rental market.",
+      "Commuting long distances due to limited on-campus housing options.",
+      "Adjusting to dietary differences and finding familiar foods.",
+      "Navigating bureaucratic processes for visa and work permits.",
+      "Building professional networks in a different cultural context.",
+      "Managing time effectively between studies, work, and social life."
+    ]
+  },
+  "source_coverage": {
+    "official_registry": false,
+    "program_official": true,
+    "department_official": true,
+    "catalog": true,
+    "handbook": false,
+    "international_office": true,
+    "tuition": false,
+    "housing": false,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Master's Program in Computer Science",
+    "degree_type": "Master of Information Science and Technology",
+    "department": "Department of Computer Science",
+    "duration": "2 years",
+    "delivery_mode": "On-campus",
+    "visa_eligible_notes": "Exchange students must obtain a student visa; the International Student Office provides assistance.",
+    "curriculum": [
+      "Advanced Algorithms",
+      "Programming Languages",
+      "Artificial Intelligence",
+      "Computer Architecture",
+      "Bioinformatics"
+    ],
+    "milestones": [
+      "Completion of required coursework",
+      "Research project initiation",
+      "Thesis submission and defense"
+    ],
+    "prerequisites": [
+      "Bachelor's degree in Computer Science or related field",
+      "Proficiency in English (TOEFL scores required)"
+    ],
+    "admissions": [
+      "Application through the university's online portal",
+      "Submission of academic transcripts and recommendation letters",
+      "TOEFL scores submission"
+    ],
+    "deadlines": [
+      "Summer Entrance Exam: Application period in early June",
+      "Winter Entrance Exam: Application period in mid-November"
+    ],
+    "funding": [
+      "Limited scholarships available for international students",
+      "Opportunities for research assistantships"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "On-campus housing is limited; students often seek private accommodations in Tokyo.",
+    "commute": "Public transportation is efficient but can be crowded during peak hours.",
+    "campus_support": "The university offers counseling services, language support, and cultural integration programs.",
+    "community": "Various student clubs and organizations are available, including those focused on international exchange.",
+    "safety": "The campus and surrounding areas are safe, with low crime rates.",
+    "climate": "Students should prepare for hot, humid summers and mild winters, with occasional typhoons."
+  },
+  "career_profile": {
+    "local_industry": "Tokyo is a hub for technology companies, offering numerous opportunities in software development, AI, and data science.",
+    "internship": "The university has partnerships with leading tech firms, facilitating internship placements.",
+    "work_authorization": "International students can work part-time up to 28 hours per week with the appropriate permit.",
+    "language_or_networking_requirements": "Proficiency in Japanese can enhance job prospects, though some positions are available in English.",
+    "notable_employers": [
+      "Sony",
+      "SoftBank",
+      "NTT Data"
+    ],
+    "recruiting_events": [
+      "Annual career fairs hosted by the university",
+      "Company information sessions on campus"
+    ],
+    "alumni_outcomes": [
+      "Graduates employed in leading tech companies globally",
+      "Pursuit of doctoral studies in prestigious institutions"
+    ]
+  },
+  "campus_life_profile": {
+    "notable_courses": [
+      {
+        "title": "Advanced Algorithms",
+        "code": "CS501",
+        "note": "Focuses on the design and analysis of complex algorithms.",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml"
+      },
+      {
+        "title": "Artificial Intelligence",
+        "code": "CS503",
+        "note": "Covers machine learning, neural networks, and AI applications.",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml"
+      }
+    ],
+    "notable_faculty": [
+      {
+        "name": "Prof. Takeo Igarashi",
+        "title": "Professor",
+        "research_area": "Human-Computer Interaction",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/faculty_e.shtml"
+      },
+      {
+        "name": "Prof. Naoki Kobayashi",
+        "title": "Professor",
+        "research_area": "Programming Languages",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/faculty_e.shtml"
+      }
+    ],
+    "libraries": [
+      {
+        "name": "Information Science Library",
+        "note": "Houses extensive resources in computer science and related fields.",
+        "url": "https://www.lib.u-tokyo.ac.jp/en/library/ist"
+      }
+    ],
+    "clubs": [
+      {
+        "name": "Computer Science Student Association",
+        "note": "Organizes workshops, seminars, and social events for students.",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/studentlife_e.shtml"
+      },
+      {
+        "name": "International Students Association",
+        "note": "Provides support and organizes cultural exchange events.",
+        "url": "https://www.u-tokyo.ac.jp/en/current-students/isa.html"
+      }
+    ],
+    "events": [
+      {
+        "name": "Annual Tech Symposium",
+        "note": "Showcases research projects and invites industry leaders.",
+        "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/events_e.shtml"
+      },
+      {
+        "name": "International Student Orientation",
+        "note": "Helps new international students acclimate to campus life.",
+        "url": "https://www.u-tokyo.ac.jp/en/current-students/orientation.html"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Graduate School of Information Science and Technology | The University of Tokyo",
+      "url": "https://www.u-tokyo.ac.jp/en/academics/grad_ist.html",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program_profile"
+      ]
+    },
+    {
+      "title": "Admissions | Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://www.i.u-tokyo.ac.jp/edu/entra/index_e.shtml",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "Master's and Doctoral Program | Admissions | Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://www.i.u-tokyo.ac.jp/edu/entra/entra_e.shtml",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "admissions",
+        "deadlines"
+      ]
+    },
+    {
+      "title": "Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://www.i.u-tokyo.ac.jp/index_e.shtml",
+      "source_type": "program_official",
+      "confidence": "high",
+      "used_for": [
+        "program_profile",
+        "student_life_profile"
+      ]
+    },
+    {
+      "title": "Departments and Faculty | Organization | Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://www.i.u-tokyo.ac.jp/edu/intro/index_e.shtml",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "program_profile",
+        "campus_life_profile"
+      ]
+    },
+    {
+      "title": "Graduate School of Information Science and Technology - SCHOOL OF SCIENCE THE UNIVERSITY OF TOKYO",
+      "url": "https://www.s.u-tokyo.ac.jp/en/people/l/ist/",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "notable_faculty"
+      ]
+    },
+    {
+      "title": "Types of Degrees | Overview | Overview | Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://i-web2.i.u-tokyo.ac.jp/edu/stud/degree_e.shtml",
+      "source_type": "catalog",
+      "confidence": "high",
+      "used_for": [
+        "degree_type"
+      ]
+    }
+  ],
+  "gaps": [
+    "Specific tuition information was not found; prospective students should consult the university's official tuition page.",
+    "Detailed housing options and costs were not available; students should contact the university's housing office for assistance.",
+    "Comprehensive information on student forums and firsthand experiences was limited; engaging with current students or alumni may provide additional insights."
+  ]
+}

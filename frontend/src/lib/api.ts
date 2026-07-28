@@ -104,7 +104,7 @@ export function buildRuntimeConfig(
     features: {
       enableLiveSearch: true,
       enableImageGeneration: true,
-      maxImagesPerStory: 30,
+      maxImagesPerStory: 12,
       ...featureOverrides,
     },
   };

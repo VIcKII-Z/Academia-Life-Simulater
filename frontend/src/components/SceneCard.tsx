@@ -294,13 +294,10 @@ export default function SceneCard({
                       const direction = directionFor(index, choices.length);
                       return (
                         <button
-                          className={`choicePath${choice.recommended ? " choicePath--recommended" : ""}`}
+                          className="choicePath"
                           key={`${choice.next_node}-${index}`}
                           onClick={(event) => onChoose(choice, event.currentTarget.getBoundingClientRect())}
                         >
-                          {choice.recommended && (
-                            <img className="choicePathStar" src="/stickers/star.svg" alt={t("common.recommended")} />
-                          )}
                           <img
                             className="choicePathArrow"
                             src={CHOICE_STICKER[direction]}

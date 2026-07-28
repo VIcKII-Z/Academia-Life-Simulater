@@ -88,7 +88,7 @@ export default function DebugPage() {
       features: {
         enableLiveSearch: true,
         enableImageGeneration,
-        maxImagesPerStory: 30,
+        maxImagesPerStory: 12,
       },
     };
   }

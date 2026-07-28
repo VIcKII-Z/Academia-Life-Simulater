@@ -33,19 +33,19 @@ export const config = {
     enableLiveSearch: false,
     // If false, Artist Agent is skipped entirely; nodes render with no image / a placeholder.
     enableImageGeneration: false,
-    // Max number of images generated per story if enableImageGeneration is true.
-    // Story length is capped at 30, so this default allows every chapter to have an image.
-    maxImagesPerStory: 30,
+    // Max number of newly generated images per story if enableImageGeneration is true.
+    // Similar chapters can reuse nearby visual anchors instead of generating one image per node.
+    maxImagesPerStory: 12,
   },
 
   // ---- Story generation tuning -----------------------------------
-  // Linear storyline (no branching tree) per current design direction.
+  // Braided storyline: short A/B branches can merge back into shared nodes.
   // Actual node count now scales with UserProfile.semesters (see
-  // designAgent.ts's computeTargetNodeCount) — these two are just the
-  // 1-semester baseline shown in /api/config for reference.
+  // designAgent.ts's computeTargetNodeCount). These are the 1-semester
+  // baseline/range shown in /api/config for reference.
   story: {
-    minNodes: 10,
-    maxNodes: 10,
+    minNodes: 13,
+    maxNodes: 13,
   },
 } as const;
 

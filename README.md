@@ -172,13 +172,16 @@ against official OpenAI:
   API key storage per provider (`fls.apiKey.relay` / `fls.apiKey.openai` in `localStorage`) — fixed
   a bug where switching providers used to silently clear/overwrite the other provider's key.
 
-🚧 **TEMP: linear storyline (no branching tree)** — current design direction, not a bug:
-- `backend/src/config/config.ts`'s `story.minNodes`/`maxNodes` are both pinned to `10`, and the
-  Design Agent's prompt requires an exact node-id sequence (`opening`, `node2`..`node9`, `ending`)
-  where every choice on a given node points to the **same** next node — so choices still carry
-  distinct stat consequences, but the visited-node path is always a straight line. To restore
-  branching, revert `config.story` to a range (e.g. `12`-`15`) and remove the "LINEAR STORYLINE"
-  constraint block in `backend/src/agents/designAgent.ts`'s system prompt.
+🧭 **Braided branching storyline:**
+- The Design Agent now generates a compact A/B → C topology instead of a single straight line.
+  Some choice pairs create a short branch into different nodes, then converge back into a shared
+  scene; other choice pairs intentionally keep the same `next_node` and only change stats. This
+  gives real story variation without exploding generation cost into a full binary tree.
+- The default 1-semester flow is now a little longer, with richer choice text that names both the
+  concrete action and the tradeoff instead of using short button-label phrasing.
+- Image generation is also anchor-based: not every node needs a new image. Similar nearby scenes
+  can reuse the closest generated visual, while major location/emotion changes and endings keep
+  their own visual anchors.
 
 ⚠️ **Not yet resolved:**
 - Image generation via the relay — repeatedly hit 429 rate-limits on `gpt-image-1` specifically;
@@ -254,14 +257,13 @@ features: {
   enableLiveSearch: false,       // false = Search Agent reads /data/presets/*.json (free, instant)
   enableImageGeneration: false,  // false = Artist Agent is skipped, no image API calls
                                   // (frontend currently overrides this to true by default)
-  maxImagesPerStory: 4,
+  maxImagesPerStory: 12,
 },
 story: {
-  // TEMP: pinned to exactly 10 for a linear (non-branching) storyline — see "Current Status".
-  // Restore a range (e.g. 12-15) + remove the LINEAR STORYLINE prompt block in designAgent.ts
-  // to bring back a branching tree.
-  minNodes: 10,
-  maxNodes: 10,
+  // Braided storyline: short A/B branches can merge back into shared nodes.
+  // Actual node count scales with UserProfile.semesters.
+  minNodes: 13,
+  maxNodes: 13,
 },
 ```
 

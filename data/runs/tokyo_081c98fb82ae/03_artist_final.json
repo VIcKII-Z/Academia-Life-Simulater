@@ -1,0 +1,483 @@
+{
+  "story_id": "tokyo_081c98fb82ae",
+  "framework_type": "turning_point",
+  "framework_reason": "The high-pressure environment of adjusting to academic demands and the cost of living in Tokyo presents specific, sharp challenges for exchange students.",
+  "user_profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "major": "MS in Computer Science",
+    "grade": "Exchange Student",
+    "school": "University of Tokyo",
+    "department": "Graduate School of Information Science and Technology",
+    "program": "MS in Computer Science",
+    "semesters": 2
+  },
+  "initial_stats": {
+    "health": 70,
+    "mood": 70,
+    "money": 70,
+    "school": 70
+  },
+  "nodes": {
+    "opening": {
+      "type": "opening",
+      "scene_text": "As the plane lands in Tokyo, a mix of excitement and anxiety **fills your chest**. The sprawling metropolis sprawls before you, a vibrant mix of culture, technology, and opportunity. But you also remember the **expensive rent** you’ve read about and the **rigorous coursework** that awaits you at the University of Tokyo. With a student visa in hand, you step into a new world, ready to embrace your journey as an exchange student in this bustling city.",
+      "image_prompt": "A panoramic view of Tokyo's skyline with a plane landing in the foreground, vibrant city life visible below.",
+      "has_image": true,
+      "insight": "Tokyo is renowned for its vibrant culture and technological advancements, attracting numerous international students. However, the high cost of living poses a significant challenge for those new to the city.",
+      "choices": [
+        {
+          "text": "Head straight to the university for orientation.",
+          "next_node": "node2a",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": -5,
+            "school": 5
+          },
+          "stat_reason": "Attending the orientation strengthens your connection to the university.",
+          "recommended": true
+        },
+        {
+          "text": "Explore the local neighborhood first.",
+          "next_node": "node2b",
+          "stat_delta": {
+            "health": -5,
+            "mood": 5,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "While it’s tempting to explore, you might feel the pinch on your budget.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_opening.png"
+    },
+    "node2a": {
+      "type": "node",
+      "scene_text": "The university's **orientation day** is bustling with activity. You meet fellow exchange students from around the globe, all navigating this new world together. The information session details life at the University of Tokyo, but you're concerned about how **classes like Advanced Algorithms** and **[Artificial Intelligence](https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml)** will fit into your schedule. After an exhaustive day, you feel a growing fatigue but are excited to forge new friendships.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Orientation at universities like the University of Tokyo is vital for connecting with peers and understanding academic expectations, helping students acclimate to their new environment.",
+      "choices": [
+        {
+          "text": "Join your new friends for dinner to celebrate.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -20,
+            "school": 0
+          },
+          "stat_reason": "Socializing is important but can strain your budget and health from overindulgence.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize your health and rest instead.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": 5,
+            "mood": 5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Resting enables you to recharge ahead of your academic responsibilities.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_opening.png"
+    },
+    "node2b": {
+      "type": "node",
+      "scene_text": "As you wander through the streets of Tokyo, the **neon lights** and **crowded market stalls** captivate your senses. However, you quickly notice how quickly your budget is dwindling due to the **high cost of living** in the city. You indulge in some delicious street food but find yourself overwhelmed by the hustle and bustle of the city, which can be a bit of a culture shock amidst beautifully chaotic Tokyo life.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Tokyo's high cost of living means students must be careful with their budgets, as everyday expenses can add up quickly, especially during initial explorations.",
+      "choices": [
+        {
+          "text": "Try to find a local café and connect with other students.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": -15,
+            "school": 0
+          },
+          "stat_reason": "Connecting with others can boost your mood but may impact your finances.",
+          "recommended": true
+        },
+        {
+          "text": "Head back to the university to find your accommodation.",
+          "next_node": "node3",
+          "stat_delta": {
+            "health": -10,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Returning might be wise, but it takes away the thrill of exploration.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_opening.png"
+    },
+    "node3": {
+      "type": "node",
+      "scene_text": "Settling into your accommodation involves handling paperwork and organizing your space, as moving in can be **stressful**. You also tackle the demands of managing your time. The university emphasizes a proactive approach to **Advanced Algorithms** and **[Artificial Intelligence](https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml)**, but fitting in social life and daily necessities requires careful planning. You can see the pressure mounting as the semester starts.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Many exchange students struggle with the logistics of settling in, impacting their overall well-being and making it crucial to find balance between academics and personal life.",
+      "choices": [
+        {
+          "text": "Focus on arranging your living space efficiently.",
+          "next_node": "node4a",
+          "stat_delta": {
+            "health": 5,
+            "mood": 0,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "A well-organized space can improve focus, though it might increase expenses.",
+          "recommended": true
+        },
+        {
+          "text": "Join a local meetup group to connect with others.",
+          "next_node": "node4b",
+          "stat_delta": {
+            "health": -5,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Building social connections early improves mood but may lead to neglecting tasks.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node4a.png"
+    },
+    "node4a": {
+      "type": "node",
+      "scene_text": "With your space arranged, you feel a sense of calm. However, the stress of your upcoming classes looms large. Enrolling in **[CS501: Advanced Algorithms](https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml)** quickly brings you up to speed with complex topics, while balancing social activities with rigorous study habits turns out to be a demanding challenge. You realize you need to take better care of yourself amid intense academic pacing.",
+      "image_prompt": "Study-abroad Exchange Student MS in Computer Science in University of Tokyo, Tokyo, Japan, node scene from node4a, With your space arranged, you feel a sense of calm. However, the stress of your upcoming classes looms large. Enrolling in CS501: Advanced Algorithms quickly brings you..., clear environment, emotional body language, no readable text",
+      "has_image": true,
+      "insight": "Successful students need to manage self-care alongside intensive coursework, especially given the demanding nature of computer science studies at international institutions.",
+      "choices": [
+        {
+          "text": "Reduce your study hours to explore the city.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": -20,
+            "school": -5
+          },
+          "stat_reason": "While exploring enhances your experience, it risks your academic progress significantly.",
+          "recommended": true
+        },
+        {
+          "text": "Prioritize your coursework and study effectively.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -5,
+            "mood": -5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Focusing on studies improves academic standing but potentially worsens health and mood.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node4a.png"
+    },
+    "node4b": {
+      "type": "node",
+      "scene_text": "Meeting fellow students brings a rush of excitement, and joining the **[Computer Science Student Association](https://www.i.u-tokyo.ac.jp/edu/course/cs/studentlife_e.shtml)** introduces you to club activities and networking. The blend of academic and social commitments adds a new layer of stress to your life. While connecting with peers feels uplifting, the workload does not diminish, and you notice a steady decline in your ability to balance everything.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Balancing social engagement with academic rigor is vital for exchange students, but can often lead to increased stress if not managed well.",
+      "choices": [
+        {
+          "text": "Cut down on club activities to focus on studies.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Reducing club involvement allows more time for studies, but it dampens your social experiences.",
+          "recommended": true
+        },
+        {
+          "text": "Try to take on more within the club.",
+          "next_node": "node5",
+          "stat_delta": {
+            "health": -10,
+            "mood": 15,
+            "money": 0,
+            "school": -5
+          },
+          "stat_reason": "Increased engagement provides social joy, but lessens academic performance and health.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node4a.png"
+    },
+    "node5": {
+      "type": "node",
+      "scene_text": "As the semester progresses, you find the academic workload mounting. The **Intense study sessions** for both **CS501** and **CS503** start to blur into one exhausting routine. Compounded by the financial strain of living expenses, you constantly feel the pressure weighing on you. The thrills of Tokyo life begin to fade under the relentless demands of your program, which pulls at your emotional and physical well-being.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "The rigorous nature of graduate programs, especially in computer science, often leads to high stress for exchange students adjusting to new cultures.",
+      "choices": [
+        {
+          "text": "Seek academic support through office hours.",
+          "next_node": "node6a",
+          "stat_delta": {
+            "health": 0,
+            "mood": 5,
+            "money": 0,
+            "school": 10
+          },
+          "stat_reason": "Utilizing university resources can strengthen understanding and boost confidence.",
+          "recommended": true
+        },
+        {
+          "text": "Overwork yourself to meet deadlines.",
+          "next_node": "node6b",
+          "stat_delta": {
+            "health": -20,
+            "mood": -10,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Pushing through can improve grades but jeopardizes health and motivation.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node6a.png"
+    },
+    "node6a": {
+      "type": "node",
+      "scene_text": "Visiting office hours for **[Prof. Naoki Kobayashi](https://www.i.u-tokyo.ac.jp/edu/course/cs/faculty_e.shtml)**, known for his expertise in programming languages, helps clarify your coursework and eases anxiety about your performance. The encouragement you receive bolsters your confidence, causing you to feel more engaged in your classes. You start managing your time better and notice a small improvement in your studies, balancing this newfound information with social engagements.",
+      "image_prompt": "Study-abroad Exchange Student MS in Computer Science in University of Tokyo, Tokyo, Japan, node scene from node6a, Visiting office hours for Prof. Naoki Kobayashi, known for his expertise in programming languages, helps clarify your coursework and eases anxiety about your..., clear environment, emotional body language, no readable text",
+      "has_image": true,
+      "insight": "Utilizing faculty support is crucial for academic success, particularly for exchange students facing cultural adaptation within rigorous programs.",
+      "choices": [
+        {
+          "text": "Plan a weekend studying for the upcoming exams.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -10,
+            "mood": 5,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "Prioritizing preparation may boost grades and understanding, while compromising rest.",
+          "recommended": true
+        },
+        {
+          "text": "Join a social event with your club instead.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -5,
+            "mood": 15,
+            "money": -10,
+            "school": 0
+          },
+          "stat_reason": "Participating socially can improve mood but leads to less focus on studies.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node6a.png"
+    },
+    "node6b": {
+      "type": "node",
+      "scene_text": "The weight of assignments becomes unbearable as you skip meals and forgo sleep to meet the deadlines. While grades may show improvement, the **exhaustion** starts to take a toll on your physical health and overall mood. Friends express concern about your well-being, hinting that you might be overburdened by your commitments. In the manic rush, you begin to dread Tokyo's once-exciting vibe.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Academic pressures can lead to compromising health and social life, particularly for international students unfamiliar with cultural expectations in Japan.",
+      "choices": [
+        {
+          "text": "Reassess your commitments and talk to friends about your stress.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": 10,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Seeking support can boost mood and health, allowing you to manage stress.",
+          "recommended": true
+        },
+        {
+          "text": "Ignore the warnings and push through.",
+          "next_node": "node7",
+          "stat_delta": {
+            "health": -30,
+            "mood": -20,
+            "money": 0,
+            "school": 15
+          },
+          "stat_reason": "While you may succeed academically, your health will suffer greatly.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node6a.png"
+    },
+    "node7": {
+      "type": "node",
+      "scene_text": "As the semester closes, you confront the looming decisions about your future: a choice between pursuing life in Japan or returning home, balancing dreams with reality amidst the **academic demands** of your computer science studies. Engaging in vibrant **local festivals** and networking with professionals at the **[Annual Tech Symposium](https://www.i.u-tokyo.ac.jp/edu/course/cs/events_e.shtml)** can bring clarity, reflecting on what it truly means to be part of the tech landscape in Tokyo. Now the question is whether you will go all in or take a tentative step back.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Navigating personal and professional aspirations amid academic demands is a common challenge for international students aspiring to embed themselves in local markets.",
+      "choices": [
+        {
+          "text": "Stay in Japan and pursue an internship with a tech firm.",
+          "next_node": "node8a",
+          "stat_delta": {
+            "health": 0,
+            "mood": 20,
+            "money": -30,
+            "school": 0
+          },
+          "stat_reason": "Embracing internship opportunities can enhance experience, though it may strain finances.",
+          "recommended": true
+        },
+        {
+          "text": "Decide to return home after graduation.",
+          "next_node": "node8b",
+          "stat_delta": {
+            "health": 0,
+            "mood": -10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Returning might bring comfort but limits opportunities in a thriving industry.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node6a.png"
+    },
+    "node8a": {
+      "type": "node",
+      "scene_text": "Accepting an internship with **SoftBank**, you dive into hands-on work, applying your knowledge of **[artificial intelligence](https://www.i.u-tokyo.ac.jp/edu/course/cs/curriculum_e.shtml)** in real-world scenarios. This experience enriches both your resume and your network, lifting your spirits. The vibrant environment contrasts with the pressures faced earlier, as you find a balance between maintaining your academic standards and enjoying a richer life experience in Tokyo.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "Internships significantly enhance career prospects for international students, especially in Japan's dynamic tech industry.",
+      "choices": [
+        {
+          "text": "Leverage this experience for career opportunities in Japan.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 10,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "Using internship experience to network can open further pathways.",
+          "recommended": true
+        },
+        {
+          "text": "Consider returning home to share this knowledge.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": -5,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "While sharing experiences is rewarding, it might feel like leaving opportunities behind.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node8b.png"
+    },
+    "node8b": {
+      "type": "node",
+      "scene_text": "After graduation, you step back into familiar surroundings but carry with you the memories of Tokyo. While there’s comfort in returning home, a sense of **unresolved longing** remains for experiences and connections made abroad. Reintegrating into a familiar routine can feel stifling after the exhilarating pulse of Tokyo life, leaving you to wonder about the opportunities left unexplored.",
+      "image_prompt": "Study-abroad Exchange Student MS in Computer Science in University of Tokyo, Tokyo, Japan, node scene from node8b, After graduation, you step back into familiar surroundings but carry with you the memories of Tokyo. While there’s comfort in returning home, a sense of unresolved..., clear environment, emotional body language, no readable text",
+      "has_image": true,
+      "insight": "Returning home can be bittersweet for students who have formed significant ties abroad; the contrast with previous experiences can lead to adjustment challenges.",
+      "choices": [
+        {
+          "text": "Take the steadier option.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "This choice changes the route without enough model-provided stat detail.",
+          "recommended": true
+        },
+        {
+          "text": "Take the riskier option.",
+          "next_node": "node9",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "This choice changes the route without enough model-provided stat detail.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node8b.png"
+    },
+    "node9": {
+      "type": "node",
+      "scene_text": "With newfound confidence from your experiences, you are ready to chart your own path, whether that means pursuing a career in Japan or leveraging your experiences back home. The undeniable skills and connections fostered during your time in Tokyo empower you to face tomorrow's challenges head-on, bringing the skills learned into tangible opportunities.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "The skills and networks developed during study-abroad experiences significantly contribute to career success and personal growth, often leading to diverse opportunities.",
+      "choices": [
+        {
+          "text": "Take the steadier option.",
+          "next_node": "ending_hopeful",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "This choice changes the route without enough model-provided stat detail.",
+          "recommended": true
+        },
+        {
+          "text": "Take the riskier option.",
+          "next_node": "ending_challenging",
+          "stat_delta": {
+            "health": 0,
+            "mood": 0,
+            "money": 0,
+            "school": 0
+          },
+          "stat_reason": "This choice changes the route without enough model-provided stat detail.",
+          "recommended": false
+        }
+      ],
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_node8b.png"
+    }
+  },
+  "endings": {
+    "ending_hopeful": {
+      "scene_text": "With the internship completed and a network built in Tokyo, you find yourself in a **stronger position** for future opportunities. As you leave, you carry not just knowledge, but a vibrant patchwork of connections and experiences that shape your next chapter. Each step in this new direction is infused with hope, an unwavering belief that the skills you garnered here will resonate throughout your career.",
+      "image_prompt": null,
+      "has_image": false,
+      "insight": "The power of positive connections and experiences cultivated during study-abroad programs is transformative, often providing graduates with exceptional career opportunities.",
+      "tone": "hopeful",
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_ending_challenging.png"
+    },
+    "ending_challenging": {
+      "scene_text": "Stepping off familiar ground back home, you carry unresolved emotions reflecting the challenges faced in Tokyo. The memories of bustling streets and missed opportunities pour in. While you cherish the moments had, the lingering feeling of **what-ifs** prompts you to seek closure. Life resumes, but questions of future paths often remain, pushing you to rethink and revalue your journey.",
+      "image_prompt": "Study-abroad Exchange Student MS in Computer Science in University of Tokyo, Tokyo, Japan, ending scene from ending_challenging, Stepping off familiar ground back home, you carry unresolved emotions reflecting the challenges faced in Tokyo. The memories of bustling streets and missed opportunities..., clear environment, emotional body language, no readable text",
+      "has_image": true,
+      "insight": "The transition from study abroad can evoke nostalgia and uncertainty, as students grapple with the decisions made and potential paths ahead.",
+      "tone": "challenging",
+      "image_url": "/assets/generated/tokyo_081c98fb82ae_ending_challenging.png"
+    }
+  }
+}

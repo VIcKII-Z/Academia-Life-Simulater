@@ -1,0 +1,28 @@
+{
+  "storyId": "tokyo_081c98fb82ae",
+  "mode": "live_search",
+  "profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "grade": "Exchange Student",
+    "major": "MS in Computer Science",
+    "school": "University of Tokyo",
+    "semesters": 2,
+    "department": "Graduate School of Computer Science",
+    "program": "MS in Computer Science"
+  },
+  "runtimeConfig": {
+    "provider": "openai",
+    "models": {
+      "search": "gpt-4o",
+      "design": "gpt-4o-mini",
+      "image": "gpt-image-1"
+    },
+    "features": {
+      "enableLiveSearch": true,
+      "enableImageGeneration": true,
+      "maxImagesPerStory": 12
+    }
+  },
+  "startedAt": "2026-07-27T11:17:16.207Z"
+}

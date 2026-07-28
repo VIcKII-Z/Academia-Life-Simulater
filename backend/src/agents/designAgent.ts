@@ -2,28 +2,70 @@ import { config } from "../config/config.js";
 import { getOpenAIClient } from "./openaiClient.js";
 import type { ResearchReport, RuntimeConfig, StoryDocument } from "../types.js";
 
-/** Builds the ordered node-id chain for a target total node/ending count:
- * "opening", "node2", ..., "node{N-1}", then a single "ending". Mirrors the
- * original fixed 10-node chain (opening, node2..node9, ending) but scales
- * with story length so a longer stay (more semesters) produces a longer
- * chain instead of always exactly 10. */
-function buildNodeChain(targetNodeCount: number): { nodeIds: string[]; endingId: string } {
-  const nodeIds = ["opening"];
-  for (let i = 2; i <= targetNodeCount - 1; i++) nodeIds.push(`node${i}`);
-  return { nodeIds, endingId: "ending" };
+interface StoryTopology {
+  nodeIds: string[];
+  endingIds: string[];
+  edgeRules: string[];
+  nextByNode: Record<string, string[]>;
 }
 
-/** Minimum semesters is 1 (the original fixed-length story); each additional
- * semester adds ~5 more nodes, capped so generation cost/time stays bounded. */
+/** Builds a cost-controlled braided graph: short A/B branches that merge back
+ * into shared nodes. This gives the player real story divergence without
+ * exploding into a full binary tree. */
+function buildBraidedTopology(targetNodeCount: number): StoryTopology {
+  const endingIds = ["ending_hopeful", "ending_challenging"];
+  const targetStoryNodes = Math.max(4, targetNodeCount - endingIds.length);
+  const nodeIds = ["opening"];
+  const edgeRules: string[] = [];
+  const nextByNode: Record<string, string[]> = {};
+  let current = "opening";
+  let nodeNumber = 2;
+
+  while (nodeIds.length < targetStoryNodes) {
+    const remaining = targetStoryNodes - nodeIds.length;
+    if (remaining >= 3) {
+      const branchA = `node${nodeNumber}a`;
+      const branchB = `node${nodeNumber}b`;
+      const merge = `node${nodeNumber + 1}`;
+      nodeIds.push(branchA, branchB, merge);
+      nextByNode[current] = [branchA, branchB];
+      nextByNode[branchA] = [merge];
+      nextByNode[branchB] = [merge];
+      edgeRules.push(`- "${current}": its two choices MUST split, one to "${branchA}" and one to "${branchB}".`);
+      edgeRules.push(`- "${branchA}" and "${branchB}": their choices MUST converge back to "${merge}" (both choices on each branch node point to "${merge}", with different stat_delta).`);
+      current = merge;
+      nodeNumber += 2;
+      continue;
+    }
+
+    const next = `node${nodeNumber}`;
+    nodeIds.push(next);
+    nextByNode[current] = [next];
+    edgeRules.push(`- "${current}": both choices point to "${next}" (stat-only choice pair; the story beat continues).`);
+    current = next;
+    nodeNumber += 1;
+  }
+
+  nextByNode[current] = endingIds;
+  edgeRules.push(`- "${current}": its two choices MUST split to the endings, one to "ending_hopeful" and one to "ending_challenging".`);
+
+  return { nodeIds, endingIds, edgeRules, nextByNode };
+}
+
+/** Minimum semesters is 1. Each additional semester adds a handful of beats,
+ * capped so generation cost/time stays bounded while the flow still has room
+ * to breathe. */
 export function computeTargetNodeCount(semesters?: number): number {
   const s = Math.max(1, Math.round(semesters ?? 1));
-  return Math.min(30, 10 + 5 * (s - 1));
+  return Math.min(34, 13 + 6 * (s - 1));
 }
 
 function buildDesignSystemPrompt(targetNodeCount: number, semesters: number): string {
-  const { nodeIds, endingId } = buildNodeChain(targetNodeCount);
-  const chainDescription = `${nodeIds.join('" -> "')}" -> "${endingId}`;
+  const topology = buildBraidedTopology(targetNodeCount);
+  const { nodeIds, endingIds, edgeRules } = topology;
   const nodeIdList = nodeIds.map((id) => `"${id}"`).join(", ");
+  const endingIdList = endingIds.map((id) => `"${id}"`).join(", ");
+  const topologyRuleText = edgeRules.join("\n");
 
   return `You are a story design AI responsible for transforming a
 study-abroad research report into the skeleton of an interactive survival text-adventure game.
@@ -47,25 +89,27 @@ Initial stats should usually be { "health": 70, "mood": 70, "money": 70, "school
 The frontend ends the game immediately if any stat reaches 0 or below. Therefore, choices must
 create meaningful pressure without being random punishment.
 
+[Graph Structure Rules]
+- BRAIDED TWO-PATH STORY, NOT A FULL BINARY TREE: produce EXACTLY ${targetNodeCount} total
+  nodes/endings, no more and no fewer: ${nodeIdList} under "nodes" (${nodeIds.length} non-ending
+  nodes), and ${endingIdList} under "endings" (${endingIds.length} endings).
+- Use this exact graph topology. Do not add, remove, rename, or reorder node ids:
+${topologyRuleText}
+- Some choice pairs are TRUE STORY choices: their two choices point to two different next_node
+  values, creating A/B branch scenes that later merge. Other choice pairs are STAT-ONLY choices:
+  both choices point to the same next_node and only change health/mood/money/school.
+- Keep divergence compact. Branch nodes should feel meaningfully different for one scene, then
+  naturally rejoin at the merge node. Do not create two completely separate storylines.
+
 [Stat Balance Rules]
-- LINEAR STORYLINE, NO BRANCHING TREE: produce EXACTLY ${targetNodeCount} total nodes/endings
-  forming a SINGLE linear chain with EXACTLY these node ids, in this exact order and count, no
-  more and no fewer: ${nodeIdList} under "nodes" (${nodeIds.length} nodes), and exactly one
-  "${endingId}" under "endings" (1 ending) — ${targetNodeCount} total. "${chainDescription}".
-  Every non-ending node has EXACTLY 2 choices (still meaningful, still carrying stat_delta), but
-  BOTH choices on a given node MUST point to the SAME "next_node" — the one next node in the
-  sequence above. This keeps player agency over consequences (different choices, different
-  stat_delta) without ever branching the visited-node path itself — only one linear content path
-  is generated per node, which keeps generation cost down. Do not add, remove, rename, or
-  reorder any node id, and do not create alternate paths or additional endings.
-- Of the 2 choices on each non-ending node, mark exactly ONE with "recommended": true — the
-  choice you consider the more sensible/better path for this specific profile (e.g. the one a
-  thoughtful player balancing all four stats would pick). Mark the other "recommended": false.
-  This is shown to the player as a hint (a star badge), not a hard branch.
+- Do not label one choice as the "correct" or recommended option. Let both options feel playable,
+  with different tradeoffs and consequences.
+- Choice text should be richer than a button label: write 12-22 words that include the concrete
+  action and the implied tradeoff, e.g. "Skip the mixer and protect tomorrow's lab prep, even if
+  the evening feels lonely." Avoid vague two-word options.
 - Every non-ending choice MUST include:
   "stat_delta": { "health": number, "mood": number, "money": number, "school": number }
   "stat_reason": "short explanation grounded in the report"
-  "recommended": boolean
 - Typical choice deltas should be between -20 and +12 per stat.
 - High-risk choices may include one -25 to -30 penalty, but compensate with a clear benefit in another stat.
 - At least 60% of choices should involve tradeoffs, not simply all-positive or all-negative outcomes.
@@ -131,8 +175,8 @@ Choose the most suitable of the following three, and state your reasoning:
 [Step 2: Generate Node Content]
 - All stories begin with an "opening" node representing arrival.
 - Each node's scene_text should be 130-220 words: scene description plus emotional tone,
-  not preachy. Produce EXACTLY the ${targetNodeCount} nodes/endings listed in the LINEAR
-  STORYLINE rule above (${nodeIdList}, ${endingId}) — no more, no fewer.
+  not preachy. Produce EXACTLY the ${targetNodeCount} nodes/endings listed in the graph topology
+  above (${nodeIdList}, ${endingIdList}) — no more, no fewer.
 - Within scene_text, wrap 2-4 short, genuinely important phrases in **double asterisks**
   (markdown-bold) so the player can skim the long paragraph — e.g. concrete numbers/costs,
   the key decision or risk of the scene, a pivotal place/deadline. Do not over-mark; only the
@@ -157,10 +201,13 @@ Choose the most suitable of the following three, and state your reasoning:
   rather than school, and ground those tradeoffs in report.student_life_profile, cost_of_living,
   climate, housing, community, visa, and part_time_work when available.
 - Ending nodes must have a "tone" field: one of "hopeful", "bittersweet", "challenging".
-- Set has_image=true for EVERY node and the ending, so all ${targetNodeCount} chapters have
-  a matching illustration.
-- For every node and ending, write an image_prompt: 20-40 word English description of scene,
-  atmosphere, character state, and visible environment (no detailed facial features, no text).
+- Set has_image=true only for visual anchor scenes: opening, merge scenes, major location changes,
+  high-emotion branch scenes, and endings. Similar adjacent branch nodes may share a visual, so
+  not every node needs its own generated image. Aim for roughly 50-70% of nodes/endings to have
+  has_image=true.
+- For nodes/endings with has_image=true, write an image_prompt: 20-40 word English description of
+  scene, atmosphere, character state, and visible environment (no detailed facial features, no
+  text). For nodes that can reuse a nearby visual, set has_image=false and image_prompt=null.
 - EVERY node AND every ending MUST include an "insight" field: a 1-2 sentence English
   educational "field note" (about 20-45 words) explaining WHY this situation or challenge
   realistically happens to study-abroad students with THIS specific country/city/major/grade,
@@ -173,10 +220,8 @@ Choose the most suitable of the following three, and state your reasoning:
   DICE recruit selectively, and non-EU students must also secure post-study work authorization,
   which makes late-programme networking events especially decisive." Ground every insight in the
   report — do not invent statistics, named companies, or policies that aren't supported by it.
-- Every non-ending node must have EXACTLY 2 "choices", each with "text", a "next_node" that is
-  THE SAME single next node in the chain for both choices on that node (see LINEAR STORYLINE rule
-  above) — never a different node per choice — and a "recommended" boolean (exactly one of the
-  2 choices true, the other false). Ending nodes must not have "choices".
+- Every non-ending node must have EXACTLY 2 "choices", each with "text", a "next_node" that follows
+  the exact graph topology above. Ending nodes must not have "choices".
 
 [Output Format]
 Output strictly this JSON, no extra text:
@@ -186,7 +231,7 @@ Output strictly this JSON, no extra text:
   "framework_reason": "one sentence",
   "user_profile": { "country": "string", "city": "string", "grade": "string", "major": "string" },
   "initial_stats": { "health": 70, "mood": 70, "money": 70, "school": 70 },
-  "nodes": { "<node_id>": { "type": "string", "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "insight": "string", "choices": [{ "text": "string", "next_node": "string", "stat_delta": { "health": number, "mood": number, "money": number, "school": number }, "stat_reason": "string", "recommended": boolean }] } },
+  "nodes": { "<node_id>": { "type": "string", "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "insight": "string", "choices": [{ "text": "string", "next_node": "string", "stat_delta": { "health": number, "mood": number, "money": number, "school": number }, "stat_reason": "string" }] } },
   "endings": { "<node_id>": { "scene_text": "string", "image_prompt": "string|null", "has_image": boolean, "insight": "string", "tone": "hopeful"|"bittersweet"|"challenging" } }
 }`;
 }
@@ -198,10 +243,44 @@ function extractJson(text: string): string {
 }
 
 const STAT_KEYS = ["health", "mood", "money", "school"] as const;
-function validateStory(doc: StoryDocument): void {
+
+function sameSet(actual: string[], expected: string[]): boolean {
+  if (actual.length !== expected.length) return false;
+  const actualSet = new Set(actual);
+  return expected.every((item) => actualSet.has(item));
+}
+
+function validateTopology(doc: StoryDocument, topology: StoryTopology): void {
+  const actualNodeIds = Object.keys(doc.nodes);
+  const actualEndingIds = Object.keys(doc.endings);
+  if (!sameSet(actualNodeIds, topology.nodeIds)) {
+    throw new Error(`Story node ids must be exactly: ${topology.nodeIds.join(", ")}`);
+  }
+  if (!sameSet(actualEndingIds, topology.endingIds)) {
+    throw new Error(`Ending ids must be exactly: ${topology.endingIds.join(", ")}`);
+  }
+
+  for (const [nodeId, expectedNext] of Object.entries(topology.nextByNode)) {
+    const node = doc.nodes[nodeId];
+    if (!node) throw new Error(`Missing node "${nodeId}" required by topology`);
+    if (!Array.isArray(node.choices) || node.choices.length !== 2) {
+      throw new Error(`Node "${nodeId}" must have exactly 2 choices`);
+    }
+    const actualNext = node.choices.map((choice) => choice.next_node);
+    if (expectedNext.length === 1 && actualNext.some((next) => next !== expectedNext[0])) {
+      throw new Error(`Node "${nodeId}" choices must both point to "${expectedNext[0]}"`);
+    }
+    if (expectedNext.length > 1 && !sameSet(actualNext, expectedNext)) {
+      throw new Error(`Node "${nodeId}" choices must split to exactly: ${expectedNext.join(", ")}`);
+    }
+  }
+}
+
+function validateStory(doc: StoryDocument, topology: StoryTopology): void {
   if (!doc.story_id || !doc.framework_type || !doc.nodes || !doc.endings) {
     throw new Error("Design Agent output missing required top-level fields");
   }
+  validateTopology(doc, topology);
   if (!doc.initial_stats) {
     throw new Error("Design Agent output missing initial_stats");
   }
@@ -251,20 +330,89 @@ function normalizeStats(doc: StoryDocument): void {
       choice.stat_delta.school ??= 0;
       choice.stat_reason ??= "No stat rationale provided.";
     }
-    // Guarantee exactly one "recommended" choice per node even if the model
-    // forgets the field or marks zero/multiple — the UI always needs exactly
-    // one starred option to point the (demo) player toward.
-    const choices = node.choices ?? [];
-    const recommendedCount = choices.filter((choice) => choice.recommended).length;
-    if (recommendedCount !== 1) {
-      choices.forEach((choice, index) => {
-        choice.recommended = index === 0;
-      });
-    }
   }
   for (const ending of Object.values(doc.endings)) {
     if (typeof ending.insight === "string") ending.insight = ending.insight.trim() || undefined;
   }
+}
+
+function cloneStoryNode(node: StoryDocument["nodes"][string] | undefined, fallbackText: string): StoryDocument["nodes"][string] {
+  return {
+    type: node?.type || "challenge",
+    scene_text: node?.scene_text || fallbackText,
+    image_prompt: node?.image_prompt ?? null,
+    has_image: Boolean(node?.has_image && node?.image_prompt),
+    insight: node?.insight,
+    choices: Array.isArray(node?.choices) ? node.choices.map((choice) => ({ ...choice })) : [],
+  };
+}
+
+function cloneEndingNode(
+  node: StoryDocument["endings"][string] | StoryDocument["nodes"][string] | undefined,
+  tone: "hopeful" | "challenging",
+): StoryDocument["endings"][string] {
+  return {
+    scene_text:
+      node?.scene_text ||
+      (tone === "hopeful"
+        ? "The semester closes with a steadier rhythm: the city feels less distant, campus feels more familiar, and the choices you made become a small map for what comes next."
+        : "The semester closes with hard lessons: the city is still demanding, but the experience leaves you clearer about your limits, needs, and next choices."),
+    image_prompt: node?.image_prompt ?? null,
+    has_image: Boolean(node?.has_image && node?.image_prompt),
+    insight: node?.insight,
+    tone,
+  };
+}
+
+function defaultChoice(text: string, nextNode: string): StoryDocument["nodes"][string]["choices"][number] {
+  return {
+    text,
+    next_node: nextNode,
+    stat_delta: { health: 0, mood: 0, money: 0, school: 0 },
+    stat_reason: "This choice changes the route without enough model-provided stat detail.",
+  };
+}
+
+/**
+ * The model writes the actual scenes, but exact graph IDs are a mechanical
+ * requirement. Coerce whatever valid-ish story it produced into the braided
+ * topology so a good story does not fail just because a long exact ID list was
+ * hard for the model to follow.
+ */
+function coerceToBraidedTopology(doc: StoryDocument, topology: StoryTopology): void {
+  const sourceNodes = Object.values(doc.nodes ?? {});
+  const sourceEndings = Object.values(doc.endings ?? {});
+  const fallbackNode = sourceNodes[sourceNodes.length - 1];
+  const nextNodes: StoryDocument["nodes"] = {};
+
+  for (const [index, nodeId] of topology.nodeIds.entries()) {
+    const node = cloneStoryNode(sourceNodes[index] ?? fallbackNode, `A study-abroad scene continues at ${nodeId}.`);
+    const expectedNext = topology.nextByNode[nodeId] ?? topology.endingIds;
+    const existingChoices = node.choices.length > 0 ? node.choices : [
+      defaultChoice("Take the steadier option.", expectedNext[0]),
+      defaultChoice("Take the riskier option.", expectedNext[expectedNext.length - 1] ?? expectedNext[0]),
+    ];
+    node.choices = [existingChoices[0], existingChoices[1] ?? existingChoices[0]].map((choice, choiceIndex) => ({
+      ...choice,
+      next_node: expectedNext.length === 1 ? expectedNext[0] : expectedNext[choiceIndex],
+      stat_delta: choice.stat_delta ?? { health: 0, mood: 0, money: 0, school: 0 },
+      stat_reason: choice.stat_reason || "No stat rationale provided.",
+    }));
+    nextNodes[nodeId] = node;
+  }
+
+  const hopefulSource = sourceEndings.find((ending) => ending.tone === "hopeful") ?? sourceEndings[0] ?? sourceNodes[sourceNodes.length - 1];
+  const challengingSource =
+    sourceEndings.find((ending) => ending.tone === "challenging") ??
+    sourceEndings.find((ending) => ending.tone === "bittersweet") ??
+    sourceEndings[1] ??
+    sourceNodes[sourceNodes.length - 1];
+
+  doc.nodes = nextNodes;
+  doc.endings = {
+    ending_hopeful: cloneEndingNode(hopefulSource, "hopeful"),
+    ending_challenging: cloneEndingNode(challengingSource, "challenging"),
+  };
 }
 
 function stripSceneText(text: string): string {
@@ -365,11 +513,11 @@ function linkSourcedMentions(doc: StoryDocument, report: ResearchReport): void {
 }
 
 /**
- * Every story chapter should be illustrated. Smaller/cheaper models sometimes
- * forget image prompts on intermediate nodes, so repair the visual plan
- * deterministically before Artist Agent runs.
+ * Keeps the visual plan cost-controlled. The model may over-eagerly mark every
+ * chapter for image generation; trim that back to visual anchors and ensure at
+ * least a few anchors exist for reuse.
  */
-function ensureImageCoverage(doc: StoryDocument, maxImagesPerStory: number): void {
+function ensureImageReusePlan(doc: StoryDocument, maxImagesPerStory: number): void {
   const entries = [
     ...Object.entries(doc.nodes),
     ...Object.entries(doc.endings),
@@ -377,18 +525,33 @@ function ensureImageCoverage(doc: StoryDocument, maxImagesPerStory: number): voi
 
   if (entries.length === 0 || maxImagesPerStory <= 0) return;
 
-  const desiredImageCount = Math.min(entries.length, maxImagesPerStory);
-  const existingImageCount = entries.filter(([, node]) => node.has_image && node.image_prompt).length;
-  if (existingImageCount >= desiredImageCount) return;
+  const desiredImageCount = Math.min(entries.length, maxImagesPerStory, Math.max(1, Math.ceil(entries.length * 0.65)));
+  let anchors = entries.filter(([, node]) => node.has_image && node.image_prompt);
+  if (anchors.length > desiredImageCount) {
+    const keepIds = new Set<string>();
+    const step = (anchors.length - 1) / Math.max(1, desiredImageCount - 1);
+    for (let i = 0; i < desiredImageCount; i++) keepIds.add(anchors[Math.round(i * step)][0]);
+    for (const [id, node] of anchors) {
+      if (keepIds.has(id)) continue;
+      node.has_image = false;
+      node.image_prompt = null;
+    }
+    anchors = entries.filter(([, node]) => node.has_image && node.image_prompt);
+  }
 
-  let imageCount = existingImageCount;
-  for (const [id, node] of entries) {
-    if (imageCount >= desiredImageCount) break;
+  const minimumAnchorCount = Math.min(desiredImageCount, Math.max(1, Math.ceil(entries.length / 3)));
+  if (anchors.length >= minimumAnchorCount) return;
+
+  const anchorIds = new Set(anchors.map(([id]) => id));
+  const step = (entries.length - 1) / Math.max(1, minimumAnchorCount - 1);
+  for (let i = 0; i < minimumAnchorCount; i++) {
+    const [id, node] = entries[Math.round(i * step)];
+    if (anchorIds.has(id)) continue;
     if (node.has_image && node.image_prompt) continue;
 
     node.has_image = true;
     node.image_prompt = node.image_prompt || buildFallbackImagePrompt(doc, id, node);
-    imageCount++;
+    anchorIds.add(id);
   }
 }
 
@@ -450,6 +613,7 @@ export async function runDesignAgent(
   const userInput = `Story ID to use: "${storyId}"\n\nResearch report:\n${JSON.stringify(report, null, 2)}`;
   const resolvedSemesters = Math.max(1, Math.round(semesters ?? 1));
   const targetNodeCount = computeTargetNodeCount(resolvedSemesters);
+  const topology = buildBraidedTopology(targetNodeCount);
 
   const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
     { role: "system", content: buildDesignSystemPrompt(targetNodeCount, resolvedSemesters) },
@@ -485,12 +649,13 @@ export async function runDesignAgent(
           program: report.profile?.program,
           semesters: resolvedSemesters,
         };
+        coerceToBraidedTopology(doc, topology);
         normalizeStats(doc);
         repairChoicelessNodes(doc);
         repairDanglingLinks(doc);
-        ensureImageCoverage(doc, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
+        ensureImageReusePlan(doc, runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory);
         linkSourcedMentions(doc, report);
-        validateStory(doc);
+        validateStory(doc, topology);
       } catch (validationErr) {
         const errorMessage = validationErr instanceof Error ? validationErr.message : String(validationErr);
         messages.push({ role: "assistant", content: raw });

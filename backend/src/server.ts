@@ -18,6 +18,7 @@ app.use(express.json());
 
 const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
+const STORY_STRUCTURE_VERSION = "braided-v2-longer-choices";
 app.use("/assets", express.static(ASSETS_DIR));
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
@@ -135,6 +136,7 @@ function buildCacheStoryId(
   const keyPayload = canonicalize(
     {
       mode,
+      storyStructureVersion: STORY_STRUCTURE_VERSION,
       presetId: mode === "preset" ? presetId ?? "tokyo_cs" : undefined,
       profile: mode === "live_search" ? profile : undefined,
       models: runtimeConfig?.models,

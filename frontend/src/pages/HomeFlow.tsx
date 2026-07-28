@@ -98,7 +98,7 @@ export default function HomeFlow() {
       profile: nextProfile,
       runtimeConfig: buildRuntimeConfig(undefined, {
         enableImageGeneration: imageGenerationEnabled,
-        maxImagesPerStory: imageGenerationEnabled ? 30 : 0,
+        maxImagesPerStory: imageGenerationEnabled ? 12 : 0,
       }),
     });
     // The admission letter only needs the profile the player just entered

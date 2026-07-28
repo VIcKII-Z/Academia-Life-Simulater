@@ -40,10 +40,12 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
   const allEntries = [
     ...Object.entries(doc.nodes),
     ...Object.entries(doc.endings),
-  ].filter(([, node]) => node.has_image && node.image_prompt);
+  ];
+  const anchorEntries = allEntries.filter(([, node]) => node.has_image && node.image_prompt);
 
   const maxImages = runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory;
-  const capped = maxImages > 0 ? allEntries.slice(0, maxImages) : [];
+  const capped = maxImages > 0 ? anchorEntries.slice(0, maxImages) : [];
+  const generatedAnchors: { index: number; imageUrl: string }[] = [];
 
   for (const [nodeId, node] of capped) {
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
@@ -59,6 +61,20 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     const fileName = `${doc.story_id}_${nodeId}.png`;
     await fs.writeFile(path.join(ASSETS_DIR, fileName), Buffer.from(b64, "base64"));
     node.image_url = `/assets/generated/${fileName}`;
+    generatedAnchors.push({
+      index: allEntries.findIndex(([id]) => id === nodeId),
+      imageUrl: node.image_url,
+    });
+  }
+
+  if (generatedAnchors.length > 0) {
+    for (const [index, [, node]] of allEntries.entries()) {
+      if (node.image_url) continue;
+      const nearest = generatedAnchors.reduce((best, candidate) =>
+        Math.abs(candidate.index - index) < Math.abs(best.index - index) ? candidate : best,
+      );
+      node.image_url = nearest.imageUrl;
+    }
   }
 
   return doc;

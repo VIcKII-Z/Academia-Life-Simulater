@@ -1143,21 +1143,6 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.choicePath--recommended {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 1px var(--gold), 0 12px 24px var(--shadow);
-}
-
-.choicePathStar {
-  position: absolute;
-  top: -14px;
-  right: -10px;
-  width: 32px;
-  height: 32px;
-  filter: drop-shadow(0 3px 6px var(--shadow));
-  pointer-events: none;
-}
-
 .choicePath--left { transform: rotate(-1.4deg); }
 .choicePath--right { transform: rotate(1.4deg); }
 

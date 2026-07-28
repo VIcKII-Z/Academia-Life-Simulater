@@ -1,0 +1,5 @@
+2026-07-27T10:48:53.461Z Run started for story_id=tokyo_c6fb51172cb5
+2026-07-27T10:48:53.461Z [search] started
+2026-07-27T10:49:10.823Z [search] completed in 17361ms -> 01_search_report.json
+2026-07-27T10:49:10.823Z [design] started
+2026-07-27T10:55:09.042Z [pipeline] FAILED: Design Agent failed after 4 attempts: Error: Story node ids must be exactly: opening, node2a, node2b, node3, node4a, node4b, node5, node6a, node6b, node7, node8a, node8b, node9, node10a, node10b, node11, node12a, node12b, node13, node14a, node14b, node15, node16
