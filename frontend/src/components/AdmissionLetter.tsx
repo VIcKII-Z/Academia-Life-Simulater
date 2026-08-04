@@ -50,7 +50,7 @@ export default function AdmissionLetter({
     () => new Date().toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" }),
     [dateLocale],
   );
-  const knownDegrees = ["Undergraduate", "Graduate", "PhD", "Exchange Student"];
+  const knownDegrees = ["Undergraduate", "Taught Master"];
   const gradeLabel = knownDegrees.includes(profile.grade) ? t(`degree.${profile.grade}`) : profile.grade;
   const salutationGrade = language === "en" ? gradeLabel.toLowerCase() : gradeLabel;
 

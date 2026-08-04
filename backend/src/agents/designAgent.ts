@@ -565,7 +565,13 @@ function repairChoicelessNodes(doc: StoryDocument): void {
   for (const [id, node] of Object.entries(doc.nodes)) {
     if (!Array.isArray(node.choices) || node.choices.length === 0) {
       console.warn(`[designAgent] repairing choiceless node: "${id}" promoted from "nodes" to "endings"`);
-      const { choices: _choices, type: _type, ...rest } = node as typeof node & { type?: string };
+      const {
+        choices: _choices,
+        type: _type,
+        logic_page_role: _logicPageRole,
+        logic_source_id: _logicSourceId,
+        ...rest
+      } = node as typeof node & { type?: string };
       doc.endings[id] = { ...rest, tone: "bittersweet" };
       delete doc.nodes[id];
     }

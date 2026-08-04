@@ -12,6 +12,15 @@ import LanguageSwitcher from "../components/LanguageSwitcher";
 import { buildRuntimeConfig, generateStory } from "../lib/api";
 import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
+import {
+  applyLogicDelta,
+  applyLogicContentVariant,
+  findCriticalVariable,
+  findNewBadVariable,
+  initLogicVars,
+  type LogicVars,
+  type LogicWarningsSeen,
+} from "../lib/logicRuntime";
 import { useI18n } from "../lib/i18n";
 import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfile } from "../types";
 
@@ -30,6 +39,10 @@ export default function HomeFlow() {
   const [story, setStory] = useState<StoryDocument | null>(null);
   const [currentNodeId, setCurrentNodeId] = useState("A");
   const [stats, setStats] = useState<StatBlock>(DEFAULT_STATS);
+  const [logicVars, setLogicVars] = useState<LogicVars>({});
+  const [logicWarningsSeen, setLogicWarningsSeen] = useState<LogicWarningsSeen>({});
+  const [warningReturnNodeId, setWarningReturnNodeId] = useState<string | null>(null);
+  const [resultReturnNodeId, setResultReturnNodeId] = useState<string | null>(null);
   const [gameOverReason, setGameOverReason] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showKeyEditor, setShowKeyEditor] = useState(false);
@@ -96,6 +109,7 @@ export default function HomeFlow() {
     storyRequestRef.current = generateStory({
       mode: "live_search",
       profile: nextProfile,
+      flowVersion: "post_offer_v1",
       runtimeConfig: buildRuntimeConfig(undefined, {
         enableImageGeneration: imageGenerationEnabled,
         maxImagesPerStory: imageGenerationEnabled ? 12 : 0,
@@ -122,8 +136,12 @@ export default function HomeFlow() {
       const [doc] = await Promise.all([request, minSkipTime]);
       if (!doc) throw new Error("Story generation did not return a result.");
       setStory(doc);
-      setCurrentNodeId(Object.keys(doc.nodes)[0] ?? "A");
+      setCurrentNodeId(doc.logic?.start_node_id ?? Object.keys(doc.nodes)[0] ?? "A");
       setStats({ ...DEFAULT_STATS, ...doc.initial_stats });
+      setLogicVars(initLogicVars(doc));
+      setLogicWarningsSeen({});
+      setWarningReturnNodeId(null);
+      setResultReturnNodeId(null);
       setGameOverReason(null);
       setReusedStory(Boolean(doc.cached));
       setStage("play");
@@ -134,14 +152,48 @@ export default function HomeFlow() {
   }
 
   function handleChoice(choice: Choice, originRect: DOMRect) {
+    if (story?.logic && choice.next_node === story.logic.warning_return_sentinel) {
+      setCurrentNodeId(warningReturnNodeId ?? story.logic.start_node_id);
+      setWarningReturnNodeId(null);
+      return;
+    }
+    if (story?.logic && choice.next_node === story.logic.result_return_sentinel) {
+      setCurrentNodeId(resultReturnNodeId ?? story.logic.start_node_id);
+      setResultReturnNodeId(null);
+      return;
+    }
+
     spawnStatFlyers(choice.stat_delta, originRect);
     const nextStats = applyStatDelta(stats, choice.stat_delta);
     setStats(nextStats);
-    const failedStat = getFailedStat(nextStats);
+    const failedStat = story?.logic ? null : getFailedStat(nextStats);
     if (failedStat) {
       setGameOverReason(t("story.gameOver", { stat: t(`stats.${failedStat}`) }));
       return;
     }
+
+    if (story?.logic) {
+      const nextLogicVars = applyLogicDelta(logicVars, choice.logic_delta);
+      setLogicVars(nextLogicVars);
+      if (choice.logic_planned_next_node) {
+        setResultReturnNodeId(choice.logic_planned_next_node);
+      }
+
+      const critical = findCriticalVariable(nextLogicVars, story.logic.variables);
+      if (critical) {
+        setCurrentNodeId(critical.failure_page_id);
+        return;
+      }
+
+      const newlyBad = findNewBadVariable(logicVars, nextLogicVars, story.logic.variables, logicWarningsSeen);
+      if (newlyBad) {
+        setLogicWarningsSeen((current) => ({ ...current, [newlyBad.id]: true }));
+        setWarningReturnNodeId(choice.next_node);
+        setCurrentNodeId(newlyBad.warning_page_id);
+        return;
+      }
+    }
+
     setCurrentNodeId(choice.next_node);
   }
 
@@ -150,10 +202,15 @@ export default function HomeFlow() {
     setStory(null);
     setProfile(null);
     setReusedStory(false);
+    setLogicVars({});
+    setLogicWarningsSeen({});
+    setWarningReturnNodeId(null);
+    setResultReturnNodeId(null);
     setStage("quiz");
   }
 
-  const currentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
+  const rawCurrentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
+  const currentNode = story && rawCurrentNode ? applyLogicContentVariant(story, currentNodeId, rawCurrentNode, logicVars) : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
   // Only the actual gameplay stage gets the wide, edge-to-edge "app shell"
   // layout (sticky app bar + two-column stage) — admission/timeskip/error

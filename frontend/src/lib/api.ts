@@ -115,6 +115,7 @@ export interface GenerateParams {
   presetId?: string;
   profile?: UserProfile;
   runtimeConfig: RuntimeConfig;
+  flowVersion?: "legacy" | "post_offer_v1";
   /** Force a fresh pipeline run even if a matching cached story exists. */
   regenerate?: boolean;
   /** Debug-only: explicit id so the caller can poll /api/runs/:storyId while it runs. */

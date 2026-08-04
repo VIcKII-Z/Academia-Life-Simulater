@@ -1,0 +1,50 @@
+{
+  "storyId": "utokyo_cs_full_1785770721",
+  "verifiedAt": "2026-08-04T00:11:40.7584475+08:00",
+  "commands": [
+    {
+      "command": "npx tsc --noEmit",
+      "cwd": "backend",
+      "status": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "cwd": "frontend",
+      "status": "passed"
+    },
+    {
+      "command": "npm run build",
+      "cwd": "frontend",
+      "status": "passed"
+    },
+    {
+      "command": "Invoke-RestMethod http://localhost:3001/api/runs/utokyo_cs_full_1785770721",
+      "cwd": ".",
+      "status": "passed",
+      "result": {
+        "hasFinalStory": true,
+        "hasValidationReport": true,
+        "hasBalancedLogicGraph": true,
+        "validationIssues": 0
+      }
+    }
+  ],
+  "logicValidation": {
+    "allPlayableNodesHaveThreeOptions": true,
+    "allChoicesHaveExplicitIds": true,
+    "variableWarningsAndFailuresPresent": true,
+    "allEnumeratedPathsTerminate": true,
+    "normalStrategyReachesNaturalEnding": true
+  },
+  "counts": {
+    "playableNodes": 22,
+    "variables": 9,
+    "warningPages": 9,
+    "failureEndings": 9,
+    "variantPages": 88,
+    "variants": 182,
+    "comboVariants": 17,
+    "enumeratedPaths": 1295459,
+    "routingIssues": 0
+  }
+}

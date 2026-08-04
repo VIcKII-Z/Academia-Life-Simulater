@@ -10,8 +10,26 @@ const DEBUG_TABS = [
   { id: "01_search_report.json", label: "Search Agent" },
   { id: "02_design_skeleton.json", label: "Design Agent" },
   { id: "03_artist_final.json", label: "Artist Agent" },
+  { id: "09_final_story.json", label: "Final Story" },
+  { id: "09_validation_report.json", label: "Validation" },
+  { id: "logic_tree", label: "Logic Tree" },
   { id: "log.txt", label: "Timeline" },
 ] as const;
+
+type DebugTabId = (typeof DEBUG_TABS)[number]["id"];
+
+type ValidationReport = {
+  counts?: Record<string, number>;
+  requirements?: Record<string, boolean>;
+  issues?: string[];
+  sampleSimulation?: Record<string, { ok: boolean; ending?: string; warnings?: string[]; steps?: number }>;
+  exhaustiveSimulation?: {
+    terminalPaths?: number;
+    naturalEndings?: number;
+    failureEndings?: number;
+    badCount?: number;
+  };
+};
 
 const PROFILE_SUGGESTIONS = {
   countries: ["Japan", "Canada", "United States", "United Kingdom", "Australia", "Singapore"],
@@ -22,6 +40,111 @@ const PROFILE_SUGGESTIONS = {
 
 function stringifyDebug(value: unknown): string {
   return typeof value === "string" ? value : JSON.stringify(value, null, 2);
+}
+
+function isStoryDocument(value: unknown): value is StoryDocument {
+  return Boolean(value && typeof value === "object" && "nodes" in value && "endings" in value);
+}
+
+function isValidationReport(value: unknown): value is ValidationReport {
+  return Boolean(value && typeof value === "object" && ("requirements" in value || "counts" in value));
+}
+
+function stripChoicePrefix(text: string): string {
+  return text.replace(/^[^:：]+[:：]\s*/, "");
+}
+
+function deltaText(delta?: Record<string, number>): string {
+  const entries = Object.entries(delta ?? {}).filter(([, value]) => value !== 0);
+  if (entries.length === 0) return "no variable change";
+  return entries.map(([key, value]) => `${key}${value > 0 ? "+" : ""}${value}`).join(" / ");
+}
+
+function LogicTreeView({ story, validation }: { story: StoryDocument; validation?: ValidationReport }) {
+  const playableNodes = Object.entries(story.nodes).filter(([, node]) => node.logic_page_role === "node");
+  const specialNodes = playableNodes.filter(([, node]) => node.type === "special_node");
+  const variables = story.logic?.variables ?? [];
+
+  return (
+    <div className="logicTree">
+      <div className="logicTreeSummary">
+        <div>
+          <span>Playable nodes</span>
+          <strong>{playableNodes.length}</strong>
+        </div>
+        <div>
+          <span>Variables</span>
+          <strong>{variables.length}</strong>
+        </div>
+        <div>
+          <span>Variable variants</span>
+          <strong>{Object.keys(story.logic_content_variants ?? {}).length}</strong>
+        </div>
+        <div>
+          <span>Enumerated paths</span>
+          <strong>{validation?.exhaustiveSimulation?.terminalPaths ?? "n/a"}</strong>
+        </div>
+      </div>
+
+      {validation?.requirements && (
+        <div className="logicTreeChecks">
+          {Object.entries(validation.requirements).map(([key, passed]) => (
+            <span className={passed ? "pass" : "fail"} key={key}>
+              {passed ? "PASS" : "FAIL"} {key}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <section className="logicVariables">
+        {variables.map((variable) => (
+          <div key={variable.id}>
+            <strong>{variable.id}</strong>
+            <span>initial {variable.initial}</span>
+            <code>{variable.warning_page_id}</code>
+            <code>{variable.failure_page_id}</code>
+          </div>
+        ))}
+      </section>
+
+      <div className="logicSpecialStrip">
+        <strong>Special nodes</strong>
+        <span>{specialNodes.map(([nodeId]) => nodeId).join(" -> ")}</span>
+      </div>
+
+      <section className="logicNodeList">
+        {playableNodes.map(([nodeId, node]) => (
+          <article className={`logicNode logicNode--${node.type}`} key={nodeId}>
+            <header>
+              <div>
+                <span>{node.type}</span>
+                <h4>{nodeId}</h4>
+              </div>
+              <code>{node.choices.length} choices</code>
+            </header>
+            <p>{node.scene_text}</p>
+            <div className="logicChoices">
+              {node.choices.map((choice, index) => (
+                <div className={`logicChoice logicChoice--${index}`} key={choice.logic_choice_id ?? `${nodeId}-${index}`}>
+                  <div className="logicChoiceHead">
+                    <strong>{choice.logic_choice_id ?? `choice_${index + 1}`}</strong>
+                    <span>{index === 0 ? "normal" : index === 1 ? "positive extreme" : "negative extreme"}</span>
+                  </div>
+                  <p>{stripChoicePrefix(choice.text)}</p>
+                  <div className="logicRoute">
+                    <code>{choice.next_node}</code>
+                    <span>then</span>
+                    <code>{choice.logic_planned_next_node ?? choice.next_node}</code>
+                  </div>
+                  <small>{deltaText(choice.logic_delta)}</small>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+    </div>
+  );
 }
 
 export default function DebugPage() {
@@ -45,7 +168,8 @@ export default function DebugPage() {
   });
   const [story, setStory] = useState<StoryDocument | null>(null);
   const [runFiles, setRunFiles] = useState<RunFiles | null>(null);
-  const [activeDebugTab, setActiveDebugTab] = useState<(typeof DEBUG_TABS)[number]["id"]>("01_search_report.json");
+  const [activeDebugTab, setActiveDebugTab] = useState<DebugTabId>("logic_tree");
+  const [manualRunId, setManualRunId] = useState("utokyo_cs_full_1785770721");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusNote, setStatusNote] = useState<string | null>(null);
@@ -95,7 +219,36 @@ export default function DebugPage() {
 
   async function loadRunFiles(storyId: string) {
     const files = await fetchRunFiles(storyId);
-    if (files) setRunFiles(files);
+    if (files) {
+      setRunFiles(files);
+      const finalStory = files["09_final_story.json"];
+      if (isStoryDocument(finalStory)) setStory(finalStory);
+    }
+  }
+
+  async function loadManualRun() {
+    if (!manualRunId.trim()) return;
+    setLoading(true);
+    setError(null);
+    setStatusNote(null);
+    try {
+      const files = await fetchRunFiles(manualRunId.trim());
+      if (!files) throw new Error(`Run not found: ${manualRunId.trim()}`);
+      setRunFiles(files);
+      const finalStory = files["09_final_story.json"];
+      if (isStoryDocument(finalStory)) {
+        setStory(finalStory);
+        setStatusNote(`Loaded run ${finalStory.story_id}.`);
+      } else {
+        setStory(null);
+        setStatusNote(`Loaded run ${manualRunId.trim()}, but no 09_final_story.json was found.`);
+      }
+      setActiveDebugTab("logic_tree");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function generate(mode: "live_search" | "preset", regenerate: boolean) {
@@ -166,6 +319,28 @@ export default function DebugPage() {
     () => (story ? Object.keys(story.nodes).length + Object.keys(story.endings).length : 0),
     [story],
   );
+  const finalStoryFromRun = useMemo(() => {
+    const value = runFiles?.["09_final_story.json"];
+    return isStoryDocument(value) ? value : story;
+  }, [runFiles, story]);
+  const validationFromRun = useMemo(() => {
+    const value = runFiles?.["09_validation_report.json"];
+    return isValidationReport(value) ? value : undefined;
+  }, [runFiles]);
+
+  function renderDebugOutput() {
+    if (activeDebugTab === "logic_tree") {
+      return finalStoryFromRun ? (
+        <LogicTreeView story={finalStoryFromRun} validation={validationFromRun} />
+      ) : (
+        <div className="emptyState">
+          <p className="labelText">No logic tree</p>
+          <h2>Load a full post-offer run to inspect the node graph.</h2>
+        </div>
+      );
+    }
+    return <pre>{runFiles?.[activeDebugTab] ? stringifyDebug(runFiles[activeDebugTab]) : "No output for this stage yet."}</pre>;
+  }
 
   return (
     <main className="appShell">
@@ -390,6 +565,15 @@ export default function DebugPage() {
         </div>
 
         <section className="panel debugPanel">
+          <div className="debugRunLoader">
+            <label className="field compactField">
+              <span>Run id</span>
+              <input value={manualRunId} onChange={(event) => setManualRunId(event.target.value)} />
+            </label>
+            <button className="secondaryButton" disabled={loading} onClick={loadManualRun}>
+              Load run
+            </button>
+          </div>
           <div className="debugTabs">
             {DEBUG_TABS.map((tab) => (
               <button key={tab.id} className={activeDebugTab === tab.id ? "active" : ""} onClick={() => setActiveDebugTab(tab.id)}>
@@ -397,7 +581,7 @@ export default function DebugPage() {
               </button>
             ))}
           </div>
-          <pre>{runFiles?.[activeDebugTab] ? stringifyDebug(runFiles[activeDebugTab]) : "No output for this stage yet."}</pre>
+          {renderDebugOutput()}
         </section>
       </section>
     </main>

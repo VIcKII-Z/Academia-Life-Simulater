@@ -1,0 +1,153 @@
+{
+  "storyId": "utokyo_cs_full_1785770721",
+  "counts": {
+    "nodes": 106,
+    "endings": 14,
+    "playableNodes": 22,
+    "resultPages": 75,
+    "warningPages": 9,
+    "variables": 9,
+    "variantPages": 88,
+    "variants": 182,
+    "comboVariants": 17
+  },
+  "requirements": {
+    "allPlayableNodesHaveThreeOptions": true,
+    "allChoicesHaveExplicitIds": true,
+    "variableWarningsAndFailuresPresent": true,
+    "allEnumeratedPathsTerminate": true,
+    "normalStrategyReachesNaturalEnding": true
+  },
+  "issues": [],
+  "balanceNotes": [
+    "N03_opt_standard.time: -10 -> -3",
+    "N03_opt_standard.wellbeing: -5 -> -3",
+    "opt_housing_balanced.time: -5 -> -3",
+    "opt_n05_standard.time: -8 -> -3",
+    "opt_n06_balanced.wellbeing: -5 -> -3",
+    "opt_n06_balanced.time: -10 -> -3",
+    "N07_opt1.time: -10 -> -3",
+    "N07_opt1.school: -5 -> -3",
+    "N07_opt1.wellbeing: -5 -> -3",
+    "opt_08_normal.time: -12 -> -3",
+    "N09_opt1.wellbeing: -5 -> -3",
+    "N09_opt1.time: -10 -> -3",
+    "opt10_normal.time: -10 -> -3",
+    "opt10_normal.wellbeing: -5 -> -3",
+    "N11_opt1.time: -10 -> -3",
+    "O05B_01_normal.time: -4 -> -3",
+    "O05B_01_normal.wellbeing: -5 -> -3",
+    "B01_opt_wait.time: -15 -> -3",
+    "B01_opt_wait.wellbeing: -15 -> -3",
+    "B02_O1_extra_docs.time: -10 -> -3",
+    "opt_b03_study.wellbeing: -5 -> -3",
+    "opt_b04_normal.time: -5 -> -3",
+    "opt_b05_recommit.wellbeing: -10 -> -3",
+    "opt_b05_recommit.time: -15 -> -3",
+    "B06_opt1.wellbeing: -5 -> -3",
+    "B07_opt1.lab_reputation: -5 -> -3",
+    "optB08_normal.wellbeing: -10 -> -3",
+    "B09_opt1.wellbeing: -20 -> -3"
+  ],
+  "sampleSimulation": {
+    "normal": {
+      "ok": true,
+      "ending": "E_tokyo_local_job",
+      "steps": 28,
+      "warnings": [
+        "money",
+        "time"
+      ],
+      "state": {
+        "money": 54,
+        "time": 40,
+        "visa": 89,
+        "housing": 73,
+        "school": 79,
+        "wellbeing": 69,
+        "japanese": 63,
+        "career": 75,
+        "lab_reputation": 60
+      }
+    },
+    "positive": {
+      "ok": true,
+      "ending": "E_money_critical",
+      "steps": 8,
+      "warnings": [
+        "money"
+      ],
+      "state": {
+        "money": 0,
+        "time": 72,
+        "visa": 100,
+        "housing": 88,
+        "school": 72,
+        "wellbeing": 83,
+        "japanese": 48,
+        "career": 55,
+        "lab_reputation": 65
+      }
+    },
+    "negative": {
+      "ok": true,
+      "ending": "E_defer_or_pause",
+      "steps": 5,
+      "warnings": [
+        "visa"
+      ],
+      "state": {
+        "money": 66,
+        "time": 62,
+        "visa": 29,
+        "housing": 58,
+        "school": 72,
+        "wellbeing": 65,
+        "japanese": 48,
+        "career": 55,
+        "lab_reputation": 55
+      }
+    },
+    "mixed": {
+      "ok": true,
+      "ending": "E_time_critical",
+      "steps": 17,
+      "warnings": [
+        "time",
+        "wellbeing"
+      ],
+      "state": {
+        "money": 59,
+        "time": 0,
+        "visa": 79,
+        "housing": 48,
+        "school": 72,
+        "wellbeing": 9,
+        "japanese": 56,
+        "career": 55,
+        "lab_reputation": 55
+      }
+    }
+  },
+  "exhaustiveSimulation": {
+    "terminalPaths": 1295459,
+    "naturalEndings": 550163,
+    "failureEndings": 745296,
+    "maxDepth": 48,
+    "badCount": 0,
+    "badExamples": [],
+    "endingCounts": {
+      "E_tokyo_local_job": 273775,
+      "E_third_country_launch": 218251,
+      "E_return_home_stronger": 58130,
+      "E_money_critical": 291839,
+      "E_visa_critical": 73477,
+      "E_time_critical": 154855,
+      "E_career_critical": 24919,
+      "E_wellbeing_critical": 190931,
+      "E_lab_reputation_critical": 9112,
+      "E_school_critical": 163,
+      "E_defer_or_pause": 7
+    }
+  }
+}

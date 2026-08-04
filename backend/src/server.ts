@@ -8,9 +8,11 @@ import path from "node:path";
 import { config } from "./config/config.js";
 import { runSearchAgentPreset, runSearchAgentLive, listPresets } from "./agents/searchAgent.js";
 import { runDesignAgent } from "./agents/designAgent.js";
+import { runLogicGraphAgent } from "./agents/logicGraphAgent.js";
+import { compileLogicGraphToStoryDocument } from "./agents/logicGraphCompiler.js";
 import { runArtistAgent } from "./agents/artistAgent.js";
 import { RunLogger, listRuns, readRunFiles } from "./runLogger.js";
-import type { Provider, ResearchReport, RuntimeConfig, UserProfile } from "./types.js";
+import type { FlowVersion, Provider, ResearchReport, RuntimeConfig, StoryDocument, UserProfile } from "./types.js";
 
 const app = express();
 app.use(cors());
@@ -18,7 +20,7 @@ app.use(express.json());
 
 const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
-const STORY_STRUCTURE_VERSION = "braided-v2-longer-choices";
+const STORY_STRUCTURE_VERSION = "post-offer-v1-variable-gated";
 app.use("/assets", express.static(ASSETS_DIR));
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
@@ -132,11 +134,13 @@ function buildCacheStoryId(
   presetId: string | undefined,
   profile: UserProfile | undefined,
   runtimeConfig: RuntimeConfig | undefined,
+  flowVersion: FlowVersion | undefined,
 ): string {
   const keyPayload = canonicalize(
     {
       mode,
       storyStructureVersion: STORY_STRUCTURE_VERSION,
+      flowVersion: flowVersion ?? "legacy",
       presetId: mode === "preset" ? presetId ?? "tokyo_cs" : undefined,
       profile: mode === "live_search" ? profile : undefined,
       models: runtimeConfig?.models,
@@ -655,7 +659,7 @@ app.post("/api/shutdown", (_req, res) => {
 
 /**
  * Body: { mode: "preset", presetId: string } | { mode: "live_search", profile: UserProfile }
- * Runs Search -> Design -> Artist and returns/saves the final story JSON.
+ * Runs Search -> Design/Logic -> Artist and returns/saves the final story JSON.
  * Every stage's raw output is also persisted under /data/runs/{storyId}/
  * for debugging (see runLogger.ts) — use GET /api/runs/:storyId to inspect.
  */
@@ -667,6 +671,7 @@ app.post("/api/generate", async (req, res) => {
     runtimeConfig: rawRuntimeConfig,
     storyId: requestedStoryId,
     regenerate,
+    flowVersion,
   } = req.body as {
     mode: "preset" | "live_search";
     presetId?: string;
@@ -674,7 +679,9 @@ app.post("/api/generate", async (req, res) => {
     runtimeConfig?: unknown;
     storyId?: string;
     regenerate?: boolean;
+    flowVersion?: FlowVersion;
   };
+  const resolvedFlowVersion: FlowVersion = flowVersion === "post_offer_v1" ? "post_offer_v1" : "legacy";
 
   // Derive the cache key from the raw (unvalidated) model names only, so a
   // cache-reuse attempt never requires full provider validation (API key,
@@ -687,7 +694,7 @@ app.post("/api/generate", async (req, res) => {
     design: rawModels?.design?.trim() || config.models.design,
     image: rawModels?.image?.trim() || config.models.image,
   };
-  const cacheStoryId = buildCacheStoryId(mode, presetId, profile, { models: cacheModels } as RuntimeConfig);
+  const cacheStoryId = buildCacheStoryId(mode, presetId, profile, { models: cacheModels } as RuntimeConfig, resolvedFlowVersion);
   const storyId =
     typeof requestedStoryId === "string" && requestedStoryId.trim()
       ? sanitizeStoryId(requestedStoryId)
@@ -710,7 +717,7 @@ app.post("/api/generate", async (req, res) => {
     // stories generated before it was configurable.
     if (mode === "live_search" && profile?.semesters !== undefined) {
       const { semesters: _semesters, ...legacyProfile } = profile;
-      const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig);
+      const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig, resolvedFlowVersion);
       const legacyCached = await readCachedStory(legacyStoryId);
       if (legacyCached && hasEnoughCachedImages(legacyCached, rawRuntimeConfig)) {
         res.json({ ...prepareCachedStoryForResponse(legacyCached, rawRuntimeConfig), cached: true });
@@ -727,7 +734,7 @@ app.post("/api/generate", async (req, res) => {
     // safely caught below instead of hanging the request.
     const runtimeConfig = resolveRuntimeConfig(rawRuntimeConfig, mode);
 
-    await logger.init({ mode, presetId, profile, runtimeConfig: getSafeRuntimeConfig(runtimeConfig) });
+    await logger.init({ mode, presetId, profile, flowVersion: resolvedFlowVersion, runtimeConfig: getSafeRuntimeConfig(runtimeConfig) });
 
     logger.startStage("search");
     const report =
@@ -736,13 +743,24 @@ app.post("/api/generate", async (req, res) => {
         : await runSearchAgentLive(profile as UserProfile, runtimeConfig);
     await logger.endStage("search", "01_search_report.json", report);
 
-    logger.startStage("design");
-    const skeleton = await runDesignAgent(report, storyId, runtimeConfig, profile?.semesters);
-    await logger.endStage("design", "02_design_skeleton.json", skeleton);
+    let skeleton: StoryDocument;
+    if (resolvedFlowVersion === "post_offer_v1") {
+      logger.startStage("logic");
+      const logicGraph = await runLogicGraphAgent(report, storyId, runtimeConfig);
+      await logger.endStage("logic", "02_logic_graph.json", logicGraph);
+
+      logger.startStage("compile");
+      skeleton = compileLogicGraphToStoryDocument(logicGraph, report, storyId);
+      await logger.endStage("compile", "03_compiled_story.json", skeleton);
+    } else {
+      logger.startStage("design");
+      skeleton = await runDesignAgent(report, storyId, runtimeConfig, profile?.semesters);
+      await logger.endStage("design", "02_design_skeleton.json", skeleton);
+    }
 
     logger.startStage("artist");
     const final = await runArtistAgent(skeleton, runtimeConfig);
-    await logger.endStage("artist", "03_artist_final.json", final);
+    await logger.endStage("artist", resolvedFlowVersion === "post_offer_v1" ? "04_artist_final.json" : "03_artist_final.json", final);
 
     // Carry the Search Agent's cited sources through to the saved/served
     // document so the Field Notes panel can link players to where the

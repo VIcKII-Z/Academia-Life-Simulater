@@ -1,0 +1,121 @@
+2026-08-03T15:25:25.004Z [start] story_id=utokyo_cs_full_1785770721 model=gemini-3-flash-preview baseURL=https://gcli.ggchan.dev/v1
+2026-08-03T15:25:25.016Z [api:01_research_adaptation] started
+2026-08-03T15:25:52.940Z [api:01_research_adaptation] completed in 27923ms
+2026-08-03T15:25:52.947Z [api:03_node_N01_offer_acceptance] started
+2026-08-03T15:26:20.374Z [api:03_node_N01_offer_acceptance] completed in 27427ms
+2026-08-03T15:26:20.382Z [api:03_node_N02_deposit_tuition] started
+2026-08-03T15:26:45.162Z [api:03_node_N02_deposit_tuition] completed in 24780ms
+2026-08-03T15:26:45.215Z [api:03_node_N03_coe_visa] started
+2026-08-03T15:27:08.326Z [api:03_node_N03_coe_visa] completed in 23111ms
+2026-08-03T15:27:08.336Z [api:03_node_N04_housing_commute] started
+2026-08-03T15:27:33.746Z [api:03_node_N04_housing_commute] completed in 25411ms
+2026-08-03T15:27:33.751Z [api:03_node_N05_arrival_registration] started
+2026-08-03T15:28:00.434Z [api:03_node_N05_arrival_registration] completed in 26683ms
+2026-08-03T15:28:00.439Z [api:03_node_N05B_ward_office_bureaucracy] started
+2026-08-03T15:28:23.164Z [api:03_node_N05B_ward_office_bureaucracy] completed in 22725ms
+2026-08-03T15:28:23.170Z [api:03_node_N06_lab_courses] started
+2026-08-03T15:28:50.649Z [api:03_node_N06_lab_courses] completed in 27479ms
+2026-08-03T15:28:50.659Z [api:03_node_N07_part_time_work] started
+2026-08-03T15:29:13.990Z [api:03_node_N07_part_time_work] completed in 23331ms
+2026-08-03T15:29:14.004Z [api:03_node_N08_language_support] started
+2026-08-03T15:29:43.258Z [api:03_node_N08_language_support] completed in 29254ms
+2026-08-03T15:29:43.266Z [api:03_node_N09_typhoon_deadline] started
+2026-08-03T15:30:07.946Z [api:03_node_N09_typhoon_deadline] completed in 24680ms
+2026-08-03T15:30:07.964Z [api:03_node_N10_career_internship] started
+2026-08-03T15:30:40.928Z [api:03_node_N10_career_internship] completed in 32964ms
+2026-08-03T15:30:40.938Z [api:03_node_N11_graduation_status] started
+2026-08-03T15:31:04.990Z [api:03_node_N11_graduation_status] completed in 24052ms
+2026-08-03T15:31:04.998Z [api:03_node_N12_final_choice] started
+2026-08-03T15:31:30.577Z [api:03_node_N12_final_choice] completed in 25579ms
+2026-08-03T15:31:30.599Z [supervisor] graph valid on attempt 1
+2026-08-03T15:31:30.604Z [api:06_content_N01_offer_acceptance] started
+2026-08-03T15:31:44.110Z [api:06_content_N01_offer_acceptance] completed in 13506ms
+2026-08-03T15:31:44.117Z [api:06_content_N02_deposit_tuition] started
+2026-08-03T15:31:59.407Z [api:06_content_N02_deposit_tuition] completed in 15290ms
+2026-08-03T15:31:59.420Z [api:06_content_N03_coe_visa] started
+2026-08-03T15:32:16.102Z [api:06_content_N03_coe_visa] completed in 16682ms
+2026-08-03T15:32:16.132Z [api:06_content_N04_housing_commute] started
+2026-08-03T15:32:29.031Z [api:06_content_N04_housing_commute] completed in 12899ms
+2026-08-03T15:32:29.048Z [api:06_content_N05_arrival_registration] started
+2026-08-03T15:32:42.020Z [api:06_content_N05_arrival_registration] completed in 12972ms
+2026-08-03T15:32:42.023Z [api:06_content_N05B_ward_office_bureaucracy] started
+2026-08-03T15:32:57.068Z [api:06_content_N05B_ward_office_bureaucracy] completed in 15045ms
+2026-08-03T15:32:57.072Z [api:06_content_N06_lab_courses] started
+2026-08-03T15:33:14.994Z [api:06_content_N06_lab_courses] completed in 17922ms
+2026-08-03T15:33:14.997Z [api:06_content_N07_part_time_work] started
+2026-08-03T15:33:32.136Z [api:06_content_N07_part_time_work] completed in 17139ms
+2026-08-03T15:33:32.140Z [api:06_content_N08_language_support] started
+2026-08-03T15:33:43.064Z [api:06_content_N08_language_support] completed in 10924ms
+2026-08-03T15:33:43.068Z [api:06_content_N09_typhoon_deadline] started
+2026-08-03T15:33:54.660Z [api:06_content_N09_typhoon_deadline] completed in 11592ms
+2026-08-03T15:33:54.665Z [api:06_content_N10_career_internship] started
+2026-08-03T15:34:12.591Z [api:06_content_N10_career_internship] completed in 17926ms
+2026-08-03T15:34:12.601Z [api:06_content_N11_graduation_status] started
+2026-08-03T15:34:28.534Z [api:06_content_N11_graduation_status] completed in 15933ms
+2026-08-03T15:34:28.546Z [api:06_content_N12_final_choice] started
+2026-08-03T15:34:49.246Z [api:06_content_N12_final_choice] completed in 20700ms
+2026-08-03T15:34:49.249Z [api:06_content_B01_admin_friction] started
+2026-08-03T15:35:01.781Z [api:06_content_B01_admin_friction] completed in 12532ms
+2026-08-03T15:35:01.800Z [api:06_content_B02_financial_scrutiny] started
+2026-08-03T15:35:21.684Z [api:06_content_B02_financial_scrutiny] completed in 19884ms
+2026-08-03T15:35:21.691Z [api:06_content_B03_commute_exhaustion] started
+2026-08-03T15:35:38.581Z [api:06_content_B03_commute_exhaustion] completed in 16890ms
+2026-08-03T15:35:38.590Z [api:06_content_B04_lost_in_translation] started
+2026-08-03T15:36:11.570Z [api:06_content_B04_lost_in_translation] completed in 32980ms
+2026-08-03T15:36:11.574Z [api:06_content_B05_advisor_confrontation] started
+2026-08-03T15:36:24.897Z [api:06_content_B05_advisor_confrontation] completed in 13324ms
+2026-08-03T15:36:24.901Z [api:06_content_B06_visa_investigation] started
+2026-08-03T15:36:40.894Z [api:06_content_B06_visa_investigation] completed in 15993ms
+2026-08-03T15:36:40.898Z [api:06_content_B07_storm_recovery] started
+2026-08-03T15:36:56.734Z [api:06_content_B07_storm_recovery] completed in 15836ms
+2026-08-03T15:36:56.740Z [api:06_content_B08_job_hunt_crisis] started
+2026-08-03T15:37:11.346Z [api:06_content_B08_job_hunt_crisis] completed in 14606ms
+2026-08-03T15:37:11.350Z [api:06_content_B09_visa_emergency] started
+2026-08-03T15:37:27.009Z [api:06_content_B09_visa_emergency] completed in 15659ms
+2026-08-03T15:37:27.013Z [api:06_content_system_pages] started
+2026-08-03T15:38:14.930Z [api:06_content_system_pages] completed in 47917ms
+2026-08-03T15:38:14.933Z [api:07_variants_1] started
+2026-08-03T15:38:44.208Z [api:07_variants_1] completed in 29275ms
+2026-08-03T15:38:44.209Z [api:07_variants_2] started
+2026-08-03T15:39:09.442Z [api:07_variants_2] completed in 25233ms
+2026-08-03T15:39:09.443Z [api:07_variants_3] started
+2026-08-03T15:39:37.779Z [api:07_variants_3] completed in 28336ms
+2026-08-03T15:39:37.780Z [api:07_variants_4] started
+2026-08-03T15:40:04.043Z [api:07_variants_4] completed in 26263ms
+2026-08-03T15:40:04.044Z [api:07_variants_5] started
+2026-08-03T15:40:20.838Z [api:07_variants_5] completed in 16794ms
+2026-08-03T15:40:20.840Z [api:07_variants_6] started
+2026-08-03T15:40:38.980Z [api:07_variants_6] completed in 18140ms
+2026-08-03T15:40:38.985Z [api:07_variants_7] started
+2026-08-03T15:40:56.357Z [api:07_variants_7] completed in 17372ms
+2026-08-03T15:40:56.358Z [api:07_variants_8] started
+2026-08-03T15:41:15.886Z [api:07_variants_8] completed in 19528ms
+2026-08-03T15:41:15.886Z [api:07_variants_9] started
+2026-08-03T15:41:32.183Z [api:07_variants_9] completed in 16297ms
+2026-08-03T15:41:32.184Z [api:07_variants_10] started
+2026-08-03T15:41:50.365Z [api:07_variants_10] completed in 18181ms
+2026-08-03T15:41:50.366Z [api:07_variants_11] started
+2026-08-03T15:42:06.742Z [api:07_variants_11] completed in 16376ms
+2026-08-03T15:42:06.744Z [api:07_variants_12] started
+2026-08-03T15:42:23.674Z [api:07_variants_12] completed in 16930ms
+2026-08-03T15:42:23.675Z [api:07_variants_13] started
+2026-08-03T15:42:41.003Z [api:07_variants_13] completed in 17328ms
+2026-08-03T15:42:41.004Z [api:07_variants_14] started
+2026-08-03T15:43:01.730Z [api:07_variants_14] completed in 20726ms
+2026-08-03T15:43:01.733Z [api:07_variants_15] started
+2026-08-03T15:43:22.494Z [api:07_variants_15] completed in 20761ms
+2026-08-03T15:43:22.495Z [api:07_variants_16] started
+2026-08-03T15:43:41.602Z [api:07_variants_16] completed in 19107ms
+2026-08-03T15:43:41.602Z [api:07_variants_17] started
+2026-08-03T15:44:04.426Z [api:07_variants_17] completed in 22824ms
+2026-08-03T15:44:04.427Z [api:07_variants_18] started
+2026-08-03T15:44:24.570Z [api:07_variants_18] completed in 20143ms
+2026-08-03T15:44:24.571Z [api:07_variants_19] started
+2026-08-03T15:44:44.765Z [api:07_variants_19] completed in 20195ms
+2026-08-03T15:44:44.766Z [api:07_variants_20] started
+2026-08-03T15:45:12.888Z [api:07_variants_20] completed in 28122ms
+2026-08-03T15:45:12.888Z [api:07_variants_21] started
+2026-08-03T15:45:32.002Z [api:07_variants_21] completed in 19114ms
+2026-08-03T15:45:32.003Z [api:07_variants_22] started
+2026-08-03T15:45:50.397Z [api:07_variants_22] completed in 18394ms
+2026-08-03T15:45:50.416Z [done] story=C:\Users\Nana\Documents\嘿嘿\Academia-Life-Simulater\data\stories\utokyo_cs_full_1785770721_final.json

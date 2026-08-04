@@ -1,0 +1,103 @@
+{
+  "sample": {
+    "normal": {
+      "ok": true,
+      "ending": "E_tokyo_local_job",
+      "steps": 28,
+      "warnings": [
+        "money",
+        "time"
+      ],
+      "state": {
+        "money": 54,
+        "time": 40,
+        "visa": 89,
+        "housing": 73,
+        "school": 79,
+        "wellbeing": 69,
+        "japanese": 63,
+        "career": 75,
+        "lab_reputation": 60
+      }
+    },
+    "positive": {
+      "ok": true,
+      "ending": "E_money_critical",
+      "steps": 8,
+      "warnings": [
+        "money"
+      ],
+      "state": {
+        "money": 0,
+        "time": 72,
+        "visa": 100,
+        "housing": 88,
+        "school": 72,
+        "wellbeing": 83,
+        "japanese": 48,
+        "career": 55,
+        "lab_reputation": 65
+      }
+    },
+    "negative": {
+      "ok": true,
+      "ending": "E_defer_or_pause",
+      "steps": 5,
+      "warnings": [
+        "visa"
+      ],
+      "state": {
+        "money": 66,
+        "time": 62,
+        "visa": 29,
+        "housing": 58,
+        "school": 72,
+        "wellbeing": 65,
+        "japanese": 48,
+        "career": 55,
+        "lab_reputation": 55
+      }
+    },
+    "mixed": {
+      "ok": true,
+      "ending": "E_time_critical",
+      "steps": 17,
+      "warnings": [
+        "time",
+        "wellbeing"
+      ],
+      "state": {
+        "money": 59,
+        "time": 0,
+        "visa": 79,
+        "housing": 48,
+        "school": 72,
+        "wellbeing": 9,
+        "japanese": 56,
+        "career": 55,
+        "lab_reputation": 55
+      }
+    }
+  },
+  "exhaustive": {
+    "terminalPaths": 1295459,
+    "naturalEndings": 550163,
+    "failureEndings": 745296,
+    "maxDepth": 48,
+    "badCount": 0,
+    "badExamples": [],
+    "endingCounts": {
+      "E_tokyo_local_job": 273775,
+      "E_third_country_launch": 218251,
+      "E_return_home_stronger": 58130,
+      "E_money_critical": 291839,
+      "E_visa_critical": 73477,
+      "E_time_critical": 154855,
+      "E_career_critical": 24919,
+      "E_wellbeing_critical": 190931,
+      "E_lab_reputation_critical": 9112,
+      "E_school_critical": 163,
+      "E_defer_or_pause": 7
+    }
+  }
+}

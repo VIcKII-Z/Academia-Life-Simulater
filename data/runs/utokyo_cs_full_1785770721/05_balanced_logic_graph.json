@@ -1,0 +1,3802 @@
+{
+  "flow_version": "post_offer_v1",
+  "story_id": "utokyo_cs_full_1785770721",
+  "degree_track": "master_taught",
+  "base_variables": [
+    {
+      "id": "money",
+      "label": "Money",
+      "initial": 66,
+      "is_base": true,
+      "rationale": "Cash buffer controls deposits, rent, commuting, tuition timing, and emergency room to stay enrolled.",
+      "affects_nodes": [
+        "N02_deposit_tuition",
+        "N04_housing_commute",
+        "N07_part_time_work",
+        "N11_graduation_status",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_money_bad",
+      "failure_page_id": "E_money_critical"
+    },
+    {
+      "id": "time",
+      "label": "Time",
+      "initial": 72,
+      "is_base": true,
+      "rationale": "Deadline buffer controls admission paperwork, visa timing, course registration, research milestones, and job status change.",
+      "affects_nodes": [
+        "N02_deposit_tuition",
+        "N03_coe_visa",
+        "N05_arrival_registration",
+        "N09_typhoon_deadline",
+        "N11_graduation_status"
+      ],
+      "warning_page_id": "W_time_bad",
+      "failure_page_id": "E_time_critical"
+    },
+    {
+      "id": "visa",
+      "label": "Visa",
+      "initial": 74,
+      "is_base": true,
+      "rationale": "Immigration readiness decides whether the student can enter, work part-time, remain enrolled, and change status after graduation.",
+      "affects_nodes": [
+        "N03_coe_visa",
+        "N05_arrival_registration",
+        "N07_part_time_work",
+        "N11_graduation_status",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_visa_bad",
+      "failure_page_id": "E_visa_critical"
+    },
+    {
+      "id": "housing",
+      "label": "Housing",
+      "initial": 58,
+      "is_base": true,
+      "rationale": "Housing security controls commute fatigue, upfront cost, address registration, and whether the player can sustain the first semester.",
+      "affects_nodes": [
+        "N04_housing_commute",
+        "N05_arrival_registration",
+        "N06_lab_courses",
+        "N09_typhoon_deadline"
+      ],
+      "warning_page_id": "W_housing_bad",
+      "failure_page_id": "E_housing_critical"
+    },
+    {
+      "id": "school",
+      "label": "School",
+      "initial": 72,
+      "is_base": true,
+      "rationale": "Academic standing determines whether coursework, lab progress, graduation, and post-study opportunities remain viable.",
+      "affects_nodes": [
+        "N06_lab_courses",
+        "N08_language_support",
+        "N09_typhoon_deadline",
+        "N10_career_internship",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_school_bad",
+      "failure_page_id": "E_school_critical"
+    },
+    {
+      "id": "wellbeing",
+      "label": "Wellbeing",
+      "initial": 70,
+      "is_base": true,
+      "rationale": "Physical and emotional resilience decides whether pressure turns into a recoverable warning or a forced pause.",
+      "affects_nodes": [
+        "N04_housing_commute",
+        "N06_lab_courses",
+        "N08_language_support",
+        "N09_typhoon_deadline",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_wellbeing_bad",
+      "failure_page_id": "E_wellbeing_critical"
+    }
+  ],
+  "suggested_variables": [
+    {
+      "id": "japanese",
+      "label": "Japanese",
+      "initial": 48,
+      "is_base": false,
+      "rationale": "Japanese ability changes housing paperwork, ward office tasks, part-time work options, and local job interviews.",
+      "affects_nodes": [
+        "N05_arrival_registration",
+        "N07_part_time_work",
+        "N08_language_support",
+        "N10_career_internship"
+      ],
+      "warning_page_id": "W_japanese_bad",
+      "failure_page_id": "E_japanese_critical"
+    },
+    {
+      "id": "career",
+      "label": "Career",
+      "initial": 55,
+      "is_base": false,
+      "rationale": "Career readiness changes internship access, local job conversion, and whether a post-study plan is realistic.",
+      "affects_nodes": [
+        "N10_career_internship",
+        "N11_graduation_status",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_career_bad",
+      "failure_page_id": "E_career_critical"
+    },
+    {
+      "id": "lab_reputation",
+      "label": "Lab Reputation",
+      "initial": 55,
+      "is_base": false,
+      "rationale": "Advisor and lab reputation affects references, research opportunities, and resilience during milestone pressure.",
+      "affects_nodes": [
+        "N06_lab_courses",
+        "N09_typhoon_deadline",
+        "N10_career_internship",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_lab_reputation_bad",
+      "failure_page_id": "E_lab_reputation_critical"
+    }
+  ],
+  "accepted_supplemental_variables": [
+    {
+      "id": "japanese",
+      "label": "Japanese",
+      "initial": 48,
+      "is_base": false,
+      "rationale": "Japanese ability changes housing paperwork, ward office tasks, part-time work options, and local job interviews.",
+      "affects_nodes": [
+        "N05_arrival_registration",
+        "N07_part_time_work",
+        "N08_language_support",
+        "N10_career_internship"
+      ],
+      "warning_page_id": "W_japanese_bad",
+      "failure_page_id": "E_japanese_critical"
+    },
+    {
+      "id": "career",
+      "label": "Career",
+      "initial": 55,
+      "is_base": false,
+      "rationale": "Career readiness changes internship access, local job conversion, and whether a post-study plan is realistic.",
+      "affects_nodes": [
+        "N10_career_internship",
+        "N11_graduation_status",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_career_bad",
+      "failure_page_id": "E_career_critical"
+    },
+    {
+      "id": "lab_reputation",
+      "label": "Lab Reputation",
+      "initial": 55,
+      "is_base": false,
+      "rationale": "Advisor and lab reputation affects references, research opportunities, and resilience during milestone pressure.",
+      "affects_nodes": [
+        "N06_lab_courses",
+        "N09_typhoon_deadline",
+        "N10_career_internship",
+        "N12_final_choice"
+      ],
+      "warning_page_id": "W_lab_reputation_bad",
+      "failure_page_id": "E_lab_reputation_critical"
+    }
+  ],
+  "main_node_order": [
+    "N01_offer_acceptance",
+    "N02_deposit_tuition",
+    "N03_coe_visa",
+    "N04_housing_commute",
+    "N05_arrival_registration",
+    "N05B_ward_office_bureaucracy",
+    "N06_lab_courses",
+    "N07_part_time_work",
+    "N08_language_support",
+    "N09_typhoon_deadline",
+    "N10_career_internship",
+    "N11_graduation_status",
+    "N12_final_choice"
+  ],
+  "special_nodes": [
+    {
+      "node_id": "N02_deposit_tuition",
+      "reason": "Financial gatekeeper for COE eligibility.",
+      "ending_impact": "Immediate failure if funds are insufficient."
+    },
+    {
+      "node_id": "N03_coe_visa",
+      "reason": "Legal gatekeeper for entry.",
+      "ending_impact": "Forces deferral or cancellation of the study plan."
+    },
+    {
+      "node_id": "N04_housing_commute",
+      "reason": "Determines long-term resource drain.",
+      "ending_impact": "Influences wellbeing/time thresholds for later academic success."
+    },
+    {
+      "node_id": "N06_lab_courses",
+      "reason": "Core academic/professional pillar.",
+      "ending_impact": "Determines quality of career references and graduation eligibility."
+    },
+    {
+      "node_id": "N07_part_time_work",
+      "reason": "Legal/Financial balance.",
+      "ending_impact": "Visa revocation if 28-hour limit is exceeded."
+    },
+    {
+      "node_id": "N09_typhoon_deadline",
+      "reason": "Crisis management milestone.",
+      "ending_impact": "Academic probation or success."
+    },
+    {
+      "node_id": "N10_career_internship",
+      "reason": "Economic outcome driver.",
+      "ending_impact": "Differentiates between 'Stay in Japan' and 'Return Home' endings."
+    },
+    {
+      "node_id": "N11_graduation_status",
+      "reason": "Legal status transition.",
+      "ending_impact": "Final check on the ability to remain in-country."
+    },
+    {
+      "node_id": "N12_final_choice",
+      "reason": "Narrative resolution.",
+      "ending_impact": "Final ending selection."
+    }
+  ],
+  "research_adjustments": [
+    {
+      "node_id": "N07_part_time_work",
+      "adjustment": "Added explicit check for visa risk related to the 28-hour weekly limit mentioned in research.",
+      "facts_used": [
+        "part_time_work",
+        "visa"
+      ]
+    },
+    {
+      "node_id": "N10_career_internship",
+      "adjustment": "Included 'lab_reputation' and 'japanese' as critical success factors for local tech hiring.",
+      "facts_used": [
+        "career",
+        "career_profile"
+      ]
+    }
+  ],
+  "nodes": {
+    "N01_offer_acceptance": {
+      "id": "N01_offer_acceptance",
+      "type": "base_node",
+      "title": "Offer acceptance and first commitment",
+      "stage": "offer_prearrival",
+      "is_special": false,
+      "variables_read": [
+        "money",
+        "time"
+      ],
+      "variables_written": [
+        "money",
+        "time",
+        "wellbeing",
+        "lab_reputation",
+        "visa"
+      ],
+      "facts_used": [
+        "The game begins after an offer, so the first decision is commitment rather than application strategy."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time"
+          ],
+          "reason": "Deposit urgency reads differently when money or deadline buffer is weak."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt_n01_normal",
+          "kind": "normal",
+          "label": "立即接受录取并启动行政流程。",
+          "result_page_id": "R01_standard_acceptance",
+          "planned_next_id": "N02_deposit_tuition",
+          "route_decision": "continue",
+          "delta": {
+            "time": -2,
+            "wellbeing": 2
+          },
+          "rationale": "Standard administrative overhead for acceptance. The relief of deciding improves wellbeing slightly."
+        },
+        {
+          "id": "opt_n01_positive",
+          "kind": "positive_extreme",
+          "label": "接受录取并主动给未来的导师写信。",
+          "result_page_id": "R01_proactive_acceptance",
+          "planned_next_id": "N02_deposit_tuition",
+          "route_decision": "continue",
+          "delta": {
+            "time": -5,
+            "lab_reputation": 5,
+            "wellbeing": -2
+          },
+          "rationale": "Proactive engagement with the lab builds early reputation but consumes more immediate time and adds early-stage stress."
+        },
+        {
+          "id": "opt_n01_negative",
+          "kind": "negative_extreme",
+          "label": "再等等看，对比其他学校的奖学金情况。",
+          "result_page_id": "R01_delayed_acceptance",
+          "planned_next_id": "B01_admin_friction",
+          "route_decision": "branch",
+          "delta": {
+            "time": -10,
+            "visa": -5,
+            "wellbeing": -5
+          },
+          "rationale": "Hesitation consumes the limited pre-arrival buffer, creating a cascade of administrative pressure and reducing the visa processing window."
+        }
+      ]
+    },
+    "N02_deposit_tuition": {
+      "id": "N02_deposit_tuition",
+      "type": "special_node",
+      "title": "Tuition Deposit and Financial Buffer Proof",
+      "stage": "offer_prearrival",
+      "is_special": true,
+      "why_special": "Failure to prove sufficient funds or pay the initial deposit results in COE denial and immediate game over.",
+      "variables_read": [
+        "money"
+      ],
+      "variables_written": [
+        "money",
+        "visa",
+        "wellbeing",
+        "lab_reputation"
+      ],
+      "facts_used": [
+        "cost_of_living",
+        "money"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "money"
+          ],
+          "reason": "Tokyo's high initial move-in costs mean a low money state here creates a 'debt trap' before arrival."
+        }
+      ],
+      "options": [
+        {
+          "id": "O1_standard_deposit",
+          "kind": "normal",
+          "label": "N02_deposit_tuition_O1：缴纳标准学杂费并提交存款证明",
+          "result_page_id": "R_N02_standard",
+          "planned_next_id": "N03_coe_visa",
+          "route_decision": "continue",
+          "delta": {
+            "money": -15,
+            "visa": 5
+          },
+          "rationale": "Standard compliance secures the COE process without excessive drain on liquid assets."
+        },
+        {
+          "id": "O2_full_upfront",
+          "kind": "positive_extreme",
+          "label": "N02_deposit_tuition_O2：预付全年学费并提供充足资金证明",
+          "result_page_id": "R_N02_upfront",
+          "planned_next_id": "N03_coe_visa",
+          "route_decision": "continue",
+          "delta": {
+            "money": -30,
+            "visa": 15,
+            "lab_reputation": 5
+          },
+          "rationale": "Aggressive financial proof eliminates immigration scrutiny and signals high commitment to the department."
+        },
+        {
+          "id": "O3_minimum_proof",
+          "kind": "negative_extreme",
+          "label": "N02_deposit_tuition_O3：申请延期缴纳并提交最低限度证明",
+          "result_page_id": "R_N02_delayed",
+          "planned_next_id": "B02_financial_scrutiny",
+          "route_decision": "branch",
+          "delta": {
+            "money": -5,
+            "visa": -15,
+            "wellbeing": -10
+          },
+          "rationale": "Conserving cash creates administrative friction and triggers secondary checks by the Immigration Bureau."
+        }
+      ]
+    },
+    "N03_coe_visa": {
+      "id": "N03_coe_visa",
+      "type": "special_node",
+      "title": "COE and student visa timing",
+      "stage": "offer_prearrival",
+      "is_special": true,
+      "why_special": "Visa timing can hard-stop entry or force deferral.",
+      "variables_read": [
+        "visa",
+        "time"
+      ],
+      "variables_written": [
+        "visa",
+        "time",
+        "money",
+        "wellbeing"
+      ],
+      "facts_used": [
+        "Japan student visas require a Certificate of Eligibility and careful timing."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time"
+          ],
+          "reason": "Visa text changes when both paperwork readiness and time are under pressure."
+        }
+      ],
+      "options": [
+        {
+          "id": "N03_opt_standard",
+          "kind": "normal",
+          "label": "通过标准邮寄方式提交申请材料。",
+          "result_page_id": "R_visa_standard",
+          "planned_next_id": "N04_housing_commute",
+          "route_decision": "continue",
+          "delta": {
+            "visa": 5,
+            "time": -3,
+            "wellbeing": -3
+          },
+          "rationale": "A standard application is reliable but consumes significant time and causes minor stress during the waiting period."
+        },
+        {
+          "id": "N03_opt_proactive",
+          "kind": "positive_extreme",
+          "label": "雇佣行政书士进行优先代办处理。",
+          "result_page_id": "R_visa_proactive",
+          "planned_next_id": "N04_housing_commute",
+          "route_decision": "continue",
+          "delta": {
+            "money": -15,
+            "visa": 15,
+            "time": -5
+          },
+          "rationale": "Professional assistance minimizes errors and speeds up the process, though it is expensive."
+        },
+        {
+          "id": "N03_opt_risky",
+          "kind": "negative_extreme",
+          "label": "等待更有利的汇率后再提交资金证明。",
+          "result_page_id": "R_visa_delay",
+          "planned_next_id": "B01_admin_friction",
+          "route_decision": "branch",
+          "delta": {
+            "visa": -15,
+            "time": -20,
+            "wellbeing": -10
+          },
+          "rationale": "Delaying the financial proof stage creates a bottleneck that risks missing the semester start, leading to administrative friction."
+        }
+      ]
+    },
+    "N04_housing_commute": {
+      "id": "N04_housing_commute",
+      "type": "special_node",
+      "title": "Tokyo Housing: Rent vs. Commute",
+      "stage": "offer_prearrival",
+      "is_special": true,
+      "why_special": "The choice between expensive central housing and cheaper suburban housing permanently sets the 'time' and 'wellbeing' decay rates for the study stage.",
+      "variables_read": [
+        "money",
+        "housing"
+      ],
+      "variables_written": [
+        "money",
+        "housing",
+        "time",
+        "wellbeing"
+      ],
+      "facts_used": [
+        "cost_of_living",
+        "commute",
+        "climate"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "housing"
+          ],
+          "reason": "High move-in costs (key money/deposits) can drain the buffer, while long commutes increase fatigue during typhoon season."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt_housing_balanced",
+          "kind": "normal",
+          "label": "N04_housing_commute_O1：入住文京区的合租房，平衡开销与通勤",
+          "result_page_id": "R04_balanced",
+          "planned_next_id": "N05_arrival_registration",
+          "route_decision": "balanced_commute",
+          "delta": {
+            "money": -12,
+            "housing": 15,
+            "wellbeing": 5,
+            "time": -3
+          },
+          "rationale": "A standard student choice. Moderate rent and a 30-minute commute provide a sustainable balance of resources."
+        },
+        {
+          "id": "opt_housing_premium",
+          "kind": "positive_extreme",
+          "label": "N04_housing_commute_O2：租下本乡校区旁的单身公寓，用金钱换取时间",
+          "result_page_id": "R04_premium",
+          "planned_next_id": "N05_arrival_registration",
+          "route_decision": "premium_proximity",
+          "delta": {
+            "money": -28,
+            "housing": 30,
+            "wellbeing": 15,
+            "time": 10
+          },
+          "rationale": "Extremely high upfront costs (shikikin/reikin) but eliminates commute stress, maximizing study time and mental health."
+        },
+        {
+          "id": "opt_housing_suburban",
+          "kind": "negative_extreme",
+          "label": "N04_housing_commute_O3：搬往埼玉县的廉价公寓，最大限度节省租金",
+          "result_page_id": "R04_suburban",
+          "planned_next_id": "B03_commute_exhaustion",
+          "route_decision": "extreme_commute",
+          "delta": {
+            "money": 8,
+            "housing": -10,
+            "wellbeing": -15,
+            "time": -25
+          },
+          "rationale": "Saves significant monthly cash but introduces a 90-minute one-way commute, causing immediate fatigue and time loss."
+        }
+      ]
+    },
+    "N05_arrival_registration": {
+      "id": "N05_arrival_registration",
+      "type": "base_node",
+      "title": "Arrival week and ward-office registration",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "japanese",
+        "time"
+      ],
+      "variables_written": [
+        "japanese",
+        "time",
+        "wellbeing"
+      ],
+      "facts_used": [
+        "International students must handle arrival logistics, address registration, banking, and orientation."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "time"
+          ],
+          "reason": "Bureaucracy feels different with low Japanese and little time."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt_n05_standard",
+          "kind": "normal",
+          "label": "跟随学校的国际生引导流程",
+          "result_page_id": "R05_standard",
+          "planned_next_id": "N05B_ward_office_bureaucracy",
+          "route_decision": "Standard path following the international student guide.",
+          "delta": {
+            "time": -3,
+            "japanese": 2
+          },
+          "rationale": "Following the guide is reliable but slow, involving group movements and waiting for staff."
+        },
+        {
+          "id": "opt_n05_proactive",
+          "kind": "positive_extreme",
+          "label": "提前准备材料并利用翻译工具高效办理",
+          "result_page_id": "R05_proactive",
+          "planned_next_id": "N05B_ward_office_bureaucracy",
+          "route_decision": "High-efficiency path utilizing pre-arrival research.",
+          "delta": {
+            "time": -4,
+            "japanese": 4,
+            "wellbeing": 5
+          },
+          "rationale": "Preparation reduces friction at the ward office, saving significant time and boosting confidence."
+        },
+        {
+          "id": "opt_n05_disorganized",
+          "kind": "negative_extreme",
+          "label": "不带预案，独自尝试在城市和窗口间摸索",
+          "result_page_id": "R05_disorganized",
+          "planned_next_id": "B04_lost_in_translation",
+          "route_decision": "Chaotic path leading to administrative and spatial confusion.",
+          "delta": {
+            "time": -12,
+            "wellbeing": -10,
+            "japanese": -2
+          },
+          "rationale": "Lack of preparation leads to getting lost and being unable to communicate with ward office staff, causing a branch event."
+        }
+      ]
+    },
+    "N06_lab_courses": {
+      "id": "N06_lab_courses",
+      "type": "special_node",
+      "title": "Lab Integration and Advisor Expectations",
+      "stage": "study",
+      "is_special": true,
+      "why_special": "In a CS Master's, the advisor's trust and the lab's reputation are the primary drivers for both graduation and local job references.",
+      "variables_read": [
+        "school",
+        "wellbeing",
+        "lab_reputation",
+        "time"
+      ],
+      "variables_written": [
+        "school",
+        "wellbeing",
+        "lab_reputation",
+        "time",
+        "career"
+      ],
+      "facts_used": [
+        "academic",
+        "program_profile"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "High lab pressure combined with low wellbeing can lead to research burnout or advisor conflict."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt_n06_balanced",
+          "kind": "normal",
+          "label": "在课程学分与实验室研究之间维持稳健的平衡。",
+          "result_page_id": "R06_balanced",
+          "planned_next_id": "N07_part_time_work",
+          "route_decision": "Standard academic progression.",
+          "delta": {
+            "school": 5,
+            "lab_reputation": 5,
+            "wellbeing": -3,
+            "time": -3
+          },
+          "rationale": "A safe middle ground that builds reputation slowly without immediate burnout."
+        },
+        {
+          "id": "opt_n06_overdrive",
+          "kind": "positive_extreme",
+          "label": "主动请缨参与教授的核心高压科研项目，争取论文署名。",
+          "result_page_id": "R06_overdrive",
+          "planned_next_id": "N07_part_time_work",
+          "route_decision": "High-risk, high-reward academic path.",
+          "delta": {
+            "school": 10,
+            "lab_reputation": 15,
+            "career": 10,
+            "wellbeing": -15,
+            "time": -20
+          },
+          "rationale": "Directly boosts career and lab standing at a significant cost to time and mental health."
+        },
+        {
+          "id": "opt_n06_minimalist",
+          "kind": "negative_extreme",
+          "label": "优先保证个人学习时间，将实验室的出勤降至最低限度。",
+          "result_page_id": "R06_minimalist",
+          "planned_next_id": "B05_advisor_confrontation",
+          "route_decision": "Friction with lab culture leads to a confrontation branch.",
+          "delta": {
+            "school": -5,
+            "lab_reputation": -15,
+            "wellbeing": 10,
+            "time": 10
+          },
+          "rationale": "Ignoring the 'zemi' and lab culture in Japan is a major faux pas, triggering social/academic consequences."
+        }
+      ]
+    },
+    "N07_part_time_work": {
+      "id": "N07_part_time_work",
+      "type": "special_node",
+      "title": "Part-time work permission and income",
+      "stage": "study",
+      "is_special": true,
+      "why_special": "Working too much can rescue money while damaging visa, school, and health.",
+      "variables_read": [
+        "money",
+        "visa"
+      ],
+      "variables_written": [
+        "money",
+        "visa",
+        "time",
+        "school",
+        "wellbeing",
+        "lab_reputation"
+      ],
+      "facts_used": [
+        "Student status part-time work is limited and requires permission."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa"
+          ],
+          "reason": "Low money forces the player toward risky overwork, while low visa makes that choice lethal."
+        }
+      ],
+      "options": [
+        {
+          "id": "N07_opt1",
+          "kind": "normal",
+          "label": "每周在零售店兼职14小时",
+          "result_page_id": "R_N07_balanced",
+          "planned_next_id": "N08_language_support",
+          "route_decision": "Standard part-time work within legal limits.",
+          "delta": {
+            "money": 10,
+            "time": -3,
+            "school": -3,
+            "wellbeing": -3
+          },
+          "rationale": "A moderate approach provides a steady income stream but consumes study time and energy."
+        },
+        {
+          "id": "N07_opt2",
+          "kind": "positive_extreme",
+          "label": "拒绝打工，全身心投入实验室研究",
+          "result_page_id": "R_N07_academic_focus",
+          "planned_next_id": "N08_language_support",
+          "route_decision": "Forgo income to maximize academic standing.",
+          "delta": {
+            "money": -15,
+            "time": 15,
+            "school": 10,
+            "lab_reputation": 10
+          },
+          "rationale": "Prioritizing the lab improves reputation and grades but drains savings rapidly."
+        },
+        {
+          "id": "N07_opt3",
+          "kind": "negative_extreme",
+          "label": "拉满工时以赚取最高额度收入",
+          "result_page_id": "R_N07_illegal_hours",
+          "planned_next_id": "B06_visa_investigation",
+          "route_decision": "Pushing the 28-hour limit, risking visa scrutiny.",
+          "delta": {
+            "money": 25,
+            "time": -25,
+            "visa": -20,
+            "school": -15,
+            "wellbeing": -15
+          },
+          "rationale": "Maximizing income provides financial security but severely impacts health, grades, and legal status."
+        }
+      ]
+    },
+    "N08_language_support": {
+      "id": "N08_language_support",
+      "type": "base_node",
+      "title": "Language, support office, and isolation",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "japanese",
+        "wellbeing"
+      ],
+      "variables_written": [
+        "japanese",
+        "wellbeing",
+        "time",
+        "money"
+      ],
+      "facts_used": [
+        "Tokyo has international-student support, but daily life still creates language and isolation pressure."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "wellbeing"
+          ],
+          "reason": "Social support text depends on language ability and emotional resilience."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt_08_normal",
+          "kind": "normal",
+          "label": "N08_language_support_O1：参加东大面向留学生开设的免费日语课程。",
+          "result_page_id": "R08_language_classes",
+          "planned_next_id": "N09_typhoon_deadline",
+          "route_decision": "Continue to next main milestone.",
+          "delta": {
+            "japanese": 8,
+            "wellbeing": 5,
+            "time": -3
+          },
+          "rationale": "Standard academic approach. Improves language and provides a social circle of fellow students at the cost of study time."
+        },
+        {
+          "id": "opt_08_positive",
+          "kind": "positive_extreme",
+          "label": "N08_language_support_O2：加入文京区的当地社区兴趣小组或志愿者活动。",
+          "result_page_id": "R08_community_immersion",
+          "planned_next_id": "N09_typhoon_deadline",
+          "route_decision": "Deep immersion route.",
+          "delta": {
+            "japanese": 15,
+            "wellbeing": 12,
+            "time": -20,
+            "money": -5
+          },
+          "rationale": "High-effort immersion. Drastically improves language and sense of belonging, but is time-intensive and requires small social expenses."
+        },
+        {
+          "id": "opt_08_negative",
+          "kind": "negative_extreme",
+          "label": "N08_language_support_O3：拒绝社交，全身心投入实验室研究并只在英语圈活动。",
+          "result_page_id": "R08_isolation_spiral",
+          "planned_next_id": "B04_lost_in_translation",
+          "route_decision": "Enter branch: Language-based administrative crisis.",
+          "delta": {
+            "japanese": -10,
+            "wellbeing": -15,
+            "time": 10
+          },
+          "rationale": "Short-term time gain for lab work, but leads to social isolation and language atrophy, triggering a communication crisis."
+        }
+      ]
+    },
+    "N09_typhoon_deadline": {
+      "id": "N09_typhoon_deadline",
+      "type": "special_node",
+      "title": "Typhoon Season and Research Milestone",
+      "stage": "study",
+      "is_special": true,
+      "why_special": "Climate-driven disruptions (train delays, power outages) test the player's time management and academic resilience during a critical project phase.",
+      "variables_read": [
+        "school",
+        "wellbeing",
+        "time"
+      ],
+      "variables_written": [
+        "school",
+        "wellbeing",
+        "time",
+        "money",
+        "lab_reputation"
+      ],
+      "facts_used": [
+        "climate",
+        "safety",
+        "academic"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "school",
+            "wellbeing"
+          ],
+          "reason": "A low-time, low-wellbeing player may fail the milestone due to the physical and mental toll of the humid/stormy season."
+        }
+      ],
+      "options": [
+        {
+          "id": "N09_opt1",
+          "kind": "normal",
+          "label": "留在公寓，利用本地设备离线办公",
+          "result_page_id": "R09_normal",
+          "planned_next_id": "N10_career_internship",
+          "route_decision": "The player chooses a safe, moderate path, accepting minor productivity loss for safety.",
+          "delta": {
+            "school": 5,
+            "wellbeing": -3,
+            "time": -3
+          },
+          "rationale": "Working from home avoids the danger of the storm but limits access to lab servers and high-speed equipment, causing a slight time drain and stress."
+        },
+        {
+          "id": "N09_opt2",
+          "kind": "positive_extreme",
+          "label": "预订带有备用电源的专业共享空间",
+          "result_page_id": "R09_positive",
+          "planned_next_id": "N10_career_internship",
+          "route_decision": "The player proactively spends resources to ensure academic success despite the environment.",
+          "delta": {
+            "school": 15,
+            "wellbeing": 5,
+            "time": -15,
+            "money": -10,
+            "lab_reputation": 10
+          },
+          "rationale": "A high-end co-working space ensures the deadline is met with high quality. The advisor is impressed by the resilience, though it costs money and travel time."
+        },
+        {
+          "id": "N09_opt3",
+          "kind": "negative_extreme",
+          "label": "在风暴预警期间强行前往学校实验室",
+          "result_page_id": "R09_negative",
+          "planned_next_id": "B07_storm_recovery",
+          "route_decision": "The player ignores safety warnings, leading to a logistical and physical crisis.",
+          "delta": {
+            "school": -15,
+            "wellbeing": -25,
+            "time": -20,
+            "lab_reputation": -10
+          },
+          "rationale": "Getting stranded at a station or in a dark lab during a power outage causes a major hit to wellbeing and school progress, triggering a recovery branch."
+        }
+      ]
+    },
+    "N10_career_internship": {
+      "id": "N10_career_internship",
+      "type": "special_node",
+      "title": "Internship, networking, and local job search",
+      "stage": "post_graduation",
+      "is_special": true,
+      "why_special": "Career choices decide local employment, return-home, or third-country endings.",
+      "variables_read": [
+        "career",
+        "japanese",
+        "lab_reputation"
+      ],
+      "variables_written": [
+        "career",
+        "japanese",
+        "lab_reputation",
+        "time",
+        "wellbeing",
+        "money",
+        "school",
+        "visa"
+      ],
+      "facts_used": [
+        "CS career prospects are strong, but Japanese language and local networking can matter.",
+        "Local career conversion depends on Japanese, networking, references, and status-change timing."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "career"
+          ],
+          "reason": "If career is below 40, the job search feels uphill and desperate."
+        },
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "If Japanese is above 60, local firms become viable options."
+        },
+        {
+          "variables": [
+            "lab_reputation"
+          ],
+          "reason": "High lab reputation grants access to exclusive alumni networks."
+        }
+      ],
+      "options": [
+        {
+          "id": "opt10_normal",
+          "kind": "normal",
+          "label": "N10_career_internship_O1：同时投递本土与跨国企业，寻求平衡发展",
+          "result_page_id": "R10_balanced_search",
+          "planned_next_id": "N11_graduation_status",
+          "route_decision": "Standard job hunting path for international students.",
+          "delta": {
+            "career": 10,
+            "japanese": 5,
+            "time": -3,
+            "wellbeing": -3
+          },
+          "rationale": "A balanced approach builds career capital and language skills while consuming moderate time and stress."
+        },
+        {
+          "id": "opt10_positive",
+          "kind": "positive_extreme",
+          "label": "N10_career_internship_O2：争取顶尖科技公司实习，全力冲刺高薪Offer",
+          "result_page_id": "R10_intensive_internship",
+          "planned_next_id": "N11_graduation_status",
+          "route_decision": "High-reward, high-stress path targeting elite employment.",
+          "delta": {
+            "career": 20,
+            "lab_reputation": 10,
+            "time": -20,
+            "wellbeing": -15,
+            "money": -5
+          },
+          "rationale": "Internships at top firms significantly boost career and lab standing but are exhausting and expensive in terms of time."
+        },
+        {
+          "id": "opt10_negative",
+          "kind": "negative_extreme",
+          "label": "N10_career_internship_O3：优先完成毕业论文研究，推迟求职计划",
+          "result_page_id": "R10_delayed_search",
+          "planned_next_id": "B08_job_hunt_crisis",
+          "route_decision": "Neglecting the rigid Japanese hiring cycle leads to a career crisis.",
+          "delta": {
+            "career": -20,
+            "school": 15,
+            "time": 5,
+            "wellbeing": 5
+          },
+          "rationale": "Focusing solely on research improves academic standing but leaves the player without a job offer as graduation nears."
+        }
+      ]
+    },
+    "N11_graduation_status": {
+      "id": "N11_graduation_status",
+      "type": "special_node",
+      "title": "Graduation and Visa Status Change",
+      "stage": "post_graduation",
+      "is_special": true,
+      "why_special": "Transitioning from 'Student' to 'Work' or 'Designated Activities' visa is a hard deadline; missing it forces a 'Return Home' ending regardless of job offers.",
+      "variables_read": [
+        "visa",
+        "time",
+        "career"
+      ],
+      "variables_written": [
+        "visa",
+        "time",
+        "career",
+        "wellbeing",
+        "money"
+      ],
+      "facts_used": [
+        "visa",
+        "career_profile"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "career",
+            "time"
+          ],
+          "reason": "The window to change status is narrow; bureaucratic delays at the ward office or immigration can derail a successful job hunt."
+        }
+      ],
+      "options": [
+        {
+          "id": "N11_opt1",
+          "kind": "normal",
+          "label": "按部就班申请变更",
+          "result_page_id": "R_N11_standard",
+          "planned_next_id": "N12_final_choice",
+          "route_decision": "Proceed with the standard 'Designated Activities' visa application for job seekers.",
+          "delta": {
+            "visa": 5,
+            "time": -3,
+            "money": -5
+          },
+          "rationale": "A standard bureaucratic path. It costs time and a small fee, but stabilizes the legal stay for another 6 months."
+        },
+        {
+          "id": "N11_opt2",
+          "kind": "positive_extreme",
+          "label": "提前进行专业法律咨询",
+          "result_page_id": "R_N11_proactive",
+          "planned_next_id": "N12_final_choice",
+          "route_decision": "Prepare documents months in advance with a lawyer's review to ensure a seamless transition.",
+          "delta": {
+            "visa": 15,
+            "career": 10,
+            "time": -5,
+            "money": -15
+          },
+          "rationale": "Early preparation eliminates legal uncertainty, making the player more attractive to employers who fear visa sponsorship friction."
+        },
+        {
+          "id": "N11_opt3",
+          "kind": "negative_extreme",
+          "label": "推迟到最后期限处理",
+          "result_page_id": "R_N11_delayed",
+          "planned_next_id": "B09_visa_emergency",
+          "route_decision": "Focus on research and job interviews, leaving the visa paperwork until the final week of the grace period.",
+          "delta": {
+            "visa": -25,
+            "wellbeing": -15,
+            "time": -20
+          },
+          "rationale": "Procrastination leads to a critical time crunch and high stress, risking an administrative error that could end the stay."
+        }
+      ]
+    },
+    "N12_final_choice": {
+      "id": "N12_final_choice",
+      "type": "special_node",
+      "title": "Final life direction",
+      "stage": "post_graduation",
+      "is_special": true,
+      "why_special": "This node selects the final non-failure ending from accumulated state.",
+      "variables_read": [
+        "money",
+        "school",
+        "wellbeing",
+        "career"
+      ],
+      "variables_written": [
+        "money",
+        "school",
+        "wellbeing",
+        "career"
+      ],
+      "facts_used": [
+        "The final page should resolve whether Tokyo becomes home, a launchpad, or a difficult but useful chapter."
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "school",
+            "wellbeing",
+            "career"
+          ],
+          "reason": "Final tone depends on the combined state rather than one variable."
+        }
+      ],
+      "options": [
+        {
+          "id": "normal",
+          "kind": "normal",
+          "label": "接受日本本土科技公司的稳定职位，开启社会人生活。",
+          "result_page_id": "R_N12_local_career",
+          "planned_next_id": "E_tokyo_local_job",
+          "route_decision": "The player chooses integration into the local Tokyo economy.",
+          "delta": {
+            "career": 10,
+            "wellbeing": 5,
+            "money": 10
+          },
+          "rationale": "A standard successful outcome where the player uses their degree to stay and work in Japan."
+        },
+        {
+          "id": "positive_extreme",
+          "kind": "positive_extreme",
+          "label": "利用东大名校光环与研究成果，冲击全球顶尖研发岗位。",
+          "result_page_id": "R_N12_global_launch",
+          "planned_next_id": "E_third_country_launch",
+          "route_decision": "The player maximizes prestige to launch into an international elite tier.",
+          "delta": {
+            "career": 25,
+            "school": 10,
+            "money": 20,
+            "wellbeing": -10
+          },
+          "rationale": "Maximizes career and financial gains at the cost of immediate wellbeing due to high-pressure recruitment and relocation."
+        },
+        {
+          "id": "negative_extreme",
+          "kind": "negative_extreme",
+          "label": "婉拒所有录用，选择回国休养并重新寻找方向。",
+          "result_page_id": "R_N12_retreat_recovery",
+          "planned_next_id": "E_return_home_stronger",
+          "route_decision": "The player prioritizes mental health and familiarity over a Japanese career.",
+          "delta": {
+            "wellbeing": -25,
+            "career": -15,
+            "money": -10
+          },
+          "rationale": "Reflects a state of burnout where the player has the degree but lacks the capacity to continue in the local environment."
+        }
+      ]
+    },
+    "N05B_ward_office_bureaucracy": {
+      "id": "N05B_ward_office_bureaucracy",
+      "type": "base_node",
+      "title": "Ward Office and National Health Insurance",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "japanese",
+        "time"
+      ],
+      "variables_written": [
+        "wellbeing",
+        "time",
+        "japanese"
+      ],
+      "facts_used": [
+        "culture_shock",
+        "community"
+      ],
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "Low Japanese ability increases the time spent and wellbeing cost of navigating local government paperwork."
+        }
+      ],
+      "options": [
+        {
+          "id": "O05B_01_normal",
+          "kind": "normal",
+          "label": "遵循标准流程进行登记办理。",
+          "result_page_id": "R05B_normal",
+          "planned_next_id": "N06_lab_courses",
+          "route_decision": "continue",
+          "delta": {
+            "time": -3,
+            "wellbeing": -3
+          },
+          "rationale": "Standard bureaucracy in Japan is efficient but time-consuming and mentally taxing for a newcomer."
+        },
+        {
+          "id": "O05B_02_positive",
+          "kind": "positive_extreme",
+          "label": "提前填写表格并熟练使用翻译工具辅助。",
+          "result_page_id": "R05B_positive",
+          "planned_next_id": "N06_lab_courses",
+          "route_decision": "continue",
+          "delta": {
+            "time": -2,
+            "wellbeing": 5,
+            "japanese": 2
+          },
+          "rationale": "Preparation minimizes friction, provides a sense of accomplishment, and offers a small language practice opportunity."
+        },
+        {
+          "id": "O05B_03_negative",
+          "kind": "negative_extreme",
+          "label": "在没有准备的情况下尝试直接沟通办理。",
+          "result_page_id": "R05B_negative",
+          "planned_next_id": "B04_lost_in_translation",
+          "route_decision": "branch",
+          "delta": {
+            "time": -8,
+            "wellbeing": -15
+          },
+          "rationale": "Going in blind leads to confusion, multiple counter-transfers, and significant stress, triggering a specialized branch for language friction."
+        }
+      ]
+    },
+    "B01_admin_friction": {
+      "id": "B01_admin_friction",
+      "type": "branch_node",
+      "title": "Administrative Backlog",
+      "stage": "offer_prearrival",
+      "is_special": false,
+      "variables_read": [
+        "visa",
+        "time"
+      ],
+      "variables_written": [
+        "visa",
+        "time",
+        "wellbeing",
+        "lab_reputation"
+      ],
+      "options": [
+        {
+          "id": "B01_opt_wait",
+          "kind": "normal",
+          "label": "耐心等待使馆处理积压。",
+          "result_page_id": "R_admin_wait",
+          "planned_next_id": "N04_housing_commute",
+          "route_decision": "continue",
+          "delta": {
+            "time": -3,
+            "wellbeing": -3
+          },
+          "rationale": "Waiting is the only passive option, but it burns through the remaining time before the semester starts."
+        },
+        {
+          "id": "B01_opt_escalate",
+          "kind": "positive_extreme",
+          "label": "请求东大国际学生办公室出具加急支持信。",
+          "result_page_id": "R_admin_escalate",
+          "planned_next_id": "N04_housing_commute",
+          "route_decision": "continue",
+          "delta": {
+            "lab_reputation": -5,
+            "visa": 10,
+            "time": -5
+          },
+          "rationale": "Asking the university to intervene works, but it signals to your future lab that you are disorganized."
+        },
+        {
+          "id": "B01_opt_fail",
+          "kind": "negative_extreme",
+          "label": "接受延误，申请延期入学。",
+          "result_page_id": "R_admin_fail",
+          "planned_next_id": "E_defer_or_pause",
+          "route_decision": "ending",
+          "delta": {
+            "visa": -40
+          },
+          "rationale": "If the delay is too great, the player must choose to defer, ending the current attempt."
+        }
+      ]
+    },
+    "B02_financial_scrutiny": {
+      "id": "B02_financial_scrutiny",
+      "type": "branch_node",
+      "title": "Immigration Bureau Inquiry",
+      "stage": "offer_prearrival",
+      "is_special": false,
+      "variables_read": [
+        "visa"
+      ],
+      "variables_written": [
+        "time",
+        "visa",
+        "money",
+        "school"
+      ],
+      "options": [
+        {
+          "id": "B02_O1_extra_docs",
+          "kind": "normal",
+          "label": "提交详尽的家族资产记录与纳税证明",
+          "result_page_id": "R_B02_docs",
+          "planned_next_id": "N03_coe_visa",
+          "route_decision": "continue",
+          "delta": {
+            "time": -3,
+            "visa": 5
+          },
+          "rationale": "Providing more data satisfies the bureau but consumes precious pre-departure time."
+        },
+        {
+          "id": "B02_O2_guarantor",
+          "kind": "positive_extreme",
+          "label": "支付昂贵的专业财务担保服务费用",
+          "result_page_id": "R_B02_guarantor",
+          "planned_next_id": "N03_coe_visa",
+          "route_decision": "continue",
+          "delta": {
+            "money": -10,
+            "visa": 15
+          },
+          "rationale": "A costly but effective way to bypass personal wealth requirements."
+        },
+        {
+          "id": "B02_O3_protest",
+          "kind": "negative_extreme",
+          "label": "就材料必要性向校方和入管局提出申诉",
+          "result_page_id": "R_B02_protest",
+          "planned_next_id": "N03_coe_visa",
+          "route_decision": "continue",
+          "delta": {
+            "visa": -20,
+            "school": -10
+          },
+          "rationale": "Antagonizing the bureau or the university admin at this stage is high-risk and damages institutional trust."
+        }
+      ]
+    },
+    "B03_commute_exhaustion": {
+      "id": "B03_commute_exhaustion",
+      "type": "branch_node",
+      "title": "The Commuter's Toll",
+      "stage": "offer_prearrival",
+      "is_special": false,
+      "variables_read": [
+        "time",
+        "wellbeing"
+      ],
+      "variables_written": [
+        "time",
+        "wellbeing",
+        "japanese"
+      ],
+      "options": [
+        {
+          "id": "opt_b03_study",
+          "kind": "normal",
+          "label": "在电车上利用碎片时间苦学日语",
+          "result_page_id": "RB03_study",
+          "planned_next_id": "N05_arrival_registration",
+          "route_decision": "commute_optimization",
+          "delta": {
+            "japanese": 10,
+            "wellbeing": -3
+          },
+          "rationale": "Turning dead time into productive time mitigates the loss, though it's still tiring."
+        },
+        {
+          "id": "opt_b03_sleep",
+          "kind": "positive_extreme",
+          "label": "闭目养神，在通勤途中抓紧时间补觉",
+          "result_page_id": "RB03_sleep",
+          "planned_next_id": "N05_arrival_registration",
+          "route_decision": "commute_rest",
+          "delta": {
+            "wellbeing": 5,
+            "time": -5
+          },
+          "rationale": "Catching extra Zs helps maintain sanity, though you miss out on potential study time."
+        },
+        {
+          "id": "opt_b03_burnout",
+          "kind": "negative_extreme",
+          "label": "在漫长的旅途中陷入对生活的焦虑与疲惫",
+          "result_page_id": "RB03_burnout",
+          "planned_next_id": "N05_arrival_registration",
+          "route_decision": "commute_despair",
+          "delta": {
+            "wellbeing": -15,
+            "time": -10
+          },
+          "rationale": "The psychological weight of the commute begins to erode your commitment before you even arrive."
+        }
+      ]
+    },
+    "B04_lost_in_translation": {
+      "id": "B04_lost_in_translation",
+      "type": "branch_node",
+      "title": "Lost in Translation",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "japanese",
+        "money",
+        "visa"
+      ],
+      "variables_written": [
+        "money",
+        "time",
+        "visa",
+        "wellbeing",
+        "japanese",
+        "school"
+      ],
+      "options": [
+        {
+          "id": "opt_b04_normal",
+          "kind": "normal",
+          "label": "花钱雇佣一名专业的留学生翻译陪同办理。",
+          "result_page_id": "RB04_pay_for_help",
+          "planned_next_id": "N09_typhoon_deadline",
+          "route_decision": "Financial solution to language barrier.",
+          "delta": {
+            "money": -15,
+            "wellbeing": 5,
+            "time": -3
+          },
+          "rationale": "Spending money to resolve the administrative confusion safely without further stress."
+        },
+        {
+          "id": "opt_b04_positive",
+          "kind": "positive_extreme",
+          "label": "通宵查字典翻译并尝试独立应对。",
+          "result_page_id": "RB04_brute_force",
+          "planned_next_id": "N09_typhoon_deadline",
+          "route_decision": "Time-intensive self-reliance.",
+          "delta": {
+            "japanese": 10,
+            "time": -25,
+            "wellbeing": -10
+          },
+          "rationale": "Forced learning through crisis. Improves language skills but causes significant burnout and time loss."
+        },
+        {
+          "id": "opt_b04_negative",
+          "kind": "negative_extreme",
+          "label": "先放一边，希望这只是虚惊一场。",
+          "result_page_id": "RB04_neglect_consequences",
+          "planned_next_id": "N09_typhoon_deadline",
+          "route_decision": "Avoidance leading to status risk.",
+          "delta": {
+            "visa": -20,
+            "wellbeing": -15,
+            "school": -5
+          },
+          "rationale": "Ignoring official government/university mail in Japan is a major risk to visa status and academic standing."
+        }
+      ]
+    },
+    "B05_advisor_confrontation": {
+      "id": "B05_advisor_confrontation",
+      "type": "branch_node",
+      "title": "The Advisor's Inquiry",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "lab_reputation"
+      ],
+      "variables_written": [
+        "lab_reputation",
+        "wellbeing",
+        "time",
+        "career",
+        "school"
+      ],
+      "options": [
+        {
+          "id": "opt_b05_recommit",
+          "kind": "normal",
+          "label": "诚恳道歉，承诺严格遵守实验室的出勤时间。",
+          "result_page_id": "RB05_recommit",
+          "planned_next_id": "N07_part_time_work",
+          "route_decision": "Submission to hierarchy.",
+          "delta": {
+            "lab_reputation": 10,
+            "wellbeing": -3,
+            "time": -3
+          },
+          "rationale": "Regains trust through total compliance, but sacrifices personal life."
+        },
+        {
+          "id": "opt_b05_impress",
+          "kind": "positive_extreme",
+          "label": "展示高质量的独立研究计划，用实力证明效率。",
+          "result_page_id": "RB05_impress",
+          "planned_next_id": "N07_part_time_work",
+          "route_decision": "Proving worth through results.",
+          "delta": {
+            "lab_reputation": 5,
+            "school": 10,
+            "wellbeing": -20
+          },
+          "rationale": "High-pressure move to justify independence with superior academic output."
+        },
+        {
+          "id": "opt_b05_clash",
+          "kind": "negative_extreme",
+          "label": "坚定立场，明确表达个人生活与学术研究的边界。",
+          "result_page_id": "RB05_clash",
+          "planned_next_id": "N07_part_time_work",
+          "route_decision": "Cultural friction.",
+          "delta": {
+            "lab_reputation": -20,
+            "career": -10,
+            "wellbeing": 5
+          },
+          "rationale": "Protects mental health but severely damages the advisor relationship and future job references."
+        }
+      ]
+    },
+    "B06_visa_investigation": {
+      "id": "B06_visa_investigation",
+      "type": "branch_node",
+      "title": "Immigration Bureau Inquiry",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "school",
+        "lab_reputation"
+      ],
+      "variables_written": [
+        "visa",
+        "money",
+        "lab_reputation",
+        "wellbeing",
+        "school"
+      ],
+      "options": [
+        {
+          "id": "B06_opt1",
+          "kind": "normal",
+          "label": "诚恳认错并立即削减工时",
+          "result_page_id": "R_B06_compliance",
+          "planned_next_id": "N08_language_support",
+          "route_decision": "Compliance to save the visa.",
+          "delta": {
+            "visa": 10,
+            "money": -15,
+            "wellbeing": -3
+          },
+          "rationale": "Admitting the mistake satisfies the immediate inquiry but leaves the player broke."
+        },
+        {
+          "id": "B06_opt2",
+          "kind": "positive_extreme",
+          "label": "请求导师出面以研究进度为由担保",
+          "result_page_id": "R_B06_defense",
+          "planned_next_id": "N08_language_support",
+          "route_decision": "Using academic reputation as a shield.",
+          "delta": {
+            "visa": 5,
+            "lab_reputation": -10,
+            "school": 5
+          },
+          "rationale": "If the player has high lab reputation, they can survive the scare, but it costs political capital with the advisor."
+        },
+        {
+          "id": "B06_opt3",
+          "kind": "negative_extreme",
+          "label": "转入地下领取现金报酬以规避监控",
+          "result_page_id": "R_B06_deception",
+          "planned_next_id": "N08_language_support",
+          "route_decision": "Illegal evasion of monitoring.",
+          "delta": {
+            "visa": -30,
+            "money": 10,
+            "wellbeing": -20
+          },
+          "rationale": "Hiding income is a high-risk move that can lead directly to visa failure if caught later."
+        }
+      ]
+    },
+    "B07_storm_recovery": {
+      "id": "B07_storm_recovery",
+      "type": "branch_node",
+      "stage": "study",
+      "is_special": false,
+      "variables_read": [
+        "lab_reputation",
+        "wellbeing"
+      ],
+      "variables_written": [
+        "school",
+        "wellbeing",
+        "lab_reputation",
+        "money"
+      ],
+      "options": [
+        {
+          "id": "B07_opt1",
+          "kind": "normal",
+          "label": "正式申诉：提交气象与交通证明申请延期",
+          "result_page_id": "R_B07_appeal",
+          "planned_next_id": "N10_career_internship",
+          "route_decision": "The player uses formal channels to mitigate the damage.",
+          "delta": {
+            "school": 5,
+            "lab_reputation": -3,
+            "wellbeing": 5
+          },
+          "rationale": "The department grants an extension, but it looks slightly unprofessional compared to peers who finished on time."
+        },
+        {
+          "id": "B07_opt2",
+          "kind": "positive_extreme",
+          "label": "极限补救：去24小时网咖通宵修复Bug并提交",
+          "result_page_id": "R_B07_grind",
+          "planned_next_id": "N10_career_internship",
+          "route_decision": "The player sacrifices health to save their grade.",
+          "delta": {
+            "school": 15,
+            "wellbeing": -20,
+            "money": -5
+          },
+          "rationale": "Using a 24-hour internet cafe allows for a late submission. The grade is saved, but the player is physically wrecked."
+        },
+        {
+          "id": "B07_opt3",
+          "kind": "negative_extreme",
+          "label": "放弃抵抗：接受逾期事实并向导师发邮件道歉",
+          "result_page_id": "R_B07_fail",
+          "planned_next_id": "N10_career_internship",
+          "route_decision": "The player takes the full hit to their academic standing.",
+          "delta": {
+            "school": -20,
+            "lab_reputation": -15,
+            "wellbeing": -10
+          },
+          "rationale": "Missing a major milestone without a fight severely damages the advisor's trust and the player's GPA."
+        }
+      ]
+    },
+    "B08_job_hunt_crisis": {
+      "id": "B08_job_hunt_crisis",
+      "type": "branch_node",
+      "stage": "post_graduation",
+      "is_special": false,
+      "variables_read": [
+        "career",
+        "lab_reputation"
+      ],
+      "variables_written": [
+        "career",
+        "visa",
+        "wellbeing",
+        "lab_reputation",
+        "money"
+      ],
+      "options": [
+        {
+          "id": "optB08_normal",
+          "kind": "normal",
+          "label": "参加针对留学生的国际职业博览会",
+          "result_page_id": "RB08_fair_res",
+          "planned_next_id": "N11_graduation_status",
+          "route_decision": "Attempting to salvage the situation through specialized events.",
+          "delta": {
+            "career": 5,
+            "money": -5,
+            "wellbeing": -3
+          },
+          "rationale": "Career fairs for international students are a last-ditch effort to find companies still hiring out of cycle."
+        },
+        {
+          "id": "optB08_positive",
+          "kind": "positive_extreme",
+          "label": "请求导师引荐校友企业资源",
+          "result_page_id": "RB08_advisor_res",
+          "planned_next_id": "N11_graduation_status",
+          "route_decision": "Using academic capital to bypass standard hiring hurdles.",
+          "delta": {
+            "career": 15,
+            "lab_reputation": -10,
+            "wellbeing": -10
+          },
+          "rationale": "A referral can fix the career gap but costs significant social capital with your advisor."
+        },
+        {
+          "id": "optB08_negative",
+          "kind": "negative_extreme",
+          "label": "放弃在日求职，筹备回国发展",
+          "result_page_id": "RB08_give_up_res",
+          "planned_next_id": "N11_graduation_status",
+          "route_decision": "Accepting the failure to secure local work.",
+          "delta": {
+            "career": -10,
+            "visa": -10,
+            "wellbeing": -5
+          },
+          "rationale": "Giving up on the local search prepares the player for a return home, damaging the 'Stay in Japan' potential."
+        }
+      ]
+    },
+    "B09_visa_emergency": {
+      "id": "B09_visa_emergency",
+      "type": "branch_node",
+      "title": "Immigration Crisis",
+      "stage": "post_graduation",
+      "is_special": false,
+      "variables_read": [
+        "visa",
+        "money"
+      ],
+      "variables_written": [
+        "visa",
+        "money",
+        "wellbeing"
+      ],
+      "options": [
+        {
+          "id": "B09_opt1",
+          "kind": "normal",
+          "label": "诚恳致歉并申请短期延期",
+          "result_page_id": "R_B09_extension",
+          "planned_next_id": "N12_final_choice",
+          "route_decision": "Submit a letter of apology and request a temporary extension.",
+          "delta": {
+            "visa": 10,
+            "money": -5,
+            "wellbeing": -3
+          },
+          "rationale": "Humility and a paper trail can sometimes buy time, but the stress is immense and the outcome uncertain."
+        },
+        {
+          "id": "B09_opt2",
+          "kind": "positive_extreme",
+          "label": "重金聘请行政书士代办",
+          "result_page_id": "R_B09_expert",
+          "planned_next_id": "N12_final_choice",
+          "route_decision": "Pay a premium for an immigration scrivener (Gyoseishoshi) to fix the filing immediately.",
+          "delta": {
+            "visa": 25,
+            "money": -40,
+            "wellbeing": -5
+          },
+          "rationale": "Professional intervention is the most reliable way to salvage a failing visa status, though it is very expensive."
+        },
+        {
+          "id": "B09_opt3",
+          "kind": "negative_extreme",
+          "label": "放弃申诉，准备回国",
+          "result_page_id": "R_B09_missed",
+          "planned_next_id": "E_visa_critical",
+          "route_decision": "Accept that the window has closed and prepare to leave the country.",
+          "delta": {
+            "visa": -60
+          },
+          "rationale": "Failing to rectify the status immediately results in a forced exit from Japan."
+        }
+      ]
+    }
+  },
+  "pages": {
+    "N01_offer_acceptance": {
+      "id": "N01_offer_acceptance",
+      "role": "node",
+      "owner_node_id": "N01_offer_acceptance",
+      "title": "The Acceptance Window",
+      "placeholder": "The official offer from the University of Tokyo Graduate School of Information Science and Technology sits in your inbox. The deadline to submit the 'Letter of Intent to Enroll' is approaching. How do you proceed?",
+      "text": "屏幕上闪烁着东京大学情报理工学系研究科的录取通知书。这封邮件不仅意味着你拿到了计算机科学硕士项目的入场券，更是一系列繁琐手续的开端。入学意向书的截止日期就在眼前，你必须在庆祝之余迅速做出决定。东京的高昂生活成本和严格的行政截止日期正无声地向你施压。是立即确认，还是再观望一下其他学校的情况？",
+      "insight": "在准备赴日留学时，尽早确认录取可以为后续的在留资格（COE）申请和签证办理留出宝贵的缓冲时间。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time"
+          ],
+          "reason": "If time is already low, the pressure of the deadline is emphasized."
+        }
+      ]
+    },
+    "N02_deposit_tuition": {
+      "id": "N02_deposit_tuition",
+      "role": "node",
+      "owner_node_id": "N02_deposit_tuition",
+      "title": "The Financial Gatekeeper",
+      "placeholder": "The University of Tokyo requires an admission fee and the first semester's tuition to initiate the Certificate of Eligibility (COE). Immigration also demands proof of 2,000,000 JPY in liquid assets to ensure you won't become a ward of the state.",
+      "text": "东京大学的录取通知书只是第一步，现在你面临着现实的财务考验。为了启动在留资格认定证明书（COE）的申请，校方要求你缴纳入学金及首学期学费。同时，日本出入国在留管理局需要你提供约200万日元的存款证明，以确保你在东京的高昂生活开支有所保障。这笔资金的调动将直接影响你接下来的签证进度以及抵达东京初期的生活质量。",
+      "insight": "东京的初期安置成本极高，日本入管局对留学生的经济能力审查非常严格，资金证明的额度通常需覆盖至少一年的学费与生活费。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money"
+          ],
+          "reason": "Low funds at this stage significantly increase the risk of visa rejection or immediate hardship upon landing."
+        }
+      ]
+    },
+    "N03_coe_visa": {
+      "id": "N03_coe_visa",
+      "role": "node",
+      "owner_node_id": "N03_coe_visa",
+      "title": "COE and Student Visa Timing",
+      "placeholder": "The Certificate of Eligibility (COE) is the golden ticket to your student visa. UTokyo has sent the digital confirmation, but the clock is ticking. You need to present your financial proof and official documents to the nearest Japanese embassy. Any delay now could mean arriving late for orientation—or not at all.",
+      "text": "在东京大学的录取通知书之后，在留资格认定证明书（COE）成了你进入日本的“金钥匙”。校方已发出电子确认，但留给你的时间并不充裕。你需要迅速向日本驻华使领馆提交存款证明和各类公证材料。任何文书错误或递交延迟，都可能让你错过开学前的迎新周，甚至导致无法按时入境。签证官的审核速度难以预测，你必须决定如何处理这关键的最后一步。",
+      "insight": "日本留学签证高度依赖COE的下发速度，而存款证明的真实性与及时性是入管局审查的重点。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time"
+          ],
+          "reason": "If visa and time are both low, the tone becomes urgent and panicked."
+        }
+      ]
+    },
+    "N04_housing_commute": {
+      "id": "N04_housing_commute",
+      "role": "node",
+      "owner_node_id": "N04_housing_commute",
+      "title": "The Housing Search",
+      "placeholder": "Real estate agents in Tokyo present three distinct paths. Do you prioritize your wallet, your time, or a middle ground?",
+      "text": "面对东京复杂的租房市场，你必须在通勤时间与生活成本间做出抉择。中介递来几份方案：文京区的小型合租房、本乡校区步行圈内的单身公寓，或是远在埼玉县但租金极低的廉价房。考虑到CS专业繁重的实验任务和偶尔的熬夜需求，住所的位置将直接决定你未来两年的睡眠质量与财务压力。你盯着那些高昂的“礼金”和“押金”要求，深吸一口气，准备签下这份可能改变留学节奏的契约。",
+      "insight": "东京租房的“礼金”制度和长距离通勤是留学生的初次财务与体力考验，直接影响后续的科研效率。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money"
+          ],
+          "reason": "Low funds make the premium option impossible without triggering a warning."
+        }
+      ]
+    },
+    "N05_arrival_registration": {
+      "id": "N05_arrival_registration",
+      "role": "node",
+      "owner_node_id": "N05_arrival_registration",
+      "title": "Arrival in Tokyo",
+      "placeholder": "You land at Narita/Haneda. The first week is a blur of paperwork, dorm keys, and the daunting task of registering your address at the local ward office.",
+      "text": "你降落在东京，潮湿的空气扑面而来。作为东京大学CS项目的新生，你不仅要搬进宿舍，还得在14天内前往区役所完成住址登记。面对密密麻麻的日文表格和复杂的行政流程，你感到一丝压力。这不仅关乎你的合法身份，更是后续办理银行卡和手机号的前提。此时，你该如何开启这段留学生涯的“第一战”？",
+      "insight": "在日本，区役所（Ward Office）的住址登记是所有生活服务的基石。虽然流程繁琐，但提前准备好材料或寻求校方指导能有效降低挫败感。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "Low Japanese makes the ward office signs look like an impenetrable wall of kanji."
+        }
+      ]
+    },
+    "N06_lab_courses": {
+      "id": "N06_lab_courses",
+      "role": "node",
+      "owner_node_id": "N06_lab_courses",
+      "title": "The Lab Hierarchy",
+      "placeholder": "Your Professor (Sensei) expects you to be present in the lab daily, even if you don't have classes. The senior students (Sempai) are watching your commitment. How do you integrate into this ecosystem?",
+      "text": "你正式进入了东京大学情报理工学系的实验室。在这里，“研究室”不仅是学习场所，更是严密的社交圈。教授虽未明言，但默认你每天都会在实验室露面，而前辈们正通过你的出勤率观察你的态度。每周一次的轮读会压力巨大，你必须在繁重的课程学分与实验室的科研任务之间找到平衡。如何融入这个生态系统？",
+      "insight": "东大CS研究室文化强调“存在感”，这不仅是科研能力的竞争，更是对集体融入度和抗压能力的隐形考核。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "High lab pressure combined with low wellbeing can lead to research burnout or advisor conflict."
+        }
+      ]
+    },
+    "N07_part_time_work": {
+      "id": "N07_part_time_work",
+      "role": "node",
+      "owner_node_id": "N07_part_time_work",
+      "title": "Balancing the Books",
+      "placeholder": "Your savings are dwindling. You have your 'Permission to Engage in Activity other than that Permitted under the Status of Residence Previously Granted', but how many hours will you actually commit to?",
+      "text": "东京的物价远超预期，文京区的房租和日常开销正迅速蚕食你的存款。虽然你在入境时已获得了“资格外活动许可”，但面对东大CS专业繁重的实验任务，你必须决定投入多少精力去打工。是在便利店赚取生活费，还是全身心投入研究室以博取未来的奖学金？这不仅关乎钱包，更关乎你作为留学生的签证合法性。",
+      "insight": "留学生在日本每周打工上限通常为28小时，超过此限度或出勤率过低会导致签证续签失败甚至被遣返。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa"
+          ],
+          "reason": "Low money forces the player toward risky overwork, while low visa makes that choice lethal."
+        }
+      ]
+    },
+    "N08_language_support": {
+      "id": "N08_language_support",
+      "role": "node",
+      "owner_node_id": "N08_language_support",
+      "title": "Language, support office, and isolation",
+      "placeholder": "The initial excitement of Tokyo is fading into a grind. While your lab operates in English, the world outside—supermarkets, ward offices, and the hum of the city—remains a wall of kanji. The International Student Support Room offers resources, but you have to choose how to spend your limited energy.",
+      "text": "东京的新鲜感逐渐消退，取而代之的是繁重的科研与日常生活的隔阂。虽然你的CS实验室以英语交流为主，但走出本乡校区，超市的标签、区役所的通知单依然是一道道汉字组成的“高墙”。留学生支援室提供了多种融入方案，但在有限的精力下，你必须决定是在实验室的“英语堡垒”中深造，还是努力打破语言的藩篱。",
+      "insight": "东京大学提供丰富的日语教育资源，但研究生阶段的科研压力往往会让学生陷入社交孤立，平衡语言学习与研究是长期生存的关键。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "If Japanese is low, the feeling of isolation is described as more acute."
+        }
+      ]
+    },
+    "N09_typhoon_deadline": {
+      "id": "N09_typhoon_deadline",
+      "role": "node",
+      "owner_node_id": "N09_typhoon_deadline",
+      "title": "Typhoon Season and Research Milestone",
+      "placeholder": "The sky over Tokyo turns an eerie purple-grey. A massive typhoon is approaching, and the JR lines are announcing a 'planned suspension' of all trains by 8 PM. Unfortunately, your major research milestone is due tomorrow at noon, and the lab's heavy-compute servers are only accessible via the internal network or a stable, high-bandwidth connection.",
+      "text": "东京的天空变成了诡异的紫灰色。强台风正在逼近，JR线已宣布今晚8点起全面停运。不幸的是，你的关键研究里程碑任务明天中午截止，而实验室的高算力服务器只能通过校内内网或极其稳定的高带宽连接访问。此时，窗外的风声渐起，湿度压得人喘不过气，你必须在交通瘫痪前决定如何应对这场学术与天气的双重考验。",
+      "insight": "东京的台风季常伴随“计划停运”，提前预判交通与电力风险是留学生在极端天气下维持学术进度的必修课。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "school",
+            "wellbeing"
+          ],
+          "reason": "A low-time, low-wellbeing player may fail the milestone due to the physical and mental toll of the humid/stormy season."
+        }
+      ]
+    },
+    "N10_career_internship": {
+      "id": "N10_career_internship",
+      "role": "node",
+      "owner_node_id": "N10_career_internship",
+      "title": "The Hiring Season",
+      "placeholder": "The 'Shukatsu' season is in full swing. Your peers are donning suits and disappearing into interviews. How do you position yourself for life after the degree?",
+      "text": "东京的“就职活动”季节如约而至，本乡校区随处可见穿着深色西装、行色匆匆的同学。作为情报理工的学生，你正站在留日或归国的十字路口。是利用实验室的内推名声争取顶尖外企，还是磨练日语深耕本土科技巨头？如果你之前的职业积累不足，此刻会感到巨大的压力；若日语流利，选择则宽广得多。毕业后的去留，全看你当下的抉择。",
+      "insight": "日本企业的招聘周期（就活）非常固定，通常在毕业前一年就开始。对于CS学生，虽然技术实力是核心，但日语能力和实验室的校友网络（OB/OG）往往是进入顶级日企或外企的关键门槛。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career"
+          ],
+          "reason": "If career is below 40, the job search feels uphill and desperate."
+        },
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "If Japanese is above 60, local firms become viable options."
+        },
+        {
+          "variables": [
+            "lab_reputation"
+          ],
+          "reason": "High lab reputation grants access to exclusive alumni networks."
+        }
+      ]
+    },
+    "N11_graduation_status": {
+      "id": "N11_graduation_status",
+      "role": "node",
+      "owner_node_id": "N11_graduation_status",
+      "title": "The Post-Graduation Cliff",
+      "placeholder": "Your student ID has been deactivated. The clock is ticking on your residence card. Without a valid change of status, your time in Japan ends in thirty days, regardless of your career ambitions.",
+      "text": "毕业典礼的喧嚣已散去，你的东大学生证被注销。在留卡上的“留学”资格即将到期，这意味着无论你是否拿到了Offer，如果不尽快向入管局提交变更申请，你必须在30天内离境。东京的职场大门近在咫尺，但官僚程序的红线正无情地逼近，你必须在身份失效前做出选择。",
+      "insight": "毕业后的“留学”签证失效极快，必须主动申请“特定活动”或“技术·人文知识·国际业务”签证才能合法留日，否则即便有Offer也无法入职。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "career",
+            "time"
+          ],
+          "reason": "The window to change status is narrow; bureaucratic delays at the ward office or immigration can derail a successful job hunt."
+        }
+      ]
+    },
+    "N12_final_choice": {
+      "id": "N12_final_choice",
+      "role": "node",
+      "owner_node_id": "N12_final_choice",
+      "title": "The Crossroads of Graduation",
+      "placeholder": "The ceremony at Yasuda Auditorium is over. Your visa status is transitioning, and the offers on your desk represent different versions of your future. Will you plant roots in the soil of Tokyo, use this degree as a propellant to reach further shores, or admit that the cost of staying has become too high?",
+      "text": "安田讲堂的毕业典礼落下帷幕，你手中紧握着东京大学的硕士学位证书。这两年的实验室磨练、深夜的算法推演以及在文京区街头的奔波，都汇聚成了此刻的抉择。签证即将到期，桌上堆叠的聘书代表着截然不同的未来：是深耕这片已经熟悉的霓虹土地，还是借由东大的光环跃向更广阔的全球舞台，抑或是承认这段旅程已耗尽了你的心力，选择回归故里的宁静？",
+      "insight": "毕业去向是留学价值的最终体现。东大CS的背景为你提供了极高的容错率，无论是选择融入日本社会、跳板全球市场，还是选择回国休整，都是基于当前身心状态与职业目标的理性博弈。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing"
+          ],
+          "reason": "If wellbeing is low, the tone of the graduation is somber and exhausted."
+        },
+        {
+          "variables": [
+            "career"
+          ],
+          "reason": "If career is high, the player has multiple prestigious offers to choose from."
+        }
+      ]
+    },
+    "W_money_bad": {
+      "id": "W_money_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Money warning",
+      "placeholder": "Money has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money"
+          ],
+          "reason": "Money is bad but still recoverable."
+        }
+      ],
+      "text": "你的银行账户余额正迅速缩减，东京的高昂物价开始让你感到捉襟见肘。如果再不精打细算或寻找开源机会，接下来的学费与生活开支将难以为继。请务必审视你的财务规划，避免陷入绝境。",
+      "insight": "在东京，财务安全是所有行动的基石，失去经济支撑将导致连锁反应。"
+    },
+    "W_time_bad": {
+      "id": "W_time_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Time warning",
+      "placeholder": "Time has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time"
+          ],
+          "reason": "Time is bad but still recoverable."
+        }
+      ],
+      "text": "日益堆积的截止日期和繁重的研究任务让你喘不过气。你发现自己陷入了无止境的加班中，却依然无法完成预定计划。若不重新分配精力，时间赤字将彻底摧毁你的学业进度与生活平衡。",
+      "insight": "东大的研究节奏极快，缺乏优先级管理会导致你在琐事中耗尽所有可能。"
+    },
+    "W_visa_bad": {
+      "id": "W_visa_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Visa warning",
+      "placeholder": "Visa has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa"
+          ],
+          "reason": "Visa is bad but still recoverable."
+        }
+      ],
+      "text": "入管局的合规要求比你想象中严格，你近期的某些记录或材料缺失已引起警觉。签证状态的动摇意味着你在日本的合法停留面临风险。请立即修正疏忽，否则你可能在毕业前就被迫遣返。",
+      "insight": "签证是留学生的生命线，任何行政上的轻慢都可能导致无法挽回的后果。"
+    },
+    "W_housing_bad": {
+      "id": "W_housing_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Housing warning",
+      "placeholder": "Housing has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "housing"
+          ],
+          "reason": "Housing is bad but still recoverable."
+        }
+      ],
+      "text": "居住环境的恶化或租约纠纷正严重干扰你的日常生活。不稳定的住所让你无法集中精力研究，甚至面临流落街头的风险。你必须尽快解决住房危机，确保有一个能让你安心休息的后方基地。",
+      "insight": "稳定的居所不仅是物理空间，更是心理压力的缓冲垫。"
+    },
+    "W_school_bad": {
+      "id": "W_school_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "School warning",
+      "placeholder": "School has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school"
+          ],
+          "reason": "School is bad but still recoverable."
+        }
+      ],
+      "text": "导师对你的研究进展表示不满，课程学分也出现了缺口。如果你继续在学术上徘徊不前，可能会面临留级甚至退学的风险。请重新审视你的学习方法，找回作为东大研究生的学术状态。",
+      "insight": "学术表现决定了你在实验室的生存空间，也是获取学位的前提。"
+    },
+    "W_wellbeing_bad": {
+      "id": "W_wellbeing_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Wellbeing warning",
+      "placeholder": "Wellbeing has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing"
+          ],
+          "reason": "Wellbeing is bad but still recoverable."
+        }
+      ],
+      "text": "长期的高压生活正侵蚀你的身心，失眠与焦虑频繁造访。你开始感到力不从心，若不及时调整节奏、寻求喘息，这种透支状态终将导致彻底的崩溃。请关注那些求救的信号，保重身体。",
+      "insight": "身心健康是长期长跑的燃料，一旦枯竭，任何成就都将失去意义。"
+    },
+    "W_japanese_bad": {
+      "id": "W_japanese_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Japanese warning",
+      "placeholder": "Japanese has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "Japanese is bad but still recoverable."
+        }
+      ],
+      "text": "语言障碍正逐渐演变成一道高墙，让你在实验室讨论和日常行政中感到孤立。沟通不畅不仅影响效率，更让你错失许多重要机会。你需要投入更多精力提升日语，打破这种失语的困境。",
+      "insight": "日语不仅是工具，更是深度融入日本社会与学术圈的入场券。"
+    },
+    "W_career_bad": {
+      "id": "W_career_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Career warning",
+      "placeholder": "Career has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career"
+          ],
+          "reason": "Career is bad but still recoverable."
+        }
+      ],
+      "text": "求职市场的冷淡和简历的石沉大海让你感到迷茫。你发现自己的背景与市场需求存在脱节，职业前景变得模糊不清。如果不积极调整策略或增强竞争力，毕业即失业的阴影将笼罩着你。",
+      "insight": "职业规划需要前瞻性，仅靠学历无法在竞争激烈的CS职场中自动胜出。"
+    },
+    "W_lab_reputation_bad": {
+      "id": "W_lab_reputation_bad",
+      "role": "warning",
+      "owner_node_id": "system",
+      "title": "Lab Reputation warning",
+      "placeholder": "Lab Reputation has entered the bad band. Warn once, then return to the interrupted option result page.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "lab_reputation"
+          ],
+          "reason": "Lab Reputation is bad but still recoverable."
+        }
+      ],
+      "text": "你在实验室中的信誉正因沟通失误或表现不佳而受损。导师的信任在流失，同僚的协作也变得尴尬。如果这种关系持续恶化，你将失去核心研究资源和关键的推荐信。请努力修复人际关系。",
+      "insight": "实验室是微型社会，声誉的崩塌往往比学术失败更难修复。"
+    },
+    "N05B_ward_office_bureaucracy": {
+      "id": "N05B_ward_office_bureaucracy",
+      "role": "node",
+      "owner_node_id": "N05B_ward_office_bureaucracy",
+      "title": "The Paperwork Labyrinth",
+      "placeholder": "You arrive at the local Ward Office to register your address and join the National Health Insurance system. The rows of counters and Kanji-heavy forms are intimidating.",
+      "text": "你站在文京区役所宽敞而静谧的大厅里，手中攥着在留卡。这里是东京生活的行政起点：你需要完成住址登记并加入国民健康保险。柜台后职员们正忙碌地盖章，空气中弥漫着纸张和印泥的味道。面对满桌复杂的汉字申请表，如果你的日语能力尚浅，那些礼貌却晦涩的专业术语将成为你融入这座城市的第一道高墙，每一项勾选都显得战战兢兢。",
+      "insight": "日本区役所办事流程极其严谨，虽然提供多语言手册，但核心表格仍需准确填写，任何细微错误都可能导致漫长的重新排队。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese"
+          ],
+          "reason": "If your Japanese is low, the staff's polite but complex explanations become a source of anxiety."
+        }
+      ]
+    },
+    "R01_standard_acceptance": {
+      "id": "R01_standard_acceptance",
+      "role": "result",
+      "owner_node_id": "N01_offer_acceptance",
+      "title": "Commitment Made",
+      "placeholder": "You sign the documents and mail them via EMS. The path to Tokyo is officially open. Now, the real logistics begin.",
+      "text": "你郑重地在入学意向书上签了名，并预约了EMS快递寄往本乡校区。随着确认邮件的发出，你感到一阵前所未有的轻松。虽然接下来的签证申请和搬家准备依然艰巨，但至少你的东京之路已经正式开启。",
+      "insight": "按部就班地完成行政流程是留学生涯稳健开局的基础，这能有效避免不必要的心理压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R01_proactive_acceptance": {
+      "id": "R01_proactive_acceptance",
+      "role": "result",
+      "owner_node_id": "N01_offer_acceptance",
+      "title": "First Impressions",
+      "placeholder": "You not only accept but send a detailed research update to your future supervisor. They respond with a welcoming, if demanding, reading list. You've made a mark, but your to-do list just doubled.",
+      "text": "除了提交手续，你还主动给未来的导师发了一封邮件，汇报了目前的科研兴趣。教授很快回复了，字里行间透着严谨，并附上了一份厚厚的预读文献清单。虽然还没到东京，你已经感受到了实验室的压力，但导师对你的印象分显著提升。",
+      "insight": "日本的研究生教育高度依赖实验室（Lab）制度，提前与导师建立学术联系能让你在入学前就占据先机。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R01_delayed_acceptance": {
+      "id": "R01_delayed_acceptance",
+      "role": "result",
+      "owner_node_id": "N01_offer_acceptance",
+      "title": "The Cost of Hesitation",
+      "placeholder": "By the time you decide to commit, the priority window for early COE (Certificate of Eligibility) processing has narrowed. The admissions office sends a stern reminder about the hard deadline.",
+      "text": "犹豫不决让你错过了第一批在留资格认定证明书（COE）的集中办理期。当你终于决定确认时，教务处的提醒邮件已经带上了催促的语气。行政窗口的缩短意味着你必须在极短的时间内处理复杂的材料，焦虑感陡增。",
+      "insight": "日本大学的行政效率虽然极高，但对截止日期的要求非常死板，拖延往往会导致后续签证办理陷入被动。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "visa",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B01_admin_friction": {
+      "id": "B01_admin_friction",
+      "role": "node",
+      "owner_node_id": "B01_admin_friction",
+      "title": "Administrative Backlog",
+      "placeholder": "The immigration bureau is swamped. Your application is buried under a mountain of paperwork. With only weeks left before your flight, you have to decide how to handle the friction.",
+      "text": "你已经拿到了东京大学的录取通知书，但日本入管局的行政效率却成了最大的阻碍。你的在留资格认定证明书（COE）迟迟未下发，而距离开学仅剩几周时间。每天刷新邮箱却一无所获，这种极度的不确定性让你心力交瘁。机票价格在飞涨，而你甚至不敢预订。面对堆积如山的行政积压，你必须决定如何应对这场突如其来的“文书危机”。",
+      "insight": "日本入管局的审批速度受季节性影响波动极大，COE的延误是留学生面临的第一个现实挑战，直接影响后续的住房和行程规划。"
+    },
+    "R_B01_express": {
+      "id": "R_B01_express",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "Buying Time",
+      "placeholder": "The expensive same-day courier service ensures your documents arrive just before the office closes for the weekend. You've stabilized the timeline, for a price.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B01_extension": {
+      "id": "R_B01_extension",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "A Grace Period",
+      "placeholder": "After several apologetic emails, the clerk agrees to hold your spot in the first batch. The anxiety was immense, but you've regained your footing.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B01_risky": {
+      "id": "R_B01_risky",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "Trailing Behind",
+      "placeholder": "You send the documents normally. You are now officially in the 'late' processing group. Any further delay in the coming months will likely postpone your arrival in Japan.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N02_standard": {
+      "id": "R_N02_standard",
+      "role": "result",
+      "owner_node_id": "N02_deposit_tuition",
+      "title": "Payment Confirmed",
+      "placeholder": "The wire transfer is successful. The university acknowledges receipt and begins the COE application. You have enough left for your flight and initial rent.",
+      "text": "跨境汇款顺利完成。大学确认收到款项后，正式向入管局提交了你的COE申请。虽然账户余额少了一截，但你仍保留了足够的资金来支付飞往东京的机票和初期的租房头金，一切都在按部就班地进行。",
+      "insight": "稳健的财务规划是留学成功的基石，保留一定的现金流可以应对抵达东京后繁琐的租房与生活开支。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N02_upfront": {
+      "id": "R_N02_upfront",
+      "role": "result",
+      "owner_node_id": "N02_deposit_tuition",
+      "title": "Gold Standard Applicant",
+      "placeholder": "By paying a full year in advance, you've bypassed several layers of bureaucratic questioning. The administration notes your stability, though your bank account is now significantly lighter.",
+      "text": "你果断缴纳了全年的学费并提交了超额的存款证明。这种财务稳定性让学校行政人员印象深刻，入管局的审查也因此变得极其顺畅。虽然你的流动资金大幅缩水，但你为自己赢得了一个毫无后顾之忧的行政开局。",
+      "insight": "在官僚主义较重的申请流程中，展现极强的经济实力能有效减少背景调查的麻烦，甚至提升在导师心中的靠谱程度。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa",
+            "lab_reputation"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N02_delayed": {
+      "id": "R_N02_delayed",
+      "role": "result",
+      "owner_node_id": "N02_deposit_tuition",
+      "title": "Red Flags Raised",
+      "placeholder": "The university reluctantly grants an extension, but the Immigration Bureau is not satisfied with your bank balance. They've flagged your file for additional scrutiny.",
+      "text": "你选择了保守的资金方案并申请了延期缴纳。虽然暂时缓解了现金流压力，但入管局对你的财务能力产生了怀疑，要求补充更多证明材料。这种不确定性让你倍感焦虑，签证下发时间被迫推迟，前路蒙上了阴影。",
+      "insight": "资金准备不足或证明材料处于临界点，极易触发入管局的二次审查，导致入学行程被打乱，增加心理压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B02_financial_scrutiny": {
+      "id": "B02_financial_scrutiny",
+      "role": "node",
+      "owner_node_id": "B02_financial_scrutiny",
+      "title": "Additional Screening",
+      "placeholder": "A formal letter arrives. Your financial solvency is in question. Without further proof, your COE will be denied.",
+      "text": "在准备前往东京大学报到前夕，你收到了一封令人不安的邮件。入国管理局对你提交的经费支付能力提出了质疑，要求在限期内补充更详尽的财务证明。东京高昂的生活成本让审查官格外谨慎，如果无法提供令其信服的资金来源说明，你的在留资格认定证明书（COE）将被拒签，整个留学计划也将化为泡影。面对繁琐的官僚程序，你必须尽快做出决定。",
+      "insight": "日本入管局对经费支付能力的审查非常严格，通常要求提供覆盖至少一年学费与生活费的银行存款证明及收入来源解释。"
+    },
+    "R_B02_docs": {
+      "id": "R_B02_docs",
+      "role": "result",
+      "owner_node_id": "B02_financial_scrutiny",
+      "title": "Paperwork Mountain",
+      "placeholder": "It takes a week of scanning and translating, but the Bureau moves your application to the next stage.",
+      "text": "你连续几天奔波于银行和税务局，在堆积如山的流水单和纳税证明中寻找证据，并熬夜完成了所有材料的日文翻译。虽然这消耗了大量准备出发的宝贵时间，导致行李打包进度滞后，但详尽的数据最终满足了审查官的要求，你的申请重新回到了正常的处理序列中。",
+      "insight": "详实的纸质证明材料是应对日本行政审查的最稳妥方式，尽管这会耗费大量的精力和翻译成本。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B02_guarantor": {
+      "id": "R_B02_guarantor",
+      "role": "result",
+      "owner_node_id": "B02_financial_scrutiny",
+      "title": "Bought Stability",
+      "placeholder": "The service fee is steep, but their stamp of approval clears the path immediately.",
+      "text": "你决定不再冒险，支付了一笔不菲的费用委托专业的财务担保机构介入。虽然这笔开支让你还没到东京就感到预算吃紧，但机构提供的信用背书立竿见影，入管局迅速通过了审核。用金钱换取效率，让你在签证到手前获得了一份难得的心理安宁，确保能准时入学。",
+      "insight": "在时间紧迫的情况下，利用合规的第三方中介服务可以有效降低签证风险，但需承担额外的经济压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B02_protest": {
+      "id": "R_B02_protest",
+      "role": "result",
+      "owner_node_id": "B02_financial_scrutiny",
+      "title": "Tense Relations",
+      "placeholder": "The university admin is annoyed they have to mediate your complaints. Your visa status is now precarious.",
+      "text": "你试图向大学留学生支援室申诉，认为重复提交材料是多余的官僚主义。然而，这种强硬态度让校方行政人员感到为难，也引起了入管局的负面关注。由于缺乏实质性的补充材料，你的签证审核陷入停滞，甚至给校方留下了“不配合”的印象，后续手续变得更加举步维艰。",
+      "insight": "与日本行政部门或大学行政人员发生直接冲突通常难以解决问题，反而可能导致信用评级受损。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "school"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_visa_standard": {
+      "id": "R_visa_standard",
+      "role": "result",
+      "owner_node_id": "N03_coe_visa",
+      "title": "Standard Processing",
+      "placeholder": "You follow the standard procedure. The weeks of waiting are anxious, and you spend hours checking your email, but eventually, the visa sticker is placed in your passport. You have enough time to pack, though the margin is slimmer than you'd like.",
+      "text": "你选择了稳妥的邮寄申请。接下来的几周里，你反复刷新邮箱，在焦虑中等待领馆的消息。虽然过程略显漫长，且消耗了不少精力，但签证最终顺利贴在了护照上。你还有时间打包行李，只是时间表已经排得很紧了。",
+      "insight": "标准流程虽然耗时，但只要材料齐全，通常能保证在开学前完成手续。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_visa_proactive": {
+      "id": "R_visa_proactive",
+      "role": "result",
+      "owner_node_id": "N03_coe_visa",
+      "title": "Professional Efficiency",
+      "placeholder": "The scrivener handles the bureaucracy with surgical precision. Your COE is processed in record time, and the embassy interview is a mere formality. Your wallet is lighter, but your peace of mind is absolute. You are ready to fly.",
+      "text": "你雇佣了专业的行政书士处理繁琐的文书。专业人士的介入让流程变得异常丝滑，COE以极快的速度获批，使馆面签也只是走个过场。虽然为此支付了一笔不小的费用，但你获得了宝贵的心理安宁，可以从容准备出发。",
+      "insight": "在复杂的日本官僚体系中，付费获取专业协助是降低时间风险的有效手段。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "visa",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_visa_delay": {
+      "id": "R_visa_delay",
+      "role": "result",
+      "owner_node_id": "N03_coe_visa",
+      "title": "The Bottleneck Hits",
+      "placeholder": "By the time you submit your documents, a massive backlog has formed at the regional immigration bureau. The 'better exchange rate' you waited for saved you a few yen but cost you weeks of safety margin. You are now entering a danger zone of administrative delays.",
+      "text": "为了等待更划算的汇率，你推迟了提交存款证明的时间。然而，入管局的审批高峰期突然而至，微小的汇率差价让你付出了惨痛的时间代价。审批进度的停滞让你陷入了行政泥潭，入境日期变得遥不可及，焦虑感倍增。",
+      "insight": "签证申请的瓶颈期往往出现在开学前夕，任何人为的延迟都可能导致连锁反应。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_admin_wait": {
+      "id": "R_admin_wait",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "The Eleventh Hour",
+      "placeholder": "The visa arrives just days before your flight. You are exhausted from the stress, but you are cleared for entry. You'll have to rush your housing search immediately upon arrival.",
+      "text": "签证终于在起飞前几天勉强到手。虽然赶上了航班，但长期的焦虑让你身心俱疲。由于出发极其仓促，你错过了最佳的找房时机，落地后必须立刻面对极度紧张的安顿行程，几乎没有喘息的机会。",
+      "insight": "被动等待虽然避免了行政摩擦，但会大幅缩减抵日后的缓冲时间，增加后续生活的压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_admin_escalate": {
+      "id": "R_admin_escalate",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "University Intervention",
+      "placeholder": "UTokyo's international office provides a sternly worded support letter. The embassy fast-tracks your file. You get your visa, but your advisor notes your 'administrative difficulties' with a hint of concern.",
+      "text": "东大国际交流室提供了公函，使馆随后加速了你的审批。虽然签证顺利下发，但实验室的秘书在回复邮件时委婉地提醒你，未来要加强个人事务的规划。虽然解决了危机，但在导师心中留下了一丝“不够利落”的印象。",
+      "insight": "利用大学行政资源是有效手段，但在日本学术文化中，过度依赖支援可能被视为缺乏独立处理事务的能力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "lab_reputation",
+            "visa",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_admin_fail": {
+      "id": "R_admin_fail",
+      "role": "result",
+      "owner_node_id": "B01_admin_friction",
+      "title": "Plan Interrupted",
+      "placeholder": "The deadline passes. Without a visa in hand, you cannot board your flight. The university requires you to defer your enrollment to the next semester. Your journey is paused before it truly began.",
+      "text": "最终你没能按时拿到签证。在最后期限前，你不得不向学校申请延期至下个学期入学。原本规划好的学术节奏被彻底打乱，你只能留在国内重新调整计划，等待下一次出发的机会，留学之路被迫按下了暂停键。",
+      "insight": "签证延误是留学中最不可控的风险之一，当行政阻力超过临界点时，延期入学是保护长期学业身份的无奈之举。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R04_balanced": {
+      "id": "R04_balanced",
+      "role": "result",
+      "owner_node_id": "N04_housing_commute",
+      "title": "The Social Middle Ground",
+      "placeholder": "The shared house is small, but the commute is manageable. You have enough money left for a decent laptop and social outings.",
+      "text": "你选择了文京区的合租房。虽然私人空间有限，但半小时内的通勤路程让你在早课与实验间游刃有余。省下的初期礼金让你有余力更新开发设备，而室友的存在也意外地缓解了初到异国的孤独感，生活节奏逐渐步入正轨。",
+      "insight": "适度的通勤距离与合租社交能有效平衡财务压力与心理健康，是大多数留学生的稳健选择。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "housing",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R04_premium": {
+      "id": "R04_premium",
+      "role": "result",
+      "owner_node_id": "N04_housing_commute",
+      "title": "Campus Proximity",
+      "placeholder": "Your bank account takes a massive hit from the 'Key Money' tradition, but you can walk to the lab in five minutes. Your peers are envious of your sleep schedule.",
+      "text": "支付了巨额礼金后，你搬进了校门口的公寓。虽然银行存款骤降，但五分钟的步行路程让你彻底告别了早高峰。当同学还在电车上挣扎时，你已经完成了代码调试并补了一觉，这种极高的科研效率让你觉得这笔钱花得非常值得。",
+      "insight": "校旁居住虽然前期资金压力极大，但能转化为宝贵的科研时间和睡眠质量，极大地提升了初期适应力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "housing",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R04_suburban": {
+      "id": "R04_suburban",
+      "role": "result",
+      "owner_node_id": "N04_housing_commute",
+      "title": "The Long Haul",
+      "placeholder": "The rent is incredibly low, allowing you to build a financial buffer. However, the realization of a three-hour daily round trip starts to sink in.",
+      "text": "为了省钱，你选择了远郊公寓。房租确实低廉，但每天三小时的往返通勤很快成了噩梦。在拥挤的电车上，你根本无法集中精力阅读论文。长期的奔波让你的精力在开学初期就面临枯竭，财务上的宽裕难以弥补体力的透支。",
+      "insight": "极低租金的代价是巨大的时间成本和体力消耗，在学业压力巨大的CS专业，长距离通勤极易导致科研倦怠。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "housing",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B03_commute_exhaustion": {
+      "id": "B03_commute_exhaustion",
+      "role": "node",
+      "owner_node_id": "B03_commute_exhaustion",
+      "title": "Commuter Reality Check",
+      "placeholder": "Even before landing, the logistics of your Saitama apartment weigh on you. How will you handle the 90-minute Chuo Line crush?",
+      "text": "还没正式开学，远在埼玉县的廉价公寓就给了你一记下马威。为了节省房租，你每天必须往返于校外住所与东大本乡校区之间，单程耗时超过90分钟。早高峰的电车挤得像沙丁鱼罐头，你被迫在摇晃的车厢里与无数西装革履的上班族摩肩接踵。这种漫长的通勤不仅是体力的博弈，更在无形中蚕食着你的科研热情。面对这段每天必经的“修罗场”，你打算如何利用这段时间？",
+      "insight": "东京的通勤压力是留学生面临的首个生活挑战，选择远郊住房虽能缓解财务压力，但会显著消耗精力和时间。"
+    },
+    "RB03_study": {
+      "id": "RB03_study",
+      "role": "result",
+      "owner_node_id": "B03_commute_exhaustion",
+      "title": "Flashcards and Crowds",
+      "placeholder": "You become an expert at balancing a textbook while standing in a packed train. Your Japanese improves, but your back aches.",
+      "text": "你决定把通勤时间变成移动课堂。在拥挤的车厢里，你艰难地单手操作手机刷着Anki词卡。虽然长时间站立让腰酸背痛，但你的日语词汇量在潜移默化中得到了提升。这种勤奋让你在未来的日常交流中占据了先机，只是紧绷的神经让你感到一丝倦怠。",
+      "insight": "将死时间转化为学习时间能有效对冲通勤损失，但需注意高强度脑力劳动带来的额外疲劳。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB03_sleep": {
+      "id": "RB03_sleep",
+      "role": "result",
+      "owner_node_id": "B03_commute_exhaustion",
+      "title": "The Train Nap",
+      "placeholder": "You master the art of the 20-minute power nap. It keeps you going, but you feel like you're living in a blur.",
+      "text": "你练就了日本上班族的绝技：靠在车门边或坐在狭窄的位子上瞬间入睡。利用这宝贵的补觉时间，你勉强维持住了精力，不至于在实验室的研讨会上昏昏欲睡。虽然错失了语言练习的机会，但你的心理状态相对平稳，成功避免了开学前的彻底崩溃。",
+      "insight": "在极端通勤环境下，优先保证睡眠是维持长期心理健康和科研体力的实用策略。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB03_burnout": {
+      "id": "RB03_burnout",
+      "role": "result",
+      "owner_node_id": "B03_commute_exhaustion",
+      "title": "Early Exhaustion",
+      "placeholder": "The sheer distance makes every task feel harder. You're saving money, but at a steep mental cost.",
+      "text": "漫长的旅途成了你每天的噩梦。每当想到那一眼望不到头的铁轨和密不透风的人群，你就感到阵阵无力。这种负面情绪严重干扰了你的预习进度，甚至让你开始怀疑留学的意义。虽然省下了房租，但你付出的心理代价远超预期，宝贵的时间也在焦虑中白白流逝。",
+      "insight": "居住地过远带来的心理压力具有累积效应，若不积极调节，可能会在学期开始前就耗尽动力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05_standard": {
+      "id": "R05_standard",
+      "role": "result",
+      "owner_node_id": "N05_arrival_registration",
+      "title": "The Guided Path",
+      "placeholder": "You stick with the cohort. It takes all day, but the university staff help you navigate the forms.",
+      "text": "你选择了最稳妥的方式，跟着东大国际生支援室的指引行动。虽然在区役所排了整整一个下午的队，且在填写片假名姓名时反复确认，但最终顺利拿到了住民票。虽然效率不高，但你在这个过程中结识了几位同系的留学生，缓解了孤独感。",
+      "insight": "利用学校提供的官方指南虽然耗时，但能确保流程不出错，并能提供社交机会。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "japanese"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05_proactive": {
+      "id": "R05_proactive",
+      "role": "result",
+      "owner_node_id": "N05_arrival_registration",
+      "title": "Efficient Onboarding",
+      "placeholder": "With your forms pre-filled and a translation app ready, you breeze through the 'Juminhyo' registration while others are still struggling with their names in Katakana.",
+      "text": "凭借提前下载的表格模板和精准的翻译软件，你几乎没有遇到阻碍。柜台职员对你的准备工作表示赞赏，登记流程出奇地快。省下的时间让你甚至有空去附近的超市采购了生活必需品，这种掌控感极大缓解了初到异国的焦虑，日语水平也在实战中得到微调。",
+      "insight": "数字化工具和预先调研能显著提升在日行政效率，节省的时间可用于更重要的生活安顿。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "japanese",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05_disorganized": {
+      "id": "R05_disorganized",
+      "role": "result",
+      "owner_node_id": "N05_arrival_registration",
+      "title": "Lost in the Ward",
+      "placeholder": "You took the wrong train, forgot your passport at the dorm, and the ward office staff can't understand your request. You are exhausted and behind schedule.",
+      "text": "现实给了你沉重一击。你坐错了电车方向，到了区役所才发现没带护照原件。面对职员礼貌却坚决的拒绝，你因语言不通无法有效沟通。这一天在迷路与挫败中度过，你不仅没办成登记，还感到精疲力竭，深刻体会到了“语言之墙”的厚度。",
+      "insight": "缺乏准备在高度程序化的日本社会会导致严重的效率损失和心理压力，甚至影响后续的行政节点。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing",
+            "japanese"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B04_lost_in_translation": {
+      "id": "B04_lost_in_translation",
+      "role": "node",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "A Critical Misunderstanding",
+      "placeholder": "That stack of mail wasn't junk. It was a mandatory pension enrollment and a health insurance adjustment notice. Because you missed the deadline, you've received a 'Final Notice' in bright red. You can't decipher the legalistic Japanese, and the deadline is tomorrow.",
+      "text": "你桌上那叠一直没拆的邮件并非广告，而是国民年金加入通知和健康保险费调整单。由于错过了初次办理期限，你收到了一封印着醒目红色“最终通知”字样的信函。复杂的法律日语让你头晕目眩，而补办截止日期就在明天。如果处理不当，可能会影响到你在东大的学籍记录甚至未来的签证续签。这种突如其来的行政压力让你在繁忙的CS课程间隙感到窒息，你必须立刻做出决定。",
+      "insight": "日本的行政体系极其严谨，忽视区役所的官方信函往往会导致滞纳金甚至影响在留资格的信用记录。"
+    },
+    "R_B04_humble": {
+      "id": "R_B04_humble",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "A Kind Stranger",
+      "placeholder": "An elderly resident points you toward the station. You learn the word for 'lost' (mayoimashita) the hard way.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B04_resourceful": {
+      "id": "R_B04_resourceful",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "Digital Lifeline",
+      "placeholder": "A 500-yen coffee buys you thirty minutes of high-speed Wi-Fi and a chance to download offline maps. You find your way back to the main road.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B04_despair": {
+      "id": "R_B04_despair",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "Defeated by Tokyo",
+      "placeholder": "You manage to find a taxi back to the dorm. It's expensive, and you've accomplished nothing. The paperwork will still be there tomorrow.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05B_normal": {
+      "id": "R05B_normal",
+      "role": "result",
+      "owner_node_id": "N05B_ward_office_bureaucracy",
+      "title": "Registration Complete",
+      "placeholder": "It takes several hours and a lot of bowing, but you leave with your address printed on the back of your Residence Card and your health insurance folder in hand.",
+      "text": "经过数小时的等待和反复确认，你终于完成了所有手续。职员在你的在留卡背面打印了住址，并递给你厚厚的健康保险手册。虽然过程枯燥且消耗体力，但你总算在法律意义上正式定居东京了，只是走出大门时感到一阵精神疲惫。",
+      "insight": "遵循标准流程是大多数留学生的常态，虽然耗费半天时间，但能确保在日身份的合法性。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05B_positive": {
+      "id": "R05B_positive",
+      "role": "result",
+      "owner_node_id": "N05B_ward_office_bureaucracy",
+      "title": "Bureaucratic Mastery",
+      "placeholder": "By downloading the forms in advance and using a real-time translation app, you breeze through the process. The clerk seems impressed by your organization.",
+      "text": "凭借提前下载的模板和实时翻译软件，你精准地完成了表格填写。职员对你的组织能力表示赞赏，办理过程出奇地顺畅。这种掌控感不仅节省了宝贵的时间，还让你在实战中记住了几个关键的行政词汇，心情大好。",
+      "insight": "充分的案头准备能显著降低跨文化沟通的摩擦成本，将枯燥的行政事务转化为成就感。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing",
+            "japanese"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R05B_negative": {
+      "id": "R05B_negative",
+      "role": "result",
+      "owner_node_id": "N05B_ward_office_bureaucracy",
+      "title": "Lost in the System",
+      "placeholder": "You misinterpret the numbering system and fill out the wrong forms. After three hours of waiting, you are told you need documents you left at your apartment.",
+      "text": "由于没弄清取号规则且填错了关键表格，你在柜台间被反复支使。三个小时后，你才发现漏带了公寓合同原件。这种挫败感让你精疲力竭，语言障碍被无限放大，你不得不面对必须改天再跑一趟的残酷现实，心情跌入谷底。",
+      "insight": "在高度程序化的日本社会，缺乏准备的盲目尝试往往会演变成一场语言与耐心的双重灾难。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_normal": {
+      "id": "RB04_normal",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "A Helping Hand",
+      "placeholder": "A senior student from your lab agrees to go with you. With their help, the 'impossible' forms are finished in twenty minutes.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_positive": {
+      "id": "RB04_positive",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "Professional Resolution",
+      "placeholder": "You find a service that assists expats. It costs a bit, but they handle the communication perfectly. You are finally registered.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_negative": {
+      "id": "RB04_negative",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "The Cycle Repeats",
+      "placeholder": "You return the next day, but the queue is longer and the staff is less patient. You barely finish before closing, exhausted and demoralized.",
+      "variant_triggers": [
+        {
+          "variables": [
+            "time",
+            "wellbeing",
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R06_balanced": {
+      "id": "R06_balanced",
+      "role": "result",
+      "owner_node_id": "N06_lab_courses",
+      "title": "Steady Progress",
+      "placeholder": "You manage to keep up with your credits while showing enough face in the lab to satisfy the Sempais. It's exhausting, but you're becoming part of the team.",
+      "text": "你在修满学分的同时，保证了每天在实验室的“存在感”。虽然这种两头奔波的生活让你感到疲惫，但你逐渐赢得了前辈们的认可，甚至在深夜聚餐时被拉进了核心讨论圈。你的学术表现稳健，实验室声誉也随之稳步提升。",
+      "insight": "稳健的社交策略在注重集体主义的日本校园中是风险最低的生存之道，能有效积累人脉资源。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R06_overdrive": {
+      "id": "R06_overdrive",
+      "role": "result",
+      "owner_node_id": "N06_lab_courses",
+      "title": "The Rising Star",
+      "placeholder": "The Professor is impressed by your work ethic. You're already being discussed for a paper co-authorship, though you barely have time to sleep.",
+      "text": "你主动请缨加入教授最看重的尖端项目。深夜的实验室里，只有你的显示器还亮着。这种拼命换来了教授的高度赞赏，你甚至获得了论文署名的机会，为未来的职业生涯打下了坚实基础。然而，极度的缺乏睡眠让你的身心状态接近临界点。",
+      "insight": "极高强度的科研产出能迅速建立学术声望并获得导师背书，但需警惕长期高压导致的身心崩溃。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "career",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R06_minimalist": {
+      "id": "R06_minimalist",
+      "role": "result",
+      "owner_node_id": "N06_lab_courses",
+      "title": "The Outsider",
+      "placeholder": "You enjoy your free time, but the atmosphere in the lab turns cold. Your desk remains empty, and the Professor notices your absence during the weekly seminar.",
+      "text": "你选择按部就班完成课程，尽量缩短待在实验室的时间。虽然你获得了宝贵的个人自由，但实验室里的气氛却降至冰点。教授在周会上对你的缺席皱起了眉头，前辈们也不再主动分享科研技巧。你虽然轻松，却发现自己正逐渐被边缘化。",
+      "insight": "忽视研究室的“潜规则”会导致导师信任度下降，这在日本学术界可能严重影响未来的推荐信与就业指导。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B05_advisor_confrontation": {
+      "id": "B05_advisor_confrontation",
+      "role": "node",
+      "owner_node_id": "B05_advisor_confrontation",
+      "title": "A Private Meeting",
+      "placeholder": "Professor Tanaka calls you into his office. 'I don't see you at the lab often,' he says. 'In Japan, research is a collaborative effort. Are you serious about this degree?'",
+      "text": "田中教授把你叫到了办公室。他推了推眼镜，语气平淡却透着威严：“最近在实验室很少见到你。在日本，研究是一项集体活动，不仅是写代码。你对这个学位真的认真吗？”窗外本乡校区的银杏树影摇曳，空气中弥漫着压抑的沉默。你意识到，这不仅是学术进度的质询，更是对你融入实验室文化的深度考核。",
+      "insight": "日本大学的研究室（研究室）文化通常强调“核心时间”和团队协作，导师的信任直接影响未来的推荐信和资源分配。"
+    },
+    "RB05_recommit": {
+      "id": "RB05_recommit",
+      "role": "result",
+      "owner_node_id": "B05_advisor_confrontation",
+      "title": "Back in the Fold",
+      "placeholder": "You bow and apologize. From now on, you're at your desk until the last Sempai leaves. Your social life evaporates, but the Professor nods at you again.",
+      "text": "你深鞠一躬表示歉意，承诺将全身心投入实验室。从此，你每天陪着前辈们熬到末班车。虽然教授的点头让你重获信任，实验室声誉得以维持，但你的个人生活彻底蒸发，深夜的疲惫感在不断累积。",
+      "insight": "顺从集体主义文化能迅速修复人际关系，但长期高强度的“出勤竞争”会对身心健康造成显著压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "lab_reputation",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB05_impress": {
+      "id": "RB05_impress",
+      "role": "result",
+      "owner_node_id": "B05_advisor_confrontation",
+      "title": "Respect Earned",
+      "placeholder": "You show him the advanced simulations you've been running at home. He's surprised. He allows your 'flexible' schedule, but expects double the results.",
+      "text": "你展示了在公寓独自完成的高性能模拟数据。教授眼中闪过一丝惊讶，虽然他勉强接受了你的“弹性工时”，但明确要求你必须拿出双倍的产出来证明这种独立性。你赢得了学术尊重，却背上了更沉重的枷锁。",
+      "insight": "在东大CS系，卓越的技术产出是换取自由的唯一筹码，但这往往意味着你需要付出比常人更多的努力来维持评价。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "lab_reputation",
+            "school",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB05_clash": {
+      "id": "RB05_clash",
+      "role": "result",
+      "owner_node_id": "B05_advisor_confrontation",
+      "title": "The Cold Shoulder",
+      "placeholder": "The meeting ends abruptly. You've kept your time, but you've lost the lab's support. You'll have to navigate the rest of the program as an outsider.",
+      "text": "你礼貌但坚定地表达了对私人边界的需求。教授的脸色瞬间冷了下来，谈话草草结束。虽然你保住了休息时间，但实验室的资源分配和内推机会开始向你关上大门，你成了研究室里被孤立的局外人。",
+      "insight": "在等级森严的日本学术圈，挑战导师权威或打破默契的代价往往是失去隐形的职业背书和人脉支持。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "lab_reputation",
+            "career",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N07_balanced": {
+      "id": "R_N07_balanced",
+      "role": "result",
+      "owner_node_id": "N07_part_time_work",
+      "title": "The Steady Grind",
+      "placeholder": "You find a rhythm at a local convenience store. The pay isn't great, but it covers your groceries without making you fail your algorithms mid-term.",
+      "text": "你在学校附近的便利店找到了兼职。每周14小时的工作虽然让你在深夜感到疲惫，但稳定的时薪覆盖了基本伙食费。你学会了在收银间隙默背算法，虽然牺牲了部分休息时间，但学业进度尚在掌控之中，经济压力得到了有效缓解。",
+      "insight": "适度的社会实践能缓解经济压力，但需警惕对CS专业高强度科研精力的分散。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time",
+            "school",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N07_academic_focus": {
+      "id": "R_N07_academic_focus",
+      "role": "result",
+      "owner_node_id": "N07_part_time_work",
+      "title": "The Scholar's Path",
+      "placeholder": "Your bank account looks grim, but your advisor is impressed by your constant presence in the lab. You're betting on a future scholarship.",
+      "text": "你决定拒绝所有兼职邀请，每天在研究室待到深夜。虽然看着银行余额不断缩减让你感到焦虑，但导师对你课题进度的快速推进表示赞赏。这种专注提升了你在实验室的声望，你正朝着学术目标迈进，尽管午餐只能靠超市打折饭团度日。",
+      "insight": "东大CS的科研压力极大，放弃短期收入往往能换取更长远的学术声誉和潜在的奖学金机会。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time",
+            "school",
+            "lab_reputation"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N07_illegal_hours": {
+      "id": "R_N07_illegal_hours",
+      "role": "result",
+      "owner_node_id": "N07_part_time_work",
+      "title": "Burning the Candle",
+      "placeholder": "The money is excellent, but you're falling asleep in lectures. Worse, a notice arrives from the university regarding your attendance and reported work hours.",
+      "text": "为了快速积累资金，你疯狂排班，甚至游走在每周28小时的法律红线边缘。高额收入让你暂时实现了财务自由，但代价是你在算法课上昏睡不醒。更糟糕的是，由于出勤率大幅下滑，教务处发来了面谈提醒，你的签证状态已亮起红灯。",
+      "insight": "出勤率是日本入管局续签时的核心考核指标，过度打工导致的学业荒废具有极高的法律风险。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "time",
+            "visa",
+            "school",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B06_visa_investigation": {
+      "id": "B06_visa_investigation",
+      "role": "node",
+      "owner_node_id": "B06_visa_investigation",
+      "title": "A Warning from Immigration",
+      "placeholder": "Your work hours have been flagged. The university international office calls you in for a 'consultation' regarding your status of residence.",
+      "text": "为了应对东京高昂的生活费，你在课余时间悄悄增加了兼职时长。然而，入国管理局的系统预警了你的银行收入异常。东大留学生支援室紧急约谈了你，提醒你的“资格外活动许可”面临失效风险。如果不能给出合理解释，你的留学签证可能被取消。面对这封措辞严厉的调查函，你必须在学业声誉与生存危机之间做出艰难抉择。",
+      "insight": "日本留学签证规定每周兼职不得超过28小时。入管局会通过银行流水和税务记录监控留学生的经济活动，违规可能导致签证更新被拒甚至遣返。"
+    },
+    "R_B06_compliance": {
+      "id": "R_B06_compliance",
+      "role": "result",
+      "owner_node_id": "B06_visa_investigation",
+      "title": "Back in Line",
+      "placeholder": "You apologize and provide a written statement. Your visa is safe for now, but your financial buffer is gone.",
+      "text": "你选择向入管局提交悔过书并承诺严格遵守工时规定。虽然签证危机暂时解除，但失去这份收入意味着你必须极度压缩生活开支。看着便利店深夜打折的便当，你感到了前所未有的经济压力，身心状态因生活质量下降而受损。",
+      "insight": "合规是保护签证的最稳妥方式，但在东京这样高物价的城市，失去收入来源会迅速传导为生理和心理的双重压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B06_defense": {
+      "id": "R_B06_defense",
+      "role": "result",
+      "owner_node_id": "B06_visa_investigation",
+      "title": "Academic Shield",
+      "placeholder": "Your advisor begrudgingly vouches for your character, citing your research contributions. The inquiry is dropped, but you've used up your 'favors'.",
+      "text": "你请求导师出面，强调你在CS实验室项目中的关键作用。导师虽对你违规感到失望，但最终还是为你写了担保信。入管局看在东大实验室的名誉上放过了你，但你透支了导师的信任，未来在实验室的处境变得微妙且压抑。",
+      "insight": "名校的学术声誉在行政审查中具有一定分量，但这种“政治资本”的消耗是不可逆的，会直接影响导师的评价和资源倾斜。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "lab_reputation",
+            "school"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B06_deception": {
+      "id": "R_B06_deception",
+      "role": "result",
+      "owner_node_id": "B06_visa_investigation",
+      "title": "Under the Radar",
+      "placeholder": "You quit the registered job and start washing dishes for cash. The anxiety of being caught is constant.",
+      "text": "你辞去了正规兼职，转而寻找不走银行流水的现金黑工。虽然钱包暂时鼓了起来，但你每天在校园里都如坐针毡，生怕入管局突击检查。这种游走在法律边缘的焦虑感严重侵蚀了你的睡眠，一旦被举报，你将面临直接遣返的绝境。",
+      "insight": "非法务工虽然能短期缓解财务危机，但会使留学生处于极高的法律风险中，且容易受到雇主剥削，严重威胁留日生涯的稳定性。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R08_language_classes": {
+      "id": "R08_language_classes",
+      "role": "result",
+      "owner_node_id": "N08_language_support",
+      "title": "A Balanced Rhythm",
+      "placeholder": "Twice a week, you step out of the lab to practice grammar. It's a relief to struggle alongside others. Your Japanese improves steadily, and the social interaction keeps the 'Tokyo Blues' at bay, even if your research progress slows slightly.",
+      "text": "每周两次，你暂时离开代码，在课堂上与各国同学一起练习语法。这种共同奋斗的氛围有效缓解了“东京忧郁”，日语水平稳步提升。虽然研究进度因课业稍微放缓，但你开始能读懂生活通知，心态变得更加从容。",
+      "insight": "利用校内免费资源是性价比最高的融入方式，稳定的社交节奏能显著降低留学初期的心理压力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R08_community_immersion": {
+      "id": "R08_community_immersion",
+      "role": "result",
+      "owner_node_id": "N08_language_support",
+      "title": "Deep Roots",
+      "placeholder": "You join a local community group in Bunkyo-ku. It's exhausting at first, but the 'real-world' practice is transformative. You're no longer just a guest; you're starting to feel like a resident. Your lab mates are impressed by your sudden fluency.",
+      "text": "你投身于真实的日语环境，虽然起初沟通吃力，但这种深度沉浸让你的口语突飞猛进。你不再只是东京的过客，而是建立起了本地社交圈。这种强烈的归属感极大地提升了心理韧性，尽管为此牺牲了大量科研与休息时间。",
+      "insight": "深度社区参与能带来极高的文化认同感，但对于CS专业的学生来说，这种时间投入可能会挤占宝贵的实验与论文撰写周期。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "wellbeing",
+            "time",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R08_isolation_spiral": {
+      "id": "R08_isolation_spiral",
+      "role": "result",
+      "owner_node_id": "N08_language_support",
+      "title": "The English Bubble",
+      "placeholder": "You skip the mixers and classes. The lab is your fortress, but outside its doors, you are invisible. A stack of official-looking mail from the ward office sits on your desk, unread and intimidating. The isolation begins to weigh on your mental health.",
+      "text": "你躲进了实验室的堡垒，短期内科研产出有所增加。然而，桌上堆积的区役所信件让你感到莫名焦虑，由于缺乏社交出口，孤独感如潮水般袭来。你发现自己与这座城市的距离越来越远，语言能力的停滞正为未来的行政麻烦埋下隐患。",
+      "insight": "过度依赖英语圈虽然能短期维持效率，但长期会导致严重的文化孤立，甚至在处理突发行政事务时因语言障碍陷入困境。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_pay_for_help": {
+      "id": "RB04_pay_for_help",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "Professional Rescue",
+      "placeholder": "You pay a bilingual student to accompany you to the ward office. The issue is resolved in an hour. It's a hit to your budget, but the peace of mind is worth it.",
+      "text": "你在留学生群组里花钱雇了一位精通双语的学长陪同前往区役所。在专业翻译的帮助下，繁琐的表格和补缴流程在一小时内全部搞定。虽然钱包缩水了不少，但这种花钱买平安的做法让你迅速从行政焦虑中解脱，能重新专注于实验室的项目进度。",
+      "insight": "面对复杂的异国行政事务，合理利用资源换取专业协助是保护心理带宽、避免更大损失的有效手段。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "money",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_brute_force": {
+      "id": "RB04_brute_force",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "Trial by Fire",
+      "placeholder": "Armed with translation apps and a dictionary, you spend the night decoding the forms. You show up at the office exhausted but prepared. You've learned more kanji in 24 hours than in the last month, but you're physically drained.",
+      "text": "你彻夜未眠，对着翻译软件和词典逐字拆解那些生僻的行政术语。第二天一早，你顶着黑眼圈出现在柜台前，虽然沟通费劲，但最终独立完成了申办。这24小时让你掌握的行政词汇比过去一个月都多，但极度透支的体力让你在随后的算法课上昏昏欲睡。",
+      "insight": "沉浸式的危机处理能极大提升语言实战能力，但高强度的自我施压会对身心健康和常规学业造成短期损害。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "japanese",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB04_neglect_consequences": {
+      "id": "RB04_neglect_consequences",
+      "role": "result",
+      "owner_node_id": "B04_lost_in_translation",
+      "title": "The Shadow of Bureaucracy",
+      "placeholder": "You toss the letter aside. Weeks later, your advisor mentions a flag on your student record regarding 'unresolved administrative status.' The stress of the unknown begins to haunt your daily life, and your visa standing feels precarious.",
+      "text": "你选择逃避，将信件塞进抽屉深处。几周后，导师在面谈时委婉提到你的行政状态存在异常，可能影响奖学金申请。这种不确定性像阴云一样笼罩着你，不仅让你的在留资格面临潜在风险，也让你在导师心中的靠谱程度大打折扣。",
+      "insight": "在日本社会，行政疏忽会被视为个人信用问题。逃避不仅无法解决问题，还会导致签证和学术声誉的连锁危机。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "wellbeing",
+            "school"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R09_normal": {
+      "id": "R09_normal",
+      "role": "result",
+      "owner_node_id": "N09_typhoon_deadline",
+      "title": "Weathering the Storm",
+      "placeholder": "You hunker down in your apartment. The wind howls against the glass, and the internet flickers, but you manage to submit a solid, if not perfect, draft using your local machine. You're exhausted and a bit behind on sleep, but the milestone is cleared.",
+      "text": "你选择留在公寓。狂风拍打着窗玻璃，网络连接断断续续，你只能利用本地机器的有限算力勉强推进。虽然最终提交的报告不算完美，但你至少保证了人身安全。尽管缺乏睡眠让你感到疲惫，但里程碑任务总算在截止前惊险过关。",
+      "insight": "在极端环境下，选择安全稳健的路径虽会牺牲部分质量，但能有效规避不可控的系统性风险。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R09_positive": {
+      "id": "R09_positive",
+      "role": "result",
+      "owner_node_id": "N09_typhoon_deadline",
+      "title": "Professional Resilience",
+      "placeholder": "You relocate to a secure business center in Shinjuku before the trains stop. While others are scrambling, you work through the night with high-speed fiber and a backup generator. Your advisor is stunned that you submitted a polished report ahead of schedule despite the chaos.",
+      "text": "在电车停运前，你果断预订了新宿具备备用电源的高级共享办公位。当整座城市陷入停滞时，你在高速光纤和恒温环境中高效完成了任务。导师对你在极端天气下依然提交了高质量报告感到惊讶，你的专业态度赢得了实验室的极高评价。",
+      "insight": "通过投入额外资源来对冲环境风险，不仅能确保产出，还能在严谨的日本学术圈建立极佳的个人声誉。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "wellbeing",
+            "time",
+            "money",
+            "lab_reputation"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R09_negative": {
+      "id": "R09_negative",
+      "role": "result",
+      "owner_node_id": "N09_typhoon_deadline",
+      "title": "Stranded in the Rain",
+      "placeholder": "You tried to make it to the lab, but the Yamanote line stopped mid-journey. You spent six hours in a crowded station with no Wi-Fi and a dying phone battery. By the time you got home, the deadline had passed, and you were shivering from the rain.",
+      "text": "你试图强行赶往实验室，但山手线在半途突然停运。你被困在拥挤且信号极差的车站长达六小时，手机电量耗尽，无法远程提交。当你浑身湿透回到家时，截止日期已过，这种挫败感和寒意让你几近崩溃，身体也因淋雨出现不适。",
+      "insight": "忽视气象预警和公共交通规则在东京是危险的，不仅会延误学业，更会对身心健康造成严重打击。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "wellbeing",
+            "time",
+            "lab_reputation"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B07_storm_recovery": {
+      "id": "B07_storm_recovery",
+      "role": "node",
+      "owner_node_id": "B07_storm_recovery",
+      "title": "The Morning After the Storm",
+      "placeholder": "The sun comes out, but the damage is done. Your milestone is overdue. You need to decide how to handle the fallout with your advisor.",
+      "text": "台风过后的东京清晨，天空蓝得有些虚假。昨晚的狂风暴雨导致电车大规模停运，你被困在校外狭窄的合租房内，因断网和电力不稳错过了CS研究课题的关键提交节点。虽然这是天灾，但在东大严谨的学术氛围下，逾期就是逾期。教授的邮箱依然静默，而你的算法模型还有最后几个Bug没调通。现在，你必须在声誉受损、透支身体或接受失败之间做出抉择，挽回这场气象灾难带来的学术损失。",
+      "insight": "在东京，极端天气常导致交通瘫痪，日本社会虽然理解天灾，但学术界对“预案管理”有着极高的隐性要求。"
+    },
+    "R_B07_appeal": {
+      "id": "R_B07_appeal",
+      "role": "result",
+      "owner_node_id": "B07_storm_recovery",
+      "title": "Bureaucratic Mercy",
+      "placeholder": "You provide proof of the train suspension. The department is lenient, but your lab mates' silent judgment is palpable.",
+      "text": "你收集了电车停运证明和断电记录提交给事务科。虽然校方最终给予了补交机会，但导师在回复中冷淡的态度让你意识到，在高度自律的实验室里，这种“不可抗力”被视为缺乏风险预案的表现。学业压力暂时缓解，但你在导师心中的可靠度略微下降。",
+      "insight": "利用正式规则可以规避硬性惩罚，但在注重“不给人添麻烦”的文化中，这可能会产生微妙的人际隔阂。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B07_grind": {
+      "id": "R_B07_grind",
+      "role": "result",
+      "owner_node_id": "B07_storm_recovery",
+      "title": "The Net-Cafe Grind",
+      "placeholder": "Smelling of cigarette smoke and cheap coffee, you hit 'send' at 6 AM. You've survived, but your body is screaming for a week of sleep.",
+      "text": "你冲进附近一家24小时网咖，在充满烟味的狭窄包间里靠红牛撑过通宵。清晨6点，你终于赶在系统彻底关闭前提交了代码。虽然保住了学业进度和实验室声誉，但走出网咖时剧烈的头痛和虚脱感让你几乎无法站稳，钱包也因深夜高昂的费用缩水了不少。",
+      "insight": "东京网咖是留学生的最后避风港，但用健康换取学术信誉是一场极其惨烈的消耗战。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "wellbeing",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B07_fail": {
+      "id": "R_B07_fail",
+      "role": "result",
+      "owner_node_id": "B07_storm_recovery",
+      "title": "A Costly Silence",
+      "placeholder": "You simply couldn't face the screen. Your advisor sends a terse email asking for a meeting. This will haunt your next evaluation.",
+      "text": "面对混乱的现状，你陷入了深深的自我怀疑，选择了沉默。几天后，你收到了导师简短而严厉的面谈邀请。这次里程碑的缺失不仅让你的GPA受损，更让实验室对你的学术潜力产生了怀疑。这种挫败感如阴云般笼罩着你，让你在接下来的研究中倍感吃力。",
+      "insight": "在高度强调责任感的日本学术圈，逃避沟通往往比犯错本身带来的后果更为严重。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "school",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R10_balanced_search": {
+      "id": "R10_balanced_search",
+      "role": "result",
+      "owner_node_id": "N10_career_internship",
+      "title": "Steady Progress",
+      "placeholder": "You manage to secure several interviews. Your Japanese is improving through practice, and your resume looks solid. You aren't top of the pile, but you aren't invisible either.",
+      "text": "你在学业与求职间找到了平衡。通过参加几场针对留学生的招聘会，你获得了数家知名企业的面试机会。虽然面试时的日语表达仍显生涩，但扎实的技术背景赢得了HR的尊重。你的职业前景正稳步提升，尽管这牺牲了不少休息时间。",
+      "insight": "稳健的求职策略能有效降低风险。在东京，利用双语优势投递外资企业或大型日企的技术岗是留学生最常见的成功路径。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "japanese",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R10_intensive_internship": {
+      "id": "R10_intensive_internship",
+      "role": "result",
+      "owner_node_id": "N10_career_internship",
+      "title": "The Elite Grind",
+      "placeholder": "The internship at a major Tokyo tech hub is brutal. You're working 60-hour weeks between the office and the lab, but you've caught the eye of senior engineers. Your career prospects have never been higher.",
+      "text": "你成功进入了一家位于六本木的顶尖科技公司实习。高强度的工作节奏让你几乎住在了办公室和实验室，但你接触到了最前沿的工业项目。虽然身心俱疲，但资深工程师的认可和实验室声望的加持，让你几乎提前锁定了高薪入职的机会。",
+      "insight": "顶尖实习是留学生留日工作的“快车道”。虽然这会极大压榨个人时间，但获得的行业人脉和高额起薪将为职业生涯奠定坚实基础。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "lab_reputation",
+            "time",
+            "wellbeing",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R10_delayed_search": {
+      "id": "R10_delayed_search",
+      "role": "result",
+      "owner_node_id": "N10_career_internship",
+      "title": "Research First",
+      "placeholder": "Your thesis is looking excellent, but as the months pass, you realize you've missed the primary hiring windows. The silence from recruiters is deafening.",
+      "text": "你决定全身心投入论文，力求在学术上完美收官。然而，日本严苛的招聘周期不等人。当你终于完成实验抬头时，发现大厂的网申通道早已关闭。虽然学术成果斐然，但面对空荡荡的收件箱，你开始为毕业后的在留资格变更感到焦虑。",
+      "insight": "错过“新卒采用”周期在日求职会非常被动。即使学术表现优异，若无Offer支撑，毕业后面临的签证续签压力将远超想象。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "school",
+            "time",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B08_job_hunt_crisis": {
+      "id": "B08_job_hunt_crisis",
+      "role": "node",
+      "owner_node_id": "B08_job_hunt_crisis",
+      "title": "The Empty Inbox",
+      "placeholder": "Graduation is approaching, and you have no job offers. The pressure to secure a status of residence change is mounting. You need a plan, fast.",
+      "text": "毕业季将至，东大情报理工学系的走廊里弥漫着焦虑。你投出的简历大多石沉大海，邮箱里只有冰冷的拒信。日本的“就职活动”早已进入尾声，若在拿到学位前没有确定去向，你的留学签证将面临失效风险。看着同学们陆续晒出内定通知，你必须在签证红线到来前，为自己的职业生涯寻找最后的生机。",
+      "insight": "日本的“就职活动”（Shukatsu）有严格的时间线，错过春季大招后，留学生需依赖特定招聘会或导师人脉进行补录。"
+    },
+    "RB08_fair_res": {
+      "id": "RB08_fair_res",
+      "role": "result",
+      "owner_node_id": "B08_job_hunt_crisis",
+      "title": "Scrambling for Leads",
+      "placeholder": "The career fair is crowded and desperate. You manage to get two business cards, but the salaries offered are lower than you hoped.",
+      "text": "你在台场的大型留学生招聘会上奔波整日，嗓音因反复自我介绍而沙哑。虽然避开了大厂的激烈竞争，但你终于拿到了两家初创企业的面试机会。虽然起薪低于预期，且需自理部分交通费，但这至少为你争取到了留在东京的喘息之机。",
+      "insight": "针对外国人的职业博览会是补录阶段的关键渠道，虽然岗位质量参差不齐，但对签证转换较为友好。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB08_advisor_res": {
+      "id": "RB08_advisor_res",
+      "role": "result",
+      "owner_node_id": "B08_job_hunt_crisis",
+      "title": "A Favor Called In",
+      "placeholder": "Your advisor sighs, noting your lack of preparation, but makes a phone call to a former student now at a major robotics firm. You have an interview Monday.",
+      "text": "导师对你未能在常规招聘季上岸感到失望，但看在研究进度的份上，他还是引荐你去了校友执掌的科技巨头。虽然这让你在实验室的评价有所下滑，甚至被贴上了“不够独立”的标签，但那张直通终面的入场券确实缓解了你迫在眉睫的生存危机。",
+      "insight": "日本学术界存在深厚的“教授推荐制”，利用导师人脉可以绕过繁琐的网申，但会消耗你在实验室积累的学术信誉。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "lab_reputation",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "RB08_give_up_res": {
+      "id": "RB08_give_up_res",
+      "role": "result",
+      "owner_node_id": "B08_job_hunt_crisis",
+      "title": "Packing Bags",
+      "placeholder": "You stop checking the job boards. You begin looking at flight prices and how to ship your belongings back home.",
+      "text": "面对屡屡受挫的现状，你决定停止无谓的挣扎。你开始在二手群里变卖家具，并查询回国的机票。虽然这意味着放弃了在日本积累的职业潜力，且签证状态即将进入注销倒计时，但放下执念的一刻，你紧绷已久的精神终于得到了片刻的解脱。",
+      "insight": "未能获得内定意味着毕业后无法申请“技术·人文知识·国际业务”签证，必须在特定期限内离境或转换特定活动签证。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "visa",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N11_standard": {
+      "id": "R_N11_standard",
+      "role": "result",
+      "owner_node_id": "N11_graduation_status",
+      "title": "Bureaucratic Routine",
+      "placeholder": "You spend several long afternoons at the Shinagawa Immigration Bureau. The paperwork is tedious, but you receive the 'Designated Activities' stamp. You have six more months to finalize your life here.",
+      "text": "你多次往返于品川入管局，在漫长的排队中消磨了数个下午。虽然材料准备有些繁琐，但你最终顺利拿到了为期六个月的“特定活动”签证。这为你接下来的职场冲刺争取到了宝贵的合法停留时间，虽然钱包和精力略有损耗。",
+      "insight": "品川入管局的排队是留日学生的必修课，标准流程虽耗时，但只要材料齐全，通常能稳步获得过渡期。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "time",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N11_proactive": {
+      "id": "R_N11_proactive",
+      "role": "result",
+      "owner_node_id": "N11_graduation_status",
+      "title": "The Smooth Transition",
+      "placeholder": "By filing early and double-checking every kanji on your forms, your transition is seamless. Employers are impressed by your administrative diligence, and your stress levels remain manageable.",
+      "text": "你提前数月便咨询了行政书士，确保每一份证明材料都万无一失。这种严谨的态度让你在面试中也显得极具职业素养，雇主无需担心你的签证风险。你几乎无缝完成了身份切换，在同龄人还在焦虑时，你已稳健地开启了职业新篇章。",
+      "insight": "提前准备不仅是法律保障，更是向日本企业展示你具备处理复杂行政事务的能力，能显著提升雇主对你的信任度。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "career",
+            "time",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N11_delayed": {
+      "id": "R_N11_delayed",
+      "role": "result",
+      "owner_node_id": "N11_graduation_status",
+      "title": "The Clock Runs Out",
+      "placeholder": "A mistake in your graduation certificate's date causes a rejection at the counter. With only days left on your student visa, you are forced into an emergency filing process.",
+      "text": "沉迷于研究让你忽略了截止日期。当你匆忙赶往入管局时，却发现毕业证明的日期格式不符被拒收。此时距离签证失效仅剩数日，你被迫陷入了极度焦虑的紧急补救程序，任何一个小失误都可能导致你不得不立即回国。",
+      "insight": "日本入管局对日期和格式极其敏感，任何微小的文书错误在截止日期前都会演变成严重的居留危机。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "wellbeing",
+            "time"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "B09_visa_emergency": {
+      "id": "B09_visa_emergency",
+      "role": "node",
+      "owner_node_id": "B09_visa_emergency",
+      "title": "The Final Warning",
+      "placeholder": "The immigration officer hands back your passport with a red slip. You have one chance to correct your status before your residency is revoked.",
+      "text": "你站在品川入国管理局的柜台前，审查官将你的护照递回，里面夹着一张醒目的红单。由于毕业后在留资格变更手续的疏忽，你的合法身份已处于失效边缘。对方语气冰冷地告知，你只有一次补救机会，若不能在规定时间内提交合规材料，你将面临强制遣返。东京大学的学位证就在包里，但此刻它无法为你提供法律庇护，窒息的压力让你在空调房里渗出了冷汗。",
+      "insight": "在日本，毕业后的“空白期”是签证重灾区，入管局对在留活动的真实性审查极严，行政书士的专业介入通常比个人申诉更有效。"
+    },
+    "R_B09_extension": {
+      "id": "R_B09_extension",
+      "role": "result",
+      "owner_node_id": "B09_visa_emergency",
+      "title": "A Fragile Reprieve",
+      "placeholder": "After hours of bowing and explaining, they grant you a 30-day extension to get your papers in order. You've survived, but your nerves are frayed.",
+      "text": "你在柜台前反复鞠躬，递交了详尽的理由书解释流程误解。经过数小时的焦灼等待，审查官终于松口，给了你30天的宽限期。虽然暂时保住了身份，但这种不确定性让你的精神极度紧绷，接下来的每一天都像是在悬崖边行走。",
+      "insight": "低姿态的沟通和书面解释有时能换取行政裁量权，但这种“灰色地带”的延期会严重消耗心理能量。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B09_expert": {
+      "id": "R_B09_expert",
+      "role": "result",
+      "owner_node_id": "B09_visa_emergency",
+      "title": "Professional Rescue",
+      "placeholder": "The scrivener takes over the communication. Within 48 hours, they resolve the discrepancy with the university and immigration. It cost a fortune, but you are safe.",
+      "text": "你咬牙支付了高昂的服务费，请专业的行政书士紧急介入。专业人士迅速理清了你与校方、入管局之间的文书死结，并在48小时内完成了补救备案。虽然银行账户大幅缩水，但专业的法律背书让你彻底摆脱了遣返危机，换回了安稳。",
+      "insight": "在涉及移民局的复杂纠纷中，付费购买专业信用（行政书士）通常是风险最低、效率最高的解决方案。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_B09_missed": {
+      "id": "R_B09_missed",
+      "role": "result",
+      "owner_node_id": "B09_visa_emergency",
+      "title": "The End of the Road",
+      "placeholder": "The administrative hurdles prove too high. Without a valid status, you are ordered to depart Japan within the week.",
+      "text": "面对复杂的法律条文和紧迫的期限，你感到无力回天。你拒绝了继续挣扎，选择接受现实。入管局下达了限期离境通知，你开始打包行李，告别还没来得及深耕的东京。留日生涯以这种突如其来的方式终结，你的在留资格已彻底失效。",
+      "insight": "签证失效具有不可逆性，一旦错过行政补救窗口，即便拥有名校学位也无法合法停留。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "visa"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N12_local_career": {
+      "id": "R_N12_local_career",
+      "role": "result",
+      "owner_node_id": "N12_final_choice",
+      "title": "A New Salaryman Life",
+      "placeholder": "You sign the contract with a firm in Minato-ku. The transition from student to 'shakaijin' (member of society) is seamless. You've traded the lab for a cubicle, but the city finally feels like it belongs to you.",
+      "text": "你最终签署了位于港区一家知名科技企业的入职合同。从学生到“社会人”的转变比想象中平稳，你搬进了离公司更近的公寓，开始习惯早高峰的通勤。虽然实验室的纯粹已成往事，但你终于在这座繁华都市中找到了属于自己的坐标，生活正步入稳健的轨道。",
+      "insight": "选择留日工作意味着从文化适应转向社会融合。日本科技行业对东大毕业生非常友好，稳定的收入和完善的社保将为你提供长期的生活保障。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "wellbeing",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N12_global_launch": {
+      "id": "R_N12_global_launch",
+      "role": "result",
+      "owner_node_id": "N12_final_choice",
+      "title": "The Global Trajectory",
+      "placeholder": "With a UTokyo Master's in hand, the international recruiters were aggressive. You pack your bags for a tech hub outside Japan, carrying the prestige of your research and a significantly bolstered bank account.",
+      "text": "凭借东大CS的顶尖学术背景和亮眼的实习经历，你成功拿到了海外顶级实验室的Offer。虽然这意味着又要开始新一轮的跨国搬迁和高强度挑战，但你的职业起点已跃升至全球梯队。你带着丰厚的奖金和满腔雄心离开成田机场，去追逐更高维度的技术梦想。",
+      "insight": "顶尖名校的硕士学位是全球通用的硬通货。通过高压力的求职竞争，你实现了职业阶层的跨越，但也需警惕长期高强度工作对身心健康的持续消耗。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "career",
+            "school",
+            "money",
+            "wellbeing"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    },
+    "R_N12_retreat_recovery": {
+      "id": "R_N12_retreat_recovery",
+      "role": "result",
+      "owner_node_id": "N12_final_choice",
+      "title": "The Long Flight Home",
+      "placeholder": "The degree is in your suitcase, but your spirit is spent. You decide that no job offer is worth the continued isolation or the grind of Tokyo life. You head to Narita, looking forward to a world that speaks your first language.",
+      "text": "学位证静静躺在行李箱底，但你的精神已处于透支边缘。东京的繁华与疏离感让你感到疲惫，你拒绝了所有留日工作的邀请，选择订票回国。在成田机场的候机厅，你长舒了一口气。虽然暂时告别了海外职业赛道，但回到熟悉的环境休养生息，是你此刻最需要的救赎。",
+      "insight": "承认倦怠并选择及时止损是一种勇气。留学的价值不仅在于职位，更在于这段经历带给你的成长。回国休整能让你在熟悉的支持系统中恢复能量，为下一段旅程蓄力。",
+      "variant_triggers": [
+        {
+          "variables": [
+            "wellbeing",
+            "career",
+            "money"
+          ],
+          "reason": "Result text should reflect changed variables."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "E_tokyo_local_job": {
+      "id": "E_tokyo_local_job",
+      "title": "Tokyo becomes home",
+      "tone": "hopeful",
+      "condition_summary": "经过无数个在实验室与面试场奔波的日夜，你终于在东京站稳了脚跟。凭借东大的学术背景与扎实的日语能力，你顺利拿到了心仪企业的内推。当你在涩谷的人潮中穿行，看着手中的工作签证，你意识到这座繁华的都市已不再是异乡，而是你职业生涯起航的新家。你成功转型为一名在日开发者，开启了新的人生篇章。"
+    },
+    "E_return_home_stronger": {
+      "id": "E_return_home_stronger",
+      "title": "Return home stronger",
+      "tone": "bittersweet",
+      "condition_summary": "虽然你决定不留在日本工作，但这段在东京大学磨砺的经历已让你脱胎换骨。你带着前沿的CS知识和严谨的研究习惯回国，迅速获得了国内顶尖大厂的青睐。在熟悉的土地上，你发现自己看问题的视角已变得全球化，这段留学往事成为了你简历中最亮眼的勋章，让你在未来的竞争中无往不利。"
+    },
+    "E_third_country_launch": {
+      "id": "E_third_country_launch",
+      "title": "Third-country launch",
+      "tone": "hopeful",
+      "condition_summary": "东京只是你跳板上的第一站。利用东大的国际声誉和你在研究期间积累的海外人脉，你成功申请到了前往欧美深造或工作的机会。你证明了自己不仅能适应亚洲的学术环境，更具备在全球舞台竞争的实力。当你踏上前往新国家的航班时，你深知在东京度过的那些苦读之夜，为你铺就了通往世界顶尖科研圈的道路。"
+    },
+    "E_defer_or_pause": {
+      "id": "E_defer_or_pause",
+      "title": "Defer or pause",
+      "tone": "bittersweet",
+      "condition_summary": "计划赶不上变化，由于种种不可抗力或阶段性的失误，你不得不选择暂时休学或延期毕业。虽然这让你感到挫败，但也给了你喘息和反思的机会。你留在了东京，开始重新审视自己的目标，试图在停滞中寻找突破。这并非终结，而是一次漫长的中场休息，等待着你积蓄力量，再次向终点发起冲击。"
+    },
+    "E_burnout_graduation": {
+      "id": "E_burnout_graduation",
+      "title": "Graduated, but burned out",
+      "tone": "challenging",
+      "condition_summary": "你拿到了那张沉甸甸的学位证，但代价是几乎耗尽了所有的热情与健康。长期的过度透支让你在毕业那一刻感到的不是喜悦，而是无尽的空虚。你虽然完成了学业，却发现自己对未来的职业生涯产生了严重的职业倦怠，甚至与亲友的关系也变得疏远。这是一种惨胜，你赢得了名誉，却需要用很久的时间去治愈满身伤痕。"
+    },
+    "E_money_critical": {
+      "id": "E_money_critical",
+      "title": "Money collapse",
+      "tone": "challenging",
+      "condition_summary": "财务链条的彻底断裂让你陷入了绝境。由于无法支付高昂的学费和房租，你被迫中断了学业。尽管你曾尝试各种兼职，但杯水车薪无法填补巨大的资金缺口。在东京这个现实的都市，没有经济支撑的梦想显得如此脆弱。你不得不带着未竟的遗憾，提前买好了回国的单程机票，结束了这段充满波折的留学生活。"
+    },
+    "E_time_critical": {
+      "id": "E_time_critical",
+      "title": "Time collapse",
+      "tone": "challenging",
+      "condition_summary": "你彻底迷失在了时间的泥潭中。由于长期缺乏有效的计划，你的研究进度严重滞后，错过了所有补救的截止日期。导师最终失去了耐心，学校也因你无法在规定年限内完成学业而取消了你的学籍。你看着日历上那些被划掉的日期，意识到自己挥霍了最宝贵的资源。时间无情地流逝，留给你的只有无法挽回的遗憾。"
+    },
+    "E_visa_critical": {
+      "id": "E_visa_critical",
+      "title": "Visa collapse",
+      "tone": "challenging",
+      "condition_summary": "最担心的事还是发生了。由于行政手续的严重疏忽或违规行为，你的签证续签申请被正式驳回。入管局下达了限期离境的通知，这意味着你不仅失去了继续学业的机会，甚至可能在未来数年内无法再次入境。你不得不匆忙打包行李，在冰冷的遣返令下离开东京。这段原本充满希望的旅程，以一种最狼狈的方式画上了句号。"
+    },
+    "E_housing_critical": {
+      "id": "E_housing_critical",
+      "title": "Housing collapse",
+      "tone": "challenging",
+      "condition_summary": "由于租约纠纷和财务危机的双重打击，你失去了在东京的居所。在寒冷的冬夜，你发现自己无处可去，这种极度的不安全感彻底击垮了你的意志。没有了稳定的生活后方，你的学业和求职也随之崩塌。你意识到，当一个人连基本的生存空间都无法保障时，所谓的学术理想不过是空中楼阁。你被迫中止计划，寻求紧急救助回国。"
+    },
+    "E_school_critical": {
+      "id": "E_school_critical",
+      "title": "School collapse",
+      "tone": "challenging",
+      "condition_summary": "学术审查的结果是残酷的。由于长期无法达到研究标准或考试不及格，你收到了退学处理通知。东大的红色大门对你缓缓关闭，你曾经引以为傲的身份瞬间化为泡影。尽管你曾试图挽回，但学术的严谨性不容任何侥幸。你带着沉重的挫败感离开校园，意识到自己在这场智力的马拉松中彻底掉队，必须面对残酷的现实。"
+    },
+    "E_wellbeing_critical": {
+      "id": "E_wellbeing_critical",
+      "title": "Wellbeing collapse",
+      "tone": "challenging",
+      "condition_summary": "你的身心状态终于达到了临界点。长期的极度压抑导致了严重的健康危机，你无法再进行任何正常的学习或社交。在医生的建议和家人的坚持下，你不得不选择回国接受长期治疗。东京的繁华与你再无关系，你躺在病床上，意识到自己为了追求一个名号而付出了过于沉重的代价。健康一旦崩塌，所有的蓝图都化为了灰烬。"
+    },
+    "E_japanese_critical": {
+      "id": "E_japanese_critical",
+      "title": "Japanese collapse",
+      "tone": "challenging",
+      "condition_summary": "语言的隔阂最终演变成了无法逾越的深渊。由于长期无法有效沟通，你被实验室边缘化，无法参与核心项目，甚至连基本的行政通知都无法准确理解。这种极度的孤立感让你在东京的生活变成了一场无声的折磨。你发现自己虽然身处日本，却像是在一座孤岛上生存。最终，沟通成本的过高让你无法继续学业，只能选择离开。"
+    },
+    "E_career_critical": {
+      "id": "E_career_critical",
+      "title": "Career collapse",
+      "tone": "challenging",
+      "condition_summary": "求职季的彻底失败给了你沉重的一击。由于缺乏实习经历和职业准备，你在竞争激烈的CS市场中颗粒无收。随着毕业日期的临近，你依然没有找到任何接收单位，签证转换也因此陷入死胡同。你看着同窗们纷纷拿到录取通知，而自己却无路可走。这种职业上的绝境让你意识到，单纯的学术研究并不能自动转化为生存能力。"
+    },
+    "E_lab_reputation_critical": {
+      "id": "E_lab_reputation_critical",
+      "title": "Lab Reputation collapse",
+      "tone": "challenging",
+      "condition_summary": "你在实验室的声誉彻底破产。由于一系列的学术失信或人际冲突，你不仅失去了导师的支持，更遭到了同行的排挤。在极其看重推荐和圈子文化的日本学术界，这意味着你的前途已被封死。没有导师的签字，你无法毕业；没有业界的口碑，你无法就业。你在这片土地上已经社会性死亡，只能带着破碎的名誉黯然离场。"
+    }
+  },
+  "gaps": []
+}

@@ -499,6 +499,199 @@ dd {
   white-space: pre-wrap;
 }
 
+.debugRunLoader {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.logicTree {
+  display: grid;
+  gap: 16px;
+  overflow: auto;
+}
+
+.logicTreeSummary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.logicTreeSummary div,
+.logicVariables div,
+.logicSpecialStrip,
+.logicNode {
+  border: 2px solid #ead2ad;
+  border-radius: 8px;
+  background: #fff8e8;
+}
+
+.logicTreeSummary div {
+  padding: 14px;
+}
+
+.logicTreeSummary span,
+.logicVariables span,
+.logicChoiceHead span {
+  display: block;
+  color: #8b5e34;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.logicTreeSummary strong {
+  display: block;
+  margin-top: 4px;
+  color: #2b2118;
+  font-size: 24px;
+}
+
+.logicTreeChecks,
+.logicVariables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.logicTreeChecks span {
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.logicTreeChecks .pass {
+  color: #065f46;
+  background: #d1fae5;
+}
+
+.logicTreeChecks .fail {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.logicVariables div {
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+  padding: 12px;
+}
+
+.logicVariables code,
+.logicRoute code,
+.logicNode header code {
+  border-radius: 5px;
+  padding: 3px 6px;
+  color: #3d2f24;
+  background: #fff1d6;
+  font-size: 12px;
+}
+
+.logicSpecialStrip {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  color: #5f4937;
+}
+
+.logicSpecialStrip span {
+  line-height: 1.5;
+}
+
+.logicNodeList {
+  display: grid;
+  gap: 14px;
+}
+
+.logicNode {
+  padding: 16px;
+}
+
+.logicNode--special_node {
+  border-color: #d89b4a;
+  box-shadow: 4px 4px 0 rgba(240, 180, 95, 0.35);
+}
+
+.logicNode--branch_node {
+  border-color: #93c5fd;
+}
+
+.logicNode header,
+.logicChoiceHead,
+.logicRoute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.logicNode header {
+  margin-bottom: 10px;
+}
+
+.logicNode header span {
+  color: #8b5e34;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.logicNode h4,
+.logicNode p,
+.logicChoice p {
+  margin: 0;
+}
+
+.logicNode h4 {
+  margin-top: 2px;
+  color: #2b2118;
+  font-size: 18px;
+}
+
+.logicNode > p {
+  color: #5f4937;
+  line-height: 1.6;
+}
+
+.logicChoices {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.logicChoice {
+  display: grid;
+  gap: 8px;
+  border-top: 2px solid #ead2ad;
+  padding-top: 10px;
+}
+
+.logicChoiceHead strong {
+  color: #2b2118;
+}
+
+.logicChoice p {
+  color: #374151;
+  line-height: 1.45;
+}
+
+.logicRoute {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  color: #8b5e34;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.logicChoice small {
+  color: #5f4937;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
 .experiencePage {
   min-height: 100vh;
   padding: 28px;
@@ -821,6 +1014,8 @@ dd {
   .workspaceGrid,
   .gridThree,
   .gridTwo,
+  .debugRunLoader,
+  .logicTreeSummary,
   .experienceHeader,
   .storyGame,
   .gameHud {
