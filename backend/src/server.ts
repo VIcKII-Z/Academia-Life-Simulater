@@ -1,16 +1,27 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { exec } from "node:child_process";
+import { exec, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "./config/config.js";
 import { runSearchAgentPreset, runSearchAgentLive, listPresets } from "./agents/searchAgent.js";
 import { runDesignAgent } from "./agents/designAgent.js";
+import { runLogicGraphAgent } from "./agents/logicGraphAgent.js";
+import { compileLogicGraphToStoryDocument } from "./agents/logicGraphCompiler.js";
 import { runArtistAgent } from "./agents/artistAgent.js";
 import { RunLogger, listRuns, readRunFiles } from "./runLogger.js";
-import type { Provider, ResearchReport, RuntimeConfig, UserProfile } from "./types.js";
+import type {
+  FlowVersion,
+  Provider,
+  ResearchReport,
+  RuntimeConfig,
+  RuntimeService,
+  RuntimeServiceConfig,
+  StoryDocument,
+  UserProfile,
+} from "./types.js";
 
 const app = express();
 app.use(cors());
@@ -18,8 +29,26 @@ app.use(express.json());
 
 const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
-const STORY_STRUCTURE_VERSION = "braided-v2-longer-choices";
+const RUNS_DIR = path.resolve(process.cwd(), "..", "data", "runs");
+const STORY_STRUCTURE_VERSION = "post-offer-v1-variable-gated";
 app.use("/assets", express.static(ASSETS_DIR));
+
+type FullGenerationState = "running" | "completed" | "failed";
+
+type FullGenerationJob = {
+  storyId: string;
+  status: FullGenerationState;
+  pid?: number;
+  startedAt: string;
+  updatedAt: string;
+  completedAt?: string;
+  exitCode?: number | null;
+  signal?: NodeJS.Signals | null;
+  error?: string;
+  lines: string[];
+};
+
+const fullGenerationJobs = new Map<string, FullGenerationJob>();
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
   try {
@@ -40,6 +69,32 @@ function normalizeRelayBaseURL(rawBaseURL: string): string {
   }
 }
 
+type RawRuntimeServiceConfig = {
+  provider?: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  model?: string;
+};
+
+function resolveRuntimeServiceConfig(
+  service: RuntimeService,
+  raw: RawRuntimeServiceConfig | undefined,
+  fallback: RuntimeServiceConfig,
+): RuntimeServiceConfig {
+  const provider: Provider = raw?.provider === "relay" ? "relay" : raw?.provider === "openai" ? "openai" : fallback.provider;
+  const apiKey = raw?.apiKey?.trim() ?? fallback.apiKey?.trim();
+  const rawBaseURL = raw?.baseURL?.trim() ?? fallback.baseURL?.trim();
+  if (provider === "relay" && apiKey && !rawBaseURL) {
+    throw new Error(`${service} service uses relay mode and needs a relay base URL.`);
+  }
+  return {
+    provider,
+    apiKey,
+    baseURL: provider === "relay" && rawBaseURL ? normalizeRelayBaseURL(rawBaseURL) : undefined,
+    model: raw?.model?.trim() || fallback.model,
+  };
+}
+
 function resolveRuntimeConfig(input: unknown, mode: "preset" | "live_search"): RuntimeConfig | undefined {
   if (!input || typeof input !== "object") return undefined;
 
@@ -48,26 +103,54 @@ function resolveRuntimeConfig(input: unknown, mode: "preset" | "live_search"): R
     apiKey?: string;
     baseURL?: string;
     models?: Partial<RuntimeConfig["models"]>;
+    services?: Partial<Record<RuntimeService, RawRuntimeServiceConfig>>;
+    outputLanguage?: RuntimeConfig["outputLanguage"];
     features?: Partial<RuntimeConfig["features"]>;
   };
 
   const provider: Provider = raw.provider === "relay" ? "relay" : "openai";
   const apiKey = raw.apiKey?.trim();
   const baseURL = raw.baseURL?.trim();
+  const textServiceBaseURL = raw.services?.text?.baseURL?.trim();
 
-  if (provider === "relay" && !baseURL) {
+  if (provider === "relay" && !baseURL && !textServiceBaseURL) {
     throw new Error("Relay mode requires a relay base URL.");
   }
+
+  const legacyService: RuntimeServiceConfig = {
+    provider,
+    apiKey,
+    baseURL: provider === "relay" ? normalizeRelayBaseURL((baseURL || textServiceBaseURL) as string) : undefined,
+  };
+  const models = {
+    search: raw.models?.search?.trim() || config.models.search,
+    design: raw.models?.design?.trim() || config.models.design,
+    image: raw.models?.image?.trim() || config.models.image,
+  };
+  const services: RuntimeConfig["services"] = {
+    search: resolveRuntimeServiceConfig("search", raw.services?.search, {
+      provider: "openai",
+      apiKey: legacyService.provider === "openai" ? legacyService.apiKey : process.env.OPENAI_API_KEY,
+      model: models.search,
+    }),
+    text: resolveRuntimeServiceConfig("text", raw.services?.text, {
+      ...legacyService,
+      model: models.design,
+    }),
+    image: resolveRuntimeServiceConfig("image", raw.services?.image, {
+      provider: "openai",
+      apiKey: legacyService.provider === "openai" ? legacyService.apiKey : process.env.OPENAI_API_KEY,
+      model: models.image,
+    }),
+  };
 
   return {
     provider,
     apiKey,
-    baseURL: provider === "relay" ? normalizeRelayBaseURL(baseURL as string) : undefined,
-    models: {
-      search: raw.models?.search?.trim() || config.models.search,
-      design: raw.models?.design?.trim() || config.models.design,
-      image: raw.models?.image?.trim() || config.models.image,
-    },
+    baseURL: provider === "relay" ? normalizeRelayBaseURL((baseURL || textServiceBaseURL) as string) : undefined,
+    models,
+    services,
+    outputLanguage: raw.outputLanguage === "zh" ? "zh" : "en",
     features: {
       enableLiveSearch:
         raw.features?.enableLiveSearch ?? (mode === "live_search" ? true : config.features.enableLiveSearch),
@@ -79,12 +162,69 @@ function resolveRuntimeConfig(input: unknown, mode: "preset" | "live_search"): R
 
 function getSafeRuntimeConfig(runtimeConfig?: RuntimeConfig): Omit<RuntimeConfig, "apiKey"> | undefined {
   if (!runtimeConfig) return undefined;
-  const { apiKey: _apiKey, ...safeConfig } = runtimeConfig;
-  return safeConfig;
+  const { apiKey: _apiKey, services, ...safeConfig } = runtimeConfig;
+  const safeServices = services
+    ? Object.fromEntries(
+        Object.entries(services).map(([service, serviceConfig]) => {
+          const { apiKey: _serviceApiKey, ...safeServiceConfig } = serviceConfig;
+          return [service, safeServiceConfig];
+        }),
+      )
+    : undefined;
+  return { ...safeConfig, services: safeServices };
 }
 
 function sanitizeStoryId(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") || "story";
+}
+
+function fullGeneratorScriptPath(): string {
+  return path.join(process.cwd(), "scripts", "fullPostOfferGenerator.ts");
+}
+
+function tsxCommand(): string {
+  return process.execPath;
+}
+
+function tsxArgs(): string[] {
+  return [path.join(process.cwd(), "node_modules", "tsx", "dist", "cli.mjs"), fullGeneratorScriptPath()];
+}
+
+function appendFullJobLine(job: FullGenerationJob, line: string): void {
+  const trimmed = line.trimEnd();
+  if (!trimmed) return;
+  job.lines.push(trimmed);
+  if (job.lines.length > 200) job.lines.splice(0, job.lines.length - 200);
+  job.updatedAt = new Date().toISOString();
+}
+
+async function readFullGeneratorLogTail(storyId: string): Promise<string[]> {
+  try {
+    const raw = await fs.readFile(path.join(RUNS_DIR, storyId, "full_generator.log"), "utf-8");
+    return raw.split(/\r?\n/).filter(Boolean).slice(-120);
+  } catch {
+    return [];
+  }
+}
+
+async function hasFullGeneratorFinalStory(storyId: string): Promise<boolean> {
+  try {
+    await fs.access(path.join(RUNS_DIR, storyId, "09_final_story.json"));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function fullGenerationStatus(job: FullGenerationJob): Promise<FullGenerationJob & { logTail: string[]; hasFinalStory: boolean }> {
+  const logTail = await readFullGeneratorLogTail(job.storyId);
+  const logError = [...logTail].reverse().find((line) => line.includes("[fatal]") || line.includes("failed status="));
+  return {
+    ...job,
+    error: job.status === "failed" ? logError ?? job.error : job.error,
+    logTail,
+    hasFinalStory: await hasFullGeneratorFinalStory(job.storyId),
+  };
 }
 
 /**
@@ -132,14 +272,17 @@ function buildCacheStoryId(
   presetId: string | undefined,
   profile: UserProfile | undefined,
   runtimeConfig: RuntimeConfig | undefined,
+  flowVersion: FlowVersion | undefined,
 ): string {
   const keyPayload = canonicalize(
     {
       mode,
       storyStructureVersion: STORY_STRUCTURE_VERSION,
+      flowVersion: flowVersion ?? "legacy",
       presetId: mode === "preset" ? presetId ?? "tokyo_cs" : undefined,
       profile: mode === "live_search" ? profile : undefined,
       models: runtimeConfig?.models,
+      outputLanguage: runtimeConfig?.outputLanguage ?? "en",
     },
     true,
   );
@@ -635,6 +778,177 @@ app.get("/api/runs/:storyId", async (req, res) => {
 });
 
 /**
+ * Starts the full post-offer demo generator as a background job. This is the
+ * long multi-call pipeline in backend/scripts/fullPostOfferGenerator.ts:
+ * research adaptation -> per-node planning -> supervisor repair -> content
+ * fill -> variable variants -> simulation/validation -> 09_final_story.json.
+ */
+app.post("/api/full-generate", async (req, res) => {
+  const {
+    runtimeConfig: rawRuntimeConfig,
+    storyId: requestedStoryId,
+    regenerate,
+    model: requestedModel,
+  } = req.body as {
+    runtimeConfig?: unknown;
+    storyId?: string;
+    regenerate?: boolean;
+    model?: string;
+  };
+
+  let runtimeConfig: RuntimeConfig | undefined;
+  try {
+    runtimeConfig = resolveRuntimeConfig(rawRuntimeConfig, "live_search");
+  } catch (err) {
+    res.status(400).json({ error: err instanceof Error ? err.message : String(err) });
+    return;
+  }
+
+  const storyId =
+    typeof requestedStoryId === "string" && requestedStoryId.trim()
+      ? sanitizeStoryId(requestedStoryId)
+      : `utokyo_cs_full_${Date.now()}`;
+
+  const existingJob = fullGenerationJobs.get(storyId);
+  if (existingJob?.status === "running") {
+    res.status(409).json(await fullGenerationStatus(existingJob));
+    return;
+  }
+
+  if (!regenerate && (await hasFullGeneratorFinalStory(storyId))) {
+    const now = new Date().toISOString();
+    const completedJob: FullGenerationJob = {
+      storyId,
+      status: "completed",
+      startedAt: now,
+      updatedAt: now,
+      completedAt: now,
+      lines: [`Reusing existing full generated run ${storyId}.`],
+    };
+    fullGenerationJobs.set(storyId, completedJob);
+    res.json(await fullGenerationStatus(completedJob));
+    return;
+  }
+
+  const textService = runtimeConfig?.services?.text;
+  const searchService = runtimeConfig?.services?.search;
+  const imageService = runtimeConfig?.services?.image;
+  const textApiKey = textService?.apiKey?.trim() || runtimeConfig?.apiKey?.trim() || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY || "";
+  const searchApiKey = searchService?.apiKey?.trim() || process.env.OPENAI_API_KEY || "";
+  const imageApiKey = imageService?.apiKey?.trim() || process.env.OPENAI_API_KEY || "";
+  if (!textApiKey.trim()) {
+    res.status(400).json({ error: "Full generator needs a text API key from the browser or backend .env." });
+    return;
+  }
+
+  const model = requestedModel?.trim() || textService?.model?.trim() || process.env.GCLI_MODEL || "gemini-3-flash-preview";
+  const now = new Date().toISOString();
+  const job: FullGenerationJob = {
+    storyId,
+    status: "running",
+    startedAt: now,
+    updatedAt: now,
+    lines: [],
+  };
+  fullGenerationJobs.set(storyId, job);
+
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    FULL_DEMO_STORY_ID: storyId,
+    FULL_OUTPUT_LANGUAGE: runtimeConfig?.outputLanguage === "zh" ? "zh" : "en",
+    FULL_ENABLE_LIVE_RESEARCH: String(runtimeConfig?.features.enableLiveSearch ?? true),
+    FULL_ENABLE_IMAGE_GENERATION: String(runtimeConfig?.features.enableImageGeneration ?? false),
+    FULL_MAX_IMAGES: "999",
+  };
+
+  if (textService?.provider === "relay") {
+    env.TEXT_API_KEY = textApiKey;
+    env.TEXT_BASE_URL = textService.baseURL || process.env.GCLI_BASE_URL || process.env.OPENAI_BASE_URL || "https://gcli.ggchan.dev/v1";
+    env.TEXT_MODEL = model;
+    env.GCLI_API_KEY = textApiKey;
+    env.GCLI_BASE_URL = env.TEXT_BASE_URL;
+    env.GCLI_MODEL = model;
+  } else {
+    env.TEXT_API_KEY = textApiKey;
+    env.TEXT_BASE_URL = textService?.baseURL || "https://api.openai.com/v1";
+    env.TEXT_MODEL = model;
+    env.OPENAI_API_KEY = textApiKey;
+    env.OPENAI_BASE_URL = env.TEXT_BASE_URL;
+  }
+  env.RESEARCH_API_KEY = searchApiKey;
+  env.RESEARCH_BASE_URL = searchService?.provider === "relay" ? searchService.baseURL : "https://api.openai.com/v1";
+  env.RESEARCH_MODEL = searchService?.model || runtimeConfig?.models.search || config.models.search;
+  env.IMAGE_API_KEY = imageApiKey;
+  env.IMAGE_BASE_URL = imageService?.provider === "relay" ? imageService.baseURL : "https://api.openai.com/v1";
+  env.IMAGE_MODEL = imageService?.model || runtimeConfig?.models.image || config.models.image;
+
+  appendFullJobLine(job, `[full-generator] starting story_id=${storyId} model=${model}`);
+  const child = spawn(tsxCommand(), tsxArgs(), {
+    cwd: process.cwd(),
+    env,
+    shell: false,
+    windowsHide: true,
+  });
+  job.pid = child.pid;
+
+  child.stdout?.on("data", (chunk: Buffer) => {
+    chunk.toString("utf8").split(/\r?\n/).forEach((line) => appendFullJobLine(job, line));
+  });
+  child.stderr?.on("data", (chunk: Buffer) => {
+    chunk.toString("utf8").split(/\r?\n/).forEach((line) => appendFullJobLine(job, line));
+  });
+  child.on("error", (err) => {
+    job.status = "failed";
+    job.error = err.message;
+    job.updatedAt = new Date().toISOString();
+    job.completedAt = job.updatedAt;
+    appendFullJobLine(job, `[full-generator] failed to start: ${err.message}`);
+  });
+  child.on("exit", (code, signal) => {
+    job.exitCode = code;
+    job.signal = signal;
+    job.updatedAt = new Date().toISOString();
+    job.completedAt = job.updatedAt;
+    if (code === 0) {
+      job.status = "completed";
+      appendFullJobLine(job, `[full-generator] completed story_id=${storyId}`);
+    } else {
+      job.status = "failed";
+      job.error = `Full generator exited with code ${code ?? "null"}${signal ? ` signal ${signal}` : ""}.`;
+      appendFullJobLine(job, `[full-generator] ${job.error}`);
+    }
+  });
+
+  res.status(202).json(await fullGenerationStatus(job));
+});
+
+app.get("/api/full-generate/:storyId/status", async (req, res) => {
+  const storyId = sanitizeStoryId(req.params.storyId);
+  const job = fullGenerationJobs.get(storyId);
+  if (job) {
+    res.json(await fullGenerationStatus(job));
+    return;
+  }
+
+  if (await hasFullGeneratorFinalStory(storyId)) {
+    const now = new Date().toISOString();
+    res.json(
+      await fullGenerationStatus({
+        storyId,
+        status: "completed",
+        startedAt: now,
+        updatedAt: now,
+        completedAt: now,
+        lines: [`Found completed full generated run ${storyId}.`],
+      }),
+    );
+    return;
+  }
+
+  res.status(404).json({ error: `Full generation job not found: ${storyId}` });
+});
+
+/**
  * Local demo convenience: shuts down the backend and, on Windows, closes the
  * frontend terminal window opened by start.bat.
  */
@@ -655,7 +969,7 @@ app.post("/api/shutdown", (_req, res) => {
 
 /**
  * Body: { mode: "preset", presetId: string } | { mode: "live_search", profile: UserProfile }
- * Runs Search -> Design -> Artist and returns/saves the final story JSON.
+ * Runs Search -> Design/Logic -> Artist and returns/saves the final story JSON.
  * Every stage's raw output is also persisted under /data/runs/{storyId}/
  * for debugging (see runLogger.ts) — use GET /api/runs/:storyId to inspect.
  */
@@ -667,6 +981,7 @@ app.post("/api/generate", async (req, res) => {
     runtimeConfig: rawRuntimeConfig,
     storyId: requestedStoryId,
     regenerate,
+    flowVersion,
   } = req.body as {
     mode: "preset" | "live_search";
     presetId?: string;
@@ -674,20 +989,27 @@ app.post("/api/generate", async (req, res) => {
     runtimeConfig?: unknown;
     storyId?: string;
     regenerate?: boolean;
+    flowVersion?: FlowVersion;
   };
+  const resolvedFlowVersion: FlowVersion = flowVersion === "post_offer_v1" ? "post_offer_v1" : "legacy";
 
   // Derive the cache key from the raw (unvalidated) model names only, so a
   // cache-reuse attempt never requires full provider validation (API key,
   // relay base URL) just to check whether a matching story already exists.
   // Full validation (resolveRuntimeConfig) happens below, and only actually
   // runs if we get past the cache check.
-  const rawModels = (rawRuntimeConfig as { models?: Partial<RuntimeConfig["models"]> } | undefined)?.models;
+  const rawRuntime = rawRuntimeConfig as
+    | { models?: Partial<RuntimeConfig["models"]>; services?: Partial<Record<RuntimeService, RawRuntimeServiceConfig>> }
+    | undefined;
+  const rawModels = rawRuntime?.models;
+  const rawServices = rawRuntime?.services;
+  const rawOutputLanguage = (rawRuntimeConfig as { outputLanguage?: RuntimeConfig["outputLanguage"] } | undefined)?.outputLanguage === "zh" ? "zh" : "en";
   const cacheModels: RuntimeConfig["models"] = {
-    search: rawModels?.search?.trim() || config.models.search,
-    design: rawModels?.design?.trim() || config.models.design,
-    image: rawModels?.image?.trim() || config.models.image,
+    search: rawServices?.search?.model?.trim() || rawModels?.search?.trim() || config.models.search,
+    design: rawServices?.text?.model?.trim() || rawModels?.design?.trim() || config.models.design,
+    image: rawServices?.image?.model?.trim() || rawModels?.image?.trim() || config.models.image,
   };
-  const cacheStoryId = buildCacheStoryId(mode, presetId, profile, { models: cacheModels } as RuntimeConfig);
+  const cacheStoryId = buildCacheStoryId(mode, presetId, profile, { models: cacheModels, outputLanguage: rawOutputLanguage } as RuntimeConfig, resolvedFlowVersion);
   const storyId =
     typeof requestedStoryId === "string" && requestedStoryId.trim()
       ? sanitizeStoryId(requestedStoryId)
@@ -710,7 +1032,7 @@ app.post("/api/generate", async (req, res) => {
     // stories generated before it was configurable.
     if (mode === "live_search" && profile?.semesters !== undefined) {
       const { semesters: _semesters, ...legacyProfile } = profile;
-      const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels } as RuntimeConfig);
+      const legacyStoryId = buildCacheStoryId(mode, presetId, legacyProfile, { models: cacheModels, outputLanguage: rawOutputLanguage } as RuntimeConfig, resolvedFlowVersion);
       const legacyCached = await readCachedStory(legacyStoryId);
       if (legacyCached && hasEnoughCachedImages(legacyCached, rawRuntimeConfig)) {
         res.json({ ...prepareCachedStoryForResponse(legacyCached, rawRuntimeConfig), cached: true });
@@ -727,7 +1049,7 @@ app.post("/api/generate", async (req, res) => {
     // safely caught below instead of hanging the request.
     const runtimeConfig = resolveRuntimeConfig(rawRuntimeConfig, mode);
 
-    await logger.init({ mode, presetId, profile, runtimeConfig: getSafeRuntimeConfig(runtimeConfig) });
+    await logger.init({ mode, presetId, profile, flowVersion: resolvedFlowVersion, runtimeConfig: getSafeRuntimeConfig(runtimeConfig) });
 
     logger.startStage("search");
     const report =
@@ -736,13 +1058,24 @@ app.post("/api/generate", async (req, res) => {
         : await runSearchAgentLive(profile as UserProfile, runtimeConfig);
     await logger.endStage("search", "01_search_report.json", report);
 
-    logger.startStage("design");
-    const skeleton = await runDesignAgent(report, storyId, runtimeConfig, profile?.semesters);
-    await logger.endStage("design", "02_design_skeleton.json", skeleton);
+    let skeleton: StoryDocument;
+    if (resolvedFlowVersion === "post_offer_v1") {
+      logger.startStage("logic");
+      const logicGraph = await runLogicGraphAgent(report, storyId, runtimeConfig);
+      await logger.endStage("logic", "02_logic_graph.json", logicGraph);
+
+      logger.startStage("compile");
+      skeleton = compileLogicGraphToStoryDocument(logicGraph, report, storyId, runtimeConfig?.outputLanguage ?? "en");
+      await logger.endStage("compile", "03_compiled_story.json", skeleton);
+    } else {
+      logger.startStage("design");
+      skeleton = await runDesignAgent(report, storyId, runtimeConfig, profile?.semesters);
+      await logger.endStage("design", "02_design_skeleton.json", skeleton);
+    }
 
     logger.startStage("artist");
     const final = await runArtistAgent(skeleton, runtimeConfig);
-    await logger.endStage("artist", "03_artist_final.json", final);
+    await logger.endStage("artist", resolvedFlowVersion === "post_offer_v1" ? "04_artist_final.json" : "03_artist_final.json", final);
 
     // Carry the Search Agent's cited sources through to the saved/served
     // document so the Field Notes panel can link players to where the

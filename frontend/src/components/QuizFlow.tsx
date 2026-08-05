@@ -23,7 +23,7 @@ import { useI18n } from "../lib/i18n";
 type StepKey = "country" | "city" | "university" | "degree" | "semesters" | "details";
 const STEP_ORDER: StepKey[] = ["country", "city", "university", "degree", "semesters", "details"];
 
-const DEGREE_OPTIONS = ["Undergraduate", "Graduate", "PhD", "Exchange Student"];
+const DEGREE_OPTIONS = ["Undergraduate", "Taught Master"];
 const MIN_SEMESTERS = 1;
 const MAX_SEMESTERS = 8;
 

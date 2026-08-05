@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "../config/config.js";
-import { getOpenAIClient } from "./openaiClient.js";
+import { getOpenAIClient, getRuntimeModel } from "./openaiClient.js";
 import type { ResearchReport, RuntimeConfig, UserProfile } from "../types.js";
 
 const PRESETS_DIR = path.resolve(process.cwd(), "..", "data", "presets");
@@ -268,8 +268,8 @@ export async function runSearchAgentLive(profile: UserProfile, runtimeConfig?: R
   if (!liveSearchEnabled) {
     throw new Error("Live search is disabled in config.ts (features.enableLiveSearch=false)");
   }
-  const client = getOpenAIClient(runtimeConfig);
-  const model = runtimeConfig?.models.search ?? config.models.search;
+  const client = getOpenAIClient(runtimeConfig, "search");
+  const model = getRuntimeModel(runtimeConfig, "search");
   const fineGrained = [
     profile.school ? `school=${profile.school}` : null,
     profile.department ? `department=${profile.department}` : null,

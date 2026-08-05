@@ -1,8 +1,13 @@
 export interface Choice {
+  /** Stable explicit id used by the post-offer if/else runtime and QA output. */
+  logic_choice_id?: string;
   text: string;
   next_node: string;
   stat_delta?: StatBlock;
   stat_reason?: string;
+  /** Post-offer logic variables applied before explicit if/else guards. */
+  logic_delta?: Record<string, number>;
+  logic_planned_next_node?: string;
   /** Marks the choice the Design Agent considers the "intended"/best path for
    * this profile — shown with a star badge. All choices on a node share the
    * same next_node (single generated content path), so this is a hint only. */
@@ -29,6 +34,8 @@ export interface StoryNode {
    * why this challenge/situation realistically happens to study-abroad students
    * with this profile. Shown in the scene's side "Field Notes" panel. */
   insight?: string;
+  logic_page_role?: "node" | "result" | "warning";
+  logic_source_id?: string;
 }
 
 export type Tone = "hopeful" | "bittersweet" | "challenging";
@@ -41,6 +48,8 @@ export interface EndingNode {
   tone: Tone;
   /** See StoryNode.insight. */
   insight?: string;
+  logic_page_role?: "failure" | "ending";
+  logic_source_id?: string;
 }
 
 export interface StorySource {
@@ -71,9 +80,45 @@ export interface StoryDocument {
    * Field Notes panel so the player can verify where the story's facts came from. */
   sources?: StorySource[];
   cached?: boolean;
+  logic?: StoryLogicRuntime;
+  logic_content_variants?: Record<string, LogicContentVariant[]>;
+}
+
+export type LogicBand = "good" | "mid" | "bad" | "critical";
+
+export interface LogicContentVariant {
+  variant_id: string;
+  conditions: Partial<Record<string, LogicBand>>;
+  scene_text: string;
+  insight?: string;
+}
+
+export interface StoryLogicRuntimeVariable {
+  id: string;
+  label: string;
+  initial: number;
+  warning_page_id: string;
+  failure_page_id: string;
+}
+
+export interface StoryLogicRuntime {
+  flow_version: "post_offer_v1";
+  start_node_id: string;
+  variables: StoryLogicRuntimeVariable[];
+  warning_return_sentinel: "__return_from_warning__";
+  result_return_sentinel: "__continue_from_result__";
 }
 
 export type Provider = "openai" | "relay";
+export type RuntimeService = "search" | "text" | "image";
+export type OutputLanguage = "en" | "zh";
+
+export interface RuntimeServiceConfig {
+  provider: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  model?: string;
+}
 
 export interface UserProfile {
   country: string;
@@ -97,6 +142,8 @@ export interface RuntimeConfig {
     design: string;
     image: string;
   };
+  services?: Partial<Record<RuntimeService, RuntimeServiceConfig>>;
+  outputLanguage?: OutputLanguage;
   features: {
     enableLiveSearch: boolean;
     enableImageGeneration: boolean;

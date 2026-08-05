@@ -18,6 +18,16 @@ export interface UserProfile {
 }
 
 export type Provider = "openai" | "relay";
+export type FlowVersion = "legacy" | "post_offer_v1";
+export type RuntimeService = "search" | "text" | "image";
+export type OutputLanguage = "en" | "zh";
+
+export interface RuntimeServiceConfig {
+  provider: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  model?: string;
+}
 
 export interface RuntimeModels {
   search: string;
@@ -36,6 +46,8 @@ export interface RuntimeConfig {
   apiKey?: string;
   baseURL?: string;
   models: RuntimeModels;
+  services?: Partial<Record<RuntimeService, RuntimeServiceConfig>>;
+  outputLanguage?: OutputLanguage;
   features: RuntimeFeatures;
 }
 
@@ -182,10 +194,18 @@ export interface StatBlock {
 }
 
 export interface Choice {
+  /** Stable explicit id used by the post-offer if/else runtime and QA output. */
+  logic_choice_id?: string;
   text: string;
   next_node: string;
   stat_delta?: StatBlock;
   stat_reason?: string;
+  /** Post-offer logic graph deltas. These are applied before route guards:
+   * newly-bad variables trigger warning pages once, critical variables route
+   * to failure endings. Runtime routing remains explicit if/else over IDs and
+   * values; no semantic/vector page matching is involved. */
+  logic_delta?: Record<string, number>;
+  logic_planned_next_node?: string;
   /** Legacy field from the earlier hint UI. The frontend no longer highlights
    * a recommended option, but cached stories may still include this safely. */
   recommended?: boolean;
@@ -203,6 +223,8 @@ export interface StoryNode {
    * study-abroad students with this profile. Rendered in the side panel so the
    * player learns about real study-abroad life while playing. */
   insight?: string;
+  logic_page_role?: "node" | "result" | "warning";
+  logic_source_id?: string;
 }
 
 export interface EndingNode {
@@ -213,6 +235,8 @@ export interface EndingNode {
   tone: Tone;
   /** See StoryNode.insight. */
   insight?: string;
+  logic_page_role?: "failure" | "ending";
+  logic_source_id?: string;
 }
 
 export interface StoryDocument {
@@ -226,4 +250,120 @@ export interface StoryDocument {
   /** Carried over from ResearchReport.sources so the Field Notes panel can
    * link the player to the actual pages the story's facts were grounded in. */
   sources?: ResearchReport["sources"];
+  logic?: StoryLogicRuntime;
+  logic_content_variants?: Record<string, LogicContentVariant[]>;
+}
+
+export interface LogicContentVariant {
+  variant_id: string;
+  conditions: Partial<Record<string, LogicVariableBand>>;
+  scene_text: string;
+  insight?: string;
+}
+
+export type LogicVariableBand = "good" | "mid" | "bad" | "critical";
+export type LogicOptionKind = "normal" | "positive_extreme" | "negative_extreme";
+export type LogicNodeType = "base_node" | "special_node" | "branch_node";
+export type LogicPageRole = "node" | "result" | "warning" | "failure" | "ending";
+
+export interface LogicVariableDefinition {
+  id: string;
+  label: string;
+  initial: number;
+  is_base: boolean;
+  rationale: string;
+  affects_nodes: string[];
+  warning_page_id: string;
+  failure_page_id: string;
+}
+
+export interface StoryLogicRuntimeVariable {
+  id: string;
+  label: string;
+  initial: number;
+  warning_page_id: string;
+  failure_page_id: string;
+}
+
+export interface StoryLogicRuntime {
+  flow_version: "post_offer_v1";
+  start_node_id: string;
+  variables: StoryLogicRuntimeVariable[];
+  /** Warning pages use this sentinel next_node. HomeFlow returns to the stored
+   * interrupted result page instead of trusting model-authored semantic routing. */
+  warning_return_sentinel: "__return_from_warning__";
+  /** Result pages use this sentinel next_node. HomeFlow returns to the
+   * option-specific planned_next_id captured when the option was chosen. */
+  result_return_sentinel: "__continue_from_result__";
+}
+
+export interface LogicVariantTrigger {
+  variables: string[];
+  reason: string;
+  combinations?: string[];
+}
+
+export interface LogicPage {
+  id: string;
+  role: LogicPageRole;
+  owner_node_id?: string;
+  title: string;
+  placeholder?: string;
+  text?: string;
+  insight?: string;
+  variant_triggers?: LogicVariantTrigger[];
+}
+
+export interface LogicOption {
+  id: string;
+  kind: LogicOptionKind;
+  label: string;
+  result_page_id: string;
+  planned_next_id: string;
+  route_decision: "return_to_next_main_node" | "enter_parallel_branch_node" | "enter_ending";
+  delta: Record<string, number>;
+  state_set?: Record<string, string | number | boolean>;
+  rationale: string;
+  facts_used?: string[];
+}
+
+export interface LogicNode {
+  id: string;
+  type: LogicNodeType;
+  title: string;
+  stage: "offer_prearrival" | "study" | "post_graduation";
+  is_special: boolean;
+  why_special?: string;
+  variables_read: string[];
+  variables_written: string[];
+  facts_used?: string[];
+  variant_triggers?: LogicVariantTrigger[];
+  options: LogicOption[];
+}
+
+export interface LogicEnding {
+  id: string;
+  title: string;
+  tone: Tone;
+  condition_summary: string;
+}
+
+export interface LogicGraphDocument {
+  flow_version: "post_offer_v1";
+  story_id: string;
+  degree_track: "undergraduate" | "master_taught";
+  base_variables: LogicVariableDefinition[];
+  suggested_variables?: LogicVariableDefinition[];
+  accepted_supplemental_variables?: LogicVariableDefinition[];
+  main_node_order: string[];
+  special_nodes: { node_id: string; reason: string; ending_impact: string }[];
+  research_adjustments: {
+    node_id: string;
+    adjustment: string;
+    facts_used?: string[];
+  }[];
+  nodes: Record<string, LogicNode>;
+  pages: Record<string, LogicPage>;
+  endings: Record<string, LogicEnding>;
+  gaps?: string[];
 }

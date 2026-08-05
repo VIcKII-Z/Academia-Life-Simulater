@@ -1,5 +1,5 @@
 import type { AppConfig, RunFiles, RuntimeConfig, StoryDocument, UserProfile } from "../types";
-import { loadCredentials } from "./storage";
+import { loadCredentials, loadProviderApiKey } from "./storage";
 
 const DEFAULT_MODELS = {
   search: "gpt-4o",
@@ -94,13 +94,38 @@ export async function fetchRunList(): Promise<string[]> {
 export function buildRuntimeConfig(
   overrides?: Partial<RuntimeConfig["models"]>,
   featureOverrides?: Partial<RuntimeConfig["features"]>,
+  outputLanguage: RuntimeConfig["outputLanguage"] = "en",
 ): RuntimeConfig {
   const { provider, apiKey, baseURL } = loadCredentials();
+  const models = { ...DEFAULT_MODELS, ...overrides };
+  const openaiApiKey = loadProviderApiKey("openai").trim();
+  const textApiKey = apiKey.trim();
   return {
     provider,
-    apiKey: apiKey.trim(),
+    apiKey: textApiKey,
     baseURL: provider === "relay" ? baseURL.trim() : undefined,
-    models: { ...DEFAULT_MODELS, ...overrides },
+    models,
+    outputLanguage,
+    services: {
+      search: {
+        provider: openaiApiKey ? "openai" : provider,
+        apiKey: openaiApiKey || textApiKey,
+        baseURL: openaiApiKey ? undefined : provider === "relay" ? baseURL.trim() : undefined,
+        model: models.search,
+      },
+      text: {
+        provider,
+        apiKey: textApiKey,
+        baseURL: provider === "relay" ? baseURL.trim() : undefined,
+        model: models.design,
+      },
+      image: {
+        provider: openaiApiKey ? "openai" : provider,
+        apiKey: openaiApiKey || textApiKey,
+        baseURL: openaiApiKey ? undefined : provider === "relay" ? baseURL.trim() : undefined,
+        model: models.image,
+      },
+    },
     features: {
       enableLiveSearch: true,
       enableImageGeneration: true,
@@ -115,10 +140,26 @@ export interface GenerateParams {
   presetId?: string;
   profile?: UserProfile;
   runtimeConfig: RuntimeConfig;
+  flowVersion?: "legacy" | "post_offer_v1";
   /** Force a fresh pipeline run even if a matching cached story exists. */
   regenerate?: boolean;
   /** Debug-only: explicit id so the caller can poll /api/runs/:storyId while it runs. */
   storyId?: string;
+}
+
+export interface FullGenerationJob {
+  storyId: string;
+  status: "running" | "completed" | "failed";
+  pid?: number;
+  startedAt: string;
+  updatedAt: string;
+  completedAt?: string;
+  exitCode?: number | null;
+  signal?: string | null;
+  error?: string;
+  lines: string[];
+  logTail: string[];
+  hasFinalStory: boolean;
 }
 
 export async function generateStory(params: GenerateParams): Promise<StoryDocument> {
@@ -142,6 +183,29 @@ export async function generateStory(params: GenerateParams): Promise<StoryDocume
     throw new Error((payload.error as string | undefined) ?? "Generation failed");
   }
   return payload as unknown as StoryDocument;
+}
+
+export async function startFullGeneration(params: {
+  runtimeConfig: RuntimeConfig;
+  storyId?: string;
+  regenerate?: boolean;
+  model?: string;
+}): Promise<FullGenerationJob> {
+  const res = await fetch("/api/full-generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+  const payload = (await res.json()) as FullGenerationJob & { error?: string };
+  if (!res.ok) throw new Error(payload.error ?? "Full generation failed to start");
+  return payload;
+}
+
+export async function fetchFullGenerationStatus(storyId: string): Promise<FullGenerationJob> {
+  const res = await fetch(`/api/full-generate/${encodeURIComponent(storyId)}/status`);
+  const payload = (await res.json()) as FullGenerationJob & { error?: string };
+  if (!res.ok) throw new Error(payload.error ?? "Could not load full generation status");
+  return payload;
 }
 
 export function makeStoryId(seed: string): string {

@@ -1,0 +1,207 @@
+{
+  "mode": "live_search",
+  "location": {
+    "country": "Japan",
+    "city": "Tokyo"
+  },
+  "major": "Computer Science",
+  "grade": "Taught Master",
+  "profile": {
+    "country": "Japan",
+    "city": "Tokyo",
+    "school": "The University of Tokyo",
+    "department": "Graduate School of Information Science and Technology",
+    "program": "Computer Science master's track",
+    "major": "Computer Science",
+    "grade": "Taught Master"
+  },
+  "report": {
+    "cost_of_living": "Tokyo is a high-cost student city. Rent and initial move-in costs dominate the first months, and cheaper housing often means long commutes.",
+    "academic": "Computer science graduate study is shaped by research groups, course registration, advisor expectations, project milestones, and lab reputation.",
+    "visa": "Japan student status depends on timely Certificate of Eligibility and visa paperwork. Part-time work requires permission and is bounded by hourly limits.",
+    "culture_shock": "Daily life bureaucracy, housing contracts, ward-office tasks, and social cues can remain difficult even when academic work is in English.",
+    "community": "The university has international-student support and peer networks, but the player must actively use them to avoid isolation.",
+    "career": "Tokyo has strong tech employment possibilities, but local job conversion depends on timing, Japanese ability, references, and immigration status.",
+    "safety": "Tokyo is generally safe, which helps late commutes and campus life, but safety does not remove money, deadline, or bureaucracy pressure.",
+    "climate": "Humid summers and typhoon season can disrupt commuting, sleep, and deadline routines.",
+    "part_time_work": "Part-time work can stabilize money, but overwork can harm visa status, school progress, and wellbeing."
+  },
+  "gameplay_signals": {
+    "health": [
+      "Long commutes and humid weather can reduce sleep and energy.",
+      "Lab crunch and part-time work can compound fatigue.",
+      "Support use and stable housing can protect wellbeing."
+    ],
+    "mood": [
+      "Language barriers and bureaucracy can create isolation.",
+      "Peer support and club/community contact can recover belonging.",
+      "Advisor trust can reduce or intensify academic anxiety."
+    ],
+    "money": [
+      "Move-in cost, deposits, rent, and tuition timing are early high-impact pressures.",
+      "Part-time work improves cash but can create visa and study risk.",
+      "Career preparation can recover money late if the route survives."
+    ],
+    "city_major_specific_challenges": [
+      "Pay the deposit and prove funds without draining the entire first-semester buffer.",
+      "Keep visa and COE timing clean while booking flights and housing.",
+      "Choose between a costly close apartment and a cheaper long commute.",
+      "Balance lab expectations, course registration, and side income.",
+      "Handle typhoon-week disruption during a research milestone.",
+      "Turn CS skills into a local job before status-change timing runs out."
+    ]
+  },
+  "source_coverage": {
+    "program_official": true,
+    "department_official": true,
+    "international_office": true,
+    "tuition": true,
+    "housing": true,
+    "career": true,
+    "student_forum": false
+  },
+  "program_profile": {
+    "official_name": "Graduate School of Information Science and Technology",
+    "degree_type": "Master's program",
+    "department": "Computer Science",
+    "duration": "Usually two years for a master's program",
+    "delivery_mode": "Campus-based graduate study with courses, research groups, and thesis/research milestones",
+    "visa_eligible_notes": "International students need valid residence status for study and must maintain paperwork deadlines.",
+    "curriculum": [
+      "Computer science graduate courses",
+      "Research seminars",
+      "Lab-based supervision",
+      "Master's research project"
+    ],
+    "milestones": [
+      "Offer acceptance",
+      "COE and visa",
+      "Arrival registration",
+      "Course registration",
+      "Research milestone",
+      "Graduation/status change"
+    ],
+    "funding": [
+      "Tuition/fees",
+      "Rent and move-in cost",
+      "Scholarships or part-time work as pressure release"
+    ]
+  },
+  "student_life_profile": {
+    "housing": "Tokyo housing requires tradeoffs among rent, commute, guarantor/contract friction, and address registration.",
+    "commute": "Rail commuting is reliable but can be exhausting when housing is far from campus.",
+    "campus_support": "International office and student support reduce risk when used early.",
+    "community": "International-student networks can soften isolation, but local integration takes deliberate effort.",
+    "safety": "Low crime helps daily life, but bureaucracy and money pressure remain important.",
+    "climate": "Summer humidity and typhoon disruptions can turn a normal deadline into a crisis."
+  },
+  "career_profile": {
+    "local_industry": "Tokyo has a broad tech employment market for computer science graduates.",
+    "internship": "Internship and networking choices affect career readiness before graduation.",
+    "work_authorization": "Working during study and changing status after graduation require attention to immigration rules.",
+    "language_or_networking_requirements": "Japanese ability and local references can make local job conversion much easier."
+  },
+  "sources": [
+    {
+      "title": "Graduate School of Information Science and Technology, The University of Tokyo",
+      "url": "https://www.i.u-tokyo.ac.jp/edu/course/cs/index_e.shtml",
+      "source_type": "department",
+      "confidence": "high",
+      "used_for": [
+        "academic",
+        "program"
+      ]
+    },
+    {
+      "title": "The University of Tokyo - International Student Support",
+      "url": "https://www.u-tokyo.ac.jp/adm/inbound/en/life.html",
+      "source_type": "international_office",
+      "confidence": "high",
+      "used_for": [
+        "visa",
+        "housing",
+        "support"
+      ]
+    },
+    {
+      "title": "Study in Japan - Life in Japan",
+      "url": "https://www.studyinjapan.go.jp/en/life/",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "cost_of_living",
+        "part_time_work"
+      ]
+    },
+    {
+      "title": "Immigration Services Agency of Japan - Status of Residence",
+      "url": "https://www.moj.go.jp/isa/applications/status/student.html",
+      "source_type": "official_registry",
+      "confidence": "official_registry",
+      "used_for": [
+        "visa",
+        "work_authorization"
+      ]
+    },
+    {
+      "title": "JASSO - Student Guide to Japan",
+      "url": "https://www.jasso.go.jp/en/ryugaku/after_study_j/index.html",
+      "source_type": "reference",
+      "confidence": "medium",
+      "used_for": [
+        "career",
+        "life"
+      ]
+    }
+  ],
+  "gaps": [
+    "This full demo uses a manually prepared research packet for Tokyo CS rather than live web-search agent output.",
+    "The product direction says taught/coursework master; this demo treats the master's route as a course-and-research graduate track for gameplay purposes."
+  ],
+  "research_batches": [
+    {
+      "id": "batch_program",
+      "facts": [
+        "Graduate CS life should be modeled around course registration, lab expectations, research milestones, and thesis progress.",
+        "Special nodes should include lab/course choices, research milestone pressure, and career/status conversion."
+      ],
+      "node_adaptations": [
+        "Add lab_reputation as a supplemental variable.",
+        "Mark N06 and N09 as special."
+      ]
+    },
+    {
+      "id": "batch_admin_visa",
+      "facts": [
+        "Post-offer reality starts with deposit/fees, COE, student visa, address registration, and status maintenance.",
+        "Part-time work is useful but can create visa risk if treated recklessly."
+      ],
+      "node_adaptations": [
+        "Mark N03 and N07 as special.",
+        "Use visa+time combination variants."
+      ]
+    },
+    {
+      "id": "batch_city_life",
+      "facts": [
+        "Tokyo housing creates a money versus commute tradeoff.",
+        "Humidity and typhoon disruptions can turn deadlines into crisis pages."
+      ],
+      "node_adaptations": [
+        "Mark N04 and N09 as special.",
+        "Use money+housing and school+wellbeing+time variants."
+      ]
+    },
+    {
+      "id": "batch_career",
+      "facts": [
+        "Local career conversion depends on Japanese, networking, references, and status-change timing.",
+        "Final endings should separate staying in Tokyo, returning home with value, third-country launch, deferral, and failures."
+      ],
+      "node_adaptations": [
+        "Add career and japanese variables.",
+        "Mark N10, N11, and N12 as special."
+      ]
+    }
+  ]
+}
