@@ -33,7 +33,7 @@ function isEnding(node: StoryNode | EndingNode): node is EndingNode {
 let flyerSeq = 0;
 
 export default function HomeFlow() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [stage, setStage] = useState<FlowStage>(hasStoredApiKey() ? "quiz" : "passport");
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [story, setStory] = useState<StoryDocument | null>(null);
@@ -113,7 +113,7 @@ export default function HomeFlow() {
       runtimeConfig: buildRuntimeConfig(undefined, {
         enableImageGeneration: imageGenerationEnabled,
         maxImagesPerStory: imageGenerationEnabled ? 12 : 0,
-      }),
+      }, language === "zh" ? "zh" : "en"),
     });
     // The admission letter only needs the profile the player just entered
     // (already the authoritative, fully-normalized values — school/program/

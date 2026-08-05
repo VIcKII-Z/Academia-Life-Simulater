@@ -19,6 +19,15 @@ export interface UserProfile {
 
 export type Provider = "openai" | "relay";
 export type FlowVersion = "legacy" | "post_offer_v1";
+export type RuntimeService = "search" | "text" | "image";
+export type OutputLanguage = "en" | "zh";
+
+export interface RuntimeServiceConfig {
+  provider: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  model?: string;
+}
 
 export interface RuntimeModels {
   search: string;
@@ -37,6 +46,8 @@ export interface RuntimeConfig {
   apiKey?: string;
   baseURL?: string;
   models: RuntimeModels;
+  services?: Partial<Record<RuntimeService, RuntimeServiceConfig>>;
+  outputLanguage?: OutputLanguage;
   features: RuntimeFeatures;
 }
 

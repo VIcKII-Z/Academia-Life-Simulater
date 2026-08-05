@@ -1,5 +1,5 @@
 import { config } from "../config/config.js";
-import { getOpenAIClient } from "./openaiClient.js";
+import { getOpenAIClient, getRuntimeModel } from "./openaiClient.js";
 import type { ResearchReport, RuntimeConfig, StoryDocument } from "../types.js";
 
 interface StoryTopology {
@@ -60,12 +60,20 @@ export function computeTargetNodeCount(semesters?: number): number {
   return Math.min(34, 13 + 6 * (s - 1));
 }
 
-function buildDesignSystemPrompt(targetNodeCount: number, semesters: number): string {
+function buildDesignSystemPrompt(targetNodeCount: number, semesters: number, outputLanguage: RuntimeConfig["outputLanguage"] = "en"): string {
   const topology = buildBraidedTopology(targetNodeCount);
   const { nodeIds, endingIds, edgeRules } = topology;
   const nodeIdList = nodeIds.map((id) => `"${id}"`).join(", ");
   const endingIdList = endingIds.map((id) => `"${id}"`).join(", ");
   const topologyRuleText = edgeRules.join("\n");
+  const languageRule =
+    outputLanguage === "zh"
+      ? `Write all player-facing text in Simplified Chinese: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Keep JSON keys, node ids, ending ids, and stat keys unchanged in English. Keep image_prompt in English for the image model.`
+      : `Write all player-facing text in English: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Keep JSON keys, node ids, ending ids, and stat keys unchanged. Keep image_prompt in English.`;
+  const sceneLength = outputLanguage === "zh" ? "220-360 Chinese characters" : "130-220 words";
+  const choiceLength = outputLanguage === "zh" ? "18-34 Chinese characters" : "12-22 words";
+  const insightLanguage = outputLanguage === "zh" ? "Simplified Chinese" : "English";
+  const insightLength = outputLanguage === "zh" ? "about 35-80 Chinese characters" : "about 20-45 words";
 
   return `You are a story design AI responsible for transforming a
 study-abroad research report into the skeleton of an interactive survival text-adventure game.
@@ -89,6 +97,9 @@ Initial stats should usually be { "health": 70, "mood": 70, "money": 70, "school
 The frontend ends the game immediately if any stat reaches 0 or below. Therefore, choices must
 create meaningful pressure without being random punishment.
 
+[Output Language]
+- ${languageRule}
+
 [Graph Structure Rules]
 - BRAIDED TWO-PATH STORY, NOT A FULL BINARY TREE: produce EXACTLY ${targetNodeCount} total
   nodes/endings, no more and no fewer: ${nodeIdList} under "nodes" (${nodeIds.length} non-ending
@@ -104,7 +115,7 @@ ${topologyRuleText}
 [Stat Balance Rules]
 - Do not label one choice as the "correct" or recommended option. Let both options feel playable,
   with different tradeoffs and consequences.
-- Choice text should be richer than a button label: write 12-22 words that include the concrete
+- Choice text should be richer than a button label: write ${choiceLength} that include the concrete
   action and the implied tradeoff, e.g. "Skip the mixer and protect tomorrow's lab prep, even if
   the evening feels lonely." Avoid vague two-word options.
 - Every non-ending choice MUST include:
@@ -174,7 +185,7 @@ Choose the most suitable of the following three, and state your reasoning:
 
 [Step 2: Generate Node Content]
 - All stories begin with an "opening" node representing arrival.
-- Each node's scene_text should be 130-220 words: scene description plus emotional tone,
+- Each node's scene_text should be ${sceneLength}: scene description plus emotional tone,
   not preachy. Produce EXACTLY the ${targetNodeCount} nodes/endings listed in the graph topology
   above (${nodeIdList}, ${endingIdList}) — no more, no fewer.
 - Within scene_text, wrap 2-4 short, genuinely important phrases in **double asterisks**
@@ -208,8 +219,8 @@ Choose the most suitable of the following three, and state your reasoning:
 - For nodes/endings with has_image=true, write an image_prompt: 20-40 word English description of
   scene, atmosphere, character state, and visible environment (no detailed facial features, no
   text). For nodes that can reuse a nearby visual, set has_image=false and image_prompt=null.
-- EVERY node AND every ending MUST include an "insight" field: a 1-2 sentence English
-  educational "field note" (about 20-45 words) explaining WHY this situation or challenge
+- EVERY node AND every ending MUST include an "insight" field: a 1-2 sentence ${insightLanguage}
+  educational "field note" (${insightLength}) explaining WHY this situation or challenge
   realistically happens to study-abroad students with THIS specific country/city/major/grade,
   grounded in the research report (report.visa, report.career, report.cost_of_living,
   report.culture_shock, gameplay_signals, career_profile, etc.). It is shown to the player in a
@@ -615,14 +626,15 @@ export async function runDesignAgent(
   runtimeConfig?: RuntimeConfig,
   semesters?: number,
 ): Promise<StoryDocument> {
-  const client = getOpenAIClient(runtimeConfig);
+  const client = getOpenAIClient(runtimeConfig, "text");
   const userInput = `Story ID to use: "${storyId}"\n\nResearch report:\n${JSON.stringify(report, null, 2)}`;
   const resolvedSemesters = Math.max(1, Math.round(semesters ?? 1));
   const targetNodeCount = computeTargetNodeCount(resolvedSemesters);
   const topology = buildBraidedTopology(targetNodeCount);
+  const outputLanguage = runtimeConfig?.outputLanguage ?? "en";
 
   const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
-    { role: "system", content: buildDesignSystemPrompt(targetNodeCount, resolvedSemesters) },
+    { role: "system", content: buildDesignSystemPrompt(targetNodeCount, resolvedSemesters, outputLanguage) },
     { role: "user", content: userInput },
   ];
 
@@ -630,7 +642,7 @@ export async function runDesignAgent(
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     try {
       const completion = await client.chat.completions.create({
-        model: runtimeConfig?.models.design ?? config.models.design,
+        model: getRuntimeModel(runtimeConfig, "text"),
         messages,
         response_format: { type: "json_object" },
       });

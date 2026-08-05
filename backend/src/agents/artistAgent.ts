@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "../config/config.js";
-import { getOpenAIClient } from "./openaiClient.js";
+import { getOpenAIClient, getRuntimeModel } from "./openaiClient.js";
 import type { RuntimeConfig, StoryDocument } from "../types.js";
 
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generated");
@@ -35,7 +35,7 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
   }
 
   await fs.mkdir(ASSETS_DIR, { recursive: true });
-  const client = getOpenAIClient(runtimeConfig);
+  const client = getOpenAIClient(runtimeConfig, "image");
 
   const allEntries = [
     ...Object.entries(doc.nodes),
@@ -51,7 +51,7 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
     const prompt = `${STYLE_PREFIX}${node.image_prompt}${toneSuffix}`;
     const result = await client.images.generate({
-      model: runtimeConfig?.models.image ?? config.models.image,
+      model: getRuntimeModel(runtimeConfig, "image"),
       prompt,
       size: "1024x1024",
     });

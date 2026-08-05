@@ -53,6 +53,10 @@ export function loadProviderApiKey(provider: Provider): string {
   return localStorage.getItem(keyForProvider(provider)) ?? "";
 }
 
+export function saveProviderApiKey(provider: Provider, apiKey: string): void {
+  localStorage.setItem(keyForProvider(provider), apiKey);
+}
+
 export function saveCredentials(credentials: StoredCredentials): void {
   localStorage.setItem(KEYS.provider, credentials.provider);
   localStorage.setItem(keyForProvider(credentials.provider), credentials.apiKey);

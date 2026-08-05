@@ -110,6 +110,15 @@ export interface StoryLogicRuntime {
 }
 
 export type Provider = "openai" | "relay";
+export type RuntimeService = "search" | "text" | "image";
+export type OutputLanguage = "en" | "zh";
+
+export interface RuntimeServiceConfig {
+  provider: Provider;
+  apiKey?: string;
+  baseURL?: string;
+  model?: string;
+}
 
 export interface UserProfile {
   country: string;
@@ -133,6 +142,8 @@ export interface RuntimeConfig {
     design: string;
     image: string;
   };
+  services?: Partial<Record<RuntimeService, RuntimeServiceConfig>>;
+  outputLanguage?: OutputLanguage;
   features: {
     enableLiveSearch: boolean;
     enableImageGeneration: boolean;

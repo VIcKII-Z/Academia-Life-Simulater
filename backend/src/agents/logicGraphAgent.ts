@@ -1,5 +1,5 @@
 import { config } from "../config/config.js";
-import { getOpenAIClient } from "./openaiClient.js";
+import { getOpenAIClient, getRuntimeModel } from "./openaiClient.js";
 import type {
   LogicEnding,
   LogicGraphDocument,
@@ -81,7 +81,11 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
 
 const REQUIRED_OPTION_KINDS: LogicOptionKind[] = ["normal", "positive_extreme", "negative_extreme"];
 
-function buildLogicGraphSystemPrompt(): string {
+function buildLogicGraphSystemPrompt(outputLanguage: RuntimeConfig["outputLanguage"] = "en"): string {
+  const languageRule =
+    outputLanguage === "zh"
+      ? "Write player-facing titles, labels, placeholders, rationale, and condition summaries in Simplified Chinese. Keep JSON keys, ids, variable ids, enum values, and routing ids unchanged in English."
+      : "Write player-facing titles, labels, placeholders, rationale, and condition summaries in English. Keep JSON keys, ids, variable ids, enum values, and routing ids unchanged.";
   return `You are the Logic Graph Planner for a post-offer study-abroad decision simulator.
 
 Your job is NOT to write polished story prose. Your job is to generate a complete variable-gated
@@ -94,6 +98,9 @@ branch graph that can later be compiled into deterministic if/else runtime logic
 - Mark nodes that can easily change the ending as special_nodes.
 - After research, you may adapt the fixed node list, add supplemental nodes, and propose/accept
   supplemental variables when facts make them matter.
+
+[Output Language]
+- ${languageRule}
 
 [Base variables]
 Always include these base variables exactly: money, time, visa, housing, school, wellbeing.
@@ -653,9 +660,10 @@ export async function runLogicGraphAgent(
   storyId: string,
   runtimeConfig?: RuntimeConfig,
 ): Promise<LogicGraphDocument> {
-  const client = getOpenAIClient(runtimeConfig);
+  const client = getOpenAIClient(runtimeConfig, "text");
+  const outputLanguage = runtimeConfig?.outputLanguage ?? "en";
   const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
-    { role: "system", content: buildLogicGraphSystemPrompt() },
+    { role: "system", content: buildLogicGraphSystemPrompt(outputLanguage) },
     {
       role: "user",
       content: `Story ID: "${storyId}"\n\nResearch report:\n${JSON.stringify(report, null, 2)}`,
@@ -666,7 +674,7 @@ export async function runLogicGraphAgent(
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const completion = await client.chat.completions.create({
-        model: runtimeConfig?.models.design ?? config.models.design,
+        model: getRuntimeModel(runtimeConfig, "text"),
         messages,
         response_format: { type: "json_object" },
       });
@@ -685,7 +693,8 @@ Repair the graph and output the complete corrected JSON again, not a diff. Prese
 - every option has result_page_id and planned_next_id
 - every option chain reaches an ending
 - base variables money/time/visa/housing/school/wellbeing must exist
-- runtime must be explicit if/else over ids and variables only.`,
+- runtime must be explicit if/else over ids and variables only
+- preserve the requested output language for all player-facing text (${outputLanguage === "zh" ? "Simplified Chinese" : "English"}).`,
       });
     }
   }

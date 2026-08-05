@@ -2,16 +2,29 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/debug.css";
 import type { AppConfig, Provider, RunFiles, RuntimeConfig, StoryDocument, UserProfile } from "../types";
-import { fetchAppConfig, fetchPresets, fetchRunFiles, makeStoryId } from "../lib/api";
-import { loadCredentials, loadProviderApiKey, saveCredentials } from "../lib/storage";
+import {
+  fetchAppConfig,
+  fetchFullGenerationStatus,
+  fetchPresets,
+  fetchRunFiles,
+  makeStoryId,
+  startFullGeneration,
+  type FullGenerationJob,
+} from "../lib/api";
+import { loadCredentials, loadProviderApiKey, saveCredentials, saveProviderApiKey } from "../lib/storage";
+import { useI18n } from "../lib/i18n";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const DEBUG_TABS = [
   { id: "00_meta.json", label: "Meta" },
+  { id: "00_research_report.json", label: "Live Research" },
   { id: "01_search_report.json", label: "Search Agent" },
   { id: "02_design_skeleton.json", label: "Design Agent" },
   { id: "03_artist_final.json", label: "Artist Agent" },
+  { id: "08_images_story.json", label: "Images" },
   { id: "09_final_story.json", label: "Final Story" },
   { id: "09_validation_report.json", label: "Validation" },
+  { id: "full_generator.log", label: "Full Log" },
   { id: "logic_tree", label: "Logic Tree" },
   { id: "log.txt", label: "Timeline" },
 ] as const;
@@ -148,6 +161,7 @@ function LogicTreeView({ story, validation }: { story: StoryDocument; validation
 }
 
 export default function DebugPage() {
+  const { language } = useI18n();
   const stored = loadCredentials();
   const [presets, setPresets] = useState<string[]>([]);
   const [selectedPreset, setSelectedPreset] = useState("");
@@ -170,6 +184,8 @@ export default function DebugPage() {
   const [runFiles, setRunFiles] = useState<RunFiles | null>(null);
   const [activeDebugTab, setActiveDebugTab] = useState<DebugTabId>("logic_tree");
   const [manualRunId, setManualRunId] = useState("utokyo_cs_full_1785770721");
+  const [fullModel, setFullModel] = useState("gemini-3-flash-preview");
+  const [fullJob, setFullJob] = useState<FullGenerationJob | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusNote, setStatusNote] = useState<string | null>(null);
@@ -190,6 +206,45 @@ export default function DebugPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!fullJob || fullJob.status !== "running") return;
+    let cancelled = false;
+
+    async function pollFullJob() {
+      try {
+        const status = await fetchFullGenerationStatus(fullJob?.storyId ?? "");
+        if (cancelled) return;
+        setFullJob(status);
+        setManualRunId(status.storyId);
+        await loadRunFiles(status.storyId);
+        if (status.status === "completed") {
+          setStatusNote(`Full generator completed: ${status.storyId}`);
+          setActiveDebugTab("logic_tree");
+          setLoading(false);
+        } else if (status.status === "failed") {
+          setError(status.error ?? "Full generator failed.");
+          setActiveDebugTab("full_generator.log");
+          setLoading(false);
+        } else {
+          const lastLine = status.logTail[status.logTail.length - 1] ?? status.lines[status.lines.length - 1];
+          if (lastLine) setStatusNote(lastLine);
+        }
+      } catch (err) {
+        if (!cancelled) setError(err instanceof Error ? err.message : String(err));
+      }
+    }
+
+    void pollFullJob();
+    const timer = window.setInterval(() => {
+      void pollFullJob();
+    }, 1500);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fullJob?.storyId, fullJob?.status]);
+
   function updateProfile(key: keyof UserProfile, value: string) {
     setProfile((current) => ({ ...current, [key]: value }));
   }
@@ -200,15 +255,40 @@ export default function DebugPage() {
 
   function persistCredentials() {
     saveCredentials({ provider, apiKey: apiKey.trim(), baseURL: relayBaseURL.trim() });
+    saveProviderApiKey("openai", openaiApiKey.trim());
     setStatusNote("Saved — the main app will use these credentials too.");
   }
 
   function buildRuntimeConfig(): RuntimeConfig {
+    const openaiStageKey = openaiApiKey.trim();
+    const openaiStageProvider = openaiStageKey ? "openai" : provider;
+    const openaiStageBaseURL = openaiStageKey ? undefined : provider === "relay" ? relayBaseURL.trim() : undefined;
     return {
       provider,
       apiKey: apiKey.trim(),
       baseURL: provider === "relay" ? relayBaseURL.trim() : undefined,
       models,
+      outputLanguage: language === "zh" ? "zh" : "en",
+      services: {
+        search: {
+          provider: openaiStageProvider,
+          apiKey: openaiStageKey || apiKey.trim(),
+          baseURL: openaiStageBaseURL,
+          model: models.search,
+        },
+        text: {
+          provider,
+          apiKey: apiKey.trim(),
+          baseURL: provider === "relay" ? relayBaseURL.trim() : undefined,
+          model: models.design,
+        },
+        image: {
+          provider: openaiStageProvider,
+          apiKey: openaiStageKey || apiKey.trim(),
+          baseURL: openaiStageBaseURL,
+          model: models.image,
+        },
+      },
       features: {
         enableLiveSearch: true,
         enableImageGeneration,
@@ -315,6 +395,34 @@ export default function DebugPage() {
     }
   }
 
+  async function runFullPostOfferGenerator() {
+    const clientStoryId = makeStoryId("utokyo_cs_full");
+    setLoading(true);
+    setError(null);
+    setStory(null);
+    setRunFiles(null);
+    setFullJob(null);
+    setManualRunId(clientStoryId);
+    setStatusNote("Starting full post-offer generator...");
+    setActiveDebugTab("full_generator.log");
+
+    try {
+      if (!apiKey.trim()) throw new Error("Enter an API key before starting the full generator.");
+      if (provider === "relay" && !relayBaseURL.trim()) throw new Error("Relay mode needs a base URL.");
+      const job = await startFullGeneration({
+        storyId: clientStoryId,
+        regenerate: true,
+        model: fullModel.trim() || "gemini-3-flash-preview",
+        runtimeConfig: buildRuntimeConfig(),
+      });
+      setFullJob(job);
+      setStatusNote(`Full generator started: ${job.storyId}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      setLoading(false);
+    }
+  }
+
   const totalStoryNodes = useMemo(
     () => (story ? Object.keys(story.nodes).length + Object.keys(story.endings).length : 0),
     [story],
@@ -338,6 +446,11 @@ export default function DebugPage() {
           <h2>Load a full post-offer run to inspect the node graph.</h2>
         </div>
       );
+    }
+    if (activeDebugTab === "full_generator.log") {
+      const liveLog = fullJob ? [...fullJob.lines, ...fullJob.logTail].filter(Boolean).join("\n") : "";
+      const savedLog = runFiles?.["full_generator.log"];
+      return <pre>{savedLog ? stringifyDebug(savedLog) : liveLog || "No full generator log yet."}</pre>;
     }
     return <pre>{runFiles?.[activeDebugTab] ? stringifyDebug(runFiles[activeDebugTab]) : "No output for this stage yet."}</pre>;
   }
@@ -364,6 +477,7 @@ export default function DebugPage() {
             <p className="labelText">Workspace</p>
             <h2>Configuration &amp; agent outputs</h2>
           </div>
+          <LanguageSwitcher inline />
         </header>
 
         <div className="workspaceGrid">
@@ -385,7 +499,7 @@ export default function DebugPage() {
             </div>
 
             <label className="field">
-              <span>API key</span>
+              <span>Text API key</span>
               <input type="password" value={apiKey} placeholder="sk-..." onChange={(event) => setApiKey(event.target.value)} />
             </label>
 
@@ -397,6 +511,18 @@ export default function DebugPage() {
                   value={relayBaseURL}
                   placeholder="https://xuedingmao.top/v1"
                   onChange={(event) => setRelayBaseURL(event.target.value)}
+                />
+              </label>
+            )}
+
+            {provider === "relay" && (
+              <label className="field">
+                <span>OpenAI key for live search/images</span>
+                <input
+                  type="password"
+                  value={openaiApiKey}
+                  placeholder="sk-... (used by Search Agent and Artist Agent)"
+                  onChange={(event) => setOpenaiApiKey(event.target.value)}
                 />
               </label>
             )}
@@ -500,6 +626,42 @@ export default function DebugPage() {
             <datalist id="cities">{PROFILE_SUGGESTIONS.cities.map((item) => <option key={item} value={item} />)}</datalist>
             <datalist id="majors">{PROFILE_SUGGESTIONS.majors.map((item) => <option key={item} value={item} />)}</datalist>
             <datalist id="grades">{PROFILE_SUGGESTIONS.grades.map((item) => <option key={item} value={item} />)}</datalist>
+
+            <section className="fullGeneratorBox">
+              <div>
+                <p className="labelText">Full post-offer automation</p>
+                <h3>Run complete Tokyo CS generator</h3>
+                <p>
+                  Starts the long multi-call script: research adaptation, node planning, supervisor, content fill,
+                  variable variants, simulation, and final validation.
+                </p>
+              </div>
+              <label className="field compactField">
+                <span>Full generator model</span>
+                <input value={fullModel} onChange={(event) => setFullModel(event.target.value)} />
+              </label>
+              <div className="actionRow">
+                <button className="primaryButton" disabled={loading} onClick={runFullPostOfferGenerator}>
+                  {fullJob?.status === "running" ? "Full generator running..." : "Run full generator"}
+                </button>
+                {fullJob && (
+                  <span className={`runBadge ${fullJob.status === "failed" ? "error" : fullJob.status === "completed" ? "play" : "design"}`}>
+                    {fullJob.status} {fullJob.pid ? `pid ${fullJob.pid}` : ""}
+                  </span>
+                )}
+              </div>
+              {fullJob && (
+                <div className="fullGeneratorMeta">
+                  <code>{fullJob.storyId}</code>
+                  <span>{fullJob.hasFinalStory ? "final story ready" : "waiting for 09_final_story.json"}</span>
+                  {fullJob.status === "completed" && (
+                    <Link className="secondaryButton" to={`/play-demo?storyId=${encodeURIComponent(fullJob.storyId)}`}>
+                      Play generated story
+                    </Link>
+                  )}
+                </div>
+              )}
+            </section>
 
             <div className="actionRow">
               <button className="primaryButton" disabled={loading} onClick={() => generate("live_search", false)}>

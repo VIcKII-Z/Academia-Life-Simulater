@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileLogicGraphToStoryDocument } from "../src/agents/logicGraphCompiler.js";
 import { validateLogicGraph } from "../src/agents/logicGraphAgent.js";
+import { runArtistAgent } from "../src/agents/artistAgent.js";
 import type {
   LogicEnding,
   LogicGraphDocument,
@@ -13,7 +14,9 @@ import type {
   LogicVariantTrigger,
   LogicVariableBand,
   LogicVariableDefinition,
+  Provider,
   ResearchReport,
+  RuntimeConfig,
   StoryDocument,
 } from "../src/types.js";
 
@@ -136,9 +139,19 @@ const ROOT_DIR = path.resolve(BACKEND_DIR, "..");
 const RUNS_DIR = path.join(ROOT_DIR, "data", "runs");
 const STORIES_DIR = path.join(ROOT_DIR, "data", "stories");
 
-const API_KEY = process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY;
-const API_BASE_URL = normalizeApiBaseURL(process.env.GCLI_BASE_URL || process.env.OPENAI_BASE_URL || "https://gcli.ggchan.dev/v1");
-const MODEL = process.env.GCLI_MODEL || "gemini-3-flash-preview";
+const TEXT_API_KEY = process.env.TEXT_API_KEY || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY;
+const TEXT_API_BASE_URL = normalizeApiBaseURL(process.env.TEXT_BASE_URL || process.env.GCLI_BASE_URL || process.env.OPENAI_BASE_URL || "https://gcli.ggchan.dev/v1");
+const TEXT_MODEL = process.env.TEXT_MODEL || process.env.GCLI_MODEL || "gemini-3-flash-preview";
+const RESEARCH_API_KEY = process.env.RESEARCH_API_KEY || process.env.OPENAI_API_KEY;
+const RESEARCH_API_BASE_URL = normalizeApiBaseURL(process.env.RESEARCH_BASE_URL || "https://api.openai.com/v1");
+const RESEARCH_MODEL = process.env.RESEARCH_MODEL || "gpt-4o";
+const IMAGE_API_KEY = process.env.IMAGE_API_KEY || process.env.OPENAI_API_KEY;
+const IMAGE_API_BASE_URL = normalizeApiBaseURL(process.env.IMAGE_BASE_URL || "https://api.openai.com/v1");
+const IMAGE_MODEL = process.env.IMAGE_MODEL || "gpt-image-1";
+const ENABLE_LIVE_RESEARCH = process.env.FULL_ENABLE_LIVE_RESEARCH !== "false";
+const ENABLE_IMAGE_GENERATION = process.env.FULL_ENABLE_IMAGE_GENERATION === "true";
+const FULL_MAX_IMAGES = Math.max(0, Number(process.env.FULL_MAX_IMAGES ?? 999));
+const OUTPUT_LANGUAGE: "en" | "zh" = process.env.FULL_OUTPUT_LANGUAGE === "en" ? "en" : "zh";
 const STORY_ID = process.env.FULL_DEMO_STORY_ID || `utokyo_cs_full_${Date.now()}`;
 const RUN_DIR = path.join(RUNS_DIR, STORY_ID);
 
@@ -525,6 +538,8 @@ const MANUAL_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = {
   ],
 };
 
+let ACTIVE_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = MANUAL_RESEARCH;
+
 function normalizeApiBaseURL(raw: string): string {
   const url = new URL(raw);
   if (!url.pathname || url.pathname === "/") url.pathname = "/v1";
@@ -590,41 +605,224 @@ async function writeJson(name: string, value: unknown): Promise<void> {
   await fs.writeFile(path.join(RUN_DIR, name), JSON.stringify(value, null, 2), "utf8");
 }
 
+const MAX_CHAT_JSON_ATTEMPTS = 3;
+const TRANSIENT_API_STATUSES = new Set([408, 409, 425, 429, 500, 502, 503, 504, 520, 522, 524]);
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function chatJson<T extends JsonObject>(stage: string, messages: Array<{ role: "system" | "user" | "assistant"; content: string }>): Promise<T> {
-  if (!API_KEY) throw new Error("Set GCLI_API_KEY or OPENAI_API_KEY before running this script.");
+  if (!TEXT_API_KEY) throw new Error("Set TEXT_API_KEY, GCLI_API_KEY, or OPENAI_API_KEY before running this script.");
   const started = Date.now();
-  await appendLog(`[api:${stage}] started`);
-  const response = await fetch(`${API_BASE_URL}/chat/completions`, {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_CHAT_JSON_ATTEMPTS; attempt += 1) {
+    const attemptStarted = Date.now();
+    await appendLog(`[api:${stage}] started${attempt > 1 ? ` retry=${attempt}` : ""}`);
+    try {
+      const response = await fetch(`${TEXT_API_BASE_URL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TEXT_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: TEXT_MODEL,
+          messages,
+          response_format: { type: "json_object" },
+          temperature: 0.45,
+        }),
+      });
+      const raw = await response.text();
+      await writeJson(`api_${stage}_response.json`, {
+        status: response.status,
+        ok: response.ok,
+        attempt,
+        duration_ms: Date.now() - attemptStarted,
+        total_duration_ms: Date.now() - started,
+        raw_content: response.ok ? undefined : raw,
+      });
+      if (!response.ok) {
+        const error = new Error(`API ${stage} failed with status ${response.status}: ${raw.slice(0, 1000)}`);
+        lastError = error;
+        await appendLog(`[api:${stage}] failed status=${response.status} attempt=${attempt}`);
+        if (TRANSIENT_API_STATUSES.has(response.status) && attempt < MAX_CHAT_JSON_ATTEMPTS) {
+          await wait(3500 * attempt);
+          continue;
+        }
+        throw error;
+      }
+      const payload = JSON.parse(raw) as { choices?: Array<{ message?: { content?: string } }> };
+      const content = payload.choices?.[0]?.message?.content ?? "";
+      await fs.writeFile(path.join(RUN_DIR, `api_${stage}_content.txt`), content, "utf8");
+      const parsed = extractJsonObject(content) as T;
+      await writeJson(`api_${stage}_parsed.json`, parsed);
+      await appendLog(`[api:${stage}] completed in ${Date.now() - started}ms`);
+      return parsed;
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      await appendLog(`[api:${stage}] error attempt=${attempt}: ${message.slice(0, 220)}`);
+      if (attempt < MAX_CHAT_JSON_ATTEMPTS) {
+        await wait(3500 * attempt);
+        continue;
+      }
+      throw error;
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error(String(lastError));
+}
+
+function responseOutputText(payload: JsonObject): string {
+  if (typeof payload.output_text === "string") return payload.output_text;
+  const output = Array.isArray(payload.output) ? payload.output : [];
+  return output
+    .flatMap((item) => {
+      if (!item || typeof item !== "object") return [];
+      const content = (item as { content?: unknown }).content;
+      return Array.isArray(content) ? content : [];
+    })
+    .map((item) => {
+      if (!item || typeof item !== "object") return "";
+      const value = item as { text?: unknown; type?: unknown };
+      return typeof value.text === "string" ? value.text : "";
+    })
+    .filter(Boolean)
+    .join("\n");
+}
+
+function researchBatchesFromReport(report: ResearchReport): JsonObject[] {
+  const batches: JsonObject[] = [
+    {
+      batch: "live_search_summary",
+      facts: Object.entries(report.report ?? {}).map(([key, value]) => `${key}: ${value}`),
+      node_adaptations: [
+        "Use live research to adapt special nodes, option consequences, warning pages, and endings.",
+        "Add missing nodes or variables only when facts materially change the route.",
+      ],
+    },
+  ];
+  if (report.program_profile) batches.push({ batch: "program_profile", ...report.program_profile });
+  if (report.student_life_profile) batches.push({ batch: "student_life_profile", ...report.student_life_profile });
+  if (report.career_profile) batches.push({ batch: "career_profile", ...report.career_profile });
+  if (report.campus_life_profile) batches.push({ batch: "campus_life_profile", ...report.campus_life_profile });
+  return batches;
+}
+
+function normalizeResearchReport(report: Partial<ResearchReport>): ResearchReport & { research_batches?: JsonObject[] } {
+  const merged = {
+    ...MANUAL_RESEARCH,
+    ...report,
+    location: {
+      ...MANUAL_RESEARCH.location,
+      ...(report.location ?? {}),
+    },
+    profile: {
+      ...MANUAL_RESEARCH.profile,
+      ...(report.profile ?? {}),
+    },
+    report: {
+      ...MANUAL_RESEARCH.report,
+      ...(report.report ?? {}),
+    },
+    gameplay_signals: {
+      ...MANUAL_RESEARCH.gameplay_signals,
+      ...(report.gameplay_signals ?? {}),
+    },
+    research_batches: (report as { research_batches?: JsonObject[] }).research_batches,
+  } as ResearchReport & { research_batches?: JsonObject[] };
+  merged.research_batches = merged.research_batches?.length ? merged.research_batches : researchBatchesFromReport(merged);
+  return merged;
+}
+
+async function retrieveResearch(): Promise<ResearchReport & { research_batches?: JsonObject[] }> {
+  if (!ENABLE_LIVE_RESEARCH) {
+    await appendLog("[research] live retrieval disabled; using bundled manual research packet");
+    await writeJson("00_research_report.json", MANUAL_RESEARCH);
+    return MANUAL_RESEARCH;
+  }
+  if (!RESEARCH_API_KEY) {
+    await appendLog("[research] no research API key; using bundled manual research packet");
+    await writeJson("00_research_report.json", MANUAL_RESEARCH);
+    return MANUAL_RESEARCH;
+  }
+
+  const started = Date.now();
+  await appendLog(`[api:00_live_research] started model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
+  const prompt = `Research the current demo profile and return one strict JSON ResearchReport object.
+
+Profile:
+- country: Japan
+- city: Tokyo
+- school: The University of Tokyo
+- department: Graduate School of Information Science and Technology
+- major: Computer Science
+- grade: Taught Master
+
+Need:
+- Use web search for official or high-confidence sources.
+- Focus on post-offer student life: COE/student visa, tuition/proof of funds, housing/commute, ward-office registration, lab/course culture, Japanese language, part-time work, typhoon/deadline disruption, career/internship/status change.
+- Include source URLs where available.
+- Keep the JSON concise enough to parse.
+
+Return shape compatible with the existing ResearchReport TypeScript interface:
+{
+  "mode": "live_search",
+  "location": {"country":"Japan","city":"Tokyo"},
+  "major": "Computer Science",
+  "grade": "Taught Master",
+  "profile": {"country":"Japan","city":"Tokyo","school":"The University of Tokyo","department":"Graduate School of Information Science and Technology","major":"Computer Science","grade":"Taught Master"},
+  "report": {"cost_of_living":"...","academic":"...","visa":"...","culture_shock":"...","community":"...","career":"...","safety":"...","climate":"...","part_time_work":"..."},
+  "gameplay_signals": {"health":[],"mood":[],"money":[],"city_major_specific_challenges":[]},
+  "program_profile": {},
+  "student_life_profile": {},
+  "career_profile": {},
+  "campus_life_profile": {},
+  "sources": [{"title":"...","url":"...","source_type":"program_official","confidence":"high","used_for":["..."]}],
+  "gaps": []
+}`;
+
+  const response = await fetch(`${RESEARCH_API_BASE_URL}/responses`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
+      Authorization: `Bearer ${RESEARCH_API_KEY}`,
     },
     body: JSON.stringify({
-      model: MODEL,
-      messages,
-      response_format: { type: "json_object" },
-      temperature: 0.45,
+      model: RESEARCH_MODEL,
+      tools: [{ type: "web_search_preview" }],
+      max_output_tokens: 10000,
+      input: prompt,
     }),
   });
   const raw = await response.text();
-  await writeJson(`api_${stage}_response.json`, {
+  await writeJson("api_00_live_research_response.json", {
     status: response.status,
     ok: response.ok,
     duration_ms: Date.now() - started,
-    raw_content: response.ok ? undefined : raw,
+    raw_content: response.ok ? undefined : raw.slice(0, 2000),
   });
   if (!response.ok) {
-    await appendLog(`[api:${stage}] failed status=${response.status}`);
-    throw new Error(`API ${stage} failed with status ${response.status}: ${raw.slice(0, 1000)}`);
+    await appendLog(`[api:00_live_research] failed status=${response.status}; using bundled manual research packet`);
+    await writeJson("00_research_report.json", MANUAL_RESEARCH);
+    return MANUAL_RESEARCH;
   }
-  const payload = JSON.parse(raw) as { choices?: Array<{ message?: { content?: string } }> };
-  const content = payload.choices?.[0]?.message?.content ?? "";
-  await fs.writeFile(path.join(RUN_DIR, `api_${stage}_content.txt`), content, "utf8");
-  const parsed = extractJsonObject(content) as T;
-  await writeJson(`api_${stage}_parsed.json`, parsed);
-  await appendLog(`[api:${stage}] completed in ${Date.now() - started}ms`);
-  return parsed;
+
+  try {
+    const payload = JSON.parse(raw) as JsonObject;
+    const content = responseOutputText(payload);
+    await fs.writeFile(path.join(RUN_DIR, "api_00_live_research_content.txt"), content, "utf8");
+    const parsed = extractJsonObject(content) as Partial<ResearchReport>;
+    const report = normalizeResearchReport(parsed);
+    await writeJson("api_00_live_research_parsed.json", report);
+    await writeJson("00_research_report.json", report);
+    await appendLog(`[api:00_live_research] completed in ${Date.now() - started}ms`);
+    return report;
+  } catch (error) {
+    await appendLog(`[api:00_live_research] parse failed; using bundled manual research packet: ${error instanceof Error ? error.message : String(error)}`);
+    await writeJson("00_research_report.json", MANUAL_RESEARCH);
+    return MANUAL_RESEARCH;
+  }
 }
 
 function allVariables(graph: LogicGraphDocument): LogicVariableDefinition[] {
@@ -633,6 +831,52 @@ function allVariables(graph: LogicGraphDocument): LogicVariableDefinition[] {
 
 function variableIds(graph: LogicGraphDocument): string[] {
   return allVariables(graph).map((variable) => variable.id);
+}
+
+function labelFromId(id: string): string {
+  return id
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.slice(0, 1).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function normalizeGeneratorVariable(variable: LogicVariableDefinition, isBase: boolean): LogicVariableDefinition {
+  const raw = variable as LogicVariableDefinition & { description?: string };
+  const id = raw.id.trim();
+  const fallback = BASE_VARIABLES.find((item) => item.id === id) ?? SUPPLEMENTAL_VARIABLES.find((item) => item.id === id);
+  return {
+    ...fallback,
+    ...raw,
+    id,
+    label: raw.label?.trim() || fallback?.label || labelFromId(id),
+    initial: Number.isFinite(raw.initial) ? Math.max(0, Math.min(100, Math.round(raw.initial))) : (fallback?.initial ?? 70),
+    is_base: isBase,
+    rationale: raw.rationale?.trim() || raw.description?.trim() || fallback?.rationale || "Variable affects post-offer route feasibility.",
+    affects_nodes: Array.isArray(raw.affects_nodes) ? raw.affects_nodes : (fallback?.affects_nodes ?? []),
+    warning_page_id: raw.warning_page_id?.trim() || fallback?.warning_page_id || `W_${id}_bad`,
+    failure_page_id: raw.failure_page_id?.trim() || fallback?.failure_page_id || `E_${id}_critical`,
+  };
+}
+
+function normalizeBaseVariables(variables: LogicVariableDefinition[] | undefined): LogicVariableDefinition[] {
+  const byId = new Map(BASE_VARIABLES.map((variable) => [variable.id, variable]));
+  for (const variable of variables ?? []) {
+    if (!variable?.id?.trim()) continue;
+    byId.set(variable.id.trim(), normalizeGeneratorVariable(variable, true));
+  }
+  return BASE_VARIABLES.map((variable) => normalizeGeneratorVariable(byId.get(variable.id) ?? variable, true));
+}
+
+function normalizeSupplementalVariables(variables: LogicVariableDefinition[] | undefined): LogicVariableDefinition[] {
+  const byId = new Map<string, LogicVariableDefinition>();
+  for (const variable of variables ?? []) {
+    if (!variable?.id?.trim()) continue;
+    const id = variable.id.trim();
+    if (BASE_VARIABLES.some((base) => base.id === id)) continue;
+    byId.set(id, normalizeGeneratorVariable(variable, false));
+  }
+  return [...byId.values()];
 }
 
 function makeWarningPage(variable: LogicVariableDefinition): LogicPage {
@@ -742,6 +986,13 @@ function createInitialGraph(): LogicGraphDocument {
 }
 
 function ensureSystemPages(graph: LogicGraphDocument): void {
+  graph.pages ??= {};
+  graph.endings ??= {};
+  delete graph.pages.undefined;
+  delete graph.endings.undefined;
+  graph.base_variables = normalizeBaseVariables(graph.base_variables);
+  graph.accepted_supplemental_variables = normalizeSupplementalVariables(graph.accepted_supplemental_variables);
+  graph.suggested_variables = normalizeSupplementalVariables(graph.suggested_variables);
   for (const variable of allVariables(graph)) {
     graph.pages[variable.warning_page_id] ??= makeWarningPage(variable);
     graph.endings[variable.failure_page_id] ??= makeFailureEnding(variable);
@@ -776,8 +1027,8 @@ Rules:
 Existing variable ids: ${variableIds(graph).join(", ")}
 Existing node order: ${graph.main_node_order.join(" -> ")}
 
-Manual research:
-${compact(MANUAL_RESEARCH)}
+Research:
+${compact(ACTIVE_RESEARCH)}
 
 Current nodes:
 ${compact(Object.values(graph.nodes).map(({ id, title, stage, is_special, why_special, variant_triggers }) => ({ id, title, stage, is_special, why_special, variant_triggers })))}
@@ -848,7 +1099,7 @@ Output JSON shape:
   }
   if (response.special_nodes?.length) graph.special_nodes = response.special_nodes;
   if (response.research_adjustments?.length) graph.research_adjustments = response.research_adjustments;
-  await writeJson("01_manual_research_report.json", MANUAL_RESEARCH);
+  await writeJson("01_manual_research_report.json", ACTIVE_RESEARCH);
   await writeJson("02_research_adapted_graph.json", graph);
 }
 
@@ -985,8 +1236,8 @@ ${defaultNextId}
 Graph summary:
 ${compact(graphSummary(graph))}
 
-Manual research batches:
-${compact(MANUAL_RESEARCH.research_batches)}
+Research batches:
+${compact(ACTIVE_RESEARCH.research_batches)}
 
 Output JSON:
 {
@@ -1075,7 +1326,16 @@ Graph:
 ${compact(current, 80_000)}`,
       },
     ]);
-    current = repaired;
+    current = {
+      ...current,
+      ...repaired,
+      nodes: repaired.nodes ?? current.nodes,
+      pages: repaired.pages ?? current.pages,
+      endings: repaired.endings ?? current.endings,
+      base_variables: repaired.base_variables ?? current.base_variables,
+      accepted_supplemental_variables: repaired.accepted_supplemental_variables ?? current.accepted_supplemental_variables,
+      main_node_order: repaired.main_node_order ?? current.main_node_order,
+    };
     ensureSystemPages(current);
   }
   const finalErrors = collectGraphErrors(current);
@@ -1087,6 +1347,42 @@ function pageIdsForNode(graph: LogicGraphDocument, node: LogicNode): string[] {
   return [node.id, ...node.options.map((option) => option.result_page_id)];
 }
 
+function proseLanguageName(): string {
+  return OUTPUT_LANGUAGE === "zh" ? "Simplified Chinese" : "English";
+}
+
+function nodeContentRules(nodeId: string): string {
+  return OUTPUT_LANGUAGE === "zh"
+    ? `- Simplified Chinese only, second person.
+- Node page: 80-150 Chinese characters.
+- Result pages: 45-100 Chinese characters.
+- Keep option ids exactly, but rewrite labels to be human-readable Simplified Chinese.
+- Each choice label must still start with its id and a Chinese colon, e.g. ${nodeId}_O1：...`
+    : `- English only, second person.
+- Node page: 80-150 English words.
+- Result pages: 45-100 English words.
+- Keep option ids exactly, but rewrite labels to be human-readable English.
+- Each choice label must still start with its id and a colon, e.g. ${nodeId}_O1: ...`;
+}
+
+function systemContentRules(): string {
+  return OUTPUT_LANGUAGE === "zh"
+    ? `- Simplified Chinese only, second person, grounded in the Tokyo CS research.
+- Warning pages: 45-90 Chinese characters.
+- Endings: 90-160 Chinese characters.`
+    : `- English only, second person, grounded in the Tokyo CS research.
+- Warning pages: 45-90 English words.
+- Endings: 90-160 English words.`;
+}
+
+function variantLanguageRule(): string {
+  return OUTPUT_LANGUAGE === "zh" ? "- Simplified Chinese only." : "- English only.";
+}
+
+function choiceOutputExample(): string {
+  return OUTPUT_LANGUAGE === "zh" ? "\"choices\": [\"<id>：...\", \"<id>：...\", \"<id>：...\"]" : "\"choices\": [\"<id>: ...\", \"<id>: ...\", \"<id>: ...\"]";
+}
+
 async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, priorSummaries: string[]): Promise<string> {
   const ids = pageIdsForNode(graph, node);
   const pages = Object.fromEntries(ids.map((id) => [id, graph.pages[id]]));
@@ -1094,20 +1390,16 @@ async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, prior
     {
       role: "system",
       content:
-        "You write Chinese second-person interactive fiction pages for a study-abroad simulator. Return strict JSON only. Do not change routing ids.",
+        `You write ${proseLanguageName()} second-person interactive fiction pages for a study-abroad simulator. Return strict JSON only. Do not change routing ids.`,
     },
     {
       role: "user",
       content: `Fill this node and its option-result pages.
 
 Rules:
-- Chinese only, second person.
-- Node page: 80-150 Chinese characters.
-- Result pages: 45-100 Chinese characters.
+${nodeContentRules(node.id)}
 - Make the writing concrete, playable, and grounded in research.
 - Do not mention implementation, variables, JSON, branches, or page ids in the prose.
-- Keep option ids exactly, but rewrite labels to be human-readable Chinese.
-- Each choice label must still start with its id and a Chinese colon, e.g. ${node.id}_O1：...
 - Do not change next_node, planned_next_id, delta, or ids.
 - Later content already written is summarized below; avoid repeating the same scene beats.
 
@@ -1115,7 +1407,7 @@ Previously filled summaries:
 ${compact(priorSummaries)}
 
 Research:
-${compact(MANUAL_RESEARCH)}
+${compact(ACTIVE_RESEARCH)}
 
 Node:
 ${compact(node)}
@@ -1125,11 +1417,11 @@ ${compact(pages)}
 
 Output:
 {
-  "pages": {
+      "pages": {
     "<page_id>": {
       "text": "...",
       "insight": "...",
-      "choices": ["<id>：...", "<id>：...", "<id>：..."]
+      ${choiceOutputExample()}
     }
   },
   "summary": "one sentence summary of what was filled"
@@ -1146,7 +1438,7 @@ async function fillSystemContent(graph: LogicGraphDocument, priorSummaries: stri
     {
       role: "system",
       content:
-        "You write Chinese warning and ending pages for a deterministic variable-gated study-abroad simulator. Return strict JSON only.",
+        `You write ${proseLanguageName()} warning and ending pages for a deterministic variable-gated study-abroad simulator. Return strict JSON only.`,
     },
     {
       role: "user",
@@ -1156,9 +1448,7 @@ Rules:
 - Warning pages mean a variable has entered the bad band once; write a warning, not a final failure.
 - Failure endings mean a variable reached critical and killed the chain.
 - Non-failure endings resolve the study-abroad route.
-- Chinese only, second person, grounded in the Tokyo CS research.
-- Warning pages: 45-90 Chinese characters.
-- Endings: 90-160 Chinese characters.
+${systemContentRules()}
 - Do not mention variable bands or implementation terms in prose.
 
 Prior summaries:
@@ -1216,10 +1506,10 @@ async function generateVariants(graph: LogicGraphDocument): Promise<Record<strin
   for (let i = 0; i < targets.length; i += 4) {
     const batch = targets.slice(i, i + 4);
     const response = await chatJson<VariantPatch>(`07_variants_${Math.floor(i / 4) + 1}`, [
-      {
-        role: "system",
-        content:
-          "You split Chinese page prose into explicit variable-band variants. Return strict JSON only. This is not semantic routing.",
+    {
+      role: "system",
+      content:
+          `You split ${proseLanguageName()} page prose into explicit variable-band variants. Return strict JSON only. This is not semantic routing.`,
       },
       {
         role: "user",
@@ -1230,7 +1520,7 @@ Rules:
 - Produce only meaningful variants, not every cartesian product.
 - For each page, include 2-4 variants.
 - The base page already exists; variants should be visibly different when the condition matters.
-- Chinese only.
+${variantLanguageRule()}
 - Do not mention implementation terms.
 
 Variable bands:
@@ -1265,27 +1555,108 @@ function compileWithVariants(
   graph: LogicGraphDocument,
   variants: Record<string, VariantPatch["variants"][string]>,
 ): StoryDocument & { logic_content_variants?: typeof variants; full_generation?: JsonObject } {
-  const doc = compileLogicGraphToStoryDocument(graph, MANUAL_RESEARCH, STORY_ID) as StoryDocument & {
+  const doc = compileLogicGraphToStoryDocument(graph, ACTIVE_RESEARCH, STORY_ID, OUTPUT_LANGUAGE) as StoryDocument & {
     logic_content_variants?: typeof variants;
     full_generation?: JsonObject;
   };
   doc.logic_content_variants = variants;
   doc.full_generation = {
-    model: MODEL,
+    text_model: TEXT_MODEL,
+    research_model: RESEARCH_MODEL,
+    image_model: IMAGE_MODEL,
+    output_language: OUTPUT_LANGUAGE,
     generated_at: new Date().toISOString(),
     stages: [
-      "manual_research",
+      ENABLE_LIVE_RESEARCH ? "live_or_fallback_research" : "manual_research",
       "research_adaptation",
       "node_by_node_option_planning",
       "supervisor_repair",
       "normal_delta_balance",
       "chain_by_chain_content",
       "variable_variant_split",
+      "optional_image_generation",
       "programmatic_simulation",
       "exhaustive_validation",
     ],
   };
   return doc;
+}
+
+function inferProviderFromBaseURL(baseURL: string): Provider {
+  return baseURL.includes("api.openai.com") ? "openai" : "relay";
+}
+
+function imageRuntimeConfig(): RuntimeConfig {
+  const provider = inferProviderFromBaseURL(IMAGE_API_BASE_URL);
+  return {
+    provider,
+    apiKey: IMAGE_API_KEY,
+    baseURL: provider === "relay" ? IMAGE_API_BASE_URL : undefined,
+    models: {
+      search: RESEARCH_MODEL,
+      design: TEXT_MODEL,
+      image: IMAGE_MODEL,
+    },
+    services: {
+      image: {
+        provider,
+        apiKey: IMAGE_API_KEY,
+        baseURL: provider === "relay" ? IMAGE_API_BASE_URL : undefined,
+        model: IMAGE_MODEL,
+      },
+    },
+    features: {
+      enableLiveSearch: ENABLE_LIVE_RESEARCH,
+      enableImageGeneration: ENABLE_IMAGE_GENERATION,
+      maxImagesPerStory: FULL_MAX_IMAGES,
+    },
+  };
+}
+
+function imagePromptFromScene(id: string, sceneText: string): string {
+  const snippet = sceneText.replace(/\s+/g, " ").slice(0, 260);
+  return `Tokyo international computer science master's student decision scene, page ${id}, inspired by this story moment: ${snippet}`;
+}
+
+function markImageAnchors(doc: StoryDocument): void {
+  const nodeEntries = Object.entries(doc.nodes).filter(([, node]) => node.logic_page_role === "node");
+  for (const [id, node] of nodeEntries) {
+    node.has_image = true;
+    node.image_prompt = imagePromptFromScene(id, node.scene_text);
+  }
+  for (const [id, ending] of Object.entries(doc.endings)) {
+    if (id.includes("_critical")) continue;
+    ending.has_image = true;
+    ending.image_prompt = imagePromptFromScene(id, ending.scene_text);
+  }
+}
+
+async function maybeGenerateImages<T extends StoryDocument>(doc: T): Promise<T> {
+  if (!ENABLE_IMAGE_GENERATION) {
+    await appendLog("[images] generation disabled");
+    return doc;
+  }
+  if (!IMAGE_API_KEY) {
+    await appendLog("[images] no image API key; skipping image generation");
+    return doc;
+  }
+
+  markImageAnchors(doc);
+  await appendLog(`[api:08_images] started model=${IMAGE_MODEL} max=${FULL_MAX_IMAGES}`);
+  try {
+    const withImages = (await runArtistAgent(doc, imageRuntimeConfig())) as T;
+    const generatedCount = [
+      ...Object.values(withImages.nodes),
+      ...Object.values(withImages.endings),
+    ].filter((node) => typeof node.image_url === "string" && node.image_url.trim()).length;
+    await writeJson("08_images_story.json", withImages);
+    await appendLog(`[api:08_images] completed image_url_count=${generatedCount}`);
+    return withImages;
+  } catch (error) {
+    await writeJson("08_images_error.json", { error: error instanceof Error ? error.message : String(error) });
+    await appendLog(`[api:08_images] failed: ${error instanceof Error ? error.message : String(error)}`);
+    return doc;
+  }
 }
 
 function logicBand(value: number): LogicVariableBand {
@@ -1579,14 +1950,25 @@ function validateCompiledStory(
 
 async function main(): Promise<void> {
   await ensureDirs();
-  await appendLog(`[start] story_id=${STORY_ID} model=${MODEL} baseURL=${API_BASE_URL}`);
+  await appendLog(`[start] story_id=${STORY_ID} output_language=${OUTPUT_LANGUAGE} text_model=${TEXT_MODEL} text_baseURL=${TEXT_API_BASE_URL}`);
   await writeJson("00_meta.json", {
     storyId: STORY_ID,
-    model: MODEL,
-    baseURL: API_BASE_URL,
+    textModel: TEXT_MODEL,
+    textBaseURL: TEXT_API_BASE_URL,
+    researchModel: RESEARCH_MODEL,
+    researchBaseURL: RESEARCH_API_BASE_URL,
+    imageModel: IMAGE_MODEL,
+    imageBaseURL: IMAGE_API_BASE_URL,
+    outputLanguage: OUTPUT_LANGUAGE,
     startedAt: new Date().toISOString(),
-    apiKeyProvided: Boolean(API_KEY),
+    textApiKeyProvided: Boolean(TEXT_API_KEY),
+    researchApiKeyProvided: Boolean(RESEARCH_API_KEY),
+    imageApiKeyProvided: Boolean(IMAGE_API_KEY),
+    liveResearchEnabled: ENABLE_LIVE_RESEARCH,
+    imageGenerationEnabled: ENABLE_IMAGE_GENERATION,
   });
+
+  ACTIVE_RESEARCH = await retrieveResearch();
 
   let graph = createInitialGraph();
   await writeJson("01_initial_graph.json", graph);
@@ -1619,7 +2001,7 @@ async function main(): Promise<void> {
   await writeJson("06_content_complete_graph.json", graph);
 
   const variants = await generateVariants(graph);
-  const doc = compileWithVariants(graph, variants);
+  const doc = await maybeGenerateImages(compileWithVariants(graph, variants));
   const simulation = {
     normal: simulate(doc, "normal"),
     positive: simulate(doc, "positive"),

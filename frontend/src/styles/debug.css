@@ -198,6 +198,52 @@ h3 {
   line-height: 1.55;
 }
 
+.fullGeneratorBox {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+  border: 2px solid #3d2f24;
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffe7b8;
+  box-shadow: 5px 5px 0 rgba(61, 47, 36, 0.14);
+}
+
+.fullGeneratorBox h3,
+.fullGeneratorBox p {
+  margin: 0;
+}
+
+.fullGeneratorBox p:not(.labelText) {
+  color: #5f4937;
+  line-height: 1.55;
+}
+
+.fullGeneratorMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  border-top: 2px solid rgba(61, 47, 36, 0.16);
+  padding-top: 12px;
+  color: #5f4937;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.fullGeneratorMeta code {
+  border-radius: 5px;
+  padding: 5px 7px;
+  color: #3d2f24;
+  background: #fffaf0;
+}
+
+.fullGeneratorMeta .secondaryButton {
+  margin-left: auto;
+  padding: 8px 10px;
+  text-decoration: none;
+}
+
 .workspaceGrid {
   display: grid;
   grid-template-columns: minmax(360px, 0.95fr) minmax(360px, 1.05fr);

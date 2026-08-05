@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { config } from "../config/config.js";
-import type { RuntimeConfig } from "../types.js";
+import type { RuntimeConfig, RuntimeService, RuntimeServiceConfig } from "../types.js";
 
 /**
  * Shared OpenAI client factory.
@@ -18,18 +18,40 @@ import type { RuntimeConfig } from "../types.js";
  */
 let client: OpenAI | null = null;
 
-export function getOpenAIClient(runtimeConfig?: RuntimeConfig): OpenAI {
-  if (runtimeConfig?.apiKey) {
+function legacyServiceConfig(runtimeConfig: RuntimeConfig): RuntimeServiceConfig {
+  return {
+    provider: runtimeConfig.provider,
+    apiKey: runtimeConfig.apiKey,
+    baseURL: runtimeConfig.baseURL,
+  };
+}
+
+function serviceConfig(runtimeConfig: RuntimeConfig | undefined, service: RuntimeService): RuntimeServiceConfig | undefined {
+  if (!runtimeConfig) return undefined;
+  return runtimeConfig.services?.[service] ?? legacyServiceConfig(runtimeConfig);
+}
+
+export function getRuntimeModel(runtimeConfig: RuntimeConfig | undefined, service: RuntimeService): string {
+  const stageModel = runtimeConfig?.services?.[service]?.model?.trim();
+  if (stageModel) return stageModel;
+  if (service === "search") return runtimeConfig?.models.search ?? config.models.search;
+  if (service === "image") return runtimeConfig?.models.image ?? config.models.image;
+  return runtimeConfig?.models.design ?? config.models.design;
+}
+
+export function getOpenAIClient(runtimeConfig?: RuntimeConfig, service: RuntimeService = "text"): OpenAI {
+  const selected = serviceConfig(runtimeConfig, service);
+  if (selected?.apiKey) {
     // IMPORTANT: the OpenAI SDK falls back to process.env.OPENAI_BASE_URL
     // whenever baseURL is undefined — passing `undefined` here does NOT mean
     // "use the official API" if that env var happens to be set (e.g. to the
     // relay, in backend/.env). So for provider "openai" we must explicitly
     // pass the official URL to override any relay URL set via env/.env.
     const baseURL =
-      runtimeConfig.provider === "relay"
-        ? runtimeConfig.baseURL?.trim() || undefined
+      selected.provider === "relay"
+        ? selected.baseURL?.trim() || undefined
         : "https://api.openai.com/v1";
-    return new OpenAI({ apiKey: runtimeConfig.apiKey, baseURL });
+    return new OpenAI({ apiKey: selected.apiKey, baseURL });
   }
 
   if (client) return client;
