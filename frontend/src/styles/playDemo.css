@@ -96,9 +96,9 @@
 
 .playDemoGrid {
   display: grid;
-  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-columns: 310px minmax(620px, 1fr) 320px;
   gap: 18px;
-  max-width: 1440px;
+  max-width: 1840px;
   margin: 0 auto;
   align-items: start;
 }
@@ -112,11 +112,111 @@
 
 .playDemoPanel,
 .playDemoScene,
-.playDemoInsight {
+.playDemoInsight,
+.playDemoGuide {
   border: 2px solid #33271e;
   border-radius: 8px;
   background: rgba(255, 250, 240, 0.94);
   box-shadow: 5px 5px 0 rgba(51, 39, 30, 0.13);
+}
+
+.playDemoGuide {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+}
+
+.playDemoGuideHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid #33271e;
+  padding: 14px;
+  background: #fff8e8;
+}
+
+.playDemoGuideHead span,
+.playDemoGuideBlock > span,
+.playDemoGuideHighlight span {
+  color: #8a5a24;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.playDemoGuideHead strong {
+  font-size: 13px;
+}
+
+.playDemoGuideHighlight,
+.playDemoGuideBlock {
+  padding: 13px 14px;
+}
+
+.playDemoGuideHighlight {
+  border-bottom: 1px solid rgba(51, 39, 30, 0.16);
+  background: #fff0c8;
+}
+
+.playDemoGuideBlock + .playDemoGuideBlock {
+  border-top: 1px solid rgba(51, 39, 30, 0.13);
+}
+
+.playDemoGuideHighlight p,
+.playDemoGuideBlock p {
+  margin: 6px 0 0;
+  color: #5c4937;
+  font-size: 13px;
+  line-height: 1.58;
+}
+
+.playDemoTerms div {
+  margin-top: 9px;
+  border-left: 3px solid #dfad63;
+  padding-left: 10px;
+}
+
+.playDemoTerms strong,
+.playDemoSources strong {
+  display: block;
+  color: #33271e;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.playDemoTerms small,
+.playDemoSources small {
+  display: block;
+  margin-top: 5px;
+  color: #8a5a24;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.playDemoSources {
+  display: grid;
+  gap: 8px;
+}
+
+.playDemoSources > span {
+  margin-bottom: 1px;
+}
+
+.playDemoSources a {
+  display: block;
+  border: 1px solid #dfad63;
+  border-radius: 6px;
+  padding: 9px;
+  color: inherit;
+  text-decoration: none;
+  background: #fff8e8;
+}
+
+.playDemoSources a:hover {
+  background: #ffe9ba;
 }
 
 .playDemoPanel {
@@ -523,6 +623,18 @@
   background: #e15759;
 }
 
+@media (max-width: 1500px) {
+  .playDemoGrid {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+
+  .playDemoGuide {
+    position: static;
+    grid-column: 2;
+    max-height: none;
+  }
+}
+
 @media (max-width: 1120px) {
   .playDemoGrid {
     grid-template-columns: 1fr;
@@ -535,6 +647,10 @@
 
   .playDemoScene {
     min-height: 0;
+  }
+
+  .playDemoGuide {
+    grid-column: auto;
   }
 }
 

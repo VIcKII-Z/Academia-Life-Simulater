@@ -14,6 +14,7 @@ import type {
   LogicVariantTrigger,
   LogicVariableBand,
   LogicVariableDefinition,
+  PageAnnotation,
   Provider,
   ResearchReport,
   RuntimeConfig,
@@ -70,9 +71,10 @@ type ContentPatch = {
       text?: string;
       insight?: string;
       choices?: string[];
+      annotation?: Partial<PageAnnotation>;
     }
   >;
-  endings?: Record<string, { text?: string; insight?: string }>;
+  endings?: Record<string, { text?: string; insight?: string; annotation?: Partial<PageAnnotation> }>;
   summary?: string;
 };
 
@@ -120,6 +122,8 @@ type ValidationReport = {
     variantPages: number;
     variants: number;
     comboVariants: number;
+    annotatedPages: number;
+    evidenceReferences: number;
   };
   requirements: {
     allPlayableNodesHaveThreeOptions: boolean;
@@ -127,6 +131,9 @@ type ValidationReport = {
     variableWarningsAndFailuresPresent: boolean;
     allEnumeratedPathsTerminate: boolean;
     normalStrategyReachesNaturalEnding: boolean;
+    everyVisiblePageAnnotated: boolean;
+    allEvidenceReferencesValid: boolean;
+    allTermsExplainedAndCited: boolean;
   };
   issues: string[];
   balanceNotes: string[];
@@ -651,7 +658,14 @@ function fallbackResearchForProfile(profile: UserProfile): ResearchReport & { re
   };
 }
 
-const PROFILE_RESEARCH_FALLBACK = fallbackResearchForProfile(REQUESTED_PROFILE);
+const RAW_PROFILE_RESEARCH_FALLBACK = fallbackResearchForProfile(REQUESTED_PROFILE);
+const PROFILE_RESEARCH_FALLBACK: ResearchReport & { research_batches?: JsonObject[] } = {
+  ...RAW_PROFILE_RESEARCH_FALLBACK,
+  sources: (RAW_PROFILE_RESEARCH_FALLBACK.sources ?? []).map((source, index) => ({
+    ...source,
+    evidence_id: `S${String(index + 1).padStart(2, "0")}`,
+  })),
+};
 let ACTIVE_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = PROFILE_RESEARCH_FALLBACK;
 
 function normalizeApiBaseURL(raw: string): string {
@@ -823,6 +837,64 @@ function researchBatchesFromReport(report: ResearchReport): JsonObject[] {
   return batches;
 }
 
+type ResearchSource = NonNullable<ResearchReport["sources"]>[number];
+
+const SOURCE_TYPES = new Set<ResearchSource["source_type"]>([
+  "official_registry",
+  "program_official",
+  "department",
+  "catalog",
+  "handbook",
+  "international_office",
+  "tuition",
+  "housing",
+  "career",
+  "forum",
+  "third_party",
+  "reference",
+]);
+const SOURCE_CONFIDENCE = new Set<ResearchSource["confidence"]>(["official_registry", "high", "medium", "low"]);
+
+function normalizeResearchSources(value: unknown): ResearchSource[] {
+  if (!Array.isArray(value)) return [];
+  const seenUrls = new Set<string>();
+  const sources: ResearchSource[] = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const candidate = raw as Partial<ResearchSource>;
+    const title = typeof candidate.title === "string" ? candidate.title.trim() : "";
+    const url = typeof candidate.url === "string" ? candidate.url.trim() : "";
+    if (!title || !/^https?:\/\//i.test(url) || seenUrls.has(url)) continue;
+    seenUrls.add(url);
+    sources.push({
+      evidence_id: `S${String(sources.length + 1).padStart(2, "0")}`,
+      title,
+      url,
+      source_type: SOURCE_TYPES.has(candidate.source_type as ResearchSource["source_type"])
+        ? (candidate.source_type as ResearchSource["source_type"])
+        : "reference",
+      confidence: SOURCE_CONFIDENCE.has(candidate.confidence as ResearchSource["confidence"])
+        ? (candidate.confidence as ResearchSource["confidence"])
+        : "low",
+      used_for: Array.isArray(candidate.used_for)
+        ? candidate.used_for.filter((item): item is string => typeof item === "string" && Boolean(item.trim())).map((item) => item.trim())
+        : [],
+    });
+  }
+  return sources;
+}
+
+function evidenceCatalog(): Array<Pick<ResearchSource, "evidence_id" | "title" | "url" | "source_type" | "confidence" | "used_for">> {
+  return (ACTIVE_RESEARCH.sources ?? []).map(({ evidence_id, title, url, source_type, confidence, used_for }) => ({
+    evidence_id,
+    title,
+    url,
+    source_type,
+    confidence,
+    used_for,
+  }));
+}
+
 function normalizeResearchReport(report: Partial<ResearchReport>): ResearchReport & { research_batches?: JsonObject[] } {
   const merged = {
     ...PROFILE_RESEARCH_FALLBACK,
@@ -843,6 +915,7 @@ function normalizeResearchReport(report: Partial<ResearchReport>): ResearchRepor
       ...PROFILE_RESEARCH_FALLBACK.gameplay_signals,
       ...(report.gameplay_signals ?? {}),
     },
+    sources: normalizeResearchSources(report.sources),
     research_batches: (report as { research_batches?: JsonObject[] }).research_batches,
   } as ResearchReport & { research_batches?: JsonObject[] };
   merged.research_batches = merged.research_batches?.length ? merged.research_batches : researchBatchesFromReport(merged);
@@ -873,6 +946,8 @@ Need:
 - Focus on post-offer student life: entry and student-status documents, tuition/proof of funds, housing/commute, local registration, department/program culture, local language, permitted work, locally relevant disruptions, career/internship/post-study status.
 - Do not import Japan- or Tokyo-specific rules into another destination.
 - Include source URLs where available.
+- For every source, used_for must contain short, precise factual claims that the linked page directly supports; do not use broad labels such as only "visa" or "housing".
+- Do not include a source merely because it is topically related. If the page does not support the claim, omit the claim or record it in gaps.
 - Keep the JSON concise enough to parse.
 
 Return shape compatible with the existing ResearchReport TypeScript interface:
@@ -1297,6 +1372,7 @@ function normalizeNodePlan(node: LogicNode, pages: Record<string, LogicPage>, gr
     placeholder: pages[node.id]?.placeholder || `Decision page for ${node.title}.`,
     text: pages[node.id]?.text,
     insight: pages[node.id]?.insight,
+    annotation: pages[node.id]?.annotation,
     variant_triggers: pages[node.id]?.variant_triggers || node.variant_triggers,
   };
   for (const option of node.options) {
@@ -1308,6 +1384,7 @@ function normalizeNodePlan(node: LogicNode, pages: Record<string, LogicPage>, gr
       placeholder: pages[option.result_page_id]?.placeholder || `Option-after page for ${option.id}.`,
       text: pages[option.result_page_id]?.text,
       insight: pages[option.result_page_id]?.insight,
+      annotation: pages[option.result_page_id]?.annotation,
       variant_triggers:
         pages[option.result_page_id]?.variant_triggers ??
         [{ variables: Object.keys(option.delta).filter((key) => option.delta[key] !== 0), reason: "Result text should reflect changed variables." }],
@@ -1497,6 +1574,156 @@ function choiceOutputExample(): string {
   return OUTPUT_LANGUAGE === "zh" ? "\"choices\": [\"<id>：...\", \"<id>：...\", \"<id>：...\"]" : "\"choices\": [\"<id>: ...\", \"<id>: ...\", \"<id>: ...\"]";
 }
 
+function annotationOutputExample(): string {
+  return `"annotation": {
+        "cause": "why the reader reached this page",
+        "current_step": "what real-world step this page represents",
+        "consequence": "the immediate practical consequence",
+        "next_impact": "what this can change later",
+        "terms": [{"term":"a professional term used on this page","explanation":"plain-language meaning","evidence_ids":["S01"]}],
+        "evidence_ids": ["S01"]
+      }`;
+}
+
+function allowedEvidenceIds(): Set<string> {
+  return new Set((ACTIVE_RESEARCH.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
+}
+
+function cleanEvidenceIds(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const allowed = allowedEvidenceIds();
+  return [...new Set(value.filter((id): id is string => typeof id === "string" && allowed.has(id)))];
+}
+
+function annotationText(value: unknown, fallback: string): string {
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
+function fallbackPageAnnotation(page: LogicPage): PageAnnotation {
+  if (OUTPUT_LANGUAGE === "zh") {
+    if (page.role === "result") {
+      return {
+        cause: "你刚才的选择把路线带到了这个直接结果。",
+        current_step: `本页说明“${page.title}”这项行动实际产生了什么。`,
+        consequence: "行动会立刻消耗或恢复相应资源，并留下可继续追踪的结果。",
+        next_impact: "继续后会进入该选项预先连接的下一项留学流程；严重后果可能先触发警告或失败。",
+        terms: [],
+        evidence_ids: [],
+      };
+    }
+    if (page.role === "warning") {
+      return {
+        cause: "此前连续选择已经让一项关键条件进入需要立即注意的状态。",
+        current_step: `本页解释“${page.title}”为什么构成现实风险。`,
+        consequence: "这还是可挽回的提醒，但继续忽视会压缩后续选择空间。",
+        next_impact: "确认后会回到刚才的结果页；同一条件继续恶化时可能进入失败结局。",
+        terms: [],
+        evidence_ids: [],
+      };
+    }
+    return {
+      cause: `你已推进到“${page.title}”这一阶段。`,
+      current_step: `本页要求你处理“${page.title}”对应的现实流程和取舍。`,
+      consequence: "不同选择会产生不同的即时结果，并改变后续可承受的成本与风险。",
+      next_impact: "结果页会说明本次行动的影响，然后按该选项进入后续流程。",
+      terms: [],
+      evidence_ids: [],
+    };
+  }
+  if (page.role === "result") {
+    return {
+      cause: "Your previous choice led directly to this result.",
+      current_step: `This page explains what the action “${page.title}” produced in practice.`,
+      consequence: "The action immediately consumes or restores resources and leaves a traceable outcome.",
+      next_impact: "Continue to the next study-abroad step connected to that choice; severe effects may first trigger a warning or failure.",
+      terms: [],
+      evidence_ids: [],
+    };
+  }
+  if (page.role === "warning") {
+    return {
+      cause: "Earlier choices pushed a key condition into a state that now needs attention.",
+      current_step: `This page explains why “${page.title}” is a practical risk.`,
+      consequence: "The situation is still recoverable, but ignoring it will narrow later choices.",
+      next_impact: "You will return to the interrupted result; further deterioration can lead to a failure ending.",
+      terms: [],
+      evidence_ids: [],
+    };
+  }
+  return {
+    cause: `Your route has reached the “${page.title}” stage.`,
+    current_step: `This page asks you to handle the real process and trade-off represented by “${page.title}.”`,
+    consequence: "Each choice creates an immediate result and changes the cost or risk you can carry later.",
+    next_impact: "The result page explains the action's effect before the route continues.",
+    terms: [],
+    evidence_ids: [],
+  };
+}
+
+function fallbackEndingAnnotation(ending: LogicEnding): PageAnnotation {
+  if (OUTPUT_LANGUAGE === "zh") {
+    return {
+      cause: `此前多次选择共同满足了“${ending.title}”的进入条件。`,
+      current_step: "本页汇总这条留学路线最终形成的状态。",
+      consequence: ending.condition_summary,
+      next_impact: "你可以回看沿途选择，识别哪些准备、求助或风险控制最早改变了结果。",
+      terms: [],
+      evidence_ids: [],
+    };
+  }
+  return {
+    cause: `Your earlier choices collectively met the entry conditions for “${ending.title}.”`,
+    current_step: "This page summarizes the final state produced by this study-abroad route.",
+    consequence: ending.condition_summary,
+    next_impact: "Review the route to identify which preparation, support, or risk-control decision changed the outcome earliest.",
+    terms: [],
+    evidence_ids: [],
+  };
+}
+
+function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnotation {
+  const raw = value && typeof value === "object" ? (value as Partial<PageAnnotation>) : {};
+  const evidenceIds = cleanEvidenceIds(raw.evidence_ids);
+  const terms = Array.isArray(raw.terms)
+    ? raw.terms
+        .map((term) => {
+          if (!term || typeof term !== "object") return null;
+          const candidate = term as { term?: unknown; explanation?: unknown; evidence_ids?: unknown };
+          const termEvidenceIds = cleanEvidenceIds(candidate.evidence_ids);
+          if (
+            typeof candidate.term !== "string" ||
+            !candidate.term.trim() ||
+            typeof candidate.explanation !== "string" ||
+            !candidate.explanation.trim() ||
+            termEvidenceIds.length === 0
+          ) return null;
+          return {
+            term: candidate.term.trim(),
+            explanation: candidate.explanation.trim(),
+            evidence_ids: termEvidenceIds,
+          };
+        })
+        .filter((term): term is PageAnnotation["terms"][number] => Boolean(term))
+    : [];
+  return {
+    cause: annotationText(raw.cause, fallback.cause),
+    current_step: annotationText(raw.current_step, fallback.current_step),
+    consequence: annotationText(raw.consequence, fallback.consequence),
+    next_impact: annotationText(raw.next_impact, fallback.next_impact),
+    terms,
+    evidence_ids: [...new Set([...evidenceIds, ...terms.flatMap((term) => term.evidence_ids)])],
+  };
+}
+
+function ensurePageAnnotations(graph: LogicGraphDocument): void {
+  for (const page of Object.values(graph.pages)) {
+    page.annotation = sanitizeAnnotation(page.annotation, fallbackPageAnnotation(page));
+  }
+  for (const ending of Object.values(graph.endings)) {
+    ending.annotation = sanitizeAnnotation(ending.annotation, fallbackEndingAnnotation(ending));
+  }
+}
+
 async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, priorSummaries: string[]): Promise<string> {
   const ids = pageIdsForNode(graph, node);
   const pages = Object.fromEntries(ids.map((id) => [id, graph.pages[id]]));
@@ -1504,7 +1731,7 @@ async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, prior
     {
       role: "system",
       content:
-        `You write ${proseLanguageName()} second-person interactive fiction pages for a study-abroad simulator. Return strict JSON only. Do not change routing ids.`,
+        `You write clear ${proseLanguageName()} second-person informational scenarios for a study-abroad decision simulator. Return strict JSON only. Do not change routing ids.`,
     },
     {
       role: "user",
@@ -1512,7 +1739,13 @@ async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, prior
 
 Rules:
 ${nodeContentRules(node.id)}
-- Make the writing concrete, playable, and grounded in research.
+- Prefer plain, neutral, procedural language over dramatic or literary narration. The purpose is to teach the real process and its trade-offs.
+- Make the situation concrete and readable, then place the decision at the end of the node page.
+- Specific professional terms, policy rules, dates, fees, deadlines, named services, and authorization claims may appear only when supported by the evidence catalog.
+- Explain every professional term used on the page in annotation.terms and cite one or more allowed evidence ids.
+- annotation.evidence_ids may contain only ids from the catalog. Never invent an id, URL, organization, deadline, amount, or policy detail.
+- If the catalog does not support a detail, keep it general and tell the reader to verify the current official page instead of fabricating precision.
+- For every page, annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
 - Do not mention implementation, variables, JSON, branches, or page ids in the prose.
 - Do not change next_node, planned_next_id, delta, or ids.
 - Later content already written is summarized below; avoid repeating the same scene beats.
@@ -1522,6 +1755,9 @@ ${compact(priorSummaries)}
 
 Research:
 ${compact(ACTIVE_RESEARCH)}
+
+Allowed evidence catalog:
+${compact(evidenceCatalog(), 8_000)}
 
 Node:
 ${compact(node)}
@@ -1535,7 +1771,8 @@ Output:
     "<page_id>": {
       "text": "...",
       "insight": "...",
-      ${choiceOutputExample()}
+      ${choiceOutputExample()},
+      ${annotationOutputExample()}
     }
   },
   "summary": "one sentence summary of what was filled"
@@ -1552,7 +1789,7 @@ async function fillSystemContent(graph: LogicGraphDocument, priorSummaries: stri
     {
       role: "system",
       content:
-        `You write ${proseLanguageName()} warning and ending pages for a deterministic variable-gated study-abroad simulator. Return strict JSON only.`,
+        `You write clear ${proseLanguageName()} warning and ending pages for a deterministic study-abroad decision simulator. Return strict JSON only.`,
     },
     {
       role: "user",
@@ -1563,6 +1800,11 @@ Rules:
 - Failure endings mean a variable reached critical and killed the chain.
 - Non-failure endings resolve the study-abroad route.
 ${systemContentRules()}
+- Prefer plain, neutral, procedural language over literary narration.
+- Specific terms, rules, amounts, dates, deadlines, and named services must be supported by the evidence catalog.
+- Every professional term must be explained in annotation.terms and cite allowed evidence ids only.
+- Every annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
+- Never invent an evidence id or URL. If evidence is insufficient, keep the claim general and recommend checking the current official page.
 - Do not mention variable bands or implementation terms in prose.
 
 Prior summaries:
@@ -1574,10 +1816,13 @@ ${compact(warningPages)}
 Endings:
 ${compact(graph.endings)}
 
+Allowed evidence catalog:
+${compact(evidenceCatalog(), 8_000)}
+
 Output:
 {
-  "pages": {"<warning_page_id>": {"text":"...","insight":"..."}},
-  "endings": {"<ending_id>": {"text":"...","insight":"..."}},
+  "pages": {"<warning_page_id>": {"text":"...","insight":"...",${annotationOutputExample()}}},
+  "endings": {"<ending_id>": {"text":"...","insight":"...",${annotationOutputExample()}}},
   "summary": "..."
 }`,
     },
@@ -1592,6 +1837,7 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
     if (!page) continue;
     if (pagePatch.text?.trim()) page.text = pagePatch.text.trim();
     if (pagePatch.insight?.trim()) page.insight = pagePatch.insight.trim();
+    if (pagePatch.annotation) page.annotation = sanitizeAnnotation(pagePatch.annotation, fallbackPageAnnotation(page));
     const node = graph.nodes[pageId];
     if (node && pagePatch.choices?.length) {
       for (let i = 0; i < Math.min(node.options.length, pagePatch.choices.length); i++) {
@@ -1605,6 +1851,8 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
     const ending = graph.endings[endingId];
     if (!ending) continue;
     if (endingPatch.text?.trim()) ending.condition_summary = endingPatch.text.trim();
+    if (endingPatch.insight?.trim()) ending.insight = endingPatch.insight.trim();
+    if (endingPatch.annotation) ending.annotation = sanitizeAnnotation(endingPatch.annotation, fallbackEndingAnnotation(ending));
   }
 }
 
@@ -1634,6 +1882,7 @@ Rules:
 - Produce only meaningful variants, not every cartesian product.
 - For each page, include 2-4 variants.
 - The base page already exists; variants should be visibly different when the condition matters.
+- Do not introduce new professional terms, policy claims, dates, amounts, deadlines, or named services; the page keeps its base annotation and evidence citations.
 ${variantLanguageRule()}
 - Do not mention implementation terms.
 
@@ -1983,8 +2232,52 @@ function validateCompiledStory(
   let warningPages = 0;
   let allPlayableNodesHaveThreeOptions = true;
   let allChoicesHaveExplicitIds = true;
+  let everyVisiblePageAnnotated = true;
+  let allEvidenceReferencesValid = true;
+  let allTermsExplainedAndCited = true;
+  let annotatedPages = 0;
+  let evidenceReferences = 0;
+  const validEvidenceIds = new Set((doc.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
+
+  function checkAnnotation(pageId: string, annotation: PageAnnotation | undefined): void {
+    if (
+      !annotation ||
+      !annotation.cause?.trim() ||
+      !annotation.current_step?.trim() ||
+      !annotation.consequence?.trim() ||
+      !annotation.next_impact?.trim()
+    ) {
+      everyVisiblePageAnnotated = false;
+      issues.push(`${pageId} is missing a complete cause/current-step/consequence/next-impact annotation.`);
+      return;
+    }
+    annotatedPages += 1;
+    const pageEvidence = annotation.evidence_ids ?? [];
+    evidenceReferences += pageEvidence.length;
+    for (const evidenceId of pageEvidence) {
+      if (!validEvidenceIds.has(evidenceId)) {
+        allEvidenceReferencesValid = false;
+        issues.push(`${pageId} cites missing evidence ${evidenceId}.`);
+      }
+    }
+    for (const [index, term] of (annotation.terms ?? []).entries()) {
+      if (!term.term?.trim() || !term.explanation?.trim() || !term.evidence_ids?.length) {
+        allTermsExplainedAndCited = false;
+        issues.push(`${pageId} term ${index + 1} is not fully explained and cited.`);
+        continue;
+      }
+      for (const evidenceId of term.evidence_ids) {
+        evidenceReferences += 1;
+        if (!validEvidenceIds.has(evidenceId)) {
+          allEvidenceReferencesValid = false;
+          issues.push(`${pageId} term ${term.term} cites missing evidence ${evidenceId}.`);
+        }
+      }
+    }
+  }
 
   for (const [nodeId, node] of Object.entries(doc.nodes)) {
+    checkAnnotation(nodeId, node.annotation);
     if (node.logic_page_role === "node") {
       playableNodes += 1;
       if (node.choices.length !== 3) {
@@ -2004,6 +2297,10 @@ function validateCompiledStory(
         issues.push(`${nodeId} choice ${choice.logic_choice_id ?? index + 1} plans missing ${choice.logic_planned_next_node}.`);
       }
     }
+  }
+
+  for (const [endingId, endingNode] of Object.entries(doc.endings)) {
+    checkAnnotation(endingId, endingNode.annotation);
   }
 
   let variableWarningsAndFailuresPresent = true;
@@ -2047,6 +2344,8 @@ function validateCompiledStory(
       variantPages,
       variants,
       comboVariants,
+      annotatedPages,
+      evidenceReferences,
     },
     requirements: {
       allPlayableNodesHaveThreeOptions,
@@ -2054,6 +2353,9 @@ function validateCompiledStory(
       variableWarningsAndFailuresPresent,
       allEnumeratedPathsTerminate: exhaustiveSimulation.badCount === 0 && exhaustiveSimulation.terminalPaths > 0,
       normalStrategyReachesNaturalEnding,
+      everyVisiblePageAnnotated,
+      allEvidenceReferencesValid,
+      allTermsExplainedAndCited,
     },
     issues,
     balanceNotes,
@@ -2113,6 +2415,7 @@ async function main(): Promise<void> {
     await writeJson(`06_content_after_${nodeId}.json`, graph);
   }
   priorSummaries.push(await fillSystemContent(graph, priorSummaries.slice(-12)));
+  ensurePageAnnotations(graph);
   await writeJson("06_content_complete_graph.json", graph);
 
   const variants = await generateVariants(graph);

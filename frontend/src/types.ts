@@ -23,6 +23,21 @@ export interface StatBlock {
   school: number;
 }
 
+export interface PageTermAnnotation {
+  term: string;
+  explanation: string;
+  evidence_ids: string[];
+}
+
+export interface PageAnnotation {
+  cause: string;
+  current_step: string;
+  consequence: string;
+  next_impact: string;
+  terms: PageTermAnnotation[];
+  evidence_ids: string[];
+}
+
 export interface StoryNode {
   type: string;
   scene_text: string;
@@ -34,6 +49,7 @@ export interface StoryNode {
    * why this challenge/situation realistically happens to study-abroad students
    * with this profile. Shown in the scene's side "Field Notes" panel. */
   insight?: string;
+  annotation?: PageAnnotation;
   logic_page_role?: "node" | "result" | "warning";
   logic_source_id?: string;
 }
@@ -48,11 +64,13 @@ export interface EndingNode {
   tone: Tone;
   /** See StoryNode.insight. */
   insight?: string;
+  annotation?: PageAnnotation;
   logic_page_role?: "failure" | "ending";
   logic_source_id?: string;
 }
 
 export interface StorySource {
+  evidence_id?: string;
   title: string;
   url: string;
   source_type: string;

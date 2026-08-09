@@ -88,6 +88,7 @@ function compileDecisionNode(graph: LogicGraphDocument, page: LogicPage, outputL
     has_image: false,
     choices: (logicNode?.options ?? []).map(toChoice),
     insight: pageInsight(page, outputLanguage),
+    annotation: page.annotation,
     logic_page_role: "node",
     logic_source_id: page.id,
   };
@@ -112,6 +113,7 @@ function compileResultNode(graph: LogicGraphDocument, page: LogicPage, outputLan
     has_image: false,
     choices: [continueChoice("C1_continue", label, RESULT_RETURN_SENTINEL, outputLanguage)],
     insight: pageInsight(page, outputLanguage),
+    annotation: page.annotation,
     logic_page_role: "result",
     logic_source_id: page.id,
   };
@@ -132,6 +134,7 @@ function compileWarningNode(page: LogicPage, outputLanguage: OutputLanguage): St
       ),
     ],
     insight: pageInsight(page, outputLanguage),
+    annotation: page.annotation,
     logic_page_role: "warning",
     logic_source_id: page.id,
   };
@@ -163,9 +166,11 @@ export function compileLogicGraphToStoryDocument(
       has_image: false,
       tone: ending.tone,
       insight:
-        outputLanguage === "zh"
+        ending.insight?.trim() ||
+        (outputLanguage === "zh"
           ? "此结局由图状态、变量和节点 ID 的显式 if/else 条件选择。"
-          : "This ending is selected by explicit if/else conditions over graph state, variables, and node IDs.",
+          : "This ending is selected by explicit if/else conditions over graph state, variables, and node IDs."),
+      annotation: ending.annotation,
       logic_page_role: ending.id.includes("_critical") ? "failure" : "ending",
       logic_source_id: ending.id,
     };

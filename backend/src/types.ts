@@ -157,6 +157,9 @@ export interface ResearchReport {
   };
   /** Per-claim provenance, ranked by search_agent_strategy.md's confidence tiers. */
   sources?: {
+    /** Stable story-local id assigned after research (S01, S02, ...). Story
+     * prose never invents URLs; page annotations may cite only these ids. */
+    evidence_id?: string;
     title: string;
     url: string;
     source_type:
@@ -211,6 +214,24 @@ export interface Choice {
   recommended?: boolean;
 }
 
+export interface PageTermAnnotation {
+  term: string;
+  explanation: string;
+  evidence_ids: string[];
+}
+
+/** Reader-facing explanation of a generated page. Evidence ids must resolve
+ * to StoryDocument.sources and are deliberately separate from the prose so
+ * every factual claim remains inspectable. */
+export interface PageAnnotation {
+  cause: string;
+  current_step: string;
+  consequence: string;
+  next_impact: string;
+  terms: PageTermAnnotation[];
+  evidence_ids: string[];
+}
+
 export interface StoryNode {
   type: string;
   scene_text: string;
@@ -223,6 +244,7 @@ export interface StoryNode {
    * study-abroad students with this profile. Rendered in the side panel so the
    * player learns about real study-abroad life while playing. */
   insight?: string;
+  annotation?: PageAnnotation;
   logic_page_role?: "node" | "result" | "warning";
   logic_source_id?: string;
 }
@@ -235,6 +257,7 @@ export interface EndingNode {
   tone: Tone;
   /** See StoryNode.insight. */
   insight?: string;
+  annotation?: PageAnnotation;
   logic_page_role?: "failure" | "ending";
   logic_source_id?: string;
 }
@@ -311,6 +334,7 @@ export interface LogicPage {
   placeholder?: string;
   text?: string;
   insight?: string;
+  annotation?: PageAnnotation;
   variant_triggers?: LogicVariantTrigger[];
 }
 
@@ -346,6 +370,8 @@ export interface LogicEnding {
   title: string;
   tone: Tone;
   condition_summary: string;
+  insight?: string;
+  annotation?: PageAnnotation;
 }
 
 export interface LogicGraphDocument {
