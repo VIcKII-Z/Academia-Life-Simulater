@@ -16,7 +16,7 @@ import {
 import type { Choice, EndingNode, PageAnnotation, StatBlock, StoryDocument, StoryNode, StorySource } from "../types";
 import "../styles/playDemo.css";
 
-const DEMO_STORY_ID = "utokyo_cs_full_1785770721";
+const DEMO_STORY_ID = "technische_universit_t_m_nchen_full_f81bb5c0b506";
 
 type RouteEvent = {
   id: number;

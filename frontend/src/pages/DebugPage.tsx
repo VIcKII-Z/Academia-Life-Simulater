@@ -183,7 +183,7 @@ export default function DebugPage() {
   const [story, setStory] = useState<StoryDocument | null>(null);
   const [runFiles, setRunFiles] = useState<RunFiles | null>(null);
   const [activeDebugTab, setActiveDebugTab] = useState<DebugTabId>("logic_tree");
-  const [manualRunId, setManualRunId] = useState("utokyo_cs_full_1785770721");
+  const [manualRunId, setManualRunId] = useState("technische_universit_t_m_nchen_full_f81bb5c0b506");
   const [fullModel, setFullModel] = useState("gemini-3-flash-preview");
   const [fullJob, setFullJob] = useState<FullGenerationJob | null>(null);
   const [loading, setLoading] = useState(false);

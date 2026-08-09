@@ -26,7 +26,7 @@ import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfi
 
 type FlowStage = "passport" | "quiz" | "admission" | "timeskip" | "play" | "error";
 
-const LAST_CACHED_STORY_ID = "utokyo_cs_full_1785770721";
+const LAST_CACHED_STORY_ID = "technische_universit_t_m_nchen_full_f81bb5c0b506";
 
 function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
