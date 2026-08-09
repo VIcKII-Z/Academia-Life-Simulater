@@ -26,6 +26,8 @@ import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfi
 
 type FlowStage = "passport" | "quiz" | "admission" | "timeskip" | "play" | "error";
 
+const LAST_CACHED_STORY_ID = "utokyo_cs_full_1785770721";
+
 function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
 }
@@ -286,6 +288,16 @@ export default function HomeFlow() {
         <div className="keyEditorOverlay" role="dialog" aria-modal="true">
           <PassportCard compact onComplete={() => setShowKeyEditor(false)} onCancel={() => setShowKeyEditor(false)} />
         </div>
+      )}
+
+      {!hasAppBar && (stage === "passport" || stage === "quiz") && (
+        <Link className="cachedDemoCallout" to={`/play-demo?storyId=${LAST_CACHED_STORY_ID}`}>
+          <img className="cachedDemoCalloutIcon" src="/stickers/book.png" alt="" />
+          <span>
+            <strong>{t("cacheDemo.title")}</strong>
+            <small>{t("cacheDemo.subtitle")}</small>
+          </span>
+        </Link>
       )}
 
       {stage === "passport" && <PassportCard onComplete={() => setStage("quiz")} />}
