@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { fetchRunFiles } from "../lib/api";
+import { fetchStory } from "../lib/api";
 import { applyStatDelta, DEFAULT_STATS } from "../lib/gameplay";
 import {
   applyLogicContentVariant,
@@ -109,8 +109,7 @@ export default function PlayableDemoPage() {
         setStory(null);
         setCurrentNodeId("");
         setError(null);
-        const files = await fetchRunFiles(storyId);
-        const doc = files?.["09_final_story.json"];
+        const doc = await fetchStory(storyId);
         if (!isStoryDocument(doc)) throw new Error(`没有找到 ${storyId} 的最终故事文件。`);
         if (cancelled) return;
         setStory(doc);
@@ -208,7 +207,11 @@ export default function PlayableDemoPage() {
       <header className="playDemoTopbar">
         <div>
           <span className="playDemoKicker">Playable demo</span>
-          <h1>东京大学 CS 录取后路线</h1>
+          <h1>
+            {story
+              ? `${story.user_profile.school || story.user_profile.city} · ${story.user_profile.major}`
+              : "留学录取后路线"}
+          </h1>
           <small className="playDemoRunId">{storyId}</small>
         </div>
         <nav>

@@ -31,6 +31,16 @@ const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
 const RUNS_DIR = path.resolve(process.cwd(), "..", "data", "runs");
 const STORY_STRUCTURE_VERSION = "post-offer-v1-variable-gated";
+const FULL_GENERATOR_VERSION = "full-post-offer-v2-profile-aware";
+const MANUAL_FULL_GENERATOR_PROFILE: UserProfile = {
+  country: "Japan",
+  city: "Tokyo",
+  school: "The University of Tokyo",
+  department: "Graduate School of Information Science and Technology",
+  program: "Computer Science master's track",
+  major: "Computer Science",
+  grade: "Taught Master",
+};
 app.use("/assets", express.static(ASSETS_DIR));
 
 type FullGenerationState = "running" | "completed" | "failed";
@@ -289,6 +299,26 @@ function buildCacheStoryId(
   const hash = createHash("sha1").update(JSON.stringify(keyPayload)).digest("hex").slice(0, 12);
   const seed = mode === "preset" ? presetId ?? "story" : profile?.city ?? "story";
   return `${sanitizeStoryId(seed)}_${hash}`;
+}
+
+function buildFullGenerationStoryId(
+  profile: UserProfile | undefined,
+  runtimeConfig: RuntimeConfig | undefined,
+): string {
+  const keyPayload = canonicalize(
+    {
+      generatorVersion: FULL_GENERATOR_VERSION,
+      profile,
+      models: runtimeConfig?.models,
+      outputLanguage: runtimeConfig?.outputLanguage ?? "en",
+      imageGeneration: runtimeConfig?.features.enableImageGeneration ?? false,
+      maxImagesPerStory: runtimeConfig?.features.maxImagesPerStory ?? 0,
+    },
+    true,
+  );
+  const hash = createHash("sha1").update(JSON.stringify(keyPayload)).digest("hex").slice(0, 12);
+  const seed = profile?.school || profile?.city || "study_abroad";
+  return `${sanitizeStoryId(seed)}_full_${hash}`;
 }
 
 async function readCachedStory(storyId: string): Promise<unknown | null> {
@@ -777,6 +807,23 @@ app.get("/api/runs/:storyId", async (req, res) => {
   }
 });
 
+/** Returns only the final playable document. The player must not download all
+ * intermediate prompts and per-node generation artifacts just to open a run. */
+app.get("/api/stories/:storyId", async (req, res) => {
+  const storyId = sanitizeStoryId(req.params.storyId);
+  try {
+    const cached = await readCachedStory(storyId);
+    if (cached) {
+      res.json(cached);
+      return;
+    }
+    const raw = await fs.readFile(path.join(RUNS_DIR, storyId, "09_final_story.json"), "utf-8");
+    res.json(JSON.parse(raw));
+  } catch {
+    res.status(404).json({ error: `Final story not found: ${storyId}` });
+  }
+});
+
 /**
  * Starts the full post-offer demo generator as a background job. This is the
  * long multi-call pipeline in backend/scripts/fullPostOfferGenerator.ts:
@@ -786,11 +833,13 @@ app.get("/api/runs/:storyId", async (req, res) => {
 app.post("/api/full-generate", async (req, res) => {
   const {
     runtimeConfig: rawRuntimeConfig,
+    profile,
     storyId: requestedStoryId,
     regenerate,
     model: requestedModel,
   } = req.body as {
     runtimeConfig?: unknown;
+    profile?: UserProfile;
     storyId?: string;
     regenerate?: boolean;
     model?: string;
@@ -804,14 +853,17 @@ app.post("/api/full-generate", async (req, res) => {
     return;
   }
 
+  const baseStoryId = buildFullGenerationStoryId(profile, runtimeConfig);
   const storyId =
     typeof requestedStoryId === "string" && requestedStoryId.trim()
       ? sanitizeStoryId(requestedStoryId)
-      : `utokyo_cs_full_${Date.now()}`;
+      : regenerate
+        ? `${baseStoryId}_${Date.now()}`
+        : baseStoryId;
 
   const existingJob = fullGenerationJobs.get(storyId);
   if (existingJob?.status === "running") {
-    res.status(409).json(await fullGenerationStatus(existingJob));
+    res.json(await fullGenerationStatus(existingJob));
     return;
   }
 
@@ -855,10 +907,11 @@ app.post("/api/full-generate", async (req, res) => {
   const env: NodeJS.ProcessEnv = {
     ...process.env,
     FULL_DEMO_STORY_ID: storyId,
+    FULL_PROFILE_JSON: JSON.stringify(profile ?? MANUAL_FULL_GENERATOR_PROFILE),
     FULL_OUTPUT_LANGUAGE: runtimeConfig?.outputLanguage === "zh" ? "zh" : "en",
     FULL_ENABLE_LIVE_RESEARCH: String(runtimeConfig?.features.enableLiveSearch ?? true),
     FULL_ENABLE_IMAGE_GENERATION: String(runtimeConfig?.features.enableImageGeneration ?? false),
-    FULL_MAX_IMAGES: "999",
+    FULL_MAX_IMAGES: String(runtimeConfig?.features.maxImagesPerStory ?? 0),
   };
 
   if (textService?.provider === "relay") {
@@ -904,17 +957,19 @@ app.post("/api/full-generate", async (req, res) => {
     job.completedAt = job.updatedAt;
     appendFullJobLine(job, `[full-generator] failed to start: ${err.message}`);
   });
-  child.on("exit", (code, signal) => {
+  child.on("exit", async (code, signal) => {
     job.exitCode = code;
     job.signal = signal;
     job.updatedAt = new Date().toISOString();
     job.completedAt = job.updatedAt;
-    if (code === 0) {
+    if (code === 0 && (await hasFullGeneratorFinalStory(storyId))) {
       job.status = "completed";
       appendFullJobLine(job, `[full-generator] completed story_id=${storyId}`);
     } else {
       job.status = "failed";
-      job.error = `Full generator exited with code ${code ?? "null"}${signal ? ` signal ${signal}` : ""}.`;
+      job.error = code === 0
+        ? "Full generator exited without producing 09_final_story.json."
+        : `Full generator exited with code ${code ?? "null"}${signal ? ` signal ${signal}` : ""}.`;
       appendFullJobLine(job, `[full-generator] ${job.error}`);
     }
   });

@@ -18,6 +18,7 @@ import type {
   ResearchReport,
   RuntimeConfig,
   StoryDocument,
+  UserProfile,
 } from "../src/types.js";
 
 type JsonObject = Record<string, unknown>;
@@ -139,6 +140,40 @@ const ROOT_DIR = path.resolve(BACKEND_DIR, "..");
 const RUNS_DIR = path.join(ROOT_DIR, "data", "runs");
 const STORIES_DIR = path.join(ROOT_DIR, "data", "stories");
 
+const DEFAULT_PROFILE: UserProfile = {
+  country: "Japan",
+  city: "Tokyo",
+  school: "The University of Tokyo",
+  department: "Graduate School of Information Science and Technology",
+  program: "Computer Science master's track",
+  major: "Computer Science",
+  grade: "Taught Master",
+};
+
+function requestedProfileFromEnv(): UserProfile {
+  const raw = process.env.FULL_PROFILE_JSON;
+  if (!raw) return DEFAULT_PROFILE;
+  try {
+    const parsed = JSON.parse(raw) as Partial<UserProfile>;
+    const text = (value: unknown, fallback: string): string =>
+      typeof value === "string" && value.trim() ? value.trim() : fallback;
+    return {
+      country: text(parsed.country, DEFAULT_PROFILE.country),
+      city: text(parsed.city, DEFAULT_PROFILE.city),
+      school: text(parsed.school, ""),
+      department: text(parsed.department, ""),
+      program: text(parsed.program, ""),
+      major: text(parsed.major, DEFAULT_PROFILE.major),
+      grade: text(parsed.grade, DEFAULT_PROFILE.grade),
+      semesters: typeof parsed.semesters === "number" ? parsed.semesters : undefined,
+    };
+  } catch {
+    throw new Error("FULL_PROFILE_JSON is not valid JSON.");
+  }
+}
+
+const REQUESTED_PROFILE = requestedProfileFromEnv();
+
 const TEXT_API_KEY = process.env.TEXT_API_KEY || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY;
 const TEXT_API_BASE_URL = normalizeApiBaseURL(process.env.TEXT_BASE_URL || process.env.GCLI_BASE_URL || process.env.OPENAI_BASE_URL || "https://gcli.ggchan.dev/v1");
 const TEXT_MODEL = process.env.TEXT_MODEL || process.env.GCLI_MODEL || "gemini-3-flash-preview";
@@ -152,7 +187,7 @@ const ENABLE_LIVE_RESEARCH = process.env.FULL_ENABLE_LIVE_RESEARCH !== "false";
 const ENABLE_IMAGE_GENERATION = process.env.FULL_ENABLE_IMAGE_GENERATION === "true";
 const FULL_MAX_IMAGES = Math.max(0, Number(process.env.FULL_MAX_IMAGES ?? 999));
 const OUTPUT_LANGUAGE: "en" | "zh" = process.env.FULL_OUTPUT_LANGUAGE === "en" ? "en" : "zh";
-const STORY_ID = process.env.FULL_DEMO_STORY_ID || `utokyo_cs_full_${Date.now()}`;
+const STORY_ID = process.env.FULL_DEMO_STORY_ID || `study_abroad_full_${Date.now()}`;
 const RUN_DIR = path.join(RUNS_DIR, STORY_ID);
 
 const OPTION_KINDS: LogicOptionKind[] = ["normal", "positive_extreme", "negative_extreme"];
@@ -173,7 +208,7 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
     initial: 72,
     is_base: true,
     rationale: "Deadline buffer controls admission paperwork, visa timing, course registration, research milestones, and job status change.",
-    affects_nodes: ["N02_deposit_tuition", "N03_coe_visa", "N05_arrival_registration", "N09_typhoon_deadline", "N11_graduation_status"],
+    affects_nodes: ["N02_deposit_tuition", "N03_student_visa", "N05_arrival_registration", "N09_disruption_deadline", "N11_graduation_status"],
     warning_page_id: "W_time_bad",
     failure_page_id: "E_time_critical",
   },
@@ -183,7 +218,7 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
     initial: 74,
     is_base: true,
     rationale: "Immigration readiness decides whether the student can enter, work part-time, remain enrolled, and change status after graduation.",
-    affects_nodes: ["N03_coe_visa", "N05_arrival_registration", "N07_part_time_work", "N11_graduation_status", "N12_final_choice"],
+    affects_nodes: ["N03_student_visa", "N05_arrival_registration", "N07_part_time_work", "N11_graduation_status", "N12_final_choice"],
     warning_page_id: "W_visa_bad",
     failure_page_id: "E_visa_critical",
   },
@@ -193,7 +228,7 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
     initial: 58,
     is_base: true,
     rationale: "Housing security controls commute fatigue, upfront cost, address registration, and whether the player can sustain the first semester.",
-    affects_nodes: ["N04_housing_commute", "N05_arrival_registration", "N06_lab_courses", "N09_typhoon_deadline"],
+    affects_nodes: ["N04_housing_commute", "N05_arrival_registration", "N06_program_study", "N09_disruption_deadline"],
     warning_page_id: "W_housing_bad",
     failure_page_id: "E_housing_critical",
   },
@@ -203,7 +238,7 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
     initial: 72,
     is_base: true,
     rationale: "Academic standing determines whether coursework, lab progress, graduation, and post-study opportunities remain viable.",
-    affects_nodes: ["N06_lab_courses", "N08_language_support", "N09_typhoon_deadline", "N10_career_internship", "N12_final_choice"],
+    affects_nodes: ["N06_program_study", "N08_language_support", "N09_disruption_deadline", "N10_career_internship", "N12_final_choice"],
     warning_page_id: "W_school_bad",
     failure_page_id: "E_school_critical",
   },
@@ -213,7 +248,7 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
     initial: 70,
     is_base: true,
     rationale: "Physical and emotional resilience decides whether pressure turns into a recoverable warning or a forced pause.",
-    affects_nodes: ["N04_housing_commute", "N06_lab_courses", "N08_language_support", "N09_typhoon_deadline", "N12_final_choice"],
+    affects_nodes: ["N04_housing_commute", "N06_program_study", "N08_language_support", "N09_disruption_deadline", "N12_final_choice"],
     warning_page_id: "W_wellbeing_bad",
     failure_page_id: "E_wellbeing_critical",
   },
@@ -221,14 +256,14 @@ const BASE_VARIABLES: LogicVariableDefinition[] = [
 
 const SUPPLEMENTAL_VARIABLES: LogicVariableDefinition[] = [
   {
-    id: "japanese",
-    label: "Japanese",
+    id: "local_language",
+    label: "Local language",
     initial: 48,
     is_base: false,
-    rationale: "Japanese ability changes housing paperwork, ward office tasks, part-time work options, and local job interviews.",
+    rationale: "Local-language ability changes housing paperwork, public-service tasks, part-time work options, and local job interviews.",
     affects_nodes: ["N05_arrival_registration", "N07_part_time_work", "N08_language_support", "N10_career_internship"],
-    warning_page_id: "W_japanese_bad",
-    failure_page_id: "E_japanese_critical",
+    warning_page_id: "W_local_language_bad",
+    failure_page_id: "E_local_language_critical",
   },
   {
     id: "career",
@@ -241,14 +276,14 @@ const SUPPLEMENTAL_VARIABLES: LogicVariableDefinition[] = [
     failure_page_id: "E_career_critical",
   },
   {
-    id: "lab_reputation",
-    label: "Lab Reputation",
+    id: "academic_network",
+    label: "Academic network",
     initial: 55,
     is_base: false,
-    rationale: "Advisor and lab reputation affects references, research opportunities, and resilience during milestone pressure.",
-    affects_nodes: ["N06_lab_courses", "N09_typhoon_deadline", "N10_career_internship", "N12_final_choice"],
-    warning_page_id: "W_lab_reputation_bad",
-    failure_page_id: "E_lab_reputation_critical",
+    rationale: "Relationships with instructors, supervisors, and peers affect feedback, references, opportunities, and resilience during milestone pressure.",
+    affects_nodes: ["N06_program_study", "N09_disruption_deadline", "N10_career_internship", "N12_final_choice"],
+    warning_page_id: "W_academic_network_bad",
+    failure_page_id: "E_academic_network_critical",
   },
 ];
 
@@ -275,16 +310,16 @@ const NODE_OUTLINES: Array<{
     stage: "offer_prearrival",
     is_special: true,
     why_special: "Bad funding choices can make the offer impossible before arrival.",
-    facts_used: ["Tokyo living costs and university fees make initial cash planning a high-impact node."],
+    facts_used: ["University fees, proof-of-funds rules, and destination living costs make initial cash planning a high-impact node."],
     variant_triggers: [{ variables: ["money"], reason: "The same tuition deadline feels different when cash is good, mid, or bad." }],
   },
   {
-    id: "N03_coe_visa",
-    title: "COE and student visa timing",
+    id: "N03_student_visa",
+    title: "Student visa and entry-document timing",
     stage: "offer_prearrival",
     is_special: true,
     why_special: "Visa timing can hard-stop entry or force deferral.",
-    facts_used: ["Japan student visas require a Certificate of Eligibility and careful timing."],
+    facts_used: ["Student-visa and entry-document requirements vary by destination and require careful deadline planning."],
     variant_triggers: [{ variables: ["visa", "time"], reason: "Visa text changes when both paperwork readiness and time are under pressure." }],
   },
   {
@@ -293,25 +328,25 @@ const NODE_OUTLINES: Array<{
     stage: "offer_prearrival",
     is_special: true,
     why_special: "Housing changes money, commute time, address registration, and wellbeing at once.",
-    facts_used: ["Tokyo rent and commute tradeoffs are major student-life constraints."],
+    facts_used: ["Rent, deposits, contract rules, and commute time are major student-life constraints."],
     variant_triggers: [{ variables: ["money", "housing"], reason: "Housing options split strongly by money and housing security." }],
   },
   {
     id: "N05_arrival_registration",
-    title: "Arrival week and ward-office registration",
+    title: "Arrival week and local registration",
     stage: "study",
     is_special: false,
     facts_used: ["International students must handle arrival logistics, address registration, banking, and orientation."],
-    variant_triggers: [{ variables: ["japanese", "time"], reason: "Bureaucracy feels different with low Japanese and little time." }],
+    variant_triggers: [{ variables: ["local_language", "time"], reason: "Bureaucracy feels different with limited local-language ability and little time." }],
   },
   {
-    id: "N06_lab_courses",
-    title: "Lab culture and course registration",
+    id: "N06_program_study",
+    title: "Program culture and academic progression",
     stage: "study",
     is_special: true,
     why_special: "Advisor relationship and course choices can change graduation and career endings.",
-    facts_used: ["Computer science graduate study depends heavily on lab culture, research progress, and workload."],
-    variant_triggers: [{ variables: ["school", "wellbeing", "lab_reputation"], reason: "Academic pressure is a combined school, wellbeing, and lab-reputation problem." }],
+    facts_used: ["Academic life depends on the program's teaching, assessment, supervision, progression, and workload structure."],
+    variant_triggers: [{ variables: ["school", "wellbeing", "academic_network"], reason: "Academic pressure combines performance, wellbeing, and access to feedback or support." }],
   },
   {
     id: "N07_part_time_work",
@@ -327,16 +362,16 @@ const NODE_OUTLINES: Array<{
     title: "Language, support office, and isolation",
     stage: "study",
     is_special: false,
-    facts_used: ["Tokyo has international-student support, but daily life still creates language and isolation pressure."],
-    variant_triggers: [{ variables: ["japanese", "wellbeing"], reason: "Social support text depends on language ability and emotional resilience." }],
+    facts_used: ["International-student support can reduce risk, but daily life may still create language and isolation pressure."],
+    variant_triggers: [{ variables: ["local_language", "wellbeing"], reason: "Social support text depends on language ability and emotional resilience." }],
   },
   {
-    id: "N09_typhoon_deadline",
-    title: "Typhoon week and research milestone",
+    id: "N09_disruption_deadline",
+    title: "Local disruption and academic milestone",
     stage: "study",
     is_special: true,
     why_special: "A compressed academic milestone can trigger school or wellbeing collapse.",
-    facts_used: ["Humid summers and typhoon season can disrupt routines while deadlines continue."],
+    facts_used: ["Local weather, transport, health, or civic disruptions can interrupt routines while academic deadlines continue."],
     variant_triggers: [{ variables: ["school", "wellbeing", "time"], reason: "The same deadline can be a manageable crunch or a collapse depending on three variables." }],
   },
   {
@@ -345,15 +380,15 @@ const NODE_OUTLINES: Array<{
     stage: "post_graduation",
     is_special: true,
     why_special: "Career choices decide local employment, return-home, or third-country endings.",
-    facts_used: ["CS career prospects are strong, but Japanese language and local networking can matter."],
-    variant_triggers: [{ variables: ["career", "japanese", "lab_reputation"], reason: "Job-search text changes with career readiness, Japanese, and references." }],
+    facts_used: ["Career prospects depend on the local market, language expectations, networks, and work authorization."],
+    variant_triggers: [{ variables: ["career", "local_language", "academic_network"], reason: "Job-search text changes with career readiness, local language, and references." }],
   },
   {
     id: "N11_graduation_status",
     title: "Graduation and status-change window",
     stage: "post_graduation",
     is_special: true,
-    why_special: "Status timing after graduation can decide whether the player can remain in Japan.",
+    why_special: "Status timing after graduation can decide whether the player can remain in the destination country.",
     facts_used: ["Post-graduation status change requires time, employer readiness, and immigration paperwork."],
     variant_triggers: [{ variables: ["visa", "time", "career"], reason: "Status-change urgency is a three-variable combination." }],
   },
@@ -363,7 +398,7 @@ const NODE_OUTLINES: Array<{
     stage: "post_graduation",
     is_special: true,
     why_special: "This node selects the final non-failure ending from accumulated state.",
-    facts_used: ["The final page should resolve whether Tokyo becomes home, a launchpad, or a difficult but useful chapter."],
+    facts_used: ["The final page should resolve whether the destination becomes home, a launchpad, or a difficult but useful chapter."],
     variant_triggers: [{ variables: ["money", "school", "wellbeing", "career"], reason: "Final tone depends on the combined state rather than one variable." }],
   },
 ];
@@ -509,7 +544,7 @@ const MANUAL_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = {
         "Graduate CS life should be modeled around course registration, lab expectations, research milestones, and thesis progress.",
         "Special nodes should include lab/course choices, research milestone pressure, and career/status conversion.",
       ],
-      node_adaptations: ["Add lab_reputation as a supplemental variable.", "Mark N06 and N09 as special."],
+      node_adaptations: ["Add academic_network as a supplemental variable.", "Mark the study and disruption nodes as special."],
     },
     {
       id: "batch_admin_visa",
@@ -533,12 +568,91 @@ const MANUAL_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = {
         "Local career conversion depends on Japanese, networking, references, and status-change timing.",
         "Final endings should separate staying in Tokyo, returning home with value, third-country launch, deferral, and failures.",
       ],
-      node_adaptations: ["Add career and japanese variables.", "Mark N10, N11, and N12 as special."],
+      node_adaptations: ["Use career and local_language variables.", "Mark N10, N11, and N12 as special."],
     },
   ],
 };
 
-let ACTIVE_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = MANUAL_RESEARCH;
+function fallbackResearchForProfile(profile: UserProfile): ResearchReport & { research_batches?: JsonObject[] } {
+  const isBundledTokyoProfile =
+    profile.country === DEFAULT_PROFILE.country &&
+    profile.city === DEFAULT_PROFILE.city &&
+    profile.school === DEFAULT_PROFILE.school &&
+    profile.major === DEFAULT_PROFILE.major;
+  if (isBundledTokyoProfile) return MANUAL_RESEARCH;
+
+  const destination = [profile.school, profile.city, profile.country].filter(Boolean).join(", ");
+  return {
+    ...MANUAL_RESEARCH,
+    location: { country: profile.country, city: profile.city },
+    major: profile.major,
+    grade: profile.grade,
+    profile: { ...profile },
+    report: {
+      cost_of_living: `Verify tuition, rent, deposits, transport, insurance, and day-to-day costs for ${destination}.`,
+      academic: `Verify the official curriculum, progression rules, assessment pattern, and supervision structure for ${profile.program || profile.department || profile.major}.`,
+      visa: `Verify the student-visa, entry, enrollment-maintenance, work, and post-study status rules for ${profile.country}.`,
+      culture_shock: `Daily administration, housing rules, communication norms, and academic expectations may differ from the student's home context.`,
+      community: `Verify the university's international office, accessibility, counseling, student groups, and local support services.`,
+      career: `Verify local internships, graduate employment routes, language expectations, recruitment timing, and work authorization.`,
+      safety: `Verify official local safety, health, emergency, and discrimination-support guidance.`,
+      climate: `Verify seasonal weather, transport reliability, and other local disruptions that can affect study routines.`,
+      part_time_work: `Verify whether student work is permitted, its hour limits, tax obligations, and likely effect on study time.`,
+    },
+    gameplay_signals: {
+      health: ["Housing, commute, workload, healthcare access, and climate can affect physical and emotional energy."],
+      mood: ["Language, belonging, academic feedback, and access to support can change confidence and isolation."],
+      money: ["Tuition timing, move-in costs, rent, insurance, transport, and work permission shape the financial buffer."],
+      city_major_specific_challenges: [
+        `Confirm the real costs and deadlines for ${destination}.`,
+        `Understand the academic milestones for ${profile.major}.`,
+        `Plan entry, enrollment, housing, and post-study status before deadlines close.`,
+      ],
+    },
+    source_coverage: {
+      program_official: false,
+      department_official: false,
+      international_office: false,
+      tuition: false,
+      housing: false,
+      career: false,
+      student_forum: false,
+    },
+    program_profile: {
+      official_name: profile.program || profile.department || profile.major,
+      degree_type: profile.grade,
+      department: profile.department || profile.major,
+      duration: profile.semesters ? `${profile.semesters} semesters selected by the user` : "Verify on the official program page",
+      delivery_mode: "Verify on the official program page",
+      visa_eligible_notes: `Verify current student-status eligibility for ${profile.country}.`,
+      curriculum: [],
+      milestones: ["Offer acceptance", "Entry documents", "Arrival and registration", "Academic progression", "Graduation and post-study decision"],
+      funding: ["Tuition and fees", "Housing and move-in cost", "Scholarships, savings, or permitted work"],
+    },
+    student_life_profile: {
+      housing: `Verify housing options, contract requirements, deposits, commute, and registration rules in ${profile.city}.`,
+      commute: `Verify the transport network and realistic campus commute for ${profile.school || profile.city}.`,
+      campus_support: "Verify the official international-student and wellbeing services.",
+      community: "Verify relevant student societies, peer networks, and community support.",
+      safety: "Verify official local safety and emergency guidance.",
+      climate: "Verify seasonal conditions and disruption risks.",
+    },
+    career_profile: {
+      local_industry: `Verify the local market for ${profile.major} graduates in ${profile.city}.`,
+      internship: "Verify internship eligibility, timing, and university career support.",
+      work_authorization: `Verify student and post-study work authorization in ${profile.country}.`,
+      language_or_networking_requirements: "Verify employer language expectations and common recruitment channels.",
+    },
+    sources: [],
+    gaps: [
+      `Live research was unavailable, so no institution-specific claims for ${destination} were treated as verified.`,
+    ],
+    research_batches: undefined,
+  };
+}
+
+const PROFILE_RESEARCH_FALLBACK = fallbackResearchForProfile(REQUESTED_PROFILE);
+let ACTIVE_RESEARCH: ResearchReport & { research_batches?: JsonObject[] } = PROFILE_RESEARCH_FALLBACK;
 
 function normalizeApiBaseURL(raw: string): string {
   const url = new URL(raw);
@@ -711,22 +825,22 @@ function researchBatchesFromReport(report: ResearchReport): JsonObject[] {
 
 function normalizeResearchReport(report: Partial<ResearchReport>): ResearchReport & { research_batches?: JsonObject[] } {
   const merged = {
-    ...MANUAL_RESEARCH,
+    ...PROFILE_RESEARCH_FALLBACK,
     ...report,
     location: {
-      ...MANUAL_RESEARCH.location,
+      ...PROFILE_RESEARCH_FALLBACK.location,
       ...(report.location ?? {}),
     },
     profile: {
-      ...MANUAL_RESEARCH.profile,
+      ...PROFILE_RESEARCH_FALLBACK.profile,
       ...(report.profile ?? {}),
     },
     report: {
-      ...MANUAL_RESEARCH.report,
+      ...PROFILE_RESEARCH_FALLBACK.report,
       ...(report.report ?? {}),
     },
     gameplay_signals: {
-      ...MANUAL_RESEARCH.gameplay_signals,
+      ...PROFILE_RESEARCH_FALLBACK.gameplay_signals,
       ...(report.gameplay_signals ?? {}),
     },
     research_batches: (report as { research_batches?: JsonObject[] }).research_batches,
@@ -737,41 +851,37 @@ function normalizeResearchReport(report: Partial<ResearchReport>): ResearchRepor
 
 async function retrieveResearch(): Promise<ResearchReport & { research_batches?: JsonObject[] }> {
   if (!ENABLE_LIVE_RESEARCH) {
-    await appendLog("[research] live retrieval disabled; using bundled manual research packet");
-    await writeJson("00_research_report.json", MANUAL_RESEARCH);
-    return MANUAL_RESEARCH;
+    await appendLog("[research] live retrieval disabled; using the profile-aware fallback packet");
+    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
+    return PROFILE_RESEARCH_FALLBACK;
   }
   if (!RESEARCH_API_KEY) {
-    await appendLog("[research] no research API key; using bundled manual research packet");
-    await writeJson("00_research_report.json", MANUAL_RESEARCH);
-    return MANUAL_RESEARCH;
+    await appendLog("[research] no research API key; using the profile-aware fallback packet");
+    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
+    return PROFILE_RESEARCH_FALLBACK;
   }
 
   const started = Date.now();
   await appendLog(`[api:00_live_research] started model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
-  const prompt = `Research the current demo profile and return one strict JSON ResearchReport object.
+  const prompt = `Research the selected study-abroad profile and return one strict JSON ResearchReport object.
 
 Profile:
-- country: Japan
-- city: Tokyo
-- school: The University of Tokyo
-- department: Graduate School of Information Science and Technology
-- major: Computer Science
-- grade: Taught Master
+${compact(REQUESTED_PROFILE, 4_000)}
 
 Need:
 - Use web search for official or high-confidence sources.
-- Focus on post-offer student life: COE/student visa, tuition/proof of funds, housing/commute, ward-office registration, lab/course culture, Japanese language, part-time work, typhoon/deadline disruption, career/internship/status change.
+- Focus on post-offer student life: entry and student-status documents, tuition/proof of funds, housing/commute, local registration, department/program culture, local language, permitted work, locally relevant disruptions, career/internship/post-study status.
+- Do not import Japan- or Tokyo-specific rules into another destination.
 - Include source URLs where available.
 - Keep the JSON concise enough to parse.
 
 Return shape compatible with the existing ResearchReport TypeScript interface:
 {
   "mode": "live_search",
-  "location": {"country":"Japan","city":"Tokyo"},
-  "major": "Computer Science",
-  "grade": "Taught Master",
-  "profile": {"country":"Japan","city":"Tokyo","school":"The University of Tokyo","department":"Graduate School of Information Science and Technology","major":"Computer Science","grade":"Taught Master"},
+  "location": {"country":"...","city":"..."},
+  "major": "...",
+  "grade": "...",
+  "profile": {"country":"...","city":"...","school":"...","department":"...","program":"...","major":"...","grade":"..."},
   "report": {"cost_of_living":"...","academic":"...","visa":"...","culture_shock":"...","community":"...","career":"...","safety":"...","climate":"...","part_time_work":"..."},
   "gameplay_signals": {"health":[],"mood":[],"money":[],"city_major_specific_challenges":[]},
   "program_profile": {},
@@ -803,9 +913,9 @@ Return shape compatible with the existing ResearchReport TypeScript interface:
     raw_content: response.ok ? undefined : raw.slice(0, 2000),
   });
   if (!response.ok) {
-    await appendLog(`[api:00_live_research] failed status=${response.status}; using bundled manual research packet`);
-    await writeJson("00_research_report.json", MANUAL_RESEARCH);
-    return MANUAL_RESEARCH;
+    await appendLog(`[api:00_live_research] failed status=${response.status}; using profile-aware fallback packet`);
+    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
+    return PROFILE_RESEARCH_FALLBACK;
   }
 
   try {
@@ -819,9 +929,9 @@ Return shape compatible with the existing ResearchReport TypeScript interface:
     await appendLog(`[api:00_live_research] completed in ${Date.now() - started}ms`);
     return report;
   } catch (error) {
-    await appendLog(`[api:00_live_research] parse failed; using bundled manual research packet: ${error instanceof Error ? error.message : String(error)}`);
-    await writeJson("00_research_report.json", MANUAL_RESEARCH);
-    return MANUAL_RESEARCH;
+    await appendLog(`[api:00_live_research] parse failed; using profile-aware fallback packet: ${error instanceof Error ? error.message : String(error)}`);
+    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
+    return PROFILE_RESEARCH_FALLBACK;
   }
 }
 
@@ -920,10 +1030,13 @@ function variableNamesFromTriggers(triggers: LogicVariantTrigger[] | undefined):
 }
 
 function createInitialGraph(): LogicGraphDocument {
+  const degreeTrack: LogicGraphDocument["degree_track"] =
+    REQUESTED_PROFILE.grade === "Undergraduate" ? "undergraduate" : "master_taught";
+  const destination = REQUESTED_PROFILE.city || REQUESTED_PROFILE.country;
   const graph: LogicGraphDocument = {
     flow_version: "post_offer_v1",
     story_id: STORY_ID,
-    degree_track: "master_taught",
+    degree_track: degreeTrack,
     base_variables: BASE_VARIABLES,
     suggested_variables: SUPPLEMENTAL_VARIABLES,
     accepted_supplemental_variables: SUPPLEMENTAL_VARIABLES,
@@ -937,9 +1050,9 @@ function createInitialGraph(): LogicGraphDocument {
     nodes: {},
     pages: {},
     endings: {
-      E_tokyo_local_job: {
-        id: "E_tokyo_local_job",
-        title: "Tokyo becomes home",
+      E_local_job: {
+        id: "E_local_job",
+        title: `${destination} becomes home`,
         tone: "hopeful",
         condition_summary: "The player graduates with enough career, visa, and wellbeing stability to start local work.",
       },
@@ -953,7 +1066,7 @@ function createInitialGraph(): LogicGraphDocument {
         id: "E_third_country_launch",
         title: "Third-country launch",
         tone: "hopeful",
-        condition_summary: "The player uses the Tokyo degree and network to launch outside Japan.",
+        condition_summary: `The player uses the ${destination} degree and network to launch in another country.`,
       },
       E_defer_or_pause: {
         id: "E_defer_or_pause",
@@ -1035,11 +1148,11 @@ ${compact(Object.values(graph.nodes).map(({ id, title, stage, is_special, why_sp
 
 Output JSON shape:
 {
-  "node_adjustments": [{"node_id":"N03_coe_visa","title":"...","is_special":true,"why_special":"...","variant_triggers":[{"variables":["visa","time"],"reason":"..."}],"facts_used":["..."]}],
+  "node_adjustments": [{"node_id":"N03_student_visa","title":"...","is_special":true,"why_special":"...","variant_triggers":[{"variables":["visa","time"],"reason":"..."}],"facts_used":["..."]}],
   "new_nodes": [{"id":"NXX_name","title":"...","insert_after":"N05_arrival_registration","stage":"study","is_special":true,"why_special":"...","variables_read":["money"],"variables_written":["money"],"variant_triggers":[{"variables":["money"],"reason":"..."}],"facts_used":["..."]}],
   "accepted_supplemental_variables": [],
-  "special_nodes": [{"node_id":"N03_coe_visa","reason":"...","ending_impact":"..."}],
-  "research_adjustments": [{"node_id":"N03_coe_visa","adjustment":"...","facts_used":["..."]}],
+  "special_nodes": [{"node_id":"N03_student_visa","reason":"...","ending_impact":"..."}],
+  "research_adjustments": [{"node_id":"N03_student_visa","adjustment":"...","facts_used":["..."]}],
   "supervisor_notes": ["..."]
 }`,
     },
@@ -1366,11 +1479,12 @@ function nodeContentRules(nodeId: string): string {
 }
 
 function systemContentRules(): string {
+  const grounding = `${REQUESTED_PROFILE.school || REQUESTED_PROFILE.city} ${REQUESTED_PROFILE.major}`;
   return OUTPUT_LANGUAGE === "zh"
-    ? `- Simplified Chinese only, second person, grounded in the Tokyo CS research.
+    ? `- Simplified Chinese only, second person, grounded in the supplied ${grounding} research.
 - Warning pages: 45-90 Chinese characters.
 - Endings: 90-160 Chinese characters.`
-    : `- English only, second person, grounded in the Tokyo CS research.
+    : `- English only, second person, grounded in the supplied ${grounding} research.
 - Warning pages: 45-90 English words.
 - Endings: 90-160 English words.`;
 }
@@ -1615,7 +1729,7 @@ function imageRuntimeConfig(): RuntimeConfig {
 
 function imagePromptFromScene(id: string, sceneText: string): string {
   const snippet = sceneText.replace(/\s+/g, " ").slice(0, 260);
-  return `Tokyo international computer science master's student decision scene, page ${id}, inspired by this story moment: ${snippet}`;
+  return `${REQUESTED_PROFILE.city} international ${REQUESTED_PROFILE.major} ${REQUESTED_PROFILE.grade} student decision scene at ${REQUESTED_PROFILE.school || "a university"}, page ${id}, inspired by this story moment: ${snippet}`;
 }
 
 function markImageAnchors(doc: StoryDocument): void {
@@ -1953,6 +2067,7 @@ async function main(): Promise<void> {
   await appendLog(`[start] story_id=${STORY_ID} output_language=${OUTPUT_LANGUAGE} text_model=${TEXT_MODEL} text_baseURL=${TEXT_API_BASE_URL}`);
   await writeJson("00_meta.json", {
     storyId: STORY_ID,
+    profile: REQUESTED_PROFILE,
     textModel: TEXT_MODEL,
     textBaseURL: TEXT_API_BASE_URL,
     researchModel: RESEARCH_MODEL,

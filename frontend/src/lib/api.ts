@@ -147,6 +147,12 @@ export interface GenerateParams {
   storyId?: string;
 }
 
+export async function fetchStory(storyId: string): Promise<StoryDocument | null> {
+  const res = await fetch(`/api/stories/${encodeURIComponent(storyId)}`);
+  if (!res.ok) return null;
+  return (await res.json()) as StoryDocument;
+}
+
 export interface FullGenerationJob {
   storyId: string;
   status: "running" | "completed" | "failed";
@@ -187,6 +193,7 @@ export async function generateStory(params: GenerateParams): Promise<StoryDocume
 
 export async function startFullGeneration(params: {
   runtimeConfig: RuntimeConfig;
+  profile?: UserProfile;
   storyId?: string;
   regenerate?: boolean;
   model?: string;
@@ -199,6 +206,24 @@ export async function startFullGeneration(params: {
   const payload = (await res.json()) as FullGenerationJob & { error?: string };
   if (!res.ok) throw new Error(payload.error ?? "Full generation failed to start");
   return payload;
+}
+
+export async function waitForFullGeneration(
+  initialJob: FullGenerationJob,
+  pollIntervalMs = 2_000,
+): Promise<FullGenerationJob> {
+  let job = initialJob;
+  while (job.status === "running") {
+    await new Promise((resolve) => window.setTimeout(resolve, pollIntervalMs));
+    job = await fetchFullGenerationStatus(job.storyId);
+  }
+  if (job.status === "failed") {
+    throw new Error(job.error ?? "Full generation failed.");
+  }
+  if (!job.hasFinalStory) {
+    throw new Error("Generation finished without a playable final story.");
+  }
+  return job;
 }
 
 export async function fetchFullGenerationStatus(storyId: string): Promise<FullGenerationJob> {

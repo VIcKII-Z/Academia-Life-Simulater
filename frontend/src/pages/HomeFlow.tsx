@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PassportCard from "../components/PassportCard";
 import QuizFlow from "../components/QuizFlow";
 import TimeSkipLoader from "../components/TimeSkipLoader";
@@ -9,7 +9,7 @@ import StatFlyers, { type StatFlyer } from "../components/StatFlyers";
 import PostcardEnding from "../components/PostcardEnding";
 import AdmissionLetter from "../components/AdmissionLetter";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import { buildRuntimeConfig, generateStory } from "../lib/api";
+import { buildRuntimeConfig, startFullGeneration, waitForFullGeneration } from "../lib/api";
 import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import {
@@ -36,6 +36,7 @@ let flyerSeq = 0;
 
 export default function HomeFlow() {
   const { t, language } = useI18n();
+  const navigate = useNavigate();
   const [stage, setStage] = useState<FlowStage>(hasStoredApiKey() ? "quiz" : "passport");
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [story, setStory] = useState<StoryDocument | null>(null);
@@ -60,7 +61,7 @@ export default function HomeFlow() {
   // "dreaming" screen and THEN reading the letter, the two happen at once,
   // which shortens the total time-to-play whenever the letter + decision
   // takes longer than the agents still needed.
-  const storyRequestRef = useRef<Promise<StoryDocument> | null>(null);
+  const storyRequestRef = useRef<ReturnType<typeof waitForFullGeneration> | null>(null);
 
   function registerStatIcon(key: keyof StatBlock, el: HTMLImageElement | null) {
     if (el) statIconRefs.current[key] = el;
@@ -108,15 +109,19 @@ export default function HomeFlow() {
   function startStory(nextProfile: UserProfile) {
     setProfile(nextProfile);
     setError(null);
-    storyRequestRef.current = generateStory({
-      mode: "live_search",
+    const runtimeConfig = buildRuntimeConfig(undefined, {
+      enableImageGeneration: imageGenerationEnabled,
+      maxImagesPerStory: imageGenerationEnabled ? 12 : 0,
+    }, language === "zh" ? "zh" : "en");
+    const generationRequest = startFullGeneration({
       profile: nextProfile,
-      flowVersion: "post_offer_v1",
-      runtimeConfig: buildRuntimeConfig(undefined, {
-        enableImageGeneration: imageGenerationEnabled,
-        maxImagesPerStory: imageGenerationEnabled ? 12 : 0,
-      }, language === "zh" ? "zh" : "en"),
-    });
+      runtimeConfig,
+    }).then((job) => waitForFullGeneration(job));
+    storyRequestRef.current = generationRequest;
+    // The player may spend several minutes reading the letter. Attach a
+    // rejection handler immediately so an early backend failure is retained
+    // for acceptOffer without becoming an unhandled browser rejection.
+    void generationRequest.catch(() => undefined);
     // The admission letter only needs the profile the player just entered
     // (already the authoritative, fully-normalized values — school/program/
     // department come straight from their search picks), so it can show
@@ -135,18 +140,9 @@ export default function HomeFlow() {
       // generated, already finished while the player was on the letter, or
       // reused from the cache.
       const minSkipTime = new Promise((resolve) => setTimeout(resolve, 4200));
-      const [doc] = await Promise.all([request, minSkipTime]);
-      if (!doc) throw new Error("Story generation did not return a result.");
-      setStory(doc);
-      setCurrentNodeId(doc.logic?.start_node_id ?? Object.keys(doc.nodes)[0] ?? "A");
-      setStats({ ...DEFAULT_STATS, ...doc.initial_stats });
-      setLogicVars(initLogicVars(doc));
-      setLogicWarningsSeen({});
-      setWarningReturnNodeId(null);
-      setResultReturnNodeId(null);
-      setGameOverReason(null);
-      setReusedStory(Boolean(doc.cached));
-      setStage("play");
+      const [job] = await Promise.all([request, minSkipTime]);
+      if (!job?.storyId || !job.hasFinalStory) throw new Error("Story generation did not return a playable result.");
+      navigate(`/play-demo?storyId=${encodeURIComponent(job.storyId)}`, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setStage("error");

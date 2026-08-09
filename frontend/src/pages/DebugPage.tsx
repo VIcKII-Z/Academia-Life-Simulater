@@ -396,7 +396,7 @@ export default function DebugPage() {
   }
 
   async function runFullPostOfferGenerator() {
-    const clientStoryId = makeStoryId("utokyo_cs_full");
+    const clientStoryId = makeStoryId(`${profile.city}_${profile.major}_full`);
     setLoading(true);
     setError(null);
     setStory(null);
@@ -410,6 +410,7 @@ export default function DebugPage() {
       if (!apiKey.trim()) throw new Error("Enter an API key before starting the full generator.");
       if (provider === "relay" && !relayBaseURL.trim()) throw new Error("Relay mode needs a base URL.");
       const job = await startFullGeneration({
+        profile,
         storyId: clientStoryId,
         regenerate: true,
         model: fullModel.trim() || "gemini-3-flash-preview",
