@@ -3,9 +3,11 @@ import { loadCredentials, loadProviderApiKey } from "./storage";
 
 const DEFAULT_MODELS = {
   search: "gpt-4o",
-  design: "gpt-4o-mini",
+  design: "gemini-3-flash-preview",
   image: "gpt-image-1",
 };
+
+const DEFAULT_TEXT_RELAY_BASE_URL = "https://gcli.ggchan.dev/v1";
 
 export async function fetchAppConfig(): Promise<AppConfig> {
   const res = await fetch("/api/config");
@@ -100,29 +102,28 @@ export function buildRuntimeConfig(
   const models = { ...DEFAULT_MODELS, ...overrides };
   const openaiApiKey = loadProviderApiKey("openai").trim();
   const textApiKey = apiKey.trim();
+  const textBaseURL = provider === "relay" ? baseURL.trim() || DEFAULT_TEXT_RELAY_BASE_URL : undefined;
   return {
     provider,
     apiKey: textApiKey,
-    baseURL: provider === "relay" ? baseURL.trim() : undefined,
+    baseURL: textBaseURL,
     models,
     outputLanguage,
     services: {
       search: {
-        provider: openaiApiKey ? "openai" : provider,
-        apiKey: openaiApiKey || textApiKey,
-        baseURL: openaiApiKey ? undefined : provider === "relay" ? baseURL.trim() : undefined,
+        provider: "openai",
+        apiKey: openaiApiKey,
         model: models.search,
       },
       text: {
         provider,
         apiKey: textApiKey,
-        baseURL: provider === "relay" ? baseURL.trim() : undefined,
+        baseURL: textBaseURL,
         model: models.design,
       },
       image: {
-        provider: openaiApiKey ? "openai" : provider,
-        apiKey: openaiApiKey || textApiKey,
-        baseURL: openaiApiKey ? undefined : provider === "relay" ? baseURL.trim() : undefined,
+        provider: "openai",
+        apiKey: openaiApiKey,
         model: models.image,
       },
     },

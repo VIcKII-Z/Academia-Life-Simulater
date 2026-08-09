@@ -75,7 +75,7 @@ function normalizeRelayBaseURL(rawBaseURL: string): string {
     url.hash = "";
     return url.toString().replace(/\/$/, "");
   } catch {
-    throw new Error("Relay base URL is invalid. Use an OpenAI-compatible API base URL, for example: https://xuedingmao.top/v1");
+    throw new Error("Relay base URL is invalid. Use an OpenAI-compatible API base URL, for example: https://gcli.ggchan.dev/v1");
   }
 }
 
@@ -92,8 +92,8 @@ function resolveRuntimeServiceConfig(
   fallback: RuntimeServiceConfig,
 ): RuntimeServiceConfig {
   const provider: Provider = raw?.provider === "relay" ? "relay" : raw?.provider === "openai" ? "openai" : fallback.provider;
-  const apiKey = raw?.apiKey?.trim() ?? fallback.apiKey?.trim();
-  const rawBaseURL = raw?.baseURL?.trim() ?? fallback.baseURL?.trim();
+  const apiKey = raw?.apiKey?.trim() || fallback.apiKey?.trim();
+  const rawBaseURL = raw?.baseURL?.trim() || fallback.baseURL?.trim();
   if (provider === "relay" && apiKey && !rawBaseURL) {
     throw new Error(`${service} service uses relay mode and needs a relay base URL.`);
   }
@@ -122,15 +122,17 @@ function resolveRuntimeConfig(input: unknown, mode: "preset" | "live_search"): R
   const apiKey = raw.apiKey?.trim();
   const baseURL = raw.baseURL?.trim();
   const textServiceBaseURL = raw.services?.text?.baseURL?.trim();
+  const backendRelayBaseURL = process.env.GCLI_BASE_URL?.trim() || process.env.OPENAI_BASE_URL?.trim();
+  const resolvedRelayBaseURL = baseURL || textServiceBaseURL || backendRelayBaseURL;
 
-  if (provider === "relay" && !baseURL && !textServiceBaseURL) {
+  if (provider === "relay" && !resolvedRelayBaseURL) {
     throw new Error("Relay mode requires a relay base URL.");
   }
 
   const legacyService: RuntimeServiceConfig = {
     provider,
-    apiKey,
-    baseURL: provider === "relay" ? normalizeRelayBaseURL((baseURL || textServiceBaseURL) as string) : undefined,
+    apiKey: apiKey || (provider === "relay" ? process.env.GCLI_API_KEY : process.env.OPENAI_API_KEY),
+    baseURL: provider === "relay" ? normalizeRelayBaseURL(resolvedRelayBaseURL as string) : undefined,
   };
   const models = {
     search: raw.models?.search?.trim() || config.models.search,
@@ -156,8 +158,8 @@ function resolveRuntimeConfig(input: unknown, mode: "preset" | "live_search"): R
 
   return {
     provider,
-    apiKey,
-    baseURL: provider === "relay" ? normalizeRelayBaseURL((baseURL || textServiceBaseURL) as string) : undefined,
+    apiKey: legacyService.apiKey,
+    baseURL: provider === "relay" ? normalizeRelayBaseURL(resolvedRelayBaseURL as string) : undefined,
     models,
     services,
     outputLanguage: raw.outputLanguage === "zh" ? "zh" : "en",

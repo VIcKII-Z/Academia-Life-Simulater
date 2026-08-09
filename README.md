@@ -15,8 +15,8 @@ program, searched layer-by-layer) into a playable text-adventure game: Search Ag
   paid consultants or personal networks have no way to "try before you buy" a specific school and
   city. See **"Why we built this"** below for the full motivation.
 - **How to try it in under a minute:** run the two `npm run dev` commands under "Running
-  locally", open `http://localhost:5173`, paste an API key (or use preset mode / a cached story —
-  no key required), and answer the 5-question quiz. See **"How to use it"** below for the full
+  locally", open `http://localhost:5173`, and answer the destination quiz. Provider credentials
+  are read by the backend and are never shipped to the browser. See **"How to use it"** for the full
   walkthrough.
 - **What's real vs. simulated:** every story is grounded in agent-researched, named real-world
   details (see "Architecture" and `search_agent_strategy.en.md`) — not generic AI filler. Known
@@ -80,10 +80,9 @@ without it.
 ## 🎮 How to use it (for end users)
 
 1. **Open the app** at the URL your team gives you (locally: `http://localhost:5173`).
-2. **Bring your own key.** On the first screen, paste an OpenAI API key (or your team's relay
-   key, if provided) and pick the matching provider toggle — see "Provider: relay vs. official
-   OpenAI" below if you're not sure which to pick. Your key is stored only in your browser
-   (`localStorage`), never sent anywhere except directly to OpenAI/the relay you chose.
+2. **No API key is required in the browser.** The hosted backend supplies separate credentials
+   for text generation, live research, and images. The optional "Travel key" dialog is only for
+   developers who deliberately want to override those defaults in their own browser.
 3. **Tell it about your dream destination**, one question at a time: country → city →
    university → degree level → program/major. Each step's options are generated from the
    previous answer, so you're always picking from real, relevant choices rather than typing
@@ -109,9 +108,8 @@ without it.
 
 If you're new to this codebase, read this section first, then skim "Architecture" below.
 
-1. **Get it running**: see "Running locally" — you need Node installed and either an official
-   OpenAI API key or access to our team's relay key (中转站). Both work; pick one via the toggle
-   on the key-entry screen (see "Provider: relay vs. official OpenAI" below).
+1. **Get it running**: see "Running locally" — you need Node plus the backend environment values
+   documented in `.env.example`. Text generation and OpenAI search/images are configured separately.
 2. **Where things live**: almost everything you'd touch day-to-day is in `backend/src/agents/*`
    (the three LLM prompts) and `frontend/src/pages/HomeFlow.tsx` + `frontend/src/components/*`
    (the user-facing flow). `backend/src/config/config.ts` is the one place to flip feature
@@ -273,14 +271,16 @@ story: {
 ### Environment variables (`backend/.env`, see `.env.example`)
 
 ```
-OPENAI_API_KEY=...       # required — official OpenAI key, or your relay/proxy key
+GCLI_API_KEY=...         # Gemini-compatible relay, used only for story planning and prose
+GCLI_BASE_URL=https://gcli.ggchan.dev/v1
+GCLI_MODEL=gemini-3-flash-preview
+OPENAI_API_KEY=...       # official OpenAI, used only for web search and image generation
 PORT=3001
-OPENAI_BASE_URL=...      # optional — omit for official api.openai.com, or point at a relay
 ```
 
-We're currently using a third-party OpenAI-protocol relay ("中转站"), `https://xuedingmao.top/v1`,
-with model `gpt-4o-mini` for the Design Agent and `gpt-4o` for the Search Agent — both confirmed
-working, including live search via the Responses API `web_search_preview` tool.
+The services are deliberately split: `gemini-3-flash-preview` on the GCLI-compatible relay writes
+the logic and prose; official OpenAI `gpt-4o` performs Responses API web search; official
+`gpt-image-1` generates images. Browser requests contain no backend API keys.
 
 ## Running locally
 
@@ -288,7 +288,7 @@ working, including live search via the Responses API `web_search_preview` tool.
 # Backend
 cd backend
 npm install
-cp .env.example .env   # then fill in OPENAI_API_KEY (and OPENAI_BASE_URL if using a relay)
+cp .env.example .env   # then fill in GCLI_API_KEY and OPENAI_API_KEY
 npm run dev             # http://localhost:3001
 
 # Frontend (separate terminal)
@@ -299,28 +299,19 @@ npm run dev              # http://localhost:5173 — open this in your browser
 
 Frontend dev server proxies `/api` and `/assets` to the backend (see `frontend/vite.config.ts`).
 
-- **User-facing app**: `http://localhost:5173/` — pick relay or official OpenAI on the key-entry
-  card, enter your key (saved per-provider to `localStorage` so switching providers never clears
-  the other one's key), search your destination layer-by-layer (country → city → university →
-  degree → program), then read/play your generated story. You can reopen the key card anytime via
-  the "🔑 API key" button without losing quiz/game progress.
+- **User-facing app**: `http://localhost:5173/` — search your destination layer-by-layer
+  (country → city → university → degree → program), then read/play the generated story. No
+  browser API key is required.
 - **Dev console**: `http://localhost:5173/debug` — configure provider/models, trigger runs
   (with cache reuse or forced regeneration), inspect raw per-stage agent output.
 
-### Provider: relay vs. official OpenAI
+### Service routing
 
-Both the first-run key-entry screen and the mid-flow "🔑 API key" editor show a sliding toggle:
-
-- **🔀 Relay (中转站)** — needs an API key + base URL (defaults to `https://xuedingmao.top/v1`).
-  Cheaper/shared, but its image-generation endpoint has been unreliable (429s) — see "Current
-  Status".
-- **🤖 Official OpenAI** — needs only your own OpenAI API key; `openaiClient.ts` forces
-  `baseURL: "https://api.openai.com/v1"` for every agent call (search, design, **and images**)
-  when this is selected, regardless of any relay URL set in `backend/.env` — so this is the
-  reliable path for image generation right now.
-
-Each provider's key is stored independently (`fls.apiKey.relay` / `fls.apiKey.openai`), so you can
-switch back and forth without re-entering either key.
+- **Text planning and prose:** GCLI-compatible relay, `gemini-3-flash-preview`.
+- **Live web research:** official OpenAI Responses API with `web_search_preview`.
+- **Images:** official OpenAI Images API with `gpt-image-1`.
+- **Optional browser override:** the "Travel key" dialog can replace the default text provider for
+  a developer session; it is not part of normal visitor onboarding.
 
 ## API Endpoints
 

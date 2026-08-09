@@ -10,7 +10,7 @@ import PostcardEnding from "../components/PostcardEnding";
 import AdmissionLetter from "../components/AdmissionLetter";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import { buildRuntimeConfig, startFullGeneration, waitForFullGeneration } from "../lib/api";
-import { hasStoredApiKey, loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
+import { loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import {
   applyLogicDelta,
@@ -37,7 +37,7 @@ let flyerSeq = 0;
 export default function HomeFlow() {
   const { t, language } = useI18n();
   const navigate = useNavigate();
-  const [stage, setStage] = useState<FlowStage>(hasStoredApiKey() ? "quiz" : "passport");
+  const [stage, setStage] = useState<FlowStage>("quiz");
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [story, setStory] = useState<StoryDocument | null>(null);
   const [currentNodeId, setCurrentNodeId] = useState("A");

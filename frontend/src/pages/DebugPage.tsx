@@ -171,7 +171,7 @@ export default function DebugPage() {
   const [openaiApiKey, setOpenaiApiKey] = useState(loadProviderApiKey("openai"));
   const [provider, setProvider] = useState<Provider>(stored.provider);
   const [relayBaseURL, setRelayBaseURL] = useState(stored.baseURL);
-  const [models, setModels] = useState({ search: "gpt-4o", design: "gpt-4o-mini", image: "gpt-image-1" });
+  const [models, setModels] = useState({ search: "gpt-4o", design: "gemini-3-flash-preview", image: "gpt-image-1" });
   const [enableImageGeneration, setEnableImageGeneration] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({
     country: "Japan",
@@ -407,8 +407,6 @@ export default function DebugPage() {
     setActiveDebugTab("full_generator.log");
 
     try {
-      if (!apiKey.trim()) throw new Error("Enter an API key before starting the full generator.");
-      if (provider === "relay" && !relayBaseURL.trim()) throw new Error("Relay mode needs a base URL.");
       const job = await startFullGeneration({
         profile,
         storyId: clientStoryId,
@@ -510,7 +508,7 @@ export default function DebugPage() {
                 <input
                   type="text"
                   value={relayBaseURL}
-                  placeholder="https://xuedingmao.top/v1"
+                  placeholder="https://gcli.ggchan.dev/v1"
                   onChange={(event) => setRelayBaseURL(event.target.value)}
                 />
               </label>

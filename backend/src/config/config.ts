@@ -9,11 +9,11 @@ export const config = {
   // ---- OpenAI connection -----------------------------------------
   // Leave baseURL empty ("") to hit the official api.openai.com.
   // To use an OpenAI-protocol-compatible relay/proxy ("中转站"), e.g.
-  // https://xuedingmao.top/v1, set it here or via OPENAI_BASE_URL in .env.
+  // https://gcli.ggchan.dev/v1, set it here or via GCLI_BASE_URL in .env.
   // Model names must match whatever the relay's "支持模型" list calls them —
   // update models.* below to match exactly what the relay/provider supports.
   openai: {
-    baseURL: "", // e.g. "https://xuedingmao.top/v1"
+    baseURL: "", // text generation uses GCLI_BASE_URL; search/image remain official OpenAI
   },
 
   // ---- Models -------------------------------------------------
@@ -23,7 +23,7 @@ export const config = {
   // web_search tool — many relays only proxy /chat/completions.
   models: {
     search: "gpt-4o",
-    design: "gpt-4o-mini", // bump to "gpt-4o" if JSON/quality is unreliable
+    design: "gemini-3-flash-preview",
     image: "gpt-image-1",
   },
 

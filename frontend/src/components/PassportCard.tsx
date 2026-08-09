@@ -15,7 +15,7 @@ export default function PassportCard({
 }) {
   const { t } = useI18n();
   const existing = loadCredentials();
-  const DEFAULT_RELAY_URL = "https://xuedingmao.top/v1";
+  const DEFAULT_RELAY_URL = "https://gcli.ggchan.dev/v1";
   const [relayApiKey, setRelayApiKey] = useState(loadProviderApiKey("relay"));
   const [openaiApiKey, setOpenaiApiKey] = useState(loadProviderApiKey("openai"));
   const [provider, setProvider] = useState<Provider>(existing.provider || "relay");
