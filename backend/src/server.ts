@@ -31,7 +31,7 @@ const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
 const RUNS_DIR = path.resolve(process.cwd(), "..", "data", "runs");
 const STORY_STRUCTURE_VERSION = "post-offer-v1-variable-gated";
-const FULL_GENERATOR_VERSION = "full-post-offer-v2-profile-aware";
+const FULL_GENERATOR_VERSION = "full-post-offer-v4-normalized-official-research";
 const MANUAL_FULL_GENERATOR_PROFILE: UserProfile = {
   country: "Japan",
   city: "Tokyo",
@@ -223,6 +223,21 @@ async function hasFullGeneratorFinalStory(storyId: string): Promise<boolean> {
   try {
     await fs.access(path.join(RUNS_DIR, storyId, "09_final_story.json"));
     return true;
+  } catch {
+    return false;
+  }
+}
+
+async function hasFullGeneratorPlanningCheckpoint(storyId: string): Promise<boolean> {
+  try {
+    await fs.access(path.join(RUNS_DIR, storyId, "00_research_report.json"));
+    const names = await fs.readdir(path.join(RUNS_DIR, storyId));
+    return names.some((name) =>
+      name === "04_planned_graph_before_supervisor.json"
+      || name === "05_balanced_logic_graph.json"
+      || name === "06_content_complete_graph.json"
+      || /^04_after_.+\.json$/.test(name)
+      || /^06_content_after_.+\.json$/.test(name));
   } catch {
     return false;
   }
@@ -914,6 +929,7 @@ app.post("/api/full-generate", async (req, res) => {
     FULL_ENABLE_LIVE_RESEARCH: String(runtimeConfig?.features.enableLiveSearch ?? true),
     FULL_ENABLE_IMAGE_GENERATION: String(runtimeConfig?.features.enableImageGeneration ?? false),
     FULL_MAX_IMAGES: String(runtimeConfig?.features.maxImagesPerStory ?? 0),
+    FULL_RESUME_CHECKPOINT: String(!regenerate && (await hasFullGeneratorPlanningCheckpoint(storyId))),
   };
 
   if (textService?.provider === "relay") {

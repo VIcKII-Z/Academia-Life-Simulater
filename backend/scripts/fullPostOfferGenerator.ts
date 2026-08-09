@@ -733,6 +733,31 @@ async function writeJson(name: string, value: unknown): Promise<void> {
   await fs.writeFile(path.join(RUN_DIR, name), JSON.stringify(value, null, 2), "utf8");
 }
 
+async function readRunJson<T>(name: string): Promise<T | null> {
+  try {
+    return JSON.parse(await fs.readFile(path.join(RUN_DIR, name), "utf8")) as T;
+  } catch {
+    return null;
+  }
+}
+
+async function readLatestMatchingRunJson<T>(pattern: RegExp): Promise<{ name: string; value: T } | null> {
+  try {
+    const candidates = (await fs.readdir(RUN_DIR))
+      .filter((name) => pattern.test(name))
+      .map(async (name) => ({ name, stat: await fs.stat(path.join(RUN_DIR, name)) }));
+    const resolved = await Promise.all(candidates);
+    resolved.sort((a, b) => b.stat.mtimeMs - a.stat.mtimeMs);
+    for (const candidate of resolved) {
+      const value = await readRunJson<T>(candidate.name);
+      if (value) return { name: candidate.name, value };
+    }
+  } catch {
+    // A missing or unreadable checkpoint simply means this run starts from an earlier stage.
+  }
+  return null;
+}
+
 const MAX_CHAT_JSON_ATTEMPTS = 3;
 const TRANSIENT_API_STATUSES = new Set([408, 409, 425, 429, 500, 502, 503, 504, 520, 522, 524]);
 
@@ -855,6 +880,30 @@ const SOURCE_TYPES = new Set<ResearchSource["source_type"]>([
 ]);
 const SOURCE_CONFIDENCE = new Set<ResearchSource["confidence"]>(["official_registry", "high", "medium", "low"]);
 
+function normalizedInstitutionAliases(name: string): string[] {
+  const normalized = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const stopWords = new Set([
+    "the", "of", "and", "university", "universitat", "universite", "college", "school", "institute",
+    "technical", "technische", "technology", "national", "polytechnic",
+  ]);
+  const words = normalized.match(/[a-z0-9]+/g) ?? [];
+  const significant = words.filter((word) => word.length >= 3 && !stopWords.has(word));
+  const acronym = (name.match(/[\p{L}\p{N}]+/gu) ?? [])
+    .filter((word) => !stopWords.has(word.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase()))
+    .map((word) => word[0])
+    .join("")
+    .normalize("NFKD")
+    .replace(/[^a-z0-9]/gi, "")
+    .toLowerCase();
+  return [...new Set([...significant, ...(acronym.length >= 2 ? [acronym] : [])])];
+}
+
+function hostnameMatchesTargetInstitution(hostname: string): boolean {
+  const compactHostname = hostname.replace(/[^a-z0-9]/g, "");
+  const aliases = normalizedInstitutionAliases(REQUESTED_PROFILE.school || "");
+  return aliases.length === 0 || aliases.some((alias) => compactHostname.includes(alias.replace(/[^a-z0-9]/g, "")));
+}
+
 function normalizeResearchSources(value: unknown): ResearchSource[] {
   if (!Array.isArray(value)) return [];
   const seenUrls = new Set<string>();
@@ -866,22 +915,219 @@ function normalizeResearchSources(value: unknown): ResearchSource[] {
     const url = typeof candidate.url === "string" ? candidate.url.trim() : "";
     if (!title || !/^https?:\/\//i.test(url) || seenUrls.has(url)) continue;
     seenUrls.add(url);
+    const rawSourceType = typeof candidate.source_type === "string" ? candidate.source_type : "";
+    let sourceType = SOURCE_TYPES.has(rawSourceType as ResearchSource["source_type"])
+      ? (rawSourceType as ResearchSource["source_type"])
+      : "reference";
+    let confidence = SOURCE_CONFIDENCE.has(candidate.confidence as ResearchSource["confidence"])
+      ? (candidate.confidence as ResearchSource["confidence"])
+      : "low";
+    const hostname = new URL(url).hostname.toLowerCase().replace(/^www\./, "");
+    const titleLower = title.toLowerCase();
+    if (["government", "official_government", "public_authority"].includes(rawSourceType)) {
+      sourceType = "official_registry";
+      confidence = "official_registry";
+    }
+    if (hostname.endsWith("wikipedia.org") || titleLower.includes("wikipedia")) {
+      sourceType = "reference";
+      confidence = confidence === "low" ? "low" : "medium";
+    } else if (
+      ["shiksha.com", "mastersportal.com", "studyportals.com", "topuniversities.com", "educations.com", "atlasmunich.de"].some(
+        (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
+      )
+    ) {
+      sourceType = "third_party";
+      confidence = "low";
+    } else if (sourceType === "program_official" && !hostnameMatchesTargetInstitution(hostname)) {
+      // A neighboring university or local institution can still be useful for
+      // city context, but it is not an official source for the selected program.
+      sourceType = "reference";
+      confidence = confidence === "low" ? "low" : "medium";
+    }
+    const targetMajor = REQUESTED_PROFILE.major.toLowerCase();
+    const unrelatedDegree = ["civil engineering", "mechanical engineering", "architecture", "medicine"].find(
+      (degree) => titleLower.includes(degree) && !targetMajor.includes(degree),
+    );
+    const otherCityAuthority = /\bstadt\s+[a-zà-ž-]+/i.test(title) && !titleLower.includes(REQUESTED_PROFILE.city.toLowerCase());
+    if (unrelatedDegree || otherCityAuthority) continue;
     sources.push({
       evidence_id: `S${String(sources.length + 1).padStart(2, "0")}`,
       title,
       url,
-      source_type: SOURCE_TYPES.has(candidate.source_type as ResearchSource["source_type"])
-        ? (candidate.source_type as ResearchSource["source_type"])
-        : "reference",
-      confidence: SOURCE_CONFIDENCE.has(candidate.confidence as ResearchSource["confidence"])
-        ? (candidate.confidence as ResearchSource["confidence"])
-        : "low",
+      source_type: sourceType,
+      confidence,
       used_for: Array.isArray(candidate.used_for)
         ? candidate.used_for.filter((item): item is string => typeof item === "string" && Boolean(item.trim())).map((item) => item.trim())
         : [],
     });
   }
   return sources;
+}
+
+function objectRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
+function factText(value: unknown, max = 1_500): string {
+  if (typeof value === "string") return value.trim();
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (value === undefined || value === null) return "";
+  const text = JSON.stringify(value).replace(/[{}\[\]"]/g, " ").replace(/\s+/g, " ").trim();
+  return text.length > max ? `${text.slice(0, max)}…` : text;
+}
+
+function collectFactStrings(value: unknown, prefix = ""): string[] {
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    const text = factText(value);
+    return text ? [`${prefix ? `${prefix}: ` : ""}${text}`] : [];
+  }
+  if (Array.isArray(value)) return value.flatMap((item) => collectFactStrings(item, prefix));
+  return Object.entries(objectRecord(value)).flatMap(([key, item]) =>
+    collectFactStrings(item, key.replace(/_/g, " ")),
+  );
+}
+
+function findFactByLabel(value: unknown, label: string): unknown {
+  const wanted = label.toLowerCase().replace(/[^a-z0-9]+/g, "");
+  for (const [key, item] of Object.entries(objectRecord(value))) {
+    const normalized = key.toLowerCase().replace(/[^a-z0-9]+/g, "");
+    if (normalized === wanted || normalized.includes(wanted) || wanted.includes(normalized)) return item;
+    const nested = findFactByLabel(item, label);
+    if (nested !== undefined) return nested;
+  }
+  return undefined;
+}
+
+function expandBatchSourceClaims(sources: ResearchReport["sources"], facts: unknown): ResearchReport["sources"] {
+  return (sources ?? []).map((source) => ({
+    ...source,
+    used_for: (source.used_for ?? []).map((claim) => {
+      const matched = findFactByLabel(facts, claim);
+      const detail = factText(matched, 500);
+      return detail ? `${claim}: ${detail}` : claim;
+    }),
+  }));
+}
+
+function standardizeResearchBatch(id: string, parsed: Partial<ResearchReport>): Partial<ResearchReport> {
+  const facts = objectRecord(parsed.report);
+  const base: Partial<ResearchReport> = {
+    sources: expandBatchSourceClaims(parsed.sources, facts),
+    source_coverage: parsed.source_coverage,
+    gameplay_signals: parsed.gameplay_signals,
+    gaps: Array.isArray(parsed.gaps) ? parsed.gaps.filter((gap): gap is string => typeof gap === "string" && Boolean(gap.trim())) : [],
+  };
+  if (id === "program") {
+    const curriculum = objectRecord(facts.curriculum_structure);
+    return {
+      ...base,
+      report: { academic: factText(facts, 2_400) } as ResearchReport["report"],
+      program_profile: {
+        official_name: REQUESTED_PROFILE.program || REQUESTED_PROFILE.major,
+        degree_type: REQUESTED_PROFILE.grade,
+        department: REQUESTED_PROFILE.department || REQUESTED_PROFILE.major,
+        duration: factText(facts.degree_duration),
+        delivery_mode: factText(facts.language_of_instruction)
+          ? `Language of instruction: ${factText(facts.language_of_instruction)}`
+          : undefined,
+        curriculum: [...collectFactStrings(curriculum.core_areas), ...collectFactStrings(curriculum.modules)].slice(0, 30),
+        milestones: collectFactStrings(facts.compulsory_milestones).slice(0, 20),
+        admissions: collectFactStrings(facts.admission_requirements).slice(0, 20),
+        deadlines: collectFactStrings(facts.application_periods).slice(0, 12),
+        funding: collectFactStrings(facts.tuition_fees).slice(0, 12),
+      },
+    };
+  }
+  if (id === "immigration") {
+    return {
+      ...base,
+      report: {
+        visa: [
+          factText(facts.entry_visa_vs_residence_permit),
+          factText(facts.city_registration),
+          factText(facts.proof_of_funds_or_insurance_requirements),
+          factText(facts.residence_permit_renewal),
+        ].filter(Boolean).join(" "),
+        part_time_work: factText(facts.student_work_limits),
+      } as ResearchReport["report"],
+      career_profile: {
+        work_authorization: factText(facts.post_graduation_job_search_or_status_change_rules),
+      },
+    };
+  }
+  return {
+    ...base,
+    report: {
+      cost_of_living: [factText(facts.cost), factText(facts.housing)].filter(Boolean).join(" "),
+      culture_shock: factText(facts.language_support),
+      community: factText(facts.student_wellbeing),
+      career: [factText(facts.internships), factText(facts.career_services)].filter(Boolean).join(" "),
+      safety: factText(facts.safety_disruptions),
+      climate: factText(facts.safety_disruptions),
+    } as ResearchReport["report"],
+    student_life_profile: {
+      housing: factText(facts.housing),
+      commute: factText(facts.commuting),
+      campus_support: factText(facts.student_wellbeing),
+      community: factText(facts.language_support),
+      safety: factText(facts.safety_disruptions),
+      climate: factText(facts.safety_disruptions),
+    },
+    career_profile: {
+      internship: factText(facts.internships),
+      local_industry: factText(facts.career_services),
+      language_or_networking_requirements: factText(facts.language_support),
+    },
+  };
+}
+
+function mergeResearchValue(target: unknown, source: unknown): unknown {
+  if (source === undefined || source === null || source === "") return target;
+  if (Array.isArray(source)) {
+    const combined = [...(Array.isArray(target) ? target : []), ...source];
+    const seen = new Set<string>();
+    return combined.filter((item) => {
+      const key = JSON.stringify(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  if (source && typeof source === "object") {
+    const result: Record<string, unknown> = target && typeof target === "object" && !Array.isArray(target)
+      ? { ...(target as Record<string, unknown>) }
+      : {};
+    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
+      result[key] = mergeResearchValue(result[key], value);
+    }
+    return result;
+  }
+  if (typeof source === "boolean" && typeof target === "boolean") return target || source;
+  return source;
+}
+
+function mergeResearchReports(parts: Partial<ResearchReport>[]): ResearchReport & { research_batches?: JsonObject[] } {
+  let merged: unknown = {};
+  for (const part of parts) merged = mergeResearchValue(merged, part);
+  const raw = merged as Partial<ResearchReport>;
+  raw.mode = "live_search";
+  raw.location = { country: REQUESTED_PROFILE.country, city: REQUESTED_PROFILE.city };
+  raw.major = REQUESTED_PROFILE.major;
+  raw.grade = REQUESTED_PROFILE.grade;
+  raw.profile = {
+    country: REQUESTED_PROFILE.country,
+    city: REQUESTED_PROFILE.city,
+    school: REQUESTED_PROFILE.school,
+    department: REQUESTED_PROFILE.department,
+    program: REQUESTED_PROFILE.program,
+    major: REQUESTED_PROFILE.major,
+    grade: REQUESTED_PROFILE.grade,
+  };
+  const report = normalizeResearchReport(raw);
+  report.sources = normalizeResearchSources(parts.flatMap((part) => part.sources ?? []));
+  report.gaps = [...new Set(parts.flatMap((part) => part.gaps ?? []).filter(Boolean))];
+  report.research_batches = researchBatchesFromReport(report);
+  return report;
 }
 
 function evidenceCatalog(): Array<Pick<ResearchSource, "evidence_id" | "title" | "url" | "source_type" | "confidence" | "used_for">> {
@@ -934,80 +1180,94 @@ async function retrieveResearch(): Promise<ResearchReport & { research_batches?:
     return PROFILE_RESEARCH_FALLBACK;
   }
 
-  const started = Date.now();
-  await appendLog(`[api:00_live_research] started model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
-  const prompt = `Research the selected study-abroad profile and return one strict JSON ResearchReport object.
-
+  const sharedRules = `
 Profile:
 ${compact(REQUESTED_PROFILE, 4_000)}
 
-Need:
-- Use web search for official or high-confidence sources.
-- Focus on post-offer student life: entry and student-status documents, tuition/proof of funds, housing/commute, local registration, department/program culture, local language, permitted work, locally relevant disruptions, career/internship/post-study status.
-- Do not import Japan- or Tokyo-specific rules into another destination.
-- Include source URLs where available.
-- For every source, used_for must contain short, precise factual claims that the linked page directly supports; do not use broad labels such as only "visa" or "housing".
-- Do not include a source merely because it is topically related. If the page does not support the claim, omit the claim or record it in gaps.
-- Keep the JSON concise enough to parse.
+Return one strict JSON partial ResearchReport. Omit fields you did not verify.
+- Search the live web and prefer first-party institution, national/local government, and official student-service pages.
+- A source may be marked official/high only when its hostname belongs to the institution or public authority that issued the rule.
+- Wikipedia, rankings, commercial study portals, consultancies, and aggregators are never official sources. Use them only as low-confidence fallback and label them accurately.
+- Every sources[].used_for item must be a short, precise factual claim directly supported by that exact URL, not a topic label.
+- Do not copy one source's claims onto another source. Do not invent URLs, amounts, deadlines, course names, rules, or services.
+- Record missing evidence in gaps instead of filling it with general knowledge.
+- Include only fields relevant to this batch plus sources, source_coverage, gameplay_signals, and gaps.
 
-Return shape compatible with the existing ResearchReport TypeScript interface:
+Partial output shape:
 {
-  "mode": "live_search",
-  "location": {"country":"...","city":"..."},
-  "major": "...",
-  "grade": "...",
-  "profile": {"country":"...","city":"...","school":"...","department":"...","program":"...","major":"...","grade":"..."},
-  "report": {"cost_of_living":"...","academic":"...","visa":"...","culture_shock":"...","community":"...","career":"...","safety":"...","climate":"...","part_time_work":"..."},
-  "gameplay_signals": {"health":[],"mood":[],"money":[],"city_major_specific_challenges":[]},
-  "program_profile": {},
-  "student_life_profile": {},
-  "career_profile": {},
-  "campus_life_profile": {},
-  "sources": [{"title":"...","url":"...","source_type":"program_official","confidence":"high","used_for":["..."]}],
+  "report": {}, "program_profile": {}, "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {},
+  "source_coverage": {}, "gameplay_signals": {},
+  "sources": [{"title":"...","url":"https://...","source_type":"program_official","confidence":"high","used_for":["precise supported claim"]}],
   "gaps": []
 }`;
-
-  const response = await fetch(`${RESEARCH_API_BASE_URL}/responses`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${RESEARCH_API_KEY}`,
+  const batches = [
+    {
+      id: "program",
+      focus: `Research the exact university, department, and degree on official university domains only. Verify degree duration/ECTS, language, curriculum or specialization structure, compulsory milestones, examination or progression rules, tuition/semester fees, application or enrolment conditions, and named academic/support services. Prefer the exact program page, academic regulations, module catalog, fee page, and international office.`,
     },
-    body: JSON.stringify({
-      model: RESEARCH_MODEL,
-      tools: [{ type: "web_search_preview" }],
-      max_output_tokens: 10000,
-      input: prompt,
-    }),
-  });
-  const raw = await response.text();
-  await writeJson("api_00_live_research_response.json", {
-    status: response.status,
-    ok: response.ok,
-    duration_ms: Date.now() - started,
-    raw_content: response.ok ? undefined : raw.slice(0, 2000),
-  });
-  if (!response.ok) {
-    await appendLog(`[api:00_live_research] failed status=${response.status}; using profile-aware fallback packet`);
-    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
-    return PROFILE_RESEARCH_FALLBACK;
+    {
+      id: "immigration",
+      focus: `Research immigration and work rules from official national government, embassy/consulate, immigration authority, and the selected city's official authority. Verify entry visa versus residence permit, city registration, proof-of-funds or insurance requirements when officially stated, student work limits, residence-permit renewal, and post-graduation job-search or status-change rules.`,
+    },
+    {
+      id: "life_career",
+      focus: `Research housing, cost, commuting, student wellbeing, language support, safety/disruptions, internships, and career services. Prefer the university, official student-services organization, municipal/regional authority, and official university career pages. Capture named services and realistic pressure points only when supported.`,
+    },
+  ];
+  const parts: Partial<ResearchReport>[] = [];
+  for (const batch of batches) {
+    const started = Date.now();
+    const stage = `00_live_research_${batch.id}`;
+    await appendLog(`[api:${stage}] started model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
+    try {
+      const response = await fetch(`${RESEARCH_API_BASE_URL}/responses`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${RESEARCH_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: RESEARCH_MODEL,
+          tools: [{ type: "web_search_preview" }],
+          max_output_tokens: 8000,
+          input: `${batch.focus}\n${sharedRules}`,
+        }),
+      });
+      const raw = await response.text();
+      await writeJson(`api_${stage}_response.json`, {
+        status: response.status,
+        ok: response.ok,
+        duration_ms: Date.now() - started,
+        raw_content: response.ok ? undefined : raw.slice(0, 2000),
+      });
+      if (!response.ok) {
+        await appendLog(`[api:${stage}] failed status=${response.status}; continuing with other research batches`);
+        continue;
+      }
+      const payload = JSON.parse(raw) as JsonObject;
+      const content = responseOutputText(payload);
+      await fs.writeFile(path.join(RUN_DIR, `api_${stage}_content.txt`), content, "utf8");
+      const parsed = extractJsonObject(content) as Partial<ResearchReport>;
+      const standardized = standardizeResearchBatch(batch.id, parsed);
+      parts.push(standardized);
+      await writeJson(`api_${stage}_parsed.json`, parsed);
+      await writeJson(`api_${stage}_standardized.json`, standardized);
+      await appendLog(`[api:${stage}] completed in ${Date.now() - started}ms sources=${standardized.sources?.length ?? 0}`);
+    } catch (error) {
+      await appendLog(`[api:${stage}] error; continuing with other research batches: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
-  try {
-    const payload = JSON.parse(raw) as JsonObject;
-    const content = responseOutputText(payload);
-    await fs.writeFile(path.join(RUN_DIR, "api_00_live_research_content.txt"), content, "utf8");
-    const parsed = extractJsonObject(content) as Partial<ResearchReport>;
-    const report = normalizeResearchReport(parsed);
-    await writeJson("api_00_live_research_parsed.json", report);
-    await writeJson("00_research_report.json", report);
-    await appendLog(`[api:00_live_research] completed in ${Date.now() - started}ms`);
-    return report;
-  } catch (error) {
-    await appendLog(`[api:00_live_research] parse failed; using profile-aware fallback packet: ${error instanceof Error ? error.message : String(error)}`);
+  if (parts.length === 0) {
+    await appendLog("[research] all live research batches failed; using profile-aware fallback packet");
     await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
     return PROFILE_RESEARCH_FALLBACK;
   }
+  const report = mergeResearchReports(parts);
+  await writeJson("api_00_live_research_parsed.json", report);
+  await writeJson("00_research_report.json", report);
+  await appendLog(`[api:00_live_research] merged batches=${parts.length} sources=${report.sources?.length ?? 0}`);
+  return report;
 }
 
 function allVariables(graph: LogicGraphDocument): LogicVariableDefinition[] {
@@ -1329,7 +1589,11 @@ function sanitizeDelta(delta: Record<string, number> | undefined, graph: LogicGr
 function normalizeOption(option: Partial<LogicOption>, nodeId: string, index: number, graph: LogicGraphDocument, defaultNextId: string): LogicOption {
   const kind = OPTION_KINDS[index];
   const suffix = `O${index + 1}`;
-  const id = option.id?.trim() || `${nodeId}_${suffix}`;
+  // Option ids are runtime keys, not creative output. Force a node-scoped id
+  // even when the model returns generic O1/O2/O3, otherwise two nodes can
+  // collide and trigger an expensive whole-graph LLM repair for a trivial
+  // deterministic problem.
+  const id = `${nodeId}_${suffix}`;
   const resultPageId = option.result_page_id?.trim() || `R_${id}`;
   const plannedNextId = option.planned_next_id?.trim() || defaultNextId;
   const isEnding = Boolean(graph.endings[plannedNextId]);
@@ -1346,6 +1610,14 @@ function normalizeOption(option: Partial<LogicOption>, nodeId: string, index: nu
     rationale: option.rationale?.trim() || `${kind} option for ${nodeId}.`,
     facts_used: option.facts_used,
   };
+}
+
+function normalizeStableOptionIds(graph: LogicGraphDocument): void {
+  for (const node of Object.values(graph.nodes)) {
+    for (let index = 0; index < node.options.length; index++) {
+      node.options[index].id = `${node.id}_O${index + 1}`;
+    }
+  }
 }
 
 function normalizeNodePlan(node: LogicNode, pages: Record<string, LogicPage>, graph: LogicGraphDocument, defaultNextId: string): void {
@@ -2385,38 +2657,102 @@ async function main(): Promise<void> {
     imageGenerationEnabled: ENABLE_IMAGE_GENERATION,
   });
 
-  ACTIVE_RESEARCH = await retrieveResearch();
+  let graph: LogicGraphDocument;
+  const resumeRequested = process.env.FULL_RESUME_CHECKPOINT === "true";
+  const savedResearch = resumeRequested
+    ? await readRunJson<ResearchReport & { research_batches?: JsonObject[] }>("00_research_report.json")
+    : null;
+  const savedBalancedGraph = resumeRequested
+    ? await readRunJson<LogicGraphDocument>("05_balanced_logic_graph.json")
+    : null;
+  const savedPlannedGraph = resumeRequested
+    ? await readRunJson<LogicGraphDocument>("04_planned_graph_before_supervisor.json")
+    : null;
+  const savedPartialPlanning = resumeRequested
+    ? await readLatestMatchingRunJson<LogicGraphDocument>(/^04_after_.+\.json$/)
+    : null;
+  const savedGraph = savedBalancedGraph ?? savedPlannedGraph ?? savedPartialPlanning?.value ?? null;
 
-  let graph = createInitialGraph();
-  await writeJson("01_initial_graph.json", graph);
-  await adaptResearch(graph);
+  if (savedResearch && savedGraph) {
+    ACTIVE_RESEARCH = normalizeResearchReport(savedResearch);
+    graph = savedGraph;
+    ensureSystemPages(graph);
+    normalizeStableOptionIds(graph);
+    const checkpoint = savedBalancedGraph
+      ? "balanced graph"
+      : savedPlannedGraph
+        ? "completed node-planning graph"
+        : savedPartialPlanning?.name ?? "partial node-planning graph";
+    await appendLog(`[resume] restored research and ${checkpoint}`);
+  } else {
+    ACTIVE_RESEARCH = await retrieveResearch();
 
-  for (const nodeId of [...graph.main_node_order]) {
-    await planNodeOptions(graph, nodeId);
+    graph = createInitialGraph();
+    await writeJson("01_initial_graph.json", graph);
+    await adaptResearch(graph);
   }
-  const extraNodeIds = Object.keys(graph.nodes).filter((id) => !graph.main_node_order.includes(id) && graph.nodes[id].options.length === 0);
-  for (const nodeId of extraNodeIds) {
-    await planNodeOptions(graph, nodeId);
-  }
-  await writeJson("04_planned_graph_before_supervisor.json", graph);
 
-  graph = await superviseGraph(graph);
-  validateLogicGraph(graph);
-  const balanceNotes = rebalanceNormalChoiceDeltas(graph);
-  await appendLog(`[balance] adjusted ${balanceNotes.length} normal-choice deltas`);
-  validateLogicGraph(graph);
-  await writeJson("05_supervised_logic_graph.json", graph);
-  await writeJson("05_balanced_logic_graph.json", graph);
+  if (!savedBalancedGraph && !savedPlannedGraph) {
+    for (const nodeId of [...graph.main_node_order]) {
+      if (graph.nodes[nodeId]?.options.length) continue;
+      await planNodeOptions(graph, nodeId);
+    }
+    const extraNodeIds = Object.keys(graph.nodes).filter((id) => !graph.main_node_order.includes(id) && graph.nodes[id].options.length === 0);
+    for (const nodeId of extraNodeIds) {
+      await planNodeOptions(graph, nodeId);
+    }
+    normalizeStableOptionIds(graph);
+    await writeJson("04_planned_graph_before_supervisor.json", graph);
+  }
+
+  let balanceNotes: string[] = [];
+  if (savedBalancedGraph) {
+    graph = savedBalancedGraph;
+    validateLogicGraph(graph);
+    await appendLog("[resume] skipped supervisor and balance stages already completed");
+  } else {
+    graph = await superviseGraph(graph);
+    validateLogicGraph(graph);
+    balanceNotes = rebalanceNormalChoiceDeltas(graph);
+    await appendLog(`[balance] adjusted ${balanceNotes.length} normal-choice deltas`);
+    validateLogicGraph(graph);
+    await writeJson("05_supervised_logic_graph.json", graph);
+    await writeJson("05_balanced_logic_graph.json", graph);
+  }
 
   const priorSummaries: string[] = [];
-  for (const nodeId of [...graph.main_node_order, ...Object.keys(graph.nodes).filter((id) => !graph.main_node_order.includes(id))]) {
+  const savedCompleteContent = resumeRequested
+    ? await readRunJson<LogicGraphDocument>("06_content_complete_graph.json")
+    : null;
+  const savedPartialContent = resumeRequested && !savedCompleteContent
+    ? await readLatestMatchingRunJson<LogicGraphDocument>(/^06_content_after_.+\.json$/)
+    : null;
+  if (savedCompleteContent) {
+    graph = savedCompleteContent;
+    await appendLog("[resume] restored completed content graph");
+  } else if (savedPartialContent) {
+    graph = savedPartialContent.value;
+    await appendLog(`[resume] restored ${savedPartialContent.name}`);
+  }
+
+  const orderedNodeIds = [...graph.main_node_order, ...Object.keys(graph.nodes).filter((id) => !graph.main_node_order.includes(id))];
+  const nodeHasContent = (nodeId: string): boolean => pageIdsForNode(graph, graph.nodes[nodeId])
+    .every((pageId) => Boolean(graph.pages[pageId]?.text?.trim()));
+  for (const nodeId of orderedNodeIds) {
+    if (nodeHasContent(nodeId)) {
+      const page = graph.pages[graph.nodes[nodeId].page_id];
+      priorSummaries.push(`${nodeId}: ${(page?.text || page?.placeholder || "").slice(0, 240)}`);
+      continue;
+    }
     const summary = await fillNodeContent(graph, graph.nodes[nodeId], priorSummaries.slice(-10));
     priorSummaries.push(summary);
     await writeJson(`06_content_after_${nodeId}.json`, graph);
   }
-  priorSummaries.push(await fillSystemContent(graph, priorSummaries.slice(-12)));
-  ensurePageAnnotations(graph);
-  await writeJson("06_content_complete_graph.json", graph);
+  if (!savedCompleteContent) {
+    priorSummaries.push(await fillSystemContent(graph, priorSummaries.slice(-12)));
+    ensurePageAnnotations(graph);
+    await writeJson("06_content_complete_graph.json", graph);
+  }
 
   const variants = await generateVariants(graph);
   const doc = await maybeGenerateImages(compileWithVariants(graph, variants));
