@@ -108,7 +108,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N01_offer_acceptance",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N01_offer_acceptance.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N01_offer_acceptance_a5fabf0d4b.png"
     },
     "N02_deposit_tuition": {
       "type": "special_node",
@@ -199,7 +199,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N02_deposit_tuition",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N02_deposit_tuition.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N02_deposit_tuition_7079daab12.png"
     },
     "N03_student_visa": {
       "type": "special_node",
@@ -290,7 +290,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N03_student_visa",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N03_student_visa.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N03_student_visa_4b999e5be0.png"
     },
     "N04_housing_commute": {
       "type": "special_node",
@@ -383,7 +383,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N04_housing_commute",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N04_housing_commute.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N04_housing_commute_4b6eb9928c.png"
     },
     "N05_arrival_registration": {
       "type": "base_node",
@@ -479,7 +479,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N05_arrival_registration",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N05_arrival_registration.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N05_arrival_registration_cbe619619e.png"
     },
     "N06_program_study": {
       "type": "special_node",
@@ -572,7 +572,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N06_program_study",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png"
     },
     "N07_part_time_work": {
       "type": "base_node",
@@ -663,7 +663,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N07_part_time_work",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N07_part_time_work.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N07_part_time_work_7b844c5995.png"
     },
     "N08_language_support": {
       "type": "base_node",
@@ -756,7 +756,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N08_language_support",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N08_language_support.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N08_language_support_6900cd1103.png"
     },
     "N09_disruption_deadline": {
       "type": "special_node",
@@ -851,7 +851,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N09_disruption_deadline",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N09_disruption_deadline.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N09_disruption_deadline_68e5022d68.png"
     },
     "N10_career_internship": {
       "type": "special_node",
@@ -950,7 +950,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N10_career_internship",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png"
     },
     "N11_graduation_status": {
       "type": "special_node",
@@ -1043,7 +1043,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N11_graduation_status",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N11_graduation_status.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N11_graduation_status_751cac6b10.png"
     },
     "N12_final_choice": {
       "type": "special_node",
@@ -1137,7 +1137,7 @@
       },
       "logic_page_role": "node",
       "logic_source_id": "N12_final_choice",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png"
     },
     "W_money_bad": {
       "type": "warning",
@@ -1180,8 +1180,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_money_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_money_bad"
     },
     "W_time_bad": {
       "type": "warning",
@@ -1224,8 +1223,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_time_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_time_bad"
     },
     "W_visa_bad": {
       "type": "warning",
@@ -1268,8 +1266,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_visa_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_visa_bad"
     },
     "W_housing_bad": {
       "type": "warning",
@@ -1311,8 +1308,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_housing_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_housing_bad"
     },
     "W_school_bad": {
       "type": "warning",
@@ -1356,8 +1352,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_school_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_school_bad"
     },
     "W_wellbeing_bad": {
       "type": "warning",
@@ -1399,8 +1394,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_wellbeing_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_wellbeing_bad"
     },
     "W_local_language_bad": {
       "type": "warning",
@@ -1442,8 +1436,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_local_language_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_local_language_bad"
     },
     "W_career_bad": {
       "type": "warning",
@@ -1488,8 +1481,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_career_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_career_bad"
     },
     "W_academic_network_bad": {
       "type": "warning",
@@ -1532,8 +1524,7 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_academic_network_bad",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "W_academic_network_bad"
     },
     "N05B_residence_permit_appointment": {
       "type": "special_node",
@@ -1626,8 +1617,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "N05B_residence_permit_appointment",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "N05B_residence_permit_appointment"
     },
     "P01_standard_acceptance": {
       "type": "result",
@@ -1670,7 +1660,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "P01_standard_acceptance",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N01_offer_acceptance_a5fabf0d4b.png"
     },
     "P01_proactive_acceptance": {
       "type": "result",
@@ -1714,7 +1704,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "P01_proactive_acceptance",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N01_offer_acceptance_a5fabf0d4b.png"
     },
     "P01_delayed_acceptance": {
       "type": "result",
@@ -1758,7 +1748,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "P01_delayed_acceptance",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N01_offer_acceptance_a5fabf0d4b.png"
     },
     "B01_late_start_consequences": {
       "type": "base_node",
@@ -1846,8 +1836,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B01_late_start_consequences",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B01_late_start_consequences"
     },
     "P01_branch_agent": {
       "type": "result",
@@ -1879,8 +1868,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "P01_branch_agent",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "P01_branch_agent"
     },
     "P01_branch_crunch": {
       "type": "result",
@@ -1912,8 +1900,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "P01_branch_crunch",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "P01_branch_crunch"
     },
     "P01_branch_passive": {
       "type": "result",
@@ -1945,8 +1932,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "P01_branch_passive",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "P01_branch_passive"
     },
     "N02_res_normal": {
       "type": "result",
@@ -1989,7 +1975,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N02_res_normal",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N02_deposit_tuition_7079daab12.png"
     },
     "N02_res_positive": {
       "type": "result",
@@ -2032,7 +2018,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N02_res_positive",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N02_deposit_tuition_7079daab12.png"
     },
     "N02_res_negative": {
       "type": "result",
@@ -2076,7 +2062,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N02_res_negative",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N02_deposit_tuition_7079daab12.png"
     },
     "B01_res_normal": {
       "type": "result",
@@ -2108,8 +2094,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "B01_res_normal",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B01_res_normal"
     },
     "B01_res_positive": {
       "type": "result",
@@ -2141,8 +2126,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "B01_res_positive",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B01_res_positive"
     },
     "B01_res_negative": {
       "type": "result",
@@ -2174,8 +2158,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "B01_res_negative",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B01_res_negative"
     },
     "R03_visa_success": {
       "type": "result",
@@ -2218,7 +2201,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R03_visa_success",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N03_student_visa_4b999e5be0.png"
     },
     "R03_visa_fast": {
       "type": "result",
@@ -2253,7 +2236,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R03_visa_fast",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N03_student_visa_4b999e5be0.png"
     },
     "R03_visa_bottleneck": {
       "type": "result",
@@ -2288,7 +2271,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R03_visa_bottleneck",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N03_student_visa_4b999e5be0.png"
     },
     "R_B01_late_arrival": {
       "type": "result",
@@ -2320,8 +2303,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_late_arrival",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_late_arrival"
     },
     "R_B01_deferred_start": {
       "type": "result",
@@ -2353,8 +2335,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_deferred_start",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_deferred_start"
     },
     "R_B01_deportation_risk": {
       "type": "result",
@@ -2386,8 +2367,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_deportation_risk",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_deportation_risk"
     },
     "R04_normal_wg": {
       "type": "result",
@@ -2430,7 +2410,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R04_normal_wg",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N04_housing_commute_4b6eb9928c.png"
     },
     "R04_premium_housing": {
       "type": "result",
@@ -2465,7 +2445,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R04_premium_housing",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N04_housing_commute_4b6eb9928c.png"
     },
     "R04_hostel_gamble": {
       "type": "result",
@@ -2501,7 +2481,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R04_hostel_gamble",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N04_housing_commute_4b6eb9928c.png"
     },
     "RB01_grind": {
       "type": "result",
@@ -2533,8 +2513,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "RB01_grind",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "RB01_grind"
     },
     "RB01_agent": {
       "type": "result",
@@ -2566,8 +2545,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "RB01_agent",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "RB01_agent"
     },
     "RB01_fail": {
       "type": "result",
@@ -2599,8 +2577,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "RB01_fail",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "RB01_fail"
     },
     "R05_standard": {
       "type": "result",
@@ -2644,7 +2621,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R05_standard",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N05_arrival_registration_cbe619619e.png"
     },
     "R05_optimized": {
       "type": "result",
@@ -2691,7 +2668,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R05_optimized",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N05_arrival_registration_cbe619619e.png"
     },
     "R05_delayed": {
       "type": "result",
@@ -2736,7 +2713,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R05_delayed",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N05_arrival_registration_cbe619619e.png"
     },
     "R_B01_fine": {
       "type": "result",
@@ -2778,8 +2755,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_fine",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_fine"
     },
     "R_B01_support": {
       "type": "result",
@@ -2821,8 +2797,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_support",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_support"
     },
     "R_B01_neglect": {
       "type": "result",
@@ -2866,8 +2841,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B01_neglect",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B01_neglect"
     },
     "R_N05B_standard": {
       "type": "result",
@@ -2910,8 +2884,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_N05B_standard",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_N05B_standard"
     },
     "R_N05B_perfect": {
       "type": "result",
@@ -2954,8 +2927,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_N05B_perfect",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_N05B_perfect"
     },
     "R_N05B_incomplete": {
       "type": "result",
@@ -3006,8 +2978,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_N05B_incomplete",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_N05B_incomplete"
     },
     "B02_kvr_emergency": {
       "type": "base_node",
@@ -3107,8 +3078,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B02_kvr_emergency",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B02_kvr_emergency"
     },
     "R_B02_urgent_fix": {
       "type": "result",
@@ -3150,8 +3120,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B02_urgent_fix",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B02_urgent_fix"
     },
     "R_B02_uni_support": {
       "type": "result",
@@ -3193,8 +3162,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B02_uni_support",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B02_uni_support"
     },
     "R_B02_procrastinate": {
       "type": "result",
@@ -3237,8 +3205,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B02_procrastinate",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B02_procrastinate"
     },
     "R_N06_automation": {
       "type": "result",
@@ -3281,7 +3248,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N06_automation",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png"
     },
     "R_N06_quantum": {
       "type": "result",
@@ -3326,7 +3293,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N06_quantum",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png"
     },
     "R_N06_struggle": {
       "type": "result",
@@ -3370,7 +3337,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N06_struggle",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png"
     },
     "B03_academic_probation": {
       "type": "base_node",
@@ -3463,8 +3430,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B03_academic_probation",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B03_academic_probation"
     },
     "R_B03_workshops": {
       "type": "result",
@@ -3496,8 +3462,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_workshops",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_workshops"
     },
     "R_B03_counseling": {
       "type": "result",
@@ -3529,8 +3494,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_counseling",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_counseling"
     },
     "R_B03_failed_exam": {
       "type": "result",
@@ -3562,8 +3526,7 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_failed_exam",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_failed_exam"
     },
     "R_N07_werkstudent": {
       "type": "result",
@@ -3606,7 +3569,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N07_werkstudent",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N07_part_time_work_7b844c5995.png"
     },
     "R_N07_hiwi": {
       "type": "result",
@@ -3650,7 +3613,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N07_hiwi",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N07_part_time_work_7b844c5995.png"
     },
     "R_N07_overwork": {
       "type": "result",
@@ -3694,7 +3657,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N07_overwork",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N07_part_time_work_7b844c5995.png"
     },
     "B04_labor_inspection": {
       "type": "base_node",
@@ -3784,8 +3747,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B04_labor_inspection",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B04_labor_inspection"
     },
     "R_B04_fine": {
       "type": "result",
@@ -3819,8 +3781,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B04_fine",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B04_fine"
     },
     "R_B04_lawyer": {
       "type": "result",
@@ -3865,8 +3826,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B04_lawyer",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B04_lawyer"
     },
     "R_B04_deportation": {
       "type": "result",
@@ -3901,8 +3861,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B04_deportation",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B04_deportation"
     },
     "N08_R_normal": {
       "type": "result",
@@ -3937,7 +3896,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N08_R_normal",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N08_language_support_6900cd1103.png"
     },
     "N08_R_positive": {
       "type": "result",
@@ -3972,7 +3931,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N08_R_positive",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N08_language_support_6900cd1103.png"
     },
     "N08_R_negative": {
       "type": "result",
@@ -4008,7 +3967,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "N08_R_negative",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N08_language_support_6900cd1103.png"
     },
     "B05_social_isolation": {
       "type": "base_node",
@@ -4094,8 +4053,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B05_social_isolation",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B05_social_isolation"
     },
     "B05_R_counseling": {
       "type": "result",
@@ -4138,8 +4096,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "B05_R_counseling",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B05_R_counseling"
     },
     "B05_R_club": {
       "type": "result",
@@ -4181,8 +4138,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "B05_R_club",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B05_R_club"
     },
     "B05_R_withdrawal": {
       "type": "result",
@@ -4225,8 +4181,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "B05_R_withdrawal",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B05_R_withdrawal"
     },
     "R09_O1_grit": {
       "type": "result",
@@ -4262,7 +4217,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R09_O1_grit",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N09_disruption_deadline_68e5022d68.png"
     },
     "R09_O2_collaboration": {
       "type": "result",
@@ -4298,7 +4253,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R09_O2_collaboration",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N09_disruption_deadline_68e5022d68.png"
     },
     "R09_O3_setback": {
       "type": "result",
@@ -4334,7 +4289,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R09_O3_setback",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N09_disruption_deadline_68e5022d68.png"
     },
     "R_B03_O1_retake": {
       "type": "result",
@@ -4376,8 +4331,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_O1_retake",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_O1_retake"
     },
     "R_B03_O2_advising": {
       "type": "result",
@@ -4419,8 +4373,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_O2_advising",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_O2_advising"
     },
     "R_B03_O3_failure": {
       "type": "result",
@@ -4463,8 +4416,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_O3_failure",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B03_O3_failure"
     },
     "R_N10_standard": {
       "type": "result",
@@ -4508,7 +4460,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N10_standard",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png"
     },
     "R_N10_elite": {
       "type": "result",
@@ -4555,7 +4507,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N10_elite",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png"
     },
     "R_N10_failure": {
       "type": "result",
@@ -4600,7 +4552,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N10_failure",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png"
     },
     "B06_internship_delay": {
       "type": "base_node",
@@ -4686,8 +4638,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B06_internship_delay",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B06_internship_delay"
     },
     "R_B06_extend": {
       "type": "result",
@@ -4731,8 +4682,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B06_extend",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B06_extend"
     },
     "R_B06_research": {
       "type": "result",
@@ -4776,8 +4726,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B06_research",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B06_research"
     },
     "R_B06_withdraw": {
       "type": "result",
@@ -4820,8 +4769,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B06_withdraw",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B06_withdraw"
     },
     "R_n11_job_seeker": {
       "type": "result",
@@ -4864,7 +4812,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_n11_job_seeker",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N11_graduation_status_751cac6b10.png"
     },
     "R_n11_blue_card": {
       "type": "result",
@@ -4908,7 +4856,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_n11_blue_card",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N11_graduation_status_751cac6b10.png"
     },
     "R_n11_delay": {
       "type": "result",
@@ -4952,7 +4900,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_n11_delay",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N11_graduation_status_751cac6b10.png"
     },
     "B07_visa_expiry_panic": {
       "type": "base_node",
@@ -5051,8 +4999,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B07_visa_expiry_panic",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B07_visa_expiry_panic"
     },
     "R_b07_urgent_kvr": {
       "type": "result",
@@ -5096,8 +5043,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_b07_urgent_kvr",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_b07_urgent_kvr"
     },
     "R_b07_legal_aid": {
       "type": "result",
@@ -5139,8 +5085,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_b07_legal_aid",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_b07_legal_aid"
     },
     "R_b07_overstay": {
       "type": "result",
@@ -5182,8 +5127,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_b07_overstay",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_b07_overstay"
     },
     "R_N12_local": {
       "type": "result",
@@ -5227,7 +5171,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N12_local",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png"
     },
     "R_N12_global": {
       "type": "result",
@@ -5271,7 +5215,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N12_global",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png"
     },
     "R_N12_exit": {
       "type": "result",
@@ -5315,7 +5259,7 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N12_exit",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png"
     },
     "B08_exit_strategy": {
       "type": "base_node",
@@ -5408,8 +5352,7 @@
         ]
       },
       "logic_page_role": "node",
-      "logic_source_id": "B08_exit_strategy",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "B08_exit_strategy"
     },
     "R_B08_return": {
       "type": "result",
@@ -5452,8 +5395,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B08_return",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B08_return"
     },
     "R_B08_pivot": {
       "type": "result",
@@ -5496,8 +5438,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B08_pivot",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B08_pivot"
     },
     "R_B08_collapse": {
       "type": "result",
@@ -5541,8 +5482,7 @@
         ]
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B08_collapse",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "R_B08_collapse"
     }
   },
   "endings": {
@@ -5572,8 +5512,7 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_local_job",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_local_job"
     },
     "E_return_home_stronger": {
       "scene_text": "Return home stronger. 你完成了在TUM的学业，带着含金量极高的硕士学位回国。虽然慕尼黑的生活充满挑战，但这段经历磨炼了你的专业技能和跨文化沟通能力。你在国内高端制造领域迅速找到了理想职位，留学经历成为了你职业晋升的加速器。",
@@ -5600,8 +5539,7 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_return_home_stronger",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_return_home_stronger"
     },
     "E_third_country_launch": {
       "scene_text": "Third-country launch. 利用TUM在全球学术界的名望，你成功申请到了第三国的博士职位或研发岗位。慕尼黑的科研训练让你在国际竞争中脱颖而出。你带着在德国建立的学术网络，前往新的国家继续探索电气工程的前沿领域，开启了国际化的科研人生。",
@@ -5629,8 +5567,7 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_third_country_launch",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_third_country_launch"
     },
     "E_defer_or_pause": {
       "scene_text": "Defer or pause. 由于个人原因或行政延误，你不得不暂时中断在慕尼黑的学业。虽然未能按原计划毕业，但你保留了学籍并处理了紧迫的个人事务。这次停顿让你重新审视了目标，你计划在条件允许时重返TUM完成剩余的学分，学业之路尚未终结。",
@@ -5658,8 +5595,7 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_defer_or_pause",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_defer_or_pause"
     },
     "E_burnout_graduation": {
       "scene_text": "Graduated, but burned out. 你拿到了学位，但长期的过度压力让你感到精疲力竭。为了毕业，你牺牲了社交和健康，目前处于严重的心理倦怠期。虽然拥有了TUM的证书，但你决定先进行长时间的休整，而非立即投入高强度的职场竞争。这枚勋章的代价比预想中沉重。",
@@ -5687,8 +5623,7 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_burnout_graduation",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_burnout_graduation"
     },
     "E_money_critical": {
       "scene_text": "Money collapse. 由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
@@ -5717,8 +5652,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_money_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_money_critical"
     },
     "E_time_critical": {
       "scene_text": "Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
@@ -5746,8 +5680,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_time_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_time_critical"
     },
     "E_visa_critical": {
       "scene_text": "Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
@@ -5776,8 +5709,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_visa_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_visa_critical"
     },
     "E_housing_critical": {
       "scene_text": "Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
@@ -5804,8 +5736,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_housing_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_housing_critical"
     },
     "E_school_critical": {
       "scene_text": "School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
@@ -5833,8 +5764,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_school_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_school_critical"
     },
     "E_wellbeing_critical": {
       "scene_text": "Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
@@ -5862,8 +5792,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_wellbeing_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_wellbeing_critical"
     },
     "E_local_language_critical": {
       "scene_text": "Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
@@ -5891,8 +5820,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_local_language_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_local_language_critical"
     },
     "E_career_critical": {
       "scene_text": "Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
@@ -5920,8 +5848,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_career_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_career_critical"
     },
     "E_academic_network_critical": {
       "scene_text": "Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
@@ -5949,8 +5876,7 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_academic_network_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice.png"
+      "logic_source_id": "E_academic_network_critical"
     }
   },
   "sources": [

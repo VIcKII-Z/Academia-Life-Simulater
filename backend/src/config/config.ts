@@ -33,8 +33,8 @@ export const config = {
     enableLiveSearch: false,
     // If false, Artist Agent is skipped entirely; nodes render with no image / a placeholder.
     enableImageGeneration: false,
-    // Max number of newly generated images per story if enableImageGeneration is true.
-    // Similar chapters can reuse nearby visual anchors instead of generating one image per node.
+    // Max number of newly generated decision/ending anchors per story.
+    // Each decision anchor may be reused only by its own immediate option-result pages.
     maxImagesPerStory: 12,
   },
 
