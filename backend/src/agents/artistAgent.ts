@@ -41,6 +41,26 @@ function stylePrefix(runtimeConfig?: RuntimeConfig): string {
   );
 }
 
+function automaticSystemImagePrompt(doc: StoryDocument, nodeId: string, sceneText: string, kind: "warning" | "ending"): string {
+  const profile = doc.user_profile;
+  const location = [profile?.school, profile?.city, profile?.country].filter(Boolean).join(", ");
+  const scene = sceneText.replace(/\s+/g, " ").slice(0, 320);
+  const direction = kind === "warning"
+    ? "Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen."
+    : "Show the concrete lived outcome of this route with a visually resolved emotional tone.";
+  return `${location || "international study-abroad"} student scene, page ${nodeId}. ${direction} Story moment: ${scene}`;
+}
+
+function reuseDecisionImage(doc: StoryDocument, node: StoryDocument["nodes"][string]): void {
+  if (!node.image_url || !Array.isArray(node.choices)) return;
+  for (const choice of node.choices) {
+    const resultPage = doc.nodes[choice.next_node];
+    if (resultPage && resultPage.logic_page_role === "result") {
+      resultPage.image_url = node.image_url;
+    }
+  }
+}
+
 /**
  * Mutates and returns the story doc with image_url populated for generated
  * anchors and their directly-owned option-result pages.
@@ -62,11 +82,26 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     ...Object.entries(doc.nodes),
     ...Object.entries(doc.endings),
   ];
-  const anchorEntries = allEntries.filter(([, node]) => node.has_image && node.image_prompt);
+  const endingIds = new Set(Object.keys(doc.endings));
+  const mandatorySystemEntries = allEntries.filter(([nodeId, node]) =>
+    endingIds.has(nodeId) || node.logic_page_role === "warning",
+  );
+  for (const [nodeId, node] of mandatorySystemEntries) {
+    const kind = endingIds.has(nodeId) ? "ending" : "warning";
+    node.has_image = true;
+    node.image_prompt ||= automaticSystemImagePrompt(doc, nodeId, node.scene_text, kind);
+  }
+
+  const mandatoryIds = new Set(mandatorySystemEntries.map(([nodeId]) => nodeId));
+  const narrativeAnchorEntries = allEntries.filter(([nodeId, node]) =>
+    !mandatoryIds.has(nodeId) && node.has_image && node.image_prompt,
+  );
 
   const maxImages = runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory;
-  const capped = maxImages > 0 ? anchorEntries.slice(0, maxImages) : [];
-  for (const [nodeId, node] of capped) {
+  const selectedNarrativeEntries = maxImages > 0 ? narrativeAnchorEntries.slice(0, maxImages) : [];
+  const selectedEntries = [...selectedNarrativeEntries, ...mandatorySystemEntries];
+  for (const [nodeId, node] of selectedEntries) {
+    if (node.image_url) continue;
     const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
     const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}`;
     const result = await client.images.generate({
@@ -85,18 +120,13 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     await fs.writeFile(path.join(ASSETS_DIR, fileName), Buffer.from(b64, "base64"));
     node.image_url = `/assets/generated/${fileName}`;
 
-    // Reuse is intentionally local: a decision illustration may carry across
-    // its own immediate option-result pages, because they are continuations of
-    // the same scene. Do not spread it to unrelated later nodes, warnings, or
-    // endings merely because they happen to be nearby in object order.
-    if ("choices" in node && Array.isArray(node.choices)) {
-      for (const choice of node.choices) {
-        const resultPage = doc.nodes[choice.next_node];
-        if (resultPage && resultPage.logic_page_role === "result") {
-          resultPage.image_url = node.image_url;
-        }
-      }
-    }
+    if (nodeId in doc.nodes) reuseDecisionImage(doc, doc.nodes[nodeId]);
+  }
+
+  // Also restore scoped reuse when a decision anchor already existed and was
+  // skipped by this incremental image-only run.
+  for (const [nodeId] of selectedNarrativeEntries) {
+    reuseDecisionImage(doc, doc.nodes[nodeId]);
   }
 
   return doc;

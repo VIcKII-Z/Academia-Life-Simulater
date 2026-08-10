@@ -1142,8 +1142,8 @@
     "W_money_bad": {
       "type": "warning",
       "scene_text": "慕尼黑生活成本高昂，你的限制账户余额已接近预警线。若无法提供充足的财务证明，将直接影响居留许可的续签。建议尽快调整开支，或在法律允许的范围内寻找兼职以补充资金。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_money_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 慕尼黑生活成本高昂，你的限制账户余额已接近预警线。若无法提供充足的财务证明，将直接影响居留许可的续签。建议尽快调整开支，或在法律允许的范围内寻找兼职以补充资金。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1180,13 +1180,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_money_bad"
+      "logic_source_id": "W_money_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_money_bad_bdc7c7e139.png"
     },
     "W_time_bad": {
       "type": "warning",
       "scene_text": "由于课程安排冲突和行政手续延误，你的学业进度已落后于计划。若不能在规定时间内完成必修模块，可能面临学分积压。请前往CIT学院进行学业咨询，重新规划你的课程时间表。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_time_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 由于课程安排冲突和行政手续延误，你的学业进度已落后于计划。若不能在规定时间内完成必修模块，可能面临学分积压。请前往CIT学院进行学业咨询，重新规划你的课程时间表。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1223,13 +1224,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_time_bad"
+      "logic_source_id": "W_time_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_time_bad_8a09224094.png"
     },
     "W_visa_bad": {
       "type": "warning",
       "scene_text": "你的居留许可即将到期，但预约外事局的进展缓慢。材料准备不全或错过延期申请窗口将导致非法滞留。请立即检查护照有效期及保险证明，并尝试申请临时居留许可作为过渡。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_visa_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 你的居留许可即将到期，但预约外事局的进展缓慢。材料准备不全或错过延期申请窗口将导致非法滞留。请立即检查护照有效期及保险证明，并尝试申请临时居留许可作为过渡。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1266,13 +1268,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_visa_bad"
+      "logic_source_id": "W_visa_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_visa_bad_5f44cb39c9.png"
     },
     "W_housing_bad": {
       "type": "warning",
       "scene_text": "慕尼黑租房市场极度紧张，你当前的租约即将到期且未找到续租方案。若失去固定地址，将无法进行地址登记，进而影响银行和签证。请利用TUM住宿搜索协助平台寻找紧急房源。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_housing_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 慕尼黑租房市场极度紧张，你当前的租约即将到期且未找到续租方案。若失去固定地址，将无法进行地址登记，进而影响银行和签证。请利用TUM住宿搜索协助平台寻找紧急房源。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1308,13 +1311,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_housing_bad"
+      "logic_source_id": "W_housing_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_housing_bad_ef2dec4290.png"
     },
     "W_school_bad": {
       "type": "warning",
       "scene_text": "你在核心模块的考试表现不佳，学分进度未达标。TUM电气工程专业对学业里程碑有严格要求，连续挂科可能导致失去考试资格。建议立即联系导师或参加学习小组以挽救学籍。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_school_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 你在核心模块的考试表现不佳，学分进度未达标。TUM电气工程专业对学业里程碑有严格要求，连续挂科可能导致失去考试资格。建议立即联系导师或参加学习小组以挽救学籍。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1352,13 +1356,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_school_bad"
+      "logic_source_id": "W_school_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_school_bad_66b6c63174.png"
     },
     "W_wellbeing_bad": {
       "type": "warning",
       "scene_text": "高压的学业和社交孤立正严重消耗你的精力。若忽视心理健康，将导致学业效率大幅下降。请考虑减少本学期选课量，并利用TUM提供的心理咨询资源进行调节，避免陷入倦怠期。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_wellbeing_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 高压的学业和社交孤立正严重消耗你的精力。若忽视心理健康，将导致学业效率大幅下降。请考虑减少本学期选课量，并利用TUM提供的心理咨询资源进行调节，避免陷入倦怠期。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1394,13 +1399,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_wellbeing_bad"
+      "logic_source_id": "W_wellbeing_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_wellbeing_bad_bc53174574.png"
     },
     "W_local_language_bad": {
       "type": "warning",
       "scene_text": "你的德语水平在应对专业课程和日常生活时显得吃力。TUM部分核心模块对语言有明确要求，语言障碍也限制了你的实习机会。请利用学期间隙参加语言班，提升沟通能力以确保学业顺利。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_local_language_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 你的德语水平在应对专业课程和日常生活时显得吃力。TUM部分核心模块对语言有明确要求，语言障碍也限制了你的实习机会。请利用学期间隙参加语言班，提升沟通能力以确保学业顺利。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1436,13 +1442,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_local_language_bad"
+      "logic_source_id": "W_local_language_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_local_language_bad_6681b436f1.png"
     },
     "W_career_bad": {
       "type": "warning",
       "scene_text": "你尚未找到符合教学大纲要求的强制性实习，这可能导致毕业延迟。慕尼黑职场竞争激烈，简历投递反馈寥寥。请立即咨询TUM职业服务中心，优化简历并积极参加校园招聘活动。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_career_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 你尚未找到符合教学大纲要求的强制性实习，这可能导致毕业延迟。慕尼黑职场竞争激烈，简历投递反馈寥寥。请立即咨询TUM职业服务中心，优化简历并积极参加校园招聘活动。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1481,13 +1488,14 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_career_bad"
+      "logic_source_id": "W_career_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_career_bad_9ef9995008.png"
     },
     "W_academic_network_bad": {
       "type": "warning",
       "scene_text": "你与教授及科研团队的联系过于薄弱，这在寻找论文课题时将面临困难。缺乏学术网络意味着你可能错过前沿研究机会。请多参加科研研讨会，主动与教席联系，为硕士论文打下基础。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page W_academic_network_bad. Show a concrete moment of concern and practical risk awareness, not a symbolic alert screen. Story moment: 你与教授及科研团队的联系过于薄弱，这在寻找论文课题时将面临困难。缺乏学术网络意味着你可能错过前沿研究机会。请多参加科研研讨会，主动与教席联系，为硕士论文打下基础。",
+      "has_image": true,
       "choices": [
         {
           "logic_choice_id": "C1_warning_return",
@@ -1524,7 +1532,8 @@
         ]
       },
       "logic_page_role": "warning",
-      "logic_source_id": "W_academic_network_bad"
+      "logic_source_id": "W_academic_network_bad",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_W_academic_network_bad_007ce9c302.png"
     },
     "N05B_residence_permit_appointment": {
       "type": "special_node",
@@ -5512,7 +5521,8 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_local_job"
+      "logic_source_id": "E_local_job",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_local_job_da80221559.png"
     },
     "E_return_home_stronger": {
       "scene_text": "Return home stronger. 你完成了在TUM的学业，带着含金量极高的硕士学位回国。虽然慕尼黑的生活充满挑战，但这段经历磨炼了你的专业技能和跨文化沟通能力。你在国内高端制造领域迅速找到了理想职位，留学经历成为了你职业晋升的加速器。",
@@ -5539,7 +5549,8 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_return_home_stronger"
+      "logic_source_id": "E_return_home_stronger",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_return_home_stronger_59f42d19f4.png"
     },
     "E_third_country_launch": {
       "scene_text": "Third-country launch. 利用TUM在全球学术界的名望，你成功申请到了第三国的博士职位或研发岗位。慕尼黑的科研训练让你在国际竞争中脱颖而出。你带着在德国建立的学术网络，前往新的国家继续探索电气工程的前沿领域，开启了国际化的科研人生。",
@@ -5567,7 +5578,8 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_third_country_launch"
+      "logic_source_id": "E_third_country_launch",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_third_country_launch_81f5b295b9.png"
     },
     "E_defer_or_pause": {
       "scene_text": "Defer or pause. 由于个人原因或行政延误，你不得不暂时中断在慕尼黑的学业。虽然未能按原计划毕业，但你保留了学籍并处理了紧迫的个人事务。这次停顿让你重新审视了目标，你计划在条件允许时重返TUM完成剩余的学分，学业之路尚未终结。",
@@ -5595,7 +5607,8 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_defer_or_pause"
+      "logic_source_id": "E_defer_or_pause",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_defer_or_pause_b2ef9cf661.png"
     },
     "E_burnout_graduation": {
       "scene_text": "Graduated, but burned out. 你拿到了学位，但长期的过度压力让你感到精疲力竭。为了毕业，你牺牲了社交和健康，目前处于严重的心理倦怠期。虽然拥有了TUM的证书，但你决定先进行长时间的休整，而非立即投入高强度的职场竞争。这枚勋章的代价比预想中沉重。",
@@ -5623,12 +5636,13 @@
         ]
       },
       "logic_page_role": "ending",
-      "logic_source_id": "E_burnout_graduation"
+      "logic_source_id": "E_burnout_graduation",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_burnout_graduation_9c82cfda1c.png"
     },
     "E_money_critical": {
       "scene_text": "Money collapse. 由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_money_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Money collapse. 由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "财务安全是留学的生命线，一旦断裂将导致法律身份失效。",
       "annotation": {
@@ -5652,12 +5666,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_money_critical"
+      "logic_source_id": "E_money_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_money_critical_fd2eae1631.png"
     },
     "E_time_critical": {
       "scene_text": "Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_time_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "严苛的学分里程碑是TUM的红线，逾期意味着学业终结。",
       "annotation": {
@@ -5680,12 +5695,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_time_critical"
+      "logic_source_id": "E_time_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_time_critical_f7b9eb8b32.png"
     },
     "E_visa_critical": {
       "scene_text": "Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_visa_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "法律身份的丧失是不可逆的，行政疏忽将导致毁灭性后果。",
       "annotation": {
@@ -5709,12 +5725,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_visa_critical"
+      "logic_source_id": "E_visa_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_visa_critical_75d143ca85.png"
     },
     "E_housing_critical": {
       "scene_text": "Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_housing_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "在慕尼黑，没有房子不仅是生活问题，更是法律身份问题。",
       "annotation": {
@@ -5736,12 +5753,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_housing_critical"
+      "logic_source_id": "E_housing_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_housing_critical_27b18bfdad.png"
     },
     "E_school_critical": {
       "scene_text": "School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_school_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "学术淘汰是残酷的，最终不及格意味着该专业大门永远关闭。",
       "annotation": {
@@ -5764,12 +5782,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_school_critical"
+      "logic_source_id": "E_school_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_school_critical_66eff448c2.png"
     },
     "E_wellbeing_critical": {
       "scene_text": "Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_wellbeing_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "当心理防线彻底崩溃，学业已不再是首要任务。",
       "annotation": {
@@ -5792,12 +5811,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_wellbeing_critical"
+      "logic_source_id": "E_wellbeing_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_wellbeing_critical_3113939419.png"
     },
     "E_local_language_critical": {
       "scene_text": "Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_local_language_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "语言不仅是沟通工具，更是获取学分和完成学业的硬性门槛。",
       "annotation": {
@@ -5820,12 +5840,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_local_language_critical"
+      "logic_source_id": "E_local_language_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_local_language_critical_c92c52ce2b.png"
     },
     "E_career_critical": {
       "scene_text": "Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_career_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "在TUM，找不到实习等同于无法毕业，职业规划必须前置。",
       "annotation": {
@@ -5848,12 +5869,13 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_career_critical"
+      "logic_source_id": "E_career_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_career_critical_599aec0589.png"
     },
     "E_academic_network_critical": {
       "scene_text": "Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
-      "image_prompt": null,
-      "has_image": false,
+      "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_academic_network_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
+      "has_image": true,
       "tone": "challenging",
       "insight": "孤军奋战在TUM是行不通的，学术共同体的支持是毕业的基石。",
       "annotation": {
@@ -5876,7 +5898,8 @@
         ]
       },
       "logic_page_role": "failure",
-      "logic_source_id": "E_academic_network_critical"
+      "logic_source_id": "E_academic_network_critical",
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_academic_network_critical_cf992035c8.png"
     }
   },
   "sources": [
