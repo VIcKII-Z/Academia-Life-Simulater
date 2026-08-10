@@ -103,6 +103,16 @@
   align-items: start;
 }
 
+.playDemoGrid > *,
+.playDemoSidebar,
+.playDemoScene,
+.playDemoGuide,
+.playDemoPanel,
+.playDemoVar,
+.playDemoVar div {
+  min-width: 0;
+}
+
 .playDemoSidebar {
   display: grid;
   gap: 12px;
@@ -226,6 +236,7 @@
 .playDemoPanel strong {
   display: block;
   margin-top: 6px;
+  overflow-wrap: anywhere;
   font-size: 18px;
   line-height: 1.25;
 }
@@ -234,6 +245,7 @@
   display: block;
   margin-top: 6px;
   color: #72583e;
+  overflow-wrap: anywhere;
   line-height: 1.45;
 }
 
@@ -291,6 +303,8 @@
 
 .playDemoVar strong {
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: 14px;
 }
 
@@ -300,6 +314,12 @@
   font-size: 11px;
   font-style: normal;
   font-weight: 800;
+}
+
+.playDemoVar span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .playDemoVar--good {
@@ -350,6 +370,7 @@
 
 .playDemoHistory span {
   color: #765b42;
+  overflow-wrap: anywhere;
   font-size: 12px;
   font-weight: 800;
 }
@@ -471,6 +492,7 @@
 .playDemoText p {
   margin: 0;
   color: #261d16;
+  overflow-wrap: anywhere;
   font-size: clamp(18px, 2vw, 24px);
   font-weight: 720;
   line-height: 1.72;
@@ -530,6 +552,7 @@
 
 .playDemoChoice span {
   color: #8a5a24;
+  overflow-wrap: anywhere;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.04em;

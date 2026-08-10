@@ -61,6 +61,40 @@ function reuseDecisionImage(doc: StoryDocument, node: StoryDocument["nodes"][str
   }
 }
 
+function findPrecedingImage(doc: StoryDocument, targetNodeId: string): string | undefined {
+  const nodes = Object.values(doc.nodes);
+  const plannedPredecessor = nodes.find((node) =>
+    node.image_url && node.choices?.some((choice) => choice.logic_planned_next_node === targetNodeId),
+  );
+  if (plannedPredecessor?.image_url) return plannedPredecessor.image_url;
+
+  const directPredecessor = nodes.find((node) =>
+    node.image_url && node.choices?.some((choice) => choice.next_node === targetNodeId),
+  );
+  return directPredecessor?.image_url;
+}
+
+function coverNarrativePages(
+  doc: StoryDocument,
+  narrativeEntries: Array<[string, StoryDocument["nodes"][string]]>,
+  generatedEntries: Array<[string, StoryDocument["nodes"][string]]>,
+): void {
+  const generatedImages = generatedEntries
+    .map(([, node]) => node.image_url)
+    .filter((url): url is string => Boolean(url));
+
+  for (const [index, [nodeId, node]] of narrativeEntries.entries()) {
+    if (!node.image_url) {
+      // Pages beyond the generation budget reuse the closest causal scene in
+      // the logic graph. A deterministic generated fallback guarantees visual
+      // coverage for a disconnected custom node without adding an API call.
+      node.image_url = findPrecedingImage(doc, nodeId)
+        ?? generatedImages[index % generatedImages.length];
+    }
+    reuseDecisionImage(doc, node);
+  }
+}
+
 /**
  * Mutates and returns the story doc with image_url populated for generated
  * anchors and their directly-owned option-result pages.
@@ -74,9 +108,6 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
   if (!imageGenerationEnabled) {
     return doc;
   }
-
-  await fs.mkdir(ASSETS_DIR, { recursive: true });
-  const client = getOpenAIClient(runtimeConfig, "image");
 
   const allEntries = [
     ...Object.entries(doc.nodes),
@@ -92,42 +123,44 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
     node.image_prompt ||= automaticSystemImagePrompt(doc, nodeId, node.scene_text, kind);
   }
 
-  const mandatoryIds = new Set(mandatorySystemEntries.map(([nodeId]) => nodeId));
-  const narrativeAnchorEntries = allEntries.filter(([nodeId, node]) =>
-    !mandatoryIds.has(nodeId) && node.has_image && node.image_prompt,
+  const narrativeAnchorEntries = Object.entries(doc.nodes).filter(([, node]) =>
+    node.logic_page_role !== "warning" && node.has_image && node.image_prompt,
   );
 
   const maxImages = runtimeConfig?.features.maxImagesPerStory ?? config.features.maxImagesPerStory;
   const selectedNarrativeEntries = maxImages > 0 ? narrativeAnchorEntries.slice(0, maxImages) : [];
   const selectedEntries = [...selectedNarrativeEntries, ...mandatorySystemEntries];
-  for (const [nodeId, node] of selectedEntries) {
-    if (node.image_url) continue;
-    const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
-    const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}`;
-    const result = await client.images.generate({
-      model: getRuntimeModel(runtimeConfig, "image"),
-      prompt,
-      size: IMAGE_SIZE,
-    });
-    const b64 = result.data?.[0]?.b64_json;
-    if (!b64) continue;
+  const entriesToGenerate = selectedEntries.filter(([, node]) => !node.image_url);
+  if (entriesToGenerate.length > 0) {
+    await fs.mkdir(ASSETS_DIR, { recursive: true });
+    const client = getOpenAIClient(runtimeConfig, "image");
+    for (const [nodeId, node] of entriesToGenerate) {
+      const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
+      const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}`;
+      const result = await client.images.generate({
+        model: getRuntimeModel(runtimeConfig, "image"),
+        prompt,
+        size: IMAGE_SIZE,
+      });
+      const b64 = result.data?.[0]?.b64_json;
+      if (!b64) continue;
 
-    const imageFingerprint = createHash("sha256")
-      .update(`${IMAGE_SIZE}\n${prompt}`)
-      .digest("hex")
-      .slice(0, 10);
-    const fileName = `${doc.story_id}_${nodeId}_${imageFingerprint}.png`;
-    await fs.writeFile(path.join(ASSETS_DIR, fileName), Buffer.from(b64, "base64"));
-    node.image_url = `/assets/generated/${fileName}`;
+      const imageFingerprint = createHash("sha256")
+        .update(`${IMAGE_SIZE}\n${prompt}`)
+        .digest("hex")
+        .slice(0, 10);
+      const fileName = `${doc.story_id}_${nodeId}_${imageFingerprint}.png`;
+      await fs.writeFile(path.join(ASSETS_DIR, fileName), Buffer.from(b64, "base64"));
+      node.image_url = `/assets/generated/${fileName}`;
 
-    if (nodeId in doc.nodes) reuseDecisionImage(doc, doc.nodes[nodeId]);
+      if (nodeId in doc.nodes) reuseDecisionImage(doc, doc.nodes[nodeId]);
+    }
   }
 
-  // Also restore scoped reuse when a decision anchor already existed and was
-  // skipped by this incremental image-only run.
-  for (const [nodeId] of selectedNarrativeEntries) {
-    reuseDecisionImage(doc, doc.nodes[nodeId]);
-  }
+  // Restore local decision/result reuse for existing anchors, then give every
+  // uncapped narrative page the image of its causal predecessor. This keeps
+  // the API budget fixed while avoiding visible placeholder pages.
+  coverNarrativePages(doc, narrativeAnchorEntries, selectedNarrativeEntries);
 
   return doc;
 }
