@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { fetchStory } from "../lib/api";
+import InlineAnnotatedText from "../components/InlineAnnotatedText";
 import {
   applyLogicContentVariant,
   applyLogicDelta,
@@ -158,7 +159,12 @@ export default function PlayableDemoPage() {
             </div>
 
             <article className="playDemoText">
-              <p>{currentNode.scene_text}</p>
+              <InlineAnnotatedText
+                text={currentNode.scene_text}
+                terms={currentNode.annotation?.terms}
+                evidenceIds={currentNode.annotation?.evidence_ids}
+                sources={story.sources}
+              />
             </article>
 
             {!ending && (

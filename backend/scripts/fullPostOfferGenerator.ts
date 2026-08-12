@@ -1852,7 +1852,7 @@ function annotationOutputExample(): string {
         "current_step": "what real-world step this page represents",
         "consequence": "the immediate practical consequence",
         "next_impact": "what this can change later",
-        "terms": [{"term":"a professional term used on this page","explanation":"plain-language meaning","evidence_ids":["S01"]}],
+        "terms": [{"term":"the exact professional term or monetary text as it appears in the page prose","explanation":"plain-language meaning","importance":"critical|important|supplementary","importance_reason":"why this level applies","monetary_amount":{"amount":6000,"currency":"EUR"},"evidence_ids":["S01"]}],
         "evidence_ids": ["S01"]
       }`;
 }
@@ -1960,7 +1960,14 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
     ? raw.terms
         .map((term) => {
           if (!term || typeof term !== "object") return null;
-          const candidate = term as { term?: unknown; explanation?: unknown; evidence_ids?: unknown };
+          const candidate = term as {
+            term?: unknown;
+            explanation?: unknown;
+            importance?: unknown;
+            importance_reason?: unknown;
+            monetary_amount?: unknown;
+            evidence_ids?: unknown;
+          };
           const termEvidenceIds = cleanEvidenceIds(candidate.evidence_ids);
           if (
             typeof candidate.term !== "string" ||
@@ -1969,9 +1976,28 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
             !candidate.explanation.trim() ||
             termEvidenceIds.length === 0
           ) return null;
+          const importance = candidate.importance === "critical" || candidate.importance === "important" || candidate.importance === "supplementary"
+            ? candidate.importance
+            : "important";
+          const rawMoney = candidate.monetary_amount && typeof candidate.monetary_amount === "object"
+            ? candidate.monetary_amount as { amount?: unknown; currency?: unknown }
+            : null;
+          const monetaryAmount = rawMoney
+            && typeof rawMoney.amount === "number"
+            && Number.isFinite(rawMoney.amount)
+            && rawMoney.amount >= 0
+            && typeof rawMoney.currency === "string"
+            && /^[A-Za-z]{3}$/.test(rawMoney.currency.trim())
+            ? { amount: rawMoney.amount, currency: rawMoney.currency.trim().toUpperCase() }
+            : undefined;
           return {
             term: candidate.term.trim(),
             explanation: candidate.explanation.trim(),
+            importance,
+            importance_reason: typeof candidate.importance_reason === "string" && candidate.importance_reason.trim()
+              ? candidate.importance_reason.trim()
+              : undefined,
+            monetary_amount: monetaryAmount,
             evidence_ids: termEvidenceIds,
           };
         })
@@ -2015,6 +2041,9 @@ ${nodeContentRules(node.id)}
 - Make the situation concrete and readable, then place the decision at the end of the node page.
 - Specific professional terms, policy rules, dates, fees, deadlines, named services, and authorization claims may appear only when supported by the evidence catalog.
 - Explain every professional term used on the page in annotation.terms and cite one or more allowed evidence ids.
+- annotation.terms[].term must copy the exact visible phrase from this page's text so the frontend can mark it inline.
+- Give each term an importance: critical when misunderstanding can cause ineligibility, missed legal/academic status, failure, or a major deadline; important when it materially changes cost, time, or decisions; supplementary for helpful context.
+- Also annotate every explicit monetary phrase in the prose (for example "6,000欧元") as a term. Copy the exact phrase and add monetary_amount with the numeric amount and ISO 4217 currency code. Do not calculate another currency here.
 - annotation.evidence_ids may contain only ids from the catalog. Never invent an id, URL, organization, deadline, amount, or policy detail.
 - If the catalog does not support a detail, keep it general and tell the reader to verify the current official page instead of fabricating precision.
 - For every page, annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
@@ -2075,6 +2104,8 @@ ${systemContentRules()}
 - Prefer plain, neutral, procedural language over literary narration.
 - Specific terms, rules, amounts, dates, deadlines, and named services must be supported by the evidence catalog.
 - Every professional term must be explained in annotation.terms and cite allowed evidence ids only.
+- annotation.terms[].term must be an exact phrase present in that page's text. Assign critical, important, or supplementary importance using decision impact.
+- Treat every explicit monetary phrase as an annotated term and add monetary_amount with the original numeric amount and ISO 4217 currency code; never invent or convert an amount.
 - Every annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
 - Never invent an evidence id or URL. If evidence is insufficient, keep the claim general and recommend checking the current official page.
 - Do not mention variable bands or implementation terms in prose.
@@ -2511,7 +2542,7 @@ function validateCompiledStory(
   let evidenceReferences = 0;
   const validEvidenceIds = new Set((doc.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
 
-  function checkAnnotation(pageId: string, annotation: PageAnnotation | undefined): void {
+  function checkAnnotation(pageId: string, pageText: string, annotation: PageAnnotation | undefined): void {
     if (
       !annotation ||
       !annotation.cause?.trim() ||
@@ -2538,6 +2569,14 @@ function validateCompiledStory(
         issues.push(`${pageId} term ${index + 1} is not fully explained and cited.`);
         continue;
       }
+      if (!pageText.includes(term.term)) {
+        allTermsExplainedAndCited = false;
+        issues.push(`${pageId} term ${term.term} is not an exact phrase in the visible page text.`);
+      }
+      if (!term.importance) {
+        allTermsExplainedAndCited = false;
+        issues.push(`${pageId} term ${term.term} is missing importance.`);
+      }
       for (const evidenceId of term.evidence_ids) {
         evidenceReferences += 1;
         if (!validEvidenceIds.has(evidenceId)) {
@@ -2549,7 +2588,7 @@ function validateCompiledStory(
   }
 
   for (const [nodeId, node] of Object.entries(doc.nodes)) {
-    checkAnnotation(nodeId, node.annotation);
+    checkAnnotation(nodeId, node.scene_text, node.annotation);
     if (node.logic_page_role === "node") {
       playableNodes += 1;
       if (node.choices.length !== 3) {
@@ -2572,7 +2611,7 @@ function validateCompiledStory(
   }
 
   for (const [endingId, endingNode] of Object.entries(doc.endings)) {
-    checkAnnotation(endingId, endingNode.annotation);
+    checkAnnotation(endingId, endingNode.scene_text, endingNode.annotation);
   }
 
   let variableWarningsAndFailuresPresent = true;

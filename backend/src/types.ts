@@ -217,6 +217,16 @@ export interface Choice {
 export interface PageTermAnnotation {
   term: string;
   explanation: string;
+  /** Controls inline emphasis: critical = decision/eligibility risk,
+   * important = material time/cost/process impact, supplementary = context. */
+  importance?: "critical" | "important" | "supplementary";
+  importance_reason?: string;
+  /** Optional structured monetary amount when the annotated term is a price,
+   * fee, deposit, salary, or proof-of-funds amount. */
+  monetary_amount?: {
+    amount: number;
+    currency: string;
+  };
   evidence_ids: string[];
 }
 

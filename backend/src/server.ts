@@ -59,6 +59,15 @@ type FullGenerationJob = {
 };
 
 const fullGenerationJobs = new Map<string, FullGenerationJob>();
+const exchangeRateCache = new Map<string, { expiresAt: number; payload: ExchangeRatePayload }>();
+
+type ExchangeRatePayload = {
+  base: string;
+  quote: "CNY" | "LKR";
+  rate: number;
+  date: string;
+  source: "Frankfurter";
+};
 
 function normalizeRelayBaseURL(rawBaseURL: string): string {
   try {
@@ -821,6 +830,42 @@ app.get("/api/runs/:storyId", async (req, res) => {
     res.json(await readRunFiles(req.params.storyId));
   } catch (err) {
     res.status(404).json({ error: `Run not found: ${req.params.storyId}` });
+  }
+});
+
+/** Reference-only currency conversion for reader-facing cost annotations.
+ * The original amount always stays visible; rates are cached for six hours. */
+app.get("/api/exchange-rate", async (req, res) => {
+  const base = String(req.query.base ?? "").trim().toUpperCase();
+  const quote = String(req.query.quote ?? "").trim().toUpperCase();
+  if (!/^[A-Z]{3}$/.test(base) || (quote !== "CNY" && quote !== "LKR")) {
+    res.status(400).json({ error: "Use a three-letter base currency and quote CNY or LKR." });
+    return;
+  }
+
+  const cacheKey = `${base}:${quote}`;
+  const cached = exchangeRateCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) {
+    res.json(cached.payload);
+    return;
+  }
+
+  try {
+    const payload: ExchangeRatePayload = base === quote
+      ? { base, quote, rate: 1, date: new Date().toISOString().slice(0, 10), source: "Frankfurter" }
+      : await (async () => {
+          const upstream = await fetch(`https://api.frankfurter.dev/v2/rate/${encodeURIComponent(base)}/${quote}`);
+          if (!upstream.ok) throw new Error(`Exchange-rate provider returned ${upstream.status}`);
+          const raw = await upstream.json() as { base?: unknown; quote?: unknown; rate?: unknown; date?: unknown };
+          if (typeof raw.rate !== "number" || !Number.isFinite(raw.rate) || typeof raw.date !== "string") {
+            throw new Error("Exchange-rate provider returned invalid data");
+          }
+          return { base, quote, rate: raw.rate, date: raw.date, source: "Frankfurter" };
+        })();
+    exchangeRateCache.set(cacheKey, { expiresAt: Date.now() + 6 * 60 * 60 * 1_000, payload });
+    res.json(payload);
+  } catch (error) {
+    res.status(502).json({ error: error instanceof Error ? error.message : "Could not load exchange rate." });
   }
 });
 

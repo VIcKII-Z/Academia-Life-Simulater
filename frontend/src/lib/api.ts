@@ -154,6 +154,21 @@ export async function fetchStory(storyId: string): Promise<StoryDocument | null>
   return (await res.json()) as StoryDocument;
 }
 
+export interface ExchangeRate {
+  base: string;
+  quote: "CNY" | "LKR";
+  rate: number;
+  date: string;
+  source: string;
+}
+
+export async function fetchExchangeRate(base: string, quote: string): Promise<ExchangeRate> {
+  const params = new URLSearchParams({ base, quote });
+  const res = await fetch(`/api/exchange-rate?${params.toString()}`);
+  if (!res.ok) throw new Error("Could not load the reference exchange rate.");
+  return (await res.json()) as ExchangeRate;
+}
+
 export interface FullGenerationJob {
   storyId: string;
   status: "running" | "completed" | "failed";

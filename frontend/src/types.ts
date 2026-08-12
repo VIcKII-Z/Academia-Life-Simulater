@@ -26,6 +26,12 @@ export interface StatBlock {
 export interface PageTermAnnotation {
   term: string;
   explanation: string;
+  importance?: "critical" | "important" | "supplementary";
+  importance_reason?: string;
+  monetary_amount?: {
+    amount: number;
+    currency: string;
+  };
   evidence_ids: string[];
 }
 
