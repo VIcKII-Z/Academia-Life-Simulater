@@ -217,6 +217,8 @@ export interface Choice {
 export interface PageTermAnnotation {
   term: string;
   explanation: string;
+  /** Semantic kind used by the inline reader and QA coverage checks. */
+  category?: "location" | "institution" | "discipline" | "professional_term" | "money";
   /** Controls inline emphasis: critical = decision/eligibility risk,
    * important = material time/cost/process impact, supplementary = context. */
   importance?: "critical" | "important" | "supplementary";

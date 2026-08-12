@@ -1852,7 +1852,7 @@ function annotationOutputExample(): string {
         "current_step": "what real-world step this page represents",
         "consequence": "the immediate practical consequence",
         "next_impact": "what this can change later",
-        "terms": [{"term":"the exact professional term or monetary text as it appears in the page prose","explanation":"plain-language meaning","importance":"critical|important|supplementary","importance_reason":"why this level applies","monetary_amount":{"amount":6000,"currency":"EUR"},"evidence_ids":["S01"]}],
+        "terms": [{"term":"the exact visible entity, professional term, or monetary text as it appears in the page prose","explanation":"plain-language meaning","category":"location|institution|discipline|professional_term|money","importance":"critical|important|supplementary","importance_reason":"why this level applies","monetary_amount":{"amount":6000,"currency":"EUR"},"evidence_ids":["S01"]}],
         "evidence_ids": ["S01"]
       }`;
 }
@@ -1963,6 +1963,7 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
           const candidate = term as {
             term?: unknown;
             explanation?: unknown;
+            category?: unknown;
             importance?: unknown;
             importance_reason?: unknown;
             monetary_amount?: unknown;
@@ -1979,6 +1980,13 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
           const importance = candidate.importance === "critical" || candidate.importance === "important" || candidate.importance === "supplementary"
             ? candidate.importance
             : "important";
+          const category = candidate.category === "location"
+            || candidate.category === "institution"
+            || candidate.category === "discipline"
+            || candidate.category === "professional_term"
+            || candidate.category === "money"
+            ? candidate.category
+            : "professional_term";
           const rawMoney = candidate.monetary_amount && typeof candidate.monetary_amount === "object"
             ? candidate.monetary_amount as { amount?: unknown; currency?: unknown }
             : null;
@@ -1993,6 +2001,7 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
           return {
             term: candidate.term.trim(),
             explanation: candidate.explanation.trim(),
+            category,
             importance,
             importance_reason: typeof candidate.importance_reason === "string" && candidate.importance_reason.trim()
               ? candidate.importance_reason.trim()
@@ -2040,8 +2049,9 @@ ${nodeContentRules(node.id)}
 - Prefer plain, neutral, procedural language over dramatic or literary narration. The purpose is to teach the real process and its trade-offs.
 - Make the situation concrete and readable, then place the decision at the end of the node page.
 - Specific professional terms, policy rules, dates, fees, deadlines, named services, and authorization claims may appear only when supported by the evidence catalog.
-- Explain every professional term used on the page in annotation.terms and cite one or more allowed evidence ids.
+- Explain and annotate every named place, country, city, university, school/faculty/department, degree/program, academic discipline/major, named organization/service, and professional term used on the page in annotation.terms. Cite one or more allowed evidence ids for each.
 - annotation.terms[].term must copy the exact visible phrase from this page's text so the frontend can mark it inline.
+- Assign category location, institution, discipline, professional_term, or money. Do not omit a visible entity just because it is familiar or already appeared on an earlier page.
 - Give each term an importance: critical when misunderstanding can cause ineligibility, missed legal/academic status, failure, or a major deadline; important when it materially changes cost, time, or decisions; supplementary for helpful context.
 - Also annotate every explicit monetary phrase in the prose (for example "6,000欧元") as a term. Copy the exact phrase and add monetary_amount with the numeric amount and ISO 4217 currency code. Do not calculate another currency here.
 - annotation.evidence_ids may contain only ids from the catalog. Never invent an id, URL, organization, deadline, amount, or policy detail.
@@ -2103,8 +2113,9 @@ Rules:
 ${systemContentRules()}
 - Prefer plain, neutral, procedural language over literary narration.
 - Specific terms, rules, amounts, dates, deadlines, and named services must be supported by the evidence catalog.
-- Every professional term must be explained in annotation.terms and cite allowed evidence ids only.
+- Every named place, institution, degree/program, discipline/major, named organization/service, and professional term must be explained in annotation.terms and cite allowed evidence ids only.
 - annotation.terms[].term must be an exact phrase present in that page's text. Assign critical, important, or supplementary importance using decision impact.
+- Assign category location, institution, discipline, professional_term, or money; annotate repeated entities again when they appear on this page.
 - Treat every explicit monetary phrase as an annotated term and add monetary_amount with the original numeric amount and ISO 4217 currency code; never invent or convert an amount.
 - Every annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
 - Never invent an evidence id or URL. If evidence is insufficient, keep the claim general and recommend checking the current official page.
@@ -2576,6 +2587,10 @@ function validateCompiledStory(
       if (!term.importance) {
         allTermsExplainedAndCited = false;
         issues.push(`${pageId} term ${term.term} is missing importance.`);
+      }
+      if (!term.category) {
+        allTermsExplainedAndCited = false;
+        issues.push(`${pageId} term ${term.term} is missing its semantic category.`);
       }
       for (const evidenceId of term.evidence_ids) {
         evidenceReferences += 1;

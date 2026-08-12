@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { fetchStory } from "../lib/api";
 import InlineAnnotatedText from "../components/InlineAnnotatedText";
@@ -93,6 +93,17 @@ export default function PlayableDemoPage() {
   const rawCurrentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const currentNode = story && rawCurrentNode ? applyLogicContentVariant(story, currentNodeId, rawCurrentNode, logicVars) : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
+  const storyGlossaryTerms = useMemo(() => {
+    if (!story) return [];
+    const pages = [...Object.values(story.nodes), ...Object.values(story.endings)];
+    const seen = new Set<string>();
+    return pages.flatMap((page) => page.annotation?.terms ?? []).filter((term) => {
+      const key = term.term.trim().toLocaleLowerCase();
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [story]);
 
   function restart() {
     if (!story) return;
@@ -164,6 +175,8 @@ export default function PlayableDemoPage() {
                 terms={currentNode.annotation?.terms}
                 evidenceIds={currentNode.annotation?.evidence_ids}
                 sources={story.sources}
+                profile={story.user_profile}
+                glossaryTerms={storyGlossaryTerms}
               />
             </article>
 

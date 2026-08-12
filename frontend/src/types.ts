@@ -26,6 +26,7 @@ export interface StatBlock {
 export interface PageTermAnnotation {
   term: string;
   explanation: string;
+  category?: "location" | "institution" | "discipline" | "professional_term" | "money";
   importance?: "critical" | "important" | "supplementary";
   importance_reason?: string;
   monetary_amount?: {

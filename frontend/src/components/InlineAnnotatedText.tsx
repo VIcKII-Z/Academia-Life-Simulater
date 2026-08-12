@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { fetchExchangeRate, type ExchangeRate } from "../lib/api";
-import type { PageTermAnnotation, StorySource } from "../types";
+import type { PageTermAnnotation, StorySource, UserProfile } from "../types";
 
 type Importance = NonNullable<PageTermAnnotation["importance"]>;
 
@@ -22,9 +22,80 @@ const importanceLabels: Record<Importance, string> = {
   supplementary: "补充",
 };
 
+const categoryLabels: Record<NonNullable<PageTermAnnotation["category"]>, string> = {
+  location: "地点",
+  institution: "院校机构",
+  discipline: "学科专业",
+  professional_term: "专业名词",
+  money: "金额",
+};
+
 const criticalPattern = /签证|居留许可|入境|合法身份|限制(?:金额)?账户|截止|注册期限|考试次数|退学|毕业资格|work\s*permit|visa|residence permit|deadline|eligibility/i;
 const importantPattern = /学费|费用|押金|奖学金|住房|宿舍|实习|工作|课程|学分|语言|保险|tuition|fee|deposit|scholarship|housing|internship|work|course|credit|language|insurance/i;
 const moneyPattern = /(?:€|US\$|CN¥|RMB¥|LKR\s*|Rs\.?\s*|\$|£|¥)\s*\d[\d.,]*|\d[\d.,]*\s*(?:欧元|美元|英镑|日元|人民币|斯里兰卡卢比|卢比)|\d[\d.,]*\s*(?:EUR|USD|GBP|JPY|CNY|RMB|LKR)\b/giu;
+const moneyTextPattern = /(?:€|US\$|CN¥|RMB¥|LKR\s*|Rs\.?\s*|\$|£|¥)\s*\d[\d.,]*|\d[\d.,]*\s*(?:欧元|美元|英镑|日元|人民币|斯里兰卡卢比|卢比)|\d[\d.,]*\s*(?:EUR|USD|GBP|JPY|CNY|RMB|LKR)\b/iu;
+const explicitLocationPattern = /德国|日本|中国|斯里兰卡|慕尼黑|东京|柏林|Germany|Japan|China|Sri Lanka|Munich|Tokyo|Berlin/i;
+const explicitInstitutionPattern = /大学|学院|院系|学校|中心|外事局|使领馆|机构|University|School|Faculty|Department|Institute|Center|Centre|Office|Authority/i;
+const explicitDisciplinePattern = /专业|学科|硕士|博士|学士|工程|技术|科学|Master|Bachelor|PhD|Engineering|Science|Technology|programme|program|degree/i;
+
+type EntitySeed = {
+  term: string;
+  explanation: string;
+  category: NonNullable<PageTermAnnotation["category"]>;
+  evidence_ids: string[];
+};
+
+const entityAliases: Array<{
+  pattern: RegExp;
+  category: EntitySeed["category"];
+  explanation: (term: string) => string;
+}> = [
+  { pattern: /慕尼黑工业大学（TUM）|慕尼黑工业大学|Technische Universität München|Technical University of Munich/giu, category: "institution", explanation: () => "慕尼黑工业大学（TUM），本故事所对应的目标大学。" },
+  { pattern: /计算、信息与技术学院|TUM School of Computation, Information and Technology|TUM School of CIT/giu, category: "institution", explanation: () => "慕尼黑工业大学负责计算、信息和工程相关教学与管理的学院。" },
+  { pattern: /电子工程与信息技术硕士|电气工程与信息技术硕士|Electrical Engineering and Information Technology|Electrical and Computer Engineering/giu, category: "discipline", explanation: () => "本故事所对应的工程学科和硕士培养项目，课程及毕业要求应以该项目官方页面为准。" },
+  { pattern: /德国|Germany/giu, category: "location", explanation: () => "本故事的留学目的地国家，其签证、居留和工作规定构成决策背景。" },
+  { pattern: /慕尼黑|Munich/giu, category: "location", explanation: () => "本故事的留学城市；当地生活成本、住房和行政办理条件会影响学生决策。" },
+];
+
+function sourceIdsFor(category: EntitySeed["category"], sources: StorySource[]): string[] {
+  const exact = sources.filter((source) => {
+    if (!source.evidence_id) return false;
+    if (category === "location") return source.used_for?.some((use) => /housing|money|visa|community|life/i.test(use));
+    return /program_official|department|catalog|handbook|official_registry/i.test(source.source_type);
+  }).map((source) => source.evidence_id as string);
+  return [...new Set(exact.length ? exact : sources.map((source) => source.evidence_id).filter((id): id is string => Boolean(id)))].slice(0, 3);
+}
+
+function profileEntitySeeds(text: string, profile: UserProfile | undefined, sources: StorySource[]): EntitySeed[] {
+  const seeds: EntitySeed[] = [];
+  const push = (term: string | undefined, explanation: string, category: EntitySeed["category"]) => {
+    const value = term?.trim();
+    if (!value || value.length < 2 || !text.toLocaleLowerCase().includes(value.toLocaleLowerCase())) return;
+    seeds.push({ term: value, explanation, category, evidence_ids: sourceIdsFor(category, sources) });
+  };
+
+  if (profile) {
+    push(profile.country, `${profile.country}是本故事的留学目的地国家；相关政策和生活条件构成决策背景。`, "location");
+    push(profile.city, `${profile.city}是本故事的留学城市；当地成本、住房、交通和行政条件会影响选择。`, "location");
+    push(profile.school, `${profile.school}是本故事所对应的目标大学。`, "institution");
+    push(profile.department, `${profile.department}是负责该项目教学或管理的院系。`, "institution");
+    push(profile.program, `${profile.program}是本故事对应的具体学位项目，课程与毕业要求应以官方项目页面为准。`, "discipline");
+    push(profile.major, `${profile.major}是本故事对应的专业或学科方向。`, "discipline");
+  }
+
+  for (const alias of entityAliases) {
+    for (const match of text.matchAll(alias.pattern)) {
+      seeds.push({
+        term: match[0],
+        explanation: alias.explanation(match[0]),
+        category: alias.category,
+        evidence_ids: sourceIdsFor(alias.category, sources),
+      });
+    }
+  }
+
+  return seeds.filter((seed, index, all) => all.findIndex((candidate) => candidate.term === seed.term) === index);
+}
 
 function inferImportance(term: PageTermAnnotation): Importance {
   if (term.importance) return term.importance;
@@ -32,6 +103,15 @@ function inferImportance(term: PageTermAnnotation): Importance {
   if (criticalPattern.test(text)) return "critical";
   if (importantPattern.test(text) || term.monetary_amount) return "important";
   return "supplementary";
+}
+
+function inferCategory(term: PageTermAnnotation): NonNullable<PageTermAnnotation["category"]> {
+  if (term.category) return term.category;
+  if (term.monetary_amount || moneyTextPattern.test(term.term)) return "money";
+  if (explicitLocationPattern.test(term.term)) return "location";
+  if (explicitInstitutionPattern.test(term.term)) return "institution";
+  if (explicitDisciplinePattern.test(term.term)) return "discipline";
+  return "professional_term";
 }
 
 function currencyFromText(value: string): string | null {
@@ -79,10 +159,32 @@ function findAll(text: string, needle: string): number[] {
   return result;
 }
 
-function annotationRanges(text: string, terms: PageTermAnnotation[], evidenceIds: string[]): InlineAnnotation[] {
+function annotationRanges(
+  text: string,
+  terms: PageTermAnnotation[],
+  evidenceIds: string[],
+  profile: UserProfile | undefined,
+  sources: StorySource[],
+  glossaryTerms: PageTermAnnotation[],
+): InlineAnnotation[] {
   const candidates: InlineAnnotation[] = [];
 
-  for (const term of terms) {
+  const expandedTerms: PageTermAnnotation[] = [
+    ...terms,
+    ...glossaryTerms,
+    ...profileEntitySeeds(text, profile, sources).map((entity) => ({
+      ...entity,
+      importance: "supplementary" as const,
+      importance_reason: entity.category === "location"
+        ? "地点决定适用的生活条件、行政流程和政策环境。"
+        : entity.category === "institution"
+          ? "院校和院系决定项目规则及可使用的校内资源。"
+          : "专业和学位项目决定课程结构、培养要求及后续职业方向。",
+    })),
+  ];
+
+  for (const rawTerm of expandedTerms) {
+    const term = { ...rawTerm, category: inferCategory(rawTerm) };
     for (const start of findAll(text, term.term.trim())) {
       candidates.push({ ...term, importance: inferImportance(term), start, end: start + term.term.trim().length });
     }
@@ -96,6 +198,7 @@ function annotationRanges(text: string, terms: PageTermAnnotation[], evidenceIds
     candidates.push({
       term: match[0],
       explanation: "正文中的原币金额。下方换算使用最近可用的参考汇率，仅用于帮助比较成本。",
+      category: "money",
       importance: criticalPattern.test(text.slice(Math.max(0, match.index - 24), match.index + match[0].length + 24))
         ? "critical"
         : "important",
@@ -177,10 +280,22 @@ export interface InlineAnnotatedTextProps {
   terms?: PageTermAnnotation[];
   evidenceIds?: string[];
   sources?: StorySource[];
+  profile?: UserProfile;
+  glossaryTerms?: PageTermAnnotation[];
 }
 
-export default function InlineAnnotatedText({ text, terms = [], evidenceIds = [], sources = [] }: InlineAnnotatedTextProps) {
-  const annotations = useMemo(() => annotationRanges(text, terms, evidenceIds), [evidenceIds, terms, text]);
+export default function InlineAnnotatedText({
+  text,
+  terms = [],
+  evidenceIds = [],
+  sources = [],
+  profile,
+  glossaryTerms = [],
+}: InlineAnnotatedTextProps) {
+  const annotations = useMemo(
+    () => annotationRanges(text, terms, evidenceIds, profile, sources, glossaryTerms),
+    [evidenceIds, glossaryTerms, profile, sources, terms, text],
+  );
   const [popover, setPopover] = useState<PopoverState | null>(null);
   const closeTimer = useRef<number | null>(null);
 
@@ -231,7 +346,7 @@ export default function InlineAnnotatedText({ text, terms = [], evidenceIds = []
         key={`${annotation.start}-${annotation.end}`}
         tabIndex={0}
         role="button"
-        aria-label={`${annotation.term}，${importanceLabels[annotation.importance]}术语。查看注释`}
+        aria-label={`${annotation.term}，${annotation.category ? categoryLabels[annotation.category] : "术语"}，${importanceLabels[annotation.importance]}。查看注释`}
         onMouseEnter={(event) => open(annotation, event.currentTarget)}
         onMouseLeave={scheduleClose}
         onFocus={(event) => open(annotation, event.currentTarget)}
@@ -270,7 +385,7 @@ export default function InlineAnnotatedText({ text, terms = [], evidenceIds = []
           onBlur={scheduleClose}
         >
           <div className="termPopoverHead">
-            <span>{importanceLabels[popover.annotation.importance]}术语</span>
+            <span>{popover.annotation.category ? categoryLabels[popover.annotation.category] : "术语"} · {importanceLabels[popover.annotation.importance]}</span>
             <strong>{popover.annotation.term}</strong>
           </div>
           <p>{popover.annotation.explanation}</p>
