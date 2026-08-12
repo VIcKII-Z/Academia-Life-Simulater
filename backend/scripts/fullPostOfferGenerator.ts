@@ -5,6 +5,7 @@ import { compileLogicGraphToStoryDocument } from "../src/agents/logicGraphCompil
 import { validateLogicGraph } from "../src/agents/logicGraphAgent.js";
 import { runArtistAgent } from "../src/agents/artistAgent.js";
 import type {
+  FailureRecovery,
   LogicEnding,
   LogicGraphDocument,
   LogicNode,
@@ -73,9 +74,10 @@ type ContentPatch = {
       insight?: string;
       choices?: string[];
       annotation?: Partial<PageAnnotation>;
+      failure_recovery?: Partial<FailureRecovery>;
     }
   >;
-  endings?: Record<string, { text?: string; insight?: string; annotation?: Partial<PageAnnotation> }>;
+  endings?: Record<string, { text?: string; insight?: string; annotation?: Partial<PageAnnotation>; failure_recovery?: Partial<FailureRecovery> }>;
   summary?: string;
 };
 
@@ -125,6 +127,7 @@ type ValidationReport = {
     comboVariants: number;
     annotatedPages: number;
     evidenceReferences: number;
+    failureRecoveries: number;
   };
   requirements: {
     allPlayableNodesHaveThreeOptions: boolean;
@@ -135,6 +138,7 @@ type ValidationReport = {
     everyVisiblePageAnnotated: boolean;
     allEvidenceReferencesValid: boolean;
     allTermsExplainedAndCited: boolean;
+    allFailurePagesHaveRecovery: boolean;
   };
   issues: string[];
   balanceNotes: string[];
@@ -1937,11 +1941,14 @@ function proseLanguageName(): string {
 function nodeContentRules(nodeId: string): string {
   return OUTPUT_LANGUAGE === "zh"
     ? `- Simplified Chinese only, second person.
+- Use a lively, playful, gently humorous narrative voice. Small jokes, vivid comparisons, and self-aware observations are welcome, but never joke away discrimination, health, legal status, money pressure, or academic failure.
+- Keep every sourced policy, amount, deadline, admission condition, and professional term literally accurate. Humor belongs in framing and reactions, never inside the factual claim.
 - Node page: 80-150 Chinese characters.
 - Result pages: 45-100 Chinese characters.
 - Keep option ids exactly, but rewrite labels to be human-readable Simplified Chinese.
 - Each choice label must still start with its id and a Chinese colon, e.g. ${nodeId}_O1：...`
     : `- English only, second person.
+- Use a lively, playful, gently humorous voice. Keep serious consequences emotionally respectful, and keep every sourced rule, amount, deadline, and professional term literally accurate.
 - Node page: 80-150 English words.
 - Result pages: 45-100 English words.
 - Keep option ids exactly, but rewrite labels to be human-readable English.
@@ -1952,15 +1959,19 @@ function systemContentRules(): string {
   const grounding = `${REQUESTED_PROFILE.school || REQUESTED_PROFILE.city} ${REQUESTED_PROFILE.major}`;
   return OUTPUT_LANGUAGE === "zh"
     ? `- Simplified Chinese only, second person, grounded in the supplied ${grounding} research.
+- Use a witty, nimble, gently absurd voice around the facts, while treating legal, financial, health, discrimination, and academic consequences with respect and literal accuracy.
 - Warning pages: 45-90 Chinese characters.
 - Endings: 90-160 Chinese characters.`
     : `- English only, second person, grounded in the supplied ${grounding} research.
+- Use a witty, nimble voice around the facts while keeping serious consequences respectful and every sourced claim literally accurate.
 - Warning pages: 45-90 English words.
 - Endings: 90-160 English words.`;
 }
 
 function variantLanguageRule(): string {
-  return OUTPUT_LANGUAGE === "zh" ? "- Simplified Chinese only." : "- English only.";
+  return OUTPUT_LANGUAGE === "zh"
+    ? "- Simplified Chinese only. Preserve the base page's lively, witty, gently humorous voice while keeping every factual claim exact."
+    : "- English only. Preserve the base page's lively, witty, gently humorous voice while keeping every factual claim exact.";
 }
 
 function choiceOutputExample(): string {
@@ -1976,6 +1987,174 @@ function annotationOutputExample(): string {
         "terms": [{"term":"the exact visible entity, professional term, or monetary text as it appears in the page prose","explanation":"plain-language meaning","category":"location|institution|discipline|professional_term|money","importance":"critical|important|supplementary","importance_reason":"why this level applies","monetary_amount":{"amount":6000,"currency":"EUR"},"evidence_ids":["S01"]}],
         "evidence_ids": ["S01"]
       }`;
+}
+
+function failureRecoveryOutputExample(): string {
+  return `"failure_recovery": {
+        "title": "a short playful transition title",
+        "scene_text": "a clearly fictional, humorous rollback vignette containing {previous_node}",
+        "return_choice_text": "a playful action label for returning"
+      }`;
+}
+
+function failureRecoveryFallback(id: string): FailureRecovery {
+  const seed = [...id].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const zh: FailureRecovery[] = [
+    {
+      title: "原来截止日期也会做噩梦",
+      scene_text: "你猛地从一场失败纪录片里惊醒，手机闹钟正无辜地响着。窗外一切照常，命运把书签悄悄夹回了{previous_node}——这次你决定别再让表格当反派。",
+      return_choice_text: "揉揉眼睛，重做刚才的选择",
+    },
+    {
+      title: "外星人的时间管理课",
+      scene_text: "你心灰意冷地散步，刚好被一艘迷路的外星飞船当成交换生接走。三分钟后它们发现专业不对口，把你送回地球；只是时钟很客气地倒退到了{previous_node}。",
+      return_choice_text: "谢过外星教务处，回到上一步",
+    },
+    {
+      title: "打印机偷偷藏了撤销键",
+      scene_text: "办公室打印机吐出一张写着“Ctrl+Z 也适用于人生”的纸，随后蓝光一闪。你再睁眼时，已经站回{previous_node}，而那张纸拒绝解释自己的学分来源。",
+      return_choice_text: "按下人生撤销键",
+    },
+    {
+      title: "慕尼黑鸽子拒绝这个结局",
+      scene_text: "一只神情严肃的鸽子叼走了失败通知，绕着你飞了三圈，硬是把时间线拧成了回形针。等世界停止旋转，你发现自己又站在{previous_node}。",
+      return_choice_text: "接受鸽子的改稿意见",
+    },
+    {
+      title: "闹钟申请了时间补考",
+      scene_text: "闹钟对这个结局非常不满，当场向宇宙考试委员会申请补考。秒针倒着跑了一圈，把你送回{previous_node}，还得意地响了两声。",
+      return_choice_text: "关掉闹钟，认真重选",
+    },
+    {
+      title: "限制账户开了虫洞",
+      scene_text: "ATM 吐出的不是余额单，而是一张宇宙财务更正函。纸条卷成小小的虫洞，将你精准投递回{previous_node}；手续费居然是零。",
+      return_choice_text: "收好更正函，回到上一步",
+    },
+    {
+      title: "护照打了个时间喷嚏",
+      scene_text: "护照听见坏消息后猛地打了个喷嚏，签证页飞出一阵时间粉尘。等你擦干净桌面，自己已经回到{previous_node}。",
+      return_choice_text: "拍拍护照，再做决定",
+    },
+    {
+      title: "公寓钥匙开错了年代",
+      scene_text: "你把钥匙插进门锁，门后却是几分钟前的世界。你跨过去，正好落在{previous_node}，钥匙一本正经地拒绝解释。",
+      return_choice_text: "关好时间门，重新选择",
+    },
+    {
+      title: "教授在黑板上写了 Ctrl+Z",
+      scene_text: "黑板忽然自己写下一个巨大的 Ctrl+Z，粉笔灰像舞台烟雾般散开。你咳嗽两声，发现讲台已经变回{previous_node}。",
+      return_choice_text: "擦掉粉笔灰，重做这道题",
+    },
+    {
+      title: "翻译软件纠正了命运",
+      scene_text: "翻译软件把“game over”认真翻成了“建议重试”，还擅自向时间服务器申诉。页面刷新后，你被退回{previous_node}。",
+      return_choice_text: "相信这次翻译，回到上一步",
+    },
+    {
+      title: "招聘吉祥物兼职修时间线",
+      scene_text: "职业展吉祥物摘下头套，宣布它其实是兼职时间工程师。它敲了敲你的简历，四周便折叠回{previous_node}。",
+      return_choice_text: "向时间工程师道谢并重选",
+    },
+    {
+      title: "校医室的盆栽按下暂停键",
+      scene_text: "校医室窗边的盆栽轻轻抖了抖叶子，替你按下宇宙暂停键。等呼吸重新平稳，时间也温柔地退回{previous_node}。",
+      return_choice_text: "先照顾好自己，再重新选择",
+    },
+    {
+      title: "课程表偷偷存了读档点",
+      scene_text: "课程表小声承认自己一直保存着自动存档。你轻轻一碰，四周便像翻书一样翻回{previous_node}。",
+      return_choice_text: "读取课程表的存档",
+    },
+    {
+      title: "简历折成纸飞机穿越了",
+      scene_text: "简历自动折成一架纸飞机，绕过所有已读不回，一头扎进时间裂缝。你追过去，正好落回{previous_node}。",
+      return_choice_text: "展开简历，重新规划",
+    },
+  ];
+  const en: FailureRecovery[] = [
+    {
+      title: "Apparently deadlines have nightmares too",
+      scene_text: "You jolt awake from a very convincing documentary about your failure. The clock is innocent, the universe looks embarrassed, and the bookmark has slipped back to {previous_node}.",
+      return_choice_text: "Wake up and choose again",
+    },
+    {
+      title: "An alien crash course in time management",
+      scene_text: "A lost alien shuttle mistakes you for an exchange student, realizes the paperwork is wrong, and returns you three minutes later—except the clock now points politely to {previous_node}.",
+      return_choice_text: "Thank alien admissions and rewind",
+    },
+    {
+      title: "The printer discovers Ctrl+Z",
+      scene_text: "The printer produces a sheet claiming Ctrl+Z applies to life. One blue flash later, you are back at {previous_node}, while the printer denies taking time-travel electives.",
+      return_choice_text: "Press life's undo button",
+    },
+    {
+      title: "A pigeon rejects this ending",
+      scene_text: "A stern campus pigeon steals the failure notice and folds the timeline into a paperclip. When the world stops spinning, you are standing at {previous_node}.",
+      return_choice_text: "Accept the pigeon's revision",
+    },
+    {
+      title: "Your passport sneezes time dust",
+      scene_text: "Your passport sneezes at the bad news, covering the desk in sparkling time dust. When it clears, you have landed safely at {previous_node}.",
+      return_choice_text: "Dust off the passport and retry",
+    },
+    {
+      title: "The timetable kept an autosave",
+      scene_text: "Your timetable quietly admits it has been keeping autosaves. You tap the margin and the world flips backward like a book to {previous_node}.",
+      return_choice_text: "Load the timetable's autosave",
+    },
+  ];
+  const options = OUTPUT_LANGUAGE === "zh" ? zh : en;
+  if (OUTPUT_LANGUAGE === "zh") {
+    if (/money/i.test(id)) return zh[5];
+    if (/time/i.test(id)) return zh[4];
+    if (/visa/i.test(id)) return zh[6];
+    if (/housing/i.test(id)) return zh[7];
+    if (/school/i.test(id)) return zh[2];
+    if (/wellbeing|health|mood/i.test(id)) return zh[11];
+    if (/local_language|language/i.test(id)) return zh[9];
+    if (/career/i.test(id)) return zh[13];
+    if (/academic_network|network/i.test(id)) return zh[3];
+  }
+  return options[seed % options.length];
+}
+
+function sanitizeFailureRecovery(value: unknown, id: string): FailureRecovery {
+  const fallback = failureRecoveryFallback(id);
+  const raw = value && typeof value === "object" ? value as Partial<FailureRecovery> : {};
+  let sceneText = typeof raw.scene_text === "string" && raw.scene_text.trim() ? raw.scene_text.trim() : fallback.scene_text;
+  if (!sceneText.includes("{previous_node}")) {
+    sceneText = `${sceneText} ${OUTPUT_LANGUAGE === "zh" ? "时间线最终把你送回{previous_node}。" : "The timeline finally returns you to {previous_node}."}`;
+  }
+  let tokenSeen = false;
+  sceneText = sceneText.replace(/\{previous_node\}/g, () => {
+    if (tokenSeen) return "";
+    tokenSeen = true;
+    return "{previous_node}";
+  });
+  return {
+    title: typeof raw.title === "string" && raw.title.trim() ? raw.title.trim() : fallback.title,
+    scene_text: sceneText,
+    return_choice_text: typeof raw.return_choice_text === "string" && raw.return_choice_text.trim()
+      ? raw.return_choice_text.trim()
+      : fallback.return_choice_text,
+  };
+}
+
+function isFailurePage(page: LogicPage): boolean {
+  return page.role === "failure" || /failure|failed|critical|collapse|rejected|expelled|退学|拒签|失败/i.test(`${page.id} ${page.title}`);
+}
+
+function isFailureEnding(ending: LogicEnding): boolean {
+  return /_critical\b|failure|failed|collapse|rejected|expelled|退学|拒签|失败/i.test(`${ending.id} ${ending.title}`);
+}
+
+function ensureFailureRecoveries(graph: LogicGraphDocument): void {
+  for (const page of Object.values(graph.pages)) {
+    if (isFailurePage(page)) page.failure_recovery = sanitizeFailureRecovery(page.failure_recovery, page.id);
+  }
+  for (const ending of Object.values(graph.endings)) {
+    if (isFailureEnding(ending)) ending.failure_recovery = sanitizeFailureRecovery(ending.failure_recovery, ending.id);
+  }
 }
 
 function allowedEvidenceIds(): Set<string> {
@@ -2159,7 +2338,7 @@ async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, prior
     {
       role: "system",
       content:
-        `You write clear ${proseLanguageName()} second-person informational scenarios for a study-abroad decision simulator. Return strict JSON only. Do not change routing ids.`,
+        `You write lively, witty ${proseLanguageName()} second-person informational scenarios for a study-abroad decision simulator. Accuracy is non-negotiable; humor belongs in narration, not factual claims. Return strict JSON only. Do not change routing ids.`,
     },
     {
       role: "user",
@@ -2167,7 +2346,7 @@ async function fillNodeContent(graph: LogicGraphDocument, node: LogicNode, prior
 
 Rules:
 ${nodeContentRules(node.id)}
-- Prefer plain, neutral, procedural language over dramatic or literary narration. The purpose is to teach the real process and its trade-offs.
+- Make the prose playful, imaginative, and lightly humorous rather than bureaucratic. Use concrete comic observation and fresh metaphors, but keep the real process easy to understand.
 - Make the situation concrete and readable, then place the decision at the end of the node page.
 - Specific professional terms, policy rules, dates, fees, deadlines, named services, and authorization claims may appear only when supported by the evidence catalog.
 - Explain and annotate every named place, country, city, university, school/faculty/department, degree/program, academic discipline/major, named organization/service, and professional term used on the page in annotation.terms. Cite one or more allowed evidence ids for each.
@@ -2180,6 +2359,7 @@ ${nodeContentRules(node.id)}
 - For every page, annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
 - Do not mention implementation, variables, JSON, branches, or page ids in the prose.
 - Do not change next_node, planned_next_id, delta, or ids.
+- For every option-result page whose id/title indicates failure, also output failure_recovery. It is a separate, clearly fictional comic rollback vignette—not a factual claim. Give it a distinct motif such as a nightmare, alien abduction, mischievous printer, time-travelling pigeon, or another original device; include the literal token {previous_node} exactly once, and end with a playful return_choice_text. Do not erase or soften the accurate failure consequences on the failure page itself.
 - Later content already written is summarized below; avoid repeating the same scene beats.
 
 Previously filled summaries:
@@ -2204,7 +2384,8 @@ Output:
       "text": "...",
       "insight": "...",
       ${choiceOutputExample()},
-      ${annotationOutputExample()}
+      ${annotationOutputExample()},
+      ${failureRecoveryOutputExample()}
     }
   },
   "summary": "one sentence summary of what was filled"
@@ -2221,7 +2402,7 @@ async function fillSystemContent(graph: LogicGraphDocument, priorSummaries: stri
     {
       role: "system",
       content:
-        `You write clear ${proseLanguageName()} warning and ending pages for a deterministic study-abroad decision simulator. Return strict JSON only.`,
+        `You write witty but accurate ${proseLanguageName()} warning and ending pages for a deterministic study-abroad decision simulator. Return strict JSON only.`,
     },
     {
       role: "user",
@@ -2232,7 +2413,7 @@ Rules:
 - Failure endings mean a variable reached critical and killed the chain.
 - Non-failure endings resolve the study-abroad route.
 ${systemContentRules()}
-- Prefer plain, neutral, procedural language over literary narration.
+- Keep warnings and real consequences direct and accurate, but give the surrounding narration a playful, human voice instead of administrative boilerplate.
 - Specific terms, rules, amounts, dates, deadlines, and named services must be supported by the evidence catalog.
 - Every named place, institution, degree/program, discipline/major, named organization/service, and professional term must be explained in annotation.terms and cite allowed evidence ids only.
 - annotation.terms[].term must be an exact phrase present in that page's text. Assign critical, important, or supplementary importance using decision impact.
@@ -2241,6 +2422,7 @@ ${systemContentRules()}
 - Every annotation must explain cause -> current real-world step -> immediate consequence -> later impact.
 - Never invent an evidence id or URL. If evidence is insufficient, keep the claim general and recommend checking the current official page.
 - Do not mention variable bands or implementation terms in prose.
+- Every failure ending must also include failure_recovery: a separate, explicitly fictional 55-110-character comic bridge that contains the literal token {previous_node}. Give different failures different devices—nightmare, alien time slip, haunted printer, bureaucratic wormhole, argumentative pigeon, or another original motif. Its return_choice_text must invite the player to retry the previous decision. Never put jokes inside the real policy explanation, and never imply that real-world failure is actually reversible.
 
 Prior summaries:
 ${compact(priorSummaries)}
@@ -2257,7 +2439,7 @@ ${compact(evidenceCatalog(), 8_000)}
 Output:
 {
   "pages": {"<warning_page_id>": {"text":"...","insight":"...",${annotationOutputExample()}}},
-  "endings": {"<ending_id>": {"text":"...","insight":"...",${annotationOutputExample()}}},
+  "endings": {"<ending_id>": {"text":"...","insight":"...",${annotationOutputExample()},${failureRecoveryOutputExample()}}},
   "summary": "..."
 }`,
     },
@@ -2273,6 +2455,9 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
     if (pagePatch.text?.trim()) page.text = pagePatch.text.trim();
     if (pagePatch.insight?.trim()) page.insight = pagePatch.insight.trim();
     if (pagePatch.annotation) page.annotation = sanitizeAnnotation(pagePatch.annotation, fallbackPageAnnotation(page));
+    if (isFailurePage(page)) {
+      page.failure_recovery = sanitizeFailureRecovery(pagePatch.failure_recovery, page.id);
+    }
     const node = graph.nodes[pageId];
     if (node && pagePatch.choices?.length) {
       for (let i = 0; i < Math.min(node.options.length, pagePatch.choices.length); i++) {
@@ -2288,6 +2473,9 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
     if (endingPatch.text?.trim()) ending.condition_summary = endingPatch.text.trim();
     if (endingPatch.insight?.trim()) ending.insight = endingPatch.insight.trim();
     if (endingPatch.annotation) ending.annotation = sanitizeAnnotation(endingPatch.annotation, fallbackEndingAnnotation(ending));
+    if (isFailureEnding(ending)) {
+      ending.failure_recovery = sanitizeFailureRecovery(endingPatch.failure_recovery, ending.id);
+    }
   }
 }
 
@@ -2306,7 +2494,7 @@ async function generateVariants(graph: LogicGraphDocument): Promise<Record<strin
     {
       role: "system",
       content:
-          `You split ${proseLanguageName()} page prose into explicit variable-band variants. Return strict JSON only. This is not semantic routing.`,
+          `You split ${proseLanguageName()} page prose into explicit variable-band variants. Preserve its playful authored voice and factual precision. Return strict JSON only. This is not semantic routing.`,
       },
       {
         role: "user",
@@ -2672,6 +2860,8 @@ function validateCompiledStory(
   let allTermsExplainedAndCited = true;
   let annotatedPages = 0;
   let evidenceReferences = 0;
+  let failureRecoveries = 0;
+  let allFailurePagesHaveRecovery = true;
   const validEvidenceIds = new Set((doc.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
 
   function checkAnnotation(pageId: string, pageText: string, annotation: PageAnnotation | undefined): void {
@@ -2723,8 +2913,28 @@ function validateCompiledStory(
     }
   }
 
+  function checkFailureRecovery(pageId: string, recovery: FailureRecovery | undefined, required: boolean): void {
+    if (!required) return;
+    if (
+      !recovery?.title?.trim() ||
+      !recovery.scene_text?.trim() ||
+      !recovery.return_choice_text?.trim() ||
+      recovery.scene_text.split("{previous_node}").length - 1 !== 1
+    ) {
+      allFailurePagesHaveRecovery = false;
+      issues.push(`${pageId} is missing a complete failure recovery with exactly one {previous_node} token.`);
+      return;
+    }
+    failureRecoveries += 1;
+  }
+
   for (const [nodeId, node] of Object.entries(doc.nodes)) {
     checkAnnotation(nodeId, node.scene_text, node.annotation);
+    checkFailureRecovery(
+      nodeId,
+      node.failure_recovery,
+      Boolean(node.failure_recovery) || /failure|failed|critical|collapse|rejected|expelled|退学|拒签|失败/i.test(nodeId),
+    );
     if (node.logic_page_role === "node") {
       playableNodes += 1;
       if (node.choices.length !== 3) {
@@ -2748,6 +2958,11 @@ function validateCompiledStory(
 
   for (const [endingId, endingNode] of Object.entries(doc.endings)) {
     checkAnnotation(endingId, endingNode.scene_text, endingNode.annotation);
+    checkFailureRecovery(
+      endingId,
+      endingNode.failure_recovery,
+      endingNode.logic_page_role === "failure" || /failure|failed|critical|collapse|rejected|expelled|退学|拒签|失败/i.test(endingId),
+    );
   }
 
   let variableWarningsAndFailuresPresent = true;
@@ -2793,6 +3008,7 @@ function validateCompiledStory(
       comboVariants,
       annotatedPages,
       evidenceReferences,
+      failureRecoveries,
     },
     requirements: {
       allPlayableNodesHaveThreeOptions,
@@ -2803,6 +3019,7 @@ function validateCompiledStory(
       everyVisiblePageAnnotated,
       allEvidenceReferencesValid,
       allTermsExplainedAndCited,
+      allFailurePagesHaveRecovery,
     },
     issues,
     balanceNotes,
@@ -2926,8 +3143,12 @@ async function main(): Promise<void> {
   if (!savedCompleteContent) {
     priorSummaries.push(await fillSystemContent(graph, priorSummaries.slice(-12)));
     ensurePageAnnotations(graph);
+    ensureFailureRecoveries(graph);
     await writeJson("06_content_complete_graph.json", graph);
   }
+  // Older resumable checkpoints predate generated rollback vignettes. Repair
+  // them deterministically so every newly compiled cache has the same contract.
+  ensureFailureRecoveries(graph);
 
   const variants = await generateVariants(graph);
   const doc = await maybeGenerateImages(compileWithVariants(graph, variants));

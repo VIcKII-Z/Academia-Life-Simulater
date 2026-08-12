@@ -3548,7 +3548,12 @@
         "evidence_ids": []
       },
       "logic_page_role": "result",
-      "logic_source_id": "R_B03_failed_exam"
+      "logic_source_id": "R_B03_failed_exam",
+      "failure_recovery": {
+        "title": "期末噩梦拒绝续订",
+        "scene_text": "你猛地从一场学业灾难片里惊醒，发现被子只是卷成了退学通知书的形状。手机还停在事发前，命运把书签塞回了{previous_node}。",
+        "return_choice_text": "把被子叠好，再选一次"
+      }
     },
     "R_N07_werkstudent": {
       "type": "result",
@@ -4449,7 +4454,12 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_B03_O3_failure",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N06_program_study_9230e54a1f.png",
+      "failure_recovery": {
+        "title": "教授在黑板上写了 Ctrl+Z",
+        "scene_text": "空教室的黑板忽然自己写下一个巨大的 Ctrl+Z，粉笔灰像舞台烟雾般散开。你咳嗽两声，发现讲台已经变回{previous_node}。",
+        "return_choice_text": "擦掉粉笔灰，重做这道题"
+      }
     },
     "R_N10_standard": {
       "type": "result",
@@ -4585,7 +4595,12 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_N10_failure",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N10_career_internship_34721e0bb5.png",
+      "failure_recovery": {
+        "title": "招聘吉祥物兼职修时间线",
+        "scene_text": "职业展的吉祥物摘下头套，严肃宣布它其实是兼职时间工程师。它敲了敲你的简历，四周便折叠回{previous_node}。",
+        "return_choice_text": "向时间工程师道谢并重选"
+      }
     },
     "B06_internship_delay": {
       "type": "base_node",
@@ -5527,7 +5542,12 @@
       },
       "logic_page_role": "result",
       "logic_source_id": "R_B08_collapse",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_N12_final_choice_c383418c13.png",
+      "failure_recovery": {
+        "title": "课程表偷偷存了读档点",
+        "scene_text": "课程表从书包里探出一个角，小声承认自己一直保存着自动存档。你轻轻一碰，四周便像翻书一样翻回{previous_node}。",
+        "return_choice_text": "读取课程表的存档"
+      }
     }
   },
   "endings": {
@@ -5703,7 +5723,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_money_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_money_critical_fd2eae1631.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_money_critical_fd2eae1631.png",
+      "failure_recovery": {
+        "title": "限制账户开了虫洞",
+        "scene_text": "ATM 吐出的不是余额单，而是一张宇宙财务更正函。纸条卷成小小的虫洞，将你精准投递回{previous_node}；手续费居然是零。",
+        "return_choice_text": "收好更正函，回到上一步"
+      }
     },
     "E_time_critical": {
       "scene_text": "Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
@@ -5732,7 +5757,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_time_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_time_critical_f7b9eb8b32.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_time_critical_f7b9eb8b32.png",
+      "failure_recovery": {
+        "title": "闹钟申请了时间补考",
+        "scene_text": "你的闹钟对这个结局非常不满，当场向宇宙考试委员会申请补考。秒针倒着跑了一小圈，把你送回{previous_node}，还得意地响了两声。",
+        "return_choice_text": "关掉闹钟，认真重选"
+      }
     },
     "E_visa_critical": {
       "scene_text": "Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
@@ -5762,7 +5792,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_visa_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_visa_critical_75d143ca85.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_visa_critical_75d143ca85.png",
+      "failure_recovery": {
+        "title": "护照打了个时间喷嚏",
+        "scene_text": "护照听见坏消息后猛地打了个喷嚏，签证页飞出一阵闪亮的时间粉尘。等你擦干净桌面，自己已经回到{previous_node}。",
+        "return_choice_text": "拍拍护照，再做决定"
+      }
     },
     "E_housing_critical": {
       "scene_text": "Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
@@ -5790,7 +5825,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_housing_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_housing_critical_27b18bfdad.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_housing_critical_27b18bfdad.png",
+      "failure_recovery": {
+        "title": "公寓钥匙开错了年代",
+        "scene_text": "你把钥匙插进门锁，门后却不是房间，而是几分钟前的世界。你跨过去，正好落在{previous_node}，钥匙一本正经地拒绝解释。",
+        "return_choice_text": "关好时间门，重新选择"
+      }
     },
     "E_school_critical": {
       "scene_text": "School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
@@ -5819,7 +5859,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_school_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_school_critical_66eff448c2.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_school_critical_66eff448c2.png",
+      "failure_recovery": {
+        "title": "打印机承认自己会撤销",
+        "scene_text": "打印机突然吐出一张写着“Ctrl+Z 也适用于人生”的纸，随后蓝光一闪。你再睁眼，已经站回{previous_node}，机器则假装自己从未选修过时间旅行。",
+        "return_choice_text": "按下人生撤销键"
+      }
     },
     "E_wellbeing_critical": {
       "scene_text": "Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
@@ -5848,7 +5893,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_wellbeing_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_wellbeing_critical_3113939419.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_wellbeing_critical_3113939419.png",
+      "failure_recovery": {
+        "title": "校医室的盆栽按下暂停键",
+        "scene_text": "校医室窗边的盆栽轻轻抖了抖叶子，替你按下宇宙暂停键。等呼吸重新平稳，时间也温柔地退回{previous_node}。",
+        "return_choice_text": "先照顾好自己，再重新选择"
+      }
     },
     "E_local_language_critical": {
       "scene_text": "Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
@@ -5877,7 +5927,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_local_language_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_local_language_critical_c92c52ce2b.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_local_language_critical_c92c52ce2b.png",
+      "failure_recovery": {
+        "title": "翻译软件纠正了命运",
+        "scene_text": "翻译软件把“game over”认真翻成了“建议重试”，还擅自向时间服务器提交申诉。页面刷新后，你被退回{previous_node}。",
+        "return_choice_text": "相信这次翻译，回到上一步"
+      }
     },
     "E_career_critical": {
       "scene_text": "Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
@@ -5906,7 +5961,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_career_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_career_critical_599aec0589.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_career_critical_599aec0589.png",
+      "failure_recovery": {
+        "title": "简历折成纸飞机穿越了",
+        "scene_text": "你的简历自动折成一架纸飞机，绕过所有已读不回，最后一头扎进时间裂缝。你追过去，正好落回{previous_node}。",
+        "return_choice_text": "展开简历，重新规划"
+      }
     },
     "E_academic_network_critical": {
       "scene_text": "Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
@@ -5935,7 +5995,12 @@
       },
       "logic_page_role": "failure",
       "logic_source_id": "E_academic_network_critical",
-      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_academic_network_critical_cf992035c8.png"
+      "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_academic_network_critical_cf992035c8.png",
+      "failure_recovery": {
+        "title": "慕尼黑鸽子驳回结局",
+        "scene_text": "一只表情严肃的鸽子叼走失败通知，绕着你飞了三圈，把时间线硬生生拧成回形针。世界停止旋转后，你又站在{previous_node}。",
+        "return_choice_text": "接受鸽子的修改意见"
+      }
     }
   },
   "sources": [

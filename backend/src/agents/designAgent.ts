@@ -68,8 +68,8 @@ function buildDesignSystemPrompt(targetNodeCount: number, semesters: number, out
   const topologyRuleText = edgeRules.join("\n");
   const languageRule =
     outputLanguage === "zh"
-      ? `Write all player-facing text in Simplified Chinese: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Keep JSON keys, node ids, ending ids, and stat keys unchanged in English. Keep image_prompt in English for the image model.`
-      : `Write all player-facing text in English: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Keep JSON keys, node ids, ending ids, and stat keys unchanged. Keep image_prompt in English.`;
+      ? `Write all player-facing text in Simplified Chinese: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Give scene_text, choices, and endings a lively, witty, gently humorous second-person voice; keep sourced policy, money, deadlines, health, discrimination, legal status, and academic consequences literally accurate and emotionally respectful. Humor may frame the situation, but must never alter or trivialize a factual claim. Keep JSON keys, node ids, ending ids, and stat keys unchanged in English. Keep image_prompt in English for the image model.`
+      : `Write all player-facing text in English: framework_reason, scene_text, insight, choice.text, stat_reason, and ending prose. Give scene_text, choices, and endings a lively, witty, gently humorous second-person voice; keep sourced policy, money, deadlines, health, discrimination, legal status, and academic consequences literally accurate and emotionally respectful. Humor may frame the situation, but must never alter or trivialize a factual claim. Keep JSON keys, node ids, ending ids, and stat keys unchanged. Keep image_prompt in English.`;
   const sceneLength = outputLanguage === "zh" ? "220-360 Chinese characters" : "130-220 words";
   const choiceLength = outputLanguage === "zh" ? "18-34 Chinese characters" : "12-22 words";
   const insightLanguage = outputLanguage === "zh" ? "Simplified Chinese" : "English";
@@ -186,7 +186,8 @@ Choose the most suitable of the following three, and state your reasoning:
 [Step 2: Generate Node Content]
 - All stories begin with an "opening" node representing arrival.
 - Each node's scene_text should be ${sceneLength}: scene description plus emotional tone,
-  not preachy. Produce EXACTLY the ${targetNodeCount} nodes/endings listed in the graph topology
+  not preachy. Use concrete comic observations, light irony, and vivid reactions so the prose feels
+  authored rather than administrative; keep all report-derived claims exact. Produce EXACTLY the ${targetNodeCount} nodes/endings listed in the graph topology
   above (${nodeIdList}, ${endingIdList}) — no more, no fewer.
 - Within scene_text, wrap 2-4 short, genuinely important phrases in **double asterisks**
   (markdown-bold) so the player can skim the long paragraph — e.g. concrete numbers/costs,

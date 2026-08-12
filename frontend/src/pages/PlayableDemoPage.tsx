@@ -11,7 +11,7 @@ import {
   type LogicVars,
   type LogicWarningsSeen,
 } from "../lib/logicRuntime";
-import type { Choice, EndingNode, StoryDocument, StoryNode } from "../types";
+import type { Choice, EndingNode, FailureRecovery, StoryDocument, StoryNode } from "../types";
 import "../styles/playDemo.css";
 
 const DEMO_STORY_ID = "technische_universit_t_m_nchen_full_f81bb5c0b506";
@@ -44,8 +44,26 @@ function sceneAsset(nodeId: string, node: StoryNode | EndingNode): string {
   if (haystack.includes("visa") || haystack.includes("coe") || haystack.includes("ward")) return "/branding/compass.png";
   if (haystack.includes("language") || haystack.includes("japanese")) return "/branding/social.png";
   if (haystack.includes("typhoon") || haystack.includes("arrival") || haystack.includes("tokyo")) return "/branding/campus.png";
-  if (node.logic_page_role === "warning" || node.logic_page_role === "failure") return "/stickers/lock.svg";
+  if (node.failure_recovery || node.logic_page_role === "warning" || node.logic_page_role === "failure") return "/stickers/lock.svg";
   return "/branding/mascot.png";
+}
+
+type FailureCheckpoint = {
+  nodeId: string;
+  logicVars: LogicVars;
+  logicWarningsSeen: LogicWarningsSeen;
+  warningReturnNodeId: string | null;
+  resultReturnNodeId: string | null;
+};
+
+function checkpointLabel(story: StoryDocument, checkpoint: FailureCheckpoint): string {
+  const page = story.nodes[checkpoint.nodeId] ?? story.endings[checkpoint.nodeId];
+  const label = page?.annotation?.current_step?.trim() || page?.scene_text?.split(/[。！？.!?]/)[0]?.trim() || checkpoint.nodeId;
+  return label.length > 46 ? `${label.slice(0, 46)}……` : label;
+}
+
+function recoveryText(recovery: FailureRecovery, story: StoryDocument, checkpoint: FailureCheckpoint): string {
+  return recovery.scene_text.replaceAll("{previous_node}", `“${checkpointLabel(story, checkpoint)}”`);
 }
 
 export default function PlayableDemoPage() {
@@ -57,6 +75,8 @@ export default function PlayableDemoPage() {
   const [logicWarningsSeen, setLogicWarningsSeen] = useState<LogicWarningsSeen>({});
   const [warningReturnNodeId, setWarningReturnNodeId] = useState<string | null>(null);
   const [resultReturnNodeId, setResultReturnNodeId] = useState<string | null>(null);
+  const [failureCheckpoint, setFailureCheckpoint] = useState<FailureCheckpoint | null>(null);
+  const [showingFailureRecovery, setShowingFailureRecovery] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +97,8 @@ export default function PlayableDemoPage() {
         setLogicWarningsSeen({});
         setWarningReturnNodeId(null);
         setResultReturnNodeId(null);
+        setFailureCheckpoint(null);
+        setShowingFailureRecovery(false);
         setError(null);
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : String(err));
@@ -93,6 +115,9 @@ export default function PlayableDemoPage() {
   const rawCurrentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const currentNode = story && rawCurrentNode ? applyLogicContentVariant(story, currentNodeId, rawCurrentNode, logicVars) : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
+  const failureRecovery = currentNode?.failure_recovery;
+  const canRecover = Boolean(failureRecovery && failureCheckpoint);
+  const recoveryActive = Boolean(showingFailureRecovery && failureRecovery && failureCheckpoint);
   const storyGlossaryTerms = useMemo(() => {
     if (!story) return [];
     const pages = [...Object.values(story.nodes), ...Object.values(story.endings)];
@@ -112,6 +137,24 @@ export default function PlayableDemoPage() {
     setLogicWarningsSeen({});
     setWarningReturnNodeId(null);
     setResultReturnNodeId(null);
+    setFailureCheckpoint(null);
+    setShowingFailureRecovery(false);
+  }
+
+  function beginFailureRecovery() {
+    if (!failureRecovery || !failureCheckpoint) return;
+    setShowingFailureRecovery(true);
+  }
+
+  function returnFromFailure() {
+    if (!failureCheckpoint) return;
+    setCurrentNodeId(failureCheckpoint.nodeId);
+    setLogicVars({ ...failureCheckpoint.logicVars });
+    setLogicWarningsSeen({ ...failureCheckpoint.logicWarningsSeen });
+    setWarningReturnNodeId(failureCheckpoint.warningReturnNodeId);
+    setResultReturnNodeId(failureCheckpoint.resultReturnNodeId);
+    setFailureCheckpoint(null);
+    setShowingFailureRecovery(false);
   }
 
   function handleChoice(choice: Choice) {
@@ -131,12 +174,29 @@ export default function PlayableDemoPage() {
     }
 
     if (story.logic) {
+      const checkpoint: FailureCheckpoint = {
+        nodeId: currentNodeId,
+        logicVars: { ...logicVars },
+        logicWarningsSeen: { ...logicWarningsSeen },
+        warningReturnNodeId,
+        resultReturnNodeId,
+      };
+      const directTarget = story.nodes[choice.next_node] ?? story.endings[choice.next_node];
+      const plannedTarget = choice.logic_planned_next_node
+        ? story.nodes[choice.logic_planned_next_node] ?? story.endings[choice.logic_planned_next_node]
+        : undefined;
+      const leadsToRecoverableFailure = Boolean(directTarget?.failure_recovery || plannedTarget?.failure_recovery);
+      if (leadsToRecoverableFailure) setFailureCheckpoint(checkpoint);
+      else setFailureCheckpoint(null);
+      setShowingFailureRecovery(false);
+
       const nextLogicVars = applyLogicDelta(logicVars, choice.logic_delta);
       setLogicVars(nextLogicVars);
       if (choice.logic_planned_next_node) setResultReturnNodeId(choice.logic_planned_next_node);
 
       const critical = findCriticalVariable(nextLogicVars, story.logic.variables);
       if (critical) {
+        setFailureCheckpoint(checkpoint);
         setCurrentNodeId(critical.failure_page_id);
         return;
       }
@@ -162,26 +222,54 @@ export default function PlayableDemoPage() {
         <section className="playDemoGrid">
           <section className={`playDemoScene ${ending ? "playDemoScene--ending" : ""}`}>
             <div className="playDemoSceneHead">
-              <span>{roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</span>
+              <span>{recoveryActive ? "时空回卷" : failureRecovery ? "失败页" : roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</span>
               <div className="playDemoSceneActions">
                 <Link to="/">回首页</Link>
                 <button type="button" onClick={restart}>重新开始</button>
               </div>
             </div>
 
-            <article className="playDemoText">
-              <InlineAnnotatedText
-                text={currentNode.scene_text}
-                terms={currentNode.annotation?.terms}
-                evidenceIds={currentNode.annotation?.evidence_ids}
-                sources={story.sources}
-                profile={story.user_profile}
-                glossaryTerms={storyGlossaryTerms}
-                referenceProfiles={story.reference_profiles}
-              />
+            <article className={`playDemoText ${recoveryActive ? "playDemoText--recovery" : ""}`} aria-live="polite">
+              {recoveryActive && failureRecovery && failureCheckpoint ? (
+                <div className="playDemoRecovery" data-testid="failure-recovery-scene">
+                  <span>纯属虚构的时间线维修插曲</span>
+                  <h2>{failureRecovery.title}</h2>
+                  <p>{recoveryText(failureRecovery, story, failureCheckpoint)}</p>
+                  <small>现实中的签证、学业、健康与财务后果不会自动撤销；这里的回卷只服务于游戏重试。</small>
+                </div>
+              ) : (
+                <InlineAnnotatedText
+                  text={currentNode.scene_text}
+                  terms={currentNode.annotation?.terms}
+                  evidenceIds={currentNode.annotation?.evidence_ids}
+                  sources={story.sources}
+                  profile={story.user_profile}
+                  glossaryTerms={storyGlossaryTerms}
+                  referenceProfiles={story.reference_profiles}
+                />
+              )}
             </article>
 
-            {!ending && (
+            {recoveryActive && failureRecovery && (
+              <div className="playDemoDecision playDemoRecoveryAction">
+                <button className="playDemoChoice playDemoChoice--recovery" type="button" onClick={returnFromFailure} data-testid="failure-recovery-return">
+                  <span>↶</span>
+                  <strong>{failureRecovery.return_choice_text}</strong>
+                </button>
+              </div>
+            )}
+
+            {!recoveryActive && canRecover && (
+              <div className="playDemoDecision playDemoRecoveryAction">
+                <p className="playDemoDecisionPrompt">这条时间线撞墙了。要不要看看宇宙准备了什么补丁？</p>
+                <button className="playDemoChoice playDemoChoice--recovery" type="button" onClick={beginFailureRecovery} data-testid="failure-recovery-open">
+                  <span>🌀</span>
+                  <strong>打开失败页附赠的时空回卷</strong>
+                </button>
+              </div>
+            )}
+
+            {!ending && !canRecover && !recoveryActive && (
               <div className="playDemoDecision">
                 <p className="playDemoDecisionPrompt">你会怎么做？</p>
                 <div className="playDemoChoices">
@@ -199,7 +287,7 @@ export default function PlayableDemoPage() {
               </div>
             )}
 
-            <div className="playDemoVisual" aria-hidden="true">
+            <div className={`playDemoVisual ${recoveryActive ? "playDemoVisual--recovery" : ""}`} aria-hidden="true">
               {currentNode.image_url ? (
                 <img src={currentNode.image_url} alt="" />
               ) : (
@@ -211,9 +299,10 @@ export default function PlayableDemoPage() {
                   </div>
                 </div>
               )}
+              {recoveryActive && <span className="playDemoRecoveryStamp">TIMELINE<br />REPAIRED</span>}
             </div>
 
-            {ending && (
+            {ending && !canRecover && !recoveryActive && (
               <div className={`playDemoEnding playDemoEnding--${ending.tone}`}>
                 <span>{ending.tone}</span>
                 <button type="button" onClick={restart}>再玩一轮</button>

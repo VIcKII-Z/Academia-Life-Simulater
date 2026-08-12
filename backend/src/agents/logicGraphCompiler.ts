@@ -89,6 +89,7 @@ function compileDecisionNode(graph: LogicGraphDocument, page: LogicPage, outputL
     choices: (logicNode?.options ?? []).map(toChoice),
     insight: pageInsight(page, outputLanguage),
     annotation: page.annotation,
+    failure_recovery: page.failure_recovery,
     logic_page_role: "node",
     logic_source_id: page.id,
   };
@@ -114,6 +115,9 @@ function compileResultNode(graph: LogicGraphDocument, page: LogicPage, outputLan
     choices: [continueChoice("C1_continue", label, RESULT_RETURN_SENTINEL, outputLanguage)],
     insight: pageInsight(page, outputLanguage),
     annotation: page.annotation,
+    failure_recovery: page.failure_recovery,
+    // A failed option is still an option-result page for routing purposes. The
+    // recovery vignette changes how the frontend presents it, not its sentinel.
     logic_page_role: "result",
     logic_source_id: page.id,
   };
@@ -171,6 +175,7 @@ export function compileLogicGraphToStoryDocument(
           ? "此结局由图状态、变量和节点 ID 的显式 if/else 条件选择。"
           : "This ending is selected by explicit if/else conditions over graph state, variables, and node IDs."),
       annotation: ending.annotation,
+      failure_recovery: ending.failure_recovery,
       logic_page_role: ending.id.includes("_critical") ? "failure" : "ending",
       logic_source_id: ending.id,
     };

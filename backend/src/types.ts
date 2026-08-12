@@ -273,6 +273,15 @@ export interface PageAnnotation {
   evidence_ids: string[];
 }
 
+/** A generated, deliberately fictional bridge that lets a failed route roll
+ * back without pretending the real-world consequence did not matter. The
+ * {previous_node} token is replaced by the runtime with the saved checkpoint. */
+export interface FailureRecovery {
+  title: string;
+  scene_text: string;
+  return_choice_text: string;
+}
+
 export interface StoryNode {
   type: string;
   scene_text: string;
@@ -286,7 +295,8 @@ export interface StoryNode {
    * player learns about real study-abroad life while playing. */
   insight?: string;
   annotation?: PageAnnotation;
-  logic_page_role?: "node" | "result" | "warning";
+  failure_recovery?: FailureRecovery;
+  logic_page_role?: "node" | "result" | "warning" | "failure";
   logic_source_id?: string;
 }
 
@@ -299,6 +309,7 @@ export interface EndingNode {
   /** See StoryNode.insight. */
   insight?: string;
   annotation?: PageAnnotation;
+  failure_recovery?: FailureRecovery;
   logic_page_role?: "failure" | "ending";
   logic_source_id?: string;
 }
@@ -385,6 +396,7 @@ export interface LogicPage {
   text?: string;
   insight?: string;
   annotation?: PageAnnotation;
+  failure_recovery?: FailureRecovery;
   variant_triggers?: LogicVariantTrigger[];
 }
 
@@ -422,6 +434,7 @@ export interface LogicEnding {
   condition_summary: string;
   insight?: string;
   annotation?: PageAnnotation;
+  failure_recovery?: FailureRecovery;
 }
 
 export interface LogicGraphDocument {

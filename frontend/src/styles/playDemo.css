@@ -132,6 +132,53 @@
   letter-spacing: 0.012em;
 }
 
+.playDemoText--recovery {
+  padding-bottom: clamp(18px, 2vw, 26px);
+}
+
+.playDemoRecovery {
+  position: relative;
+  border: 1px dashed rgba(105, 73, 141, 0.58);
+  border-radius: 16px;
+  padding: clamp(22px, 4vw, 38px);
+  background: rgba(248, 242, 255, 0.7);
+  box-shadow: 8px 8px 0 rgba(105, 73, 141, 0.09);
+}
+
+.playDemoRecovery > span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #6c4785;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.playDemoRecovery h2 {
+  margin: 0 0 16px;
+  color: #3f2b50;
+  font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+  font-size: clamp(24px, 2.6vw, 36px);
+  line-height: 1.28;
+}
+
+.playDemoRecovery p {
+  font-size: clamp(19px, 1.65vw, 25px);
+  font-weight: 600;
+  line-height: 1.72;
+}
+
+.playDemoRecovery small {
+  display: block;
+  margin-top: 20px;
+  border-top: 1px solid rgba(105, 73, 141, 0.18);
+  padding-top: 12px;
+  color: #725e7f;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
 .inlineTerm {
   --term-color: #b23a37;
   --term-wash: rgba(178, 58, 55, 0.11);
@@ -368,6 +415,28 @@
   object-position: center;
 }
 
+.playDemoVisual--recovery > img,
+.playDemoVisual--recovery .playDemoVisualFallback {
+  filter: sepia(0.16) hue-rotate(228deg) saturate(0.82);
+}
+
+.playDemoRecoveryStamp {
+  position: absolute;
+  right: clamp(14px, 3vw, 34px);
+  bottom: clamp(14px, 3vw, 30px);
+  transform: rotate(-7deg);
+  border: 3px double rgba(88, 51, 119, 0.76);
+  border-radius: 7px;
+  padding: 8px 11px;
+  color: rgba(88, 51, 119, 0.86);
+  background: rgba(255, 250, 240, 0.72);
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 950;
+  letter-spacing: 0.13em;
+  line-height: 1.18;
+  text-align: center;
+}
+
 .playDemoVisualFallback {
   position: absolute;
   inset: 0;
@@ -500,6 +569,23 @@
 
 .playDemoChoice--2 span {
   background: #a94b46;
+}
+
+.playDemoRecoveryAction .playDemoChoice--recovery {
+  width: 100%;
+  min-height: 0;
+  border-color: rgba(105, 73, 141, 0.7);
+  background: #fbf7ff;
+}
+
+.playDemoRecoveryAction .playDemoChoice--recovery:hover {
+  border-color: #69498a;
+  background: #f3eaff;
+}
+
+.playDemoChoice--recovery span {
+  background: #69498a;
+  font-size: 15px;
 }
 
 .playDemoEnding {

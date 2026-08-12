@@ -46,6 +46,12 @@ export interface PageAnnotation {
   evidence_ids: string[];
 }
 
+export interface FailureRecovery {
+  title: string;
+  scene_text: string;
+  return_choice_text: string;
+}
+
 export interface StoryNode {
   type: string;
   scene_text: string;
@@ -58,7 +64,8 @@ export interface StoryNode {
    * with this profile. Shown in the scene's side "Field Notes" panel. */
   insight?: string;
   annotation?: PageAnnotation;
-  logic_page_role?: "node" | "result" | "warning";
+  failure_recovery?: FailureRecovery;
+  logic_page_role?: "node" | "result" | "warning" | "failure";
   logic_source_id?: string;
 }
 
@@ -73,6 +80,7 @@ export interface EndingNode {
   /** See StoryNode.insight. */
   insight?: string;
   annotation?: PageAnnotation;
+  failure_recovery?: FailureRecovery;
   logic_page_role?: "failure" | "ending";
   logic_source_id?: string;
 }
