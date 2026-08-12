@@ -206,6 +206,7 @@ export function compileLogicGraphToStoryDocument(
       institution: report.institution_profile,
       program: report.program_profile,
     },
+    glossary_terms: report.glossary_terms,
     logic: {
       flow_version: "post_offer_v1",
       start_node_id: graph.main_node_order[0],

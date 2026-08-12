@@ -119,6 +119,9 @@ export interface ResearchReport {
   /** Decision-facing university facts used by inline institution cards.
    * Rankings must name the table and edition/year; omit unverified values. */
   institution_profile?: InstitutionProfile;
+  /** World-book-level proper nouns collected before story writing. These are
+   * reused across every page and future cache generated from this report. */
+  glossary_terms?: PageTermAnnotation[];
   program_profile?: {
     official_name?: string;
     degree_type?: string;
@@ -240,6 +243,8 @@ export interface Choice {
 
 export interface PageTermAnnotation {
   term: string;
+  /** Alternate spellings/translations that may appear in generated prose. */
+  aliases?: string[];
   explanation: string;
   /** Semantic kind used by the inline reader and QA coverage checks. */
   category?: "location" | "institution" | "discipline" | "professional_term" | "money";
@@ -315,6 +320,9 @@ export interface StoryDocument {
     institution?: InstitutionProfile;
     program?: ResearchReport["program_profile"];
   };
+  /** Research-stage glossary inherited by the whole story. Page annotations
+   * may add scene-specific terms, but do not replace this world-book layer. */
+  glossary_terms?: PageTermAnnotation[];
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;
 }

@@ -1208,6 +1208,7 @@ app.post("/api/generate", async (req, res) => {
       institution: report.institution_profile,
       program: report.program_profile,
     };
+    final.glossary_terms = report.glossary_terms;
 
     await fs.mkdir(STORIES_DIR, { recursive: true });
     await fs.writeFile(

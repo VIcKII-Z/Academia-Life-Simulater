@@ -97,7 +97,7 @@ export default function PlayableDemoPage() {
     if (!story) return [];
     const pages = [...Object.values(story.nodes), ...Object.values(story.endings)];
     const seen = new Set<string>();
-    return pages.flatMap((page) => page.annotation?.terms ?? []).filter((term) => {
+    return [...(story.glossary_terms ?? []), ...pages.flatMap((page) => page.annotation?.terms ?? [])].filter((term) => {
       const key = term.term.trim().toLocaleLowerCase();
       if (!key || seen.has(key)) return false;
       seen.add(key);

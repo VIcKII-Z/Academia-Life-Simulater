@@ -130,6 +130,14 @@ Collect decision-useful facts rather than dictionary definitions:
 - program_profile: duration, total credits/ECTS, teaching language, prerequisites, admissions
   process, required documents, application deadlines, tuition/fees, curriculum, and graduation
   milestones. Use the exact program/regulations pages, and omit any unverified field.
+- glossary_terms: build a reusable world-book glossary before story writing. Include the exact
+  university, faculty/department, degree/program, discipline, city/country, local-language
+  admissions terms, academic milestones, immigration/administrative terms, named services, and
+  unusual fee/funding terms that a prospective student may need explained. Explanations must say
+  what the term means in THIS institution/country and why it matters to the decision. Include
+  common translated/local-language aliases. Do not include generic words such as "university",
+  "course", or "money". Every term must cite the source that supports its explanation; omit an
+  unsourced term instead of defining it from general knowledge.
 
 [Campus-life specifics — makes the story feel like THIS school, not "a university abroad"]
 When a specific school/department/program is given, actively search for these five additional,
@@ -195,6 +203,9 @@ Output strictly this JSON structure, no extra text:
     "official_name": "string|omit", "institution_type": "string|omit", "location": "string|omit",
     "rankings": [{"system":"string", "edition":"string", "scope":"overall|subject|employability", "rank":"string", "subject":"string|omit", "note":"string|omit", "evidence_ids":["S01"]}]
   },
+  "glossary_terms": [
+    {"term":"exact proper noun", "aliases":["translated or local spelling"], "explanation":"institution/country-specific meaning and decision relevance", "category":"location|institution|discipline|professional_term|money", "importance":"critical|important|supplementary", "importance_reason":"why it matters", "evidence_ids":["S01"]}
+  ],
   "program_profile": {
     "official_name": "string|omit", "degree_type": "string|omit", "department": "string|omit",
     "duration": "string|omit", "credits": "string|omit", "delivery_mode": "string|omit", "visa_eligible_notes": "string|omit",
@@ -368,13 +379,63 @@ function normalizeResearchEvidence(report: ResearchReport): ResearchReport {
     }
     return { ...ranking, evidence_ids: evidenceIds };
   });
+  const glossary = normalizeGlossaryTerms(report.glossary_terms, sources);
   return {
     ...report,
     sources,
     institution_profile: report.institution_profile
       ? { ...report.institution_profile, rankings }
       : undefined,
+    glossary_terms: glossary,
   };
+}
+
+function normalizeGlossaryTerms(
+  value: ResearchReport["glossary_terms"],
+  sources: NonNullable<ResearchReport["sources"]>,
+): NonNullable<ResearchReport["glossary_terms"]> {
+  const validIds = new Set(sources.map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
+  const allowedCategories = new Set(["location", "institution", "discipline", "professional_term", "money"]);
+  const allowedImportance = new Set(["critical", "important", "supplementary"]);
+  const seen = new Set<string>();
+  const normalized: NonNullable<ResearchReport["glossary_terms"]> = [];
+  for (const raw of value ?? []) {
+    const term = raw.term?.trim();
+    const explanation = raw.explanation?.trim();
+    if (!term || !explanation) continue;
+    const key = term.toLocaleLowerCase();
+    if (seen.has(key)) continue;
+    const aliases = [...new Set((raw.aliases ?? []).map((alias) => alias.trim()).filter((alias) => alias.length >= 2 && alias.toLocaleLowerCase() !== key))];
+    let evidenceIds = (raw.evidence_ids ?? []).filter((id) => validIds.has(id));
+    if (!evidenceIds.length) {
+      const latinTokens = `${term} ${aliases.join(" ")}`.toLowerCase().match(/[a-z0-9äöüß-]{3,}/g) ?? [];
+      evidenceIds = sources
+        .map((source) => {
+          const haystack = `${source.title} ${(source.used_for ?? []).join(" ")}`.toLowerCase();
+          return {
+            id: source.evidence_id,
+            score: latinTokens.reduce((score, token) => score + (haystack.includes(token) ? 1 : 0), 0),
+          };
+        })
+        .filter((candidate): candidate is { id: string; score: number } => Boolean(candidate.id) && candidate.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3)
+        .map((candidate) => candidate.id);
+    }
+    if (!evidenceIds.length) continue;
+    seen.add(key);
+    normalized.push({
+      term,
+      aliases,
+      explanation,
+      category: allowedCategories.has(raw.category ?? "") ? raw.category : "professional_term",
+      importance: allowedImportance.has(raw.importance ?? "") ? raw.importance : "important",
+      importance_reason: raw.importance_reason?.trim() || undefined,
+      monetary_amount: raw.monetary_amount,
+      evidence_ids: [...new Set(evidenceIds)],
+    });
+  }
+  return normalized;
 }
 
 /**

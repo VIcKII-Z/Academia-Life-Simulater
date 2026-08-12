@@ -15,6 +15,7 @@ import type {
   LogicVariableBand,
   LogicVariableDefinition,
   PageAnnotation,
+  PageTermAnnotation,
   Provider,
   ResearchReport,
   RuntimeConfig,
@@ -856,6 +857,7 @@ function researchBatchesFromReport(report: ResearchReport): JsonObject[] {
     },
   ];
   if (report.institution_profile) batches.push({ batch: "institution_profile", ...report.institution_profile });
+  if (report.glossary_terms?.length) batches.push({ batch: "world_book_glossary", terms: report.glossary_terms });
   if (report.program_profile) batches.push({ batch: "program_profile", ...report.program_profile });
   if (report.student_life_profile) batches.push({ batch: "student_life_profile", ...report.student_life_profile });
   if (report.career_profile) batches.push({ batch: "career_profile", ...report.career_profile });
@@ -974,6 +976,52 @@ function normalizeResearchSources(value: unknown): ResearchSource[] {
   return sources;
 }
 
+function normalizeWorldBookGlossary(value: unknown, sources: ResearchSource[]): PageTermAnnotation[] {
+  if (!Array.isArray(value)) return [];
+  const allowedCategories = new Set(["location", "institution", "discipline", "professional_term", "money"]);
+  const allowedImportance = new Set(["critical", "important", "supplementary"]);
+  const seen = new Set<string>();
+  const result: PageTermAnnotation[] = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const candidate = raw as Partial<PageTermAnnotation>;
+    const term = typeof candidate.term === "string" ? candidate.term.trim() : "";
+    const explanation = typeof candidate.explanation === "string" ? candidate.explanation.trim() : "";
+    if (!term || !explanation || seen.has(term.toLocaleLowerCase())) continue;
+    const aliases = [...new Set((candidate.aliases ?? []).filter((alias): alias is string => typeof alias === "string").map((alias) => alias.trim()).filter((alias) => alias.length >= 2))];
+    const tokens = `${term} ${aliases.join(" ")}`.toLowerCase().match(/[a-z0-9äöüß-]{3,}/g) ?? [];
+    const scored = sources
+      .map((source) => {
+        const haystack = `${source.title} ${(source.used_for ?? []).join(" ")}`.toLowerCase();
+        return {
+          id: source.evidence_id,
+          score: tokens.reduce((score, token) => score + (haystack.includes(token) ? 1 : 0), 0),
+        };
+      })
+      .filter((match): match is { id: string; score: number } => Boolean(match.id) && match.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map((match) => match.id);
+    // Batch-local S01/S02 ids can collide after all research batches are
+    // merged and renumbered. Re-link by the actual term/alias text instead
+    // of trusting a coincidentally valid but potentially wrong local id.
+    const evidenceIds = scored;
+    if (!evidenceIds.length) continue;
+    seen.add(term.toLocaleLowerCase());
+    result.push({
+      term,
+      aliases,
+      explanation,
+      category: allowedCategories.has(candidate.category ?? "") ? candidate.category : "professional_term",
+      importance: allowedImportance.has(candidate.importance ?? "") ? candidate.importance : "important",
+      importance_reason: candidate.importance_reason?.trim() || undefined,
+      monetary_amount: candidate.monetary_amount,
+      evidence_ids: [...new Set(evidenceIds)],
+    });
+  }
+  return result;
+}
+
 function objectRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
@@ -1059,6 +1107,7 @@ function standardizeResearchBatch(id: string, parsed: Partial<ResearchReport>): 
     sources: expandBatchSourceClaims(parsed.sources, facts),
     source_coverage: parsed.source_coverage,
     gameplay_signals: parsed.gameplay_signals,
+    glossary_terms: parsed.glossary_terms,
     gaps: Array.isArray(parsed.gaps) ? parsed.gaps.filter((gap): gap is string => typeof gap === "string" && Boolean(gap.trim())) : [],
   };
   if (id === "institution") {
@@ -1184,6 +1233,7 @@ function mergeResearchReports(parts: Partial<ResearchReport>[]): ResearchReport 
   };
   const report = normalizeResearchReport(raw);
   report.sources = normalizeResearchSources(parts.flatMap((part) => part.sources ?? []));
+  report.glossary_terms = normalizeWorldBookGlossary(parts.flatMap((part) => part.glossary_terms ?? []), report.sources);
   report.gaps = [...new Set(parts.flatMap((part) => part.gaps ?? []).filter(Boolean))];
   report.research_batches = researchBatchesFromReport(report);
   return report;
@@ -1223,6 +1273,7 @@ function normalizeResearchReport(report: Partial<ResearchReport>): ResearchRepor
     sources: normalizeResearchSources(report.sources),
     research_batches: (report as { research_batches?: JsonObject[] }).research_batches,
   } as ResearchReport & { research_batches?: JsonObject[] };
+  merged.glossary_terms = normalizeWorldBookGlossary(report.glossary_terms, merged.sources ?? []);
   merged.research_batches = merged.research_batches?.length ? merged.research_batches : researchBatchesFromReport(merged);
   return merged;
 }
@@ -1248,6 +1299,7 @@ Return one strict JSON partial ResearchReport. Omit fields you did not verify.
 - A source may be marked official/high only when its hostname belongs to the institution or public authority that issued the rule.
 - Wikipedia, commercial study portals, consultancies, and aggregators are never official sources. A ranking publisher is authoritative only for its own named table: label it third_party/medium, always capture the edition/year and scope, and never treat it as evidence for admissions or teaching quality. An official university announcement may confirm a ranking only when it names the system, edition, scope, and rank exactly.
 - Build institution_profile as a decision card: institution type/location and only verified current rankings. Build program_profile as a decision card: duration, credits/ECTS, language, prerequisites, admissions process/documents, deadlines, fees, curriculum, and graduation milestones.
+- Build glossary_terms as the reusable world-book terminology layer before story writing. For this batch, collect exact proper nouns and specialized terms a prospective student may see: official/local/translated university and department names, degree and discipline names, admissions or academic milestones, immigration/administrative terms, named services, and unusual fee/funding terms. Explain what each means in this exact institution/country and why it matters; include translated/local aliases and source evidence. Do not include generic words or unsourced definitions.
 - Never return an undated ranking or silently substitute an overall ranking for a subject ranking. Omit and record the gap when a current ranking or program requirement cannot be confirmed.
 - Every sources[].used_for item must be a short, precise factual claim directly supported by that exact URL, not a topic label.
 - Do not copy one source's claims onto another source. Do not invent URLs, amounts, deadlines, course names, rules, or services.
@@ -1258,10 +1310,11 @@ Partial output shape:
 {
   "report": {},
   "institution_profile": {"official_name":"...","institution_type":"...","location":"...","rankings":[{"system":"...","edition":"2027","scope":"overall|subject|employability","rank":"...","subject":"optional","evidence_ids":["S01"]}]},
+  "glossary_terms": [{"term":"exact proper noun","aliases":["translated/local spelling"],"explanation":"specific meaning and decision relevance","category":"location|institution|discipline|professional_term|money","importance":"critical|important|supplementary","importance_reason":"...","evidence_ids":["S01"]}],
   "program_profile": {"official_name":"...","degree_type":"...","department":"...","duration":"...","credits":"...","delivery_mode":"...","prerequisites":[],"admissions":[],"deadlines":[],"funding":[],"curriculum":[],"milestones":[]},
   "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {},
   "source_coverage": {}, "gameplay_signals": {},
-  "sources": [{"title":"...","url":"https://...","source_type":"program_official","confidence":"high","used_for":["precise supported claim"]}],
+  "sources": [{"evidence_id":"S01","title":"...","url":"https://...","source_type":"program_official","confidence":"high","used_for":["precise supported claim"]}],
   "gaps": []
 }`;
   const batches = [

@@ -6179,6 +6179,145 @@
       ]
     }
   },
+  "glossary_terms": [
+    {
+      "term": "慕尼黑工业大学（TUM）",
+      "aliases": [
+        "慕尼黑工业大学",
+        "Technische Universität München",
+        "Technical University of Munich",
+        "TUM"
+      ],
+      "explanation": "本故事的目标大学。悬停资料卡会分开显示带榜单和年份的综合排名、工程学科排名以及学校所在地。",
+      "category": "institution",
+      "importance": "important",
+      "importance_reason": "学校决定项目规则、费用、校内资源与证书归属。",
+      "evidence_ids": [
+        "S01",
+        "S14",
+        "S15"
+      ]
+    },
+    {
+      "term": "计算、信息与技术学院",
+      "aliases": [
+        "TUM School of Computation, Information and Technology",
+        "TUM School of CIT"
+      ],
+      "explanation": "负责该电气与信息技术硕士项目教学和管理的TUM院系；项目咨询与培养规则应优先核对该院系页面。",
+      "category": "institution",
+      "importance": "important",
+      "importance_reason": "院系页面通常提供比大学主页更具体的申请评估、课程和咨询信息。",
+      "evidence_ids": [
+        "S02",
+        "S03"
+      ]
+    },
+    {
+      "term": "电子工程与信息技术硕士",
+      "aliases": [
+        "电气工程与信息技术硕士",
+        "Master of Science in Electrical Engineering and Information Technology",
+        "Electrical Engineering and Information Technology"
+      ],
+      "explanation": "本故事对应的TUM理学硕士项目。资料卡集中展示120 ECTS、四学期学制、德语要求、录取评估、申请期、学费和毕业环节。",
+      "category": "discipline",
+      "importance": "important",
+      "importance_reason": "具体项目而非大学名决定申请门槛、培养内容和完成要求。",
+      "evidence_ids": [
+        "S01",
+        "S02"
+      ]
+    },
+    {
+      "term": "能力评估",
+      "aliases": [
+        "Aptitude Assessment for Master",
+        "Eignungsverfahren"
+      ],
+      "explanation": "TUM该硕士使用的两阶段录取程序：先根据成绩和书面材料计分，结果可能是直接录取、拒绝或进入约20分钟的第二阶段面试。",
+      "category": "professional_term",
+      "importance": "critical",
+      "importance_reason": "它直接决定是否获得录取，并影响申请材料的准备方式。",
+      "evidence_ids": [
+        "S01",
+        "S02"
+      ]
+    },
+    {
+      "term": "TUMonline",
+      "aliases": [],
+      "explanation": "TUM用于提交申请和处理入学事务的在线门户；申请人需要在门户中按期提交材料并跟踪状态。",
+      "category": "professional_term",
+      "importance": "critical",
+      "importance_reason": "错过门户中的材料或期限可能使申请无法进入评估。",
+      "evidence_ids": [
+        "S02"
+      ]
+    },
+    {
+      "term": "限制金额账户",
+      "aliases": [
+        "限制账户",
+        "blocked account",
+        "Sperrkonto"
+      ],
+      "explanation": "德国留学资金证明的常见方式：申请人把规定资金存入受限账户，并按月领取限定金额，用来证明能够承担生活费。具体金额须以申请时的德国官方要求为准。",
+      "category": "professional_term",
+      "importance": "critical",
+      "importance_reason": "资金证明不足会直接影响学生签证或居留许可。",
+      "evidence_ids": [
+        "S07"
+      ]
+    },
+    {
+      "term": "居留许可",
+      "aliases": [
+        "Residence Permit",
+        "Aufenthaltstitel"
+      ],
+      "explanation": "非欧盟学生在德国长期学习所需的居留身份文件；入境后通常需要向当地外事部门申请并在到期前续签。",
+      "category": "professional_term",
+      "importance": "critical",
+      "importance_reason": "它是继续在德国合法居住、学习以及后续工作的法律基础。",
+      "evidence_ids": [
+        "S04",
+        "S05",
+        "S06"
+      ]
+    },
+    {
+      "term": "外事局",
+      "aliases": [
+        "KVR",
+        "Ausländerbehörde",
+        "Foreigners' Authority"
+      ],
+      "explanation": "负责慕尼黑外国人居留事务的行政机关；学生会在这里处理居留许可申请、材料审核和续签等事项。",
+      "category": "professional_term",
+      "importance": "critical",
+      "importance_reason": "预约和材料完整性会影响居留手续能否按时完成。",
+      "evidence_ids": [
+        "S04",
+        "S05"
+      ]
+    },
+    {
+      "term": "硕士论文",
+      "aliases": [
+        "Master’s Thesis",
+        "Master's Thesis"
+      ],
+      "explanation": "该硕士培养末期的核心毕业环节，需要在完成规定模块、研讨课和实践研究后提交并完成论文。",
+      "category": "professional_term",
+      "importance": "important",
+      "importance_reason": "论文完成情况直接关系到项目毕业。",
+      "evidence_ids": [
+        "S01",
+        "S02"
+      ]
+    }
+  ],
   "logic": {
     "flow_version": "post_offer_v1",
     "start_node_id": "N01_offer_acceptance",

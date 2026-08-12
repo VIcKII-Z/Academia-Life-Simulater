@@ -25,6 +25,7 @@ export interface StatBlock {
 
 export interface PageTermAnnotation {
   term: string;
+  aliases?: string[];
   explanation: string;
   category?: "location" | "institution" | "discipline" | "professional_term" | "money";
   importance?: "critical" | "important" | "supplementary";
@@ -139,6 +140,7 @@ export interface StoryDocument {
    * Field Notes panel so the player can verify where the story's facts came from. */
   sources?: StorySource[];
   reference_profiles?: ReferenceProfiles;
+  glossary_terms?: PageTermAnnotation[];
   cached?: boolean;
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;

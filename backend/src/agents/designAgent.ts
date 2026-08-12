@@ -674,6 +674,7 @@ export async function runDesignAgent(
           institution: report.institution_profile,
           program: report.program_profile,
         };
+        doc.glossary_terms = report.glossary_terms;
         coerceToBraidedTopology(doc, topology);
         normalizeStats(doc);
         repairChoicelessNodes(doc);

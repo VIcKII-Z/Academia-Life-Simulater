@@ -187,7 +187,10 @@ function annotationRanges(
           ? "院校和院系决定项目规则及可使用的校内资源。"
           : "专业和学位项目决定课程结构、培养要求及后续职业方向。",
     })),
-  ];
+  ].flatMap((term) => [
+    term,
+    ...(term.aliases ?? []).map((alias) => ({ ...term, term: alias, aliases: undefined })),
+  ]);
 
   for (const rawTerm of expandedTerms) {
     const term = { ...rawTerm, category: inferCategory(rawTerm) };
