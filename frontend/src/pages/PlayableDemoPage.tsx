@@ -143,26 +143,6 @@ export default function PlayableDemoPage() {
 
   return (
     <main className="playDemo">
-      <header className="playDemoTopbar">
-        <div>
-          <span className="playDemoKicker">Playable demo</span>
-          <h1>
-            {story
-              ? `${story.user_profile.school || story.user_profile.city} · ${story.user_profile.major}`
-              : "留学录取后路线"}
-          </h1>
-          {story && (
-            <small className="playDemoRunId">
-              {[story.user_profile.department, story.user_profile.city].filter(Boolean).join(" · ")}
-            </small>
-          )}
-        </div>
-        <nav>
-          <Link to="/debug">逻辑树</Link>
-          <Link to="/">回首页</Link>
-        </nav>
-      </header>
-
       {loading && <section className="playDemoState">正在加载生成好的故事...</section>}
       {error && <section className="playDemoState playDemoState--error">{error}</section>}
 
@@ -171,7 +151,10 @@ export default function PlayableDemoPage() {
           <section className={`playDemoScene ${ending ? "playDemoScene--ending" : ""}`}>
             <div className="playDemoSceneHead">
               <span>{roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</span>
-              <button type="button" onClick={restart}>重新开始</button>
+              <div className="playDemoSceneActions">
+                <Link to="/">回首页</Link>
+                <button type="button" onClick={restart}>重新开始</button>
+              </div>
             </div>
 
             <article className="playDemoText">
