@@ -139,7 +139,7 @@
 .playDemoText {
   width: min(980px, 100%);
   margin: 0 auto;
-  padding: clamp(30px, 5vw, 62px) clamp(24px, 5vw, 68px) clamp(30px, 4vw, 48px);
+  padding: clamp(26px, 4vw, 46px) clamp(24px, 5vw, 68px) clamp(22px, 3vw, 32px);
 }
 
 .playDemoText p {
@@ -147,9 +147,9 @@
   color: var(--ink);
   overflow-wrap: anywhere;
   font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-  font-size: clamp(26px, 2.35vw, 36px);
-  font-weight: 650;
-  line-height: 1.72;
+  font-size: clamp(22px, 1.85vw, 29px);
+  font-weight: 620;
+  line-height: 1.68;
   letter-spacing: 0.012em;
 }
 
@@ -157,7 +157,7 @@
   position: relative;
   width: calc(100% - clamp(32px, 6vw, 88px));
   max-width: 1080px;
-  margin: 0 auto;
+  margin: 0 auto clamp(30px, 5vw, 56px);
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border: 1px solid rgba(59, 45, 34, 0.5);
@@ -218,7 +218,7 @@
 }
 
 .playDemoDecision {
-  padding: clamp(34px, 5vw, 58px) clamp(24px, 5vw, 52px) clamp(32px, 5vw, 54px);
+  padding: 0 clamp(24px, 5vw, 52px) clamp(30px, 4vw, 44px);
 }
 
 .playDemoDecisionPrompt {
@@ -385,21 +385,22 @@
   }
 
   .playDemoText {
-    padding: 28px 20px 26px;
+    padding: 26px 20px 20px;
   }
 
   .playDemoText p {
-    font-size: clamp(22px, 6vw, 28px);
-    line-height: 1.65;
+    font-size: clamp(19px, 5.4vw, 23px);
+    line-height: 1.64;
   }
 
   .playDemoVisual {
     width: calc(100% - 28px);
+    margin-bottom: 28px;
     border-radius: 12px;
   }
 
   .playDemoDecision {
-    padding: 30px 18px 26px;
+    padding: 0 18px 26px;
   }
 
   .playDemoChoices {

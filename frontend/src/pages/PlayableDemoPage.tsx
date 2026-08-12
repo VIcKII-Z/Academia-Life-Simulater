@@ -178,20 +178,6 @@ export default function PlayableDemoPage() {
               <p>{currentNode.scene_text}</p>
             </article>
 
-            <div className="playDemoVisual" aria-hidden="true">
-              {currentNode.image_url ? (
-                <img src={currentNode.image_url} alt="" />
-              ) : (
-                <div className="playDemoVisualFallback">
-                  <div className="playDemoVisualCard">
-                    <img src={sceneAsset(currentNodeId, currentNode)} alt="" />
-                    <strong>{roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</strong>
-                    <span>{currentNodeId}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
             {!ending && (
               <div className="playDemoDecision">
                 <p className="playDemoDecisionPrompt">你会怎么做？</p>
@@ -209,6 +195,20 @@ export default function PlayableDemoPage() {
                 </div>
               </div>
             )}
+
+            <div className="playDemoVisual" aria-hidden="true">
+              {currentNode.image_url ? (
+                <img src={currentNode.image_url} alt="" />
+              ) : (
+                <div className="playDemoVisualFallback">
+                  <div className="playDemoVisualCard">
+                    <img src={sceneAsset(currentNodeId, currentNode)} alt="" />
+                    <strong>{roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</strong>
+                    <span>{currentNodeId}</span>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {ending && (
               <div className={`playDemoEnding playDemoEnding--${ending.tone}`}>
