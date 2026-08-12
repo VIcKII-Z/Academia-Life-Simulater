@@ -5963,7 +5963,9 @@
       "confidence": "high",
       "used_for": [
         "curriculum_structure: core_areas : Automation and Robotics , Bioengineering and Neuroengineering , Communications Engineering , Cyber Security , Electromagnetics, Microwave Engineering and Measurements , Electronic Circuits and Systems , Embedded and Computer Systems , Microelectronics and Nanoelectronics , Power Engineering , Quantum Engineering , modules : core_modules : At least three modules from one core area , elective_modules : Individual elective modules with recommendations for specialization , internships :…",
-        "compulsory_milestones: Completion of core and elective modules , Participation in required internships , Completion of research seminar and practical research module , Submission and defense of Master’s Thesis"
+        "compulsory_milestones: Completion of core and elective modules , Participation in required internships , Completion of research seminar and practical research module , Submission and defense of Master’s Thesis",
+        "admission_requirements: relevant first degree in Electrical and Computer Engineering, Informatics, Physics, or a comparable program; applicants need subject knowledge in mathematics, physics, electrical engineering, information technology, or informatics",
+        "admission_process: two-stage aptitude assessment using grades and submitted records, with direct admission/rejection or a possible 20-minute interview"
       ]
     },
     {
@@ -6083,8 +6085,100 @@
       "used_for": [
         "Munich is considered a safe city with low crime rates"
       ]
+    },
+    {
+      "evidence_id": "S14",
+      "title": "TUM in figures",
+      "url": "https://www.tum.de/en/about-tum/facts-and-figures/tum-in-figures",
+      "source_type": "reference",
+      "confidence": "high",
+      "used_for": [
+        "QS World University Rankings 2027: TUM is ranked 25th worldwide and 1st in Germany",
+        "Times Higher Education World University Rankings 2026: TUM is ranked 27th worldwide and 1st in Germany"
+      ]
+    },
+    {
+      "evidence_id": "S15",
+      "title": "TUM among the top 25 universities worldwide",
+      "url": "https://www.tum.de/aktuelles/alle-meldungen/pressemitteilungen/details/tum-unter-den-besten-25-universitaeten-weltweit",
+      "source_type": "reference",
+      "confidence": "high",
+      "used_for": [
+        "QS World University Rankings by Subject 2026: TUM is ranked 16th worldwide in Engineering and Technology"
+      ]
     }
   ],
+  "reference_profiles": {
+    "institution": {
+      "official_name": "Technische Universität München (TUM)",
+      "institution_type": "技术大学（Technical University）",
+      "location": "德国巴伐利亚州慕尼黑",
+      "rankings": [
+        {
+          "system": "QS World University Rankings",
+          "edition": "2027",
+          "scope": "overall",
+          "rank": "全球第25、德国第1",
+          "evidence_ids": [
+            "S14"
+          ]
+        },
+        {
+          "system": "Times Higher Education World University Rankings",
+          "edition": "2026",
+          "scope": "overall",
+          "rank": "全球第27、德国第1",
+          "evidence_ids": [
+            "S14"
+          ]
+        },
+        {
+          "system": "QS World University Rankings by Subject",
+          "edition": "2026",
+          "scope": "subject",
+          "rank": "全球第16",
+          "subject": "Engineering and Technology",
+          "note": "工程与技术大类排名，不等同于本硕士项目的录取或教学质量评价",
+          "evidence_ids": [
+            "S15"
+          ]
+        }
+      ]
+    },
+    "program": {
+      "official_name": "Master of Science in Electrical Engineering and Information Technology",
+      "degree_type": "Master of Science (M.Sc.)",
+      "department": "TUM School of Computation, Information and Technology",
+      "duration": "4个学期（全日制）",
+      "credits": "120 ECTS",
+      "delivery_mode": "德语授课；申请截止前须提交足够的德语能力证明",
+      "curriculum": [
+        "从自动化与机器人、生物与神经工程、通信工程、网络安全、电磁与微波、电子电路与系统、嵌入式系统、微纳电子、电力工程和量子工程等核心方向中选择模块"
+      ],
+      "milestones": [
+        "完成核心与选修模块",
+        "完成规定的实习、研究研讨课和实践研究模块",
+        "提交并完成硕士论文"
+      ],
+      "prerequisites": [
+        "具有电气与计算机工程、信息学、物理或可比专业的相关大学学位",
+        "具备数学、物理、电气工程、信息技术或信息学方面的专业基础"
+      ],
+      "admissions": [
+        "通过TUMonline在线申请",
+        "采用两阶段硕士能力评估：第一阶段根据成绩与申请材料计分，可直接录取、拒绝或进入第二阶段",
+        "第二阶段可能进行约20分钟面试"
+      ],
+      "deadlines": [
+        "冬季学期申请期：4月1日至5月31日",
+        "夏季学期申请期：10月1日至11月30日"
+      ],
+      "funding": [
+        "学期费约97欧元",
+        "非欧盟第三国国际学生学费为每学期6,000欧元"
+      ]
+    }
+  },
   "logic": {
     "flow_version": "post_offer_v1",
     "start_node_id": "N01_offer_acceptance",

@@ -245,6 +245,7 @@
 }
 
 .termPopoverHead span,
+.termPopoverDecisionCard > span,
 .termPopoverSources > span,
 .termPopoverRates > span {
   color: var(--popover-accent);
@@ -269,6 +270,48 @@
   display: block;
   margin-top: 10px;
   color: #785e45;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.termPopoverDecisionCard {
+  margin-top: 12px;
+  border: 1px solid color-mix(in srgb, var(--popover-accent) 28%, transparent);
+  border-radius: 10px;
+  padding: 11px;
+  background: color-mix(in srgb, var(--popover-accent) 5%, #fffaf0);
+}
+
+.termPopoverDecisionCard dl {
+  display: grid;
+  gap: 0;
+  margin: 7px 0 0;
+}
+
+.termPopoverDecisionCard dl > div {
+  display: grid;
+  grid-template-columns: minmax(82px, 0.75fr) minmax(0, 1.8fr);
+  gap: 9px;
+  border-top: 1px solid rgba(59, 45, 34, 0.1);
+  padding: 8px 0;
+}
+
+.termPopoverDecisionCard dl > div:first-child {
+  border-top: 0;
+  padding-top: 3px;
+}
+
+.termPopoverDecisionCard dt {
+  color: #79554a;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.termPopoverDecisionCard dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #33251d;
   font-size: 11px;
   line-height: 1.55;
 }

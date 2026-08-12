@@ -85,6 +85,40 @@ export interface StorySource {
   used_for: string[];
 }
 
+export interface InstitutionRanking {
+  system: string;
+  edition: string;
+  scope: "overall" | "subject" | "employability" | string;
+  rank: string;
+  subject?: string;
+  note?: string;
+  evidence_ids?: string[];
+}
+
+export interface ReferenceProfiles {
+  institution?: {
+    official_name?: string;
+    institution_type?: string;
+    location?: string;
+    rankings?: InstitutionRanking[];
+  };
+  program?: {
+    official_name?: string;
+    degree_type?: string;
+    department?: string;
+    duration?: string;
+    credits?: string;
+    delivery_mode?: string;
+    visa_eligible_notes?: string;
+    curriculum?: string[];
+    milestones?: string[];
+    prerequisites?: string[];
+    admissions?: string[];
+    deadlines?: string[];
+    funding?: string[];
+  };
+}
+
 export interface StoryDocument {
   story_id: string;
   framework_type: "convergence" | "diverging" | "turning_point";
@@ -104,6 +138,7 @@ export interface StoryDocument {
   /** The Search Agent's cited sources — rendered as clickable links in the
    * Field Notes panel so the player can verify where the story's facts came from. */
   sources?: StorySource[];
+  reference_profiles?: ReferenceProfiles;
   cached?: boolean;
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;

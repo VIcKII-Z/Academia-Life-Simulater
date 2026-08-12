@@ -202,6 +202,10 @@ export function compileLogicGraphToStoryDocument(
     nodes,
     endings,
     sources: report.sources,
+    reference_profiles: {
+      institution: report.institution_profile,
+      program: report.program_profile,
+    },
     logic: {
       flow_version: "post_offer_v1",
       start_node_id: graph.main_node_order[0],

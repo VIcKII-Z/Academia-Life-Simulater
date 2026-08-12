@@ -51,6 +51,26 @@ export interface RuntimeConfig {
   features: RuntimeFeatures;
 }
 
+export interface InstitutionRanking {
+  /** Ranking publisher/table, for example "QS World University Rankings". */
+  system: string;
+  /** Explicit edition/year. Never show a ranking without this field. */
+  edition: string;
+  /** Keep overall, subject and employability tables visibly distinct. */
+  scope: "overall" | "subject" | "employability" | string;
+  rank: string;
+  subject?: string;
+  note?: string;
+  evidence_ids?: string[];
+}
+
+export interface InstitutionProfile {
+  official_name?: string;
+  institution_type?: string;
+  location?: string;
+  rankings?: InstitutionRanking[];
+}
+
 export interface ResearchReport {
   mode: "preset" | "live_search";
   location: { country: string; city: string };
@@ -96,11 +116,15 @@ export interface ResearchReport {
     career?: boolean;
     student_forum?: boolean;
   };
+  /** Decision-facing university facts used by inline institution cards.
+   * Rankings must name the table and edition/year; omit unverified values. */
+  institution_profile?: InstitutionProfile;
   program_profile?: {
     official_name?: string;
     degree_type?: string;
     department?: string;
     duration?: string;
+    credits?: string;
     delivery_mode?: string;
     visa_eligible_notes?: string;
     curriculum?: string[];
@@ -285,6 +309,12 @@ export interface StoryDocument {
   /** Carried over from ResearchReport.sources so the Field Notes panel can
    * link the player to the actual pages the story's facts were grounded in. */
   sources?: ResearchReport["sources"];
+  /** Compact world-book profiles carried into the reader so university and
+   * discipline terms can explain decision-relevant facts, not just definitions. */
+  reference_profiles?: {
+    institution?: InstitutionProfile;
+    program?: ResearchReport["program_profile"];
+  };
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;
 }

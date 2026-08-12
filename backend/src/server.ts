@@ -1200,7 +1200,14 @@ app.post("/api/generate", async (req, res) => {
     // story's facts actually came from. Also include fine-grained campus
     // URLs (faculty profiles, course pages, libraries, clubs, events), since
     // these are stored on campus_life_profile rather than report.sources.
-    final.sources = mergeSources(report.sources, campusLifeSources(report));
+    final.sources = mergeSources(report.sources, campusLifeSources(report)).map((source, index) => ({
+      ...source,
+      evidence_id: source.evidence_id ?? `S${String(index + 1).padStart(2, "0")}`,
+    }));
+    final.reference_profiles = {
+      institution: report.institution_profile,
+      program: report.program_profile,
+    };
 
     await fs.mkdir(STORIES_DIR, { recursive: true });
     await fs.writeFile(

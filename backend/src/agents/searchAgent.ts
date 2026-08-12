@@ -13,7 +13,7 @@ const PRESETS_DIR = path.resolve(process.cwd(), "..", "data", "presets");
 export async function runSearchAgentPreset(presetId: string): Promise<ResearchReport> {
   const filePath = path.join(PRESETS_DIR, `${presetId}.json`);
   const raw = await fs.readFile(filePath, "utf-8");
-  return JSON.parse(raw) as ResearchReport;
+  return normalizeResearchEvidence(JSON.parse(raw) as ResearchReport);
 }
 
 export async function listPresets(): Promise<string[]> {
@@ -118,6 +118,19 @@ coursework, dissertation, exams, or research pressure.
 If a dimension yields no reliable information, use "No reliable information available." Do not
 fabricate.
 
+[Decision cards for the university and degree]
+The reader will hover the university and discipline names to decide whether this route fits her.
+Collect decision-useful facts rather than dictionary definitions:
+- institution_profile: official name/type/location plus current overall, relevant subject, or
+  employability rankings when verifiable. Every ranking MUST name the ranking system, exact
+  edition/year, scope, rank, and supporting evidence id. Never mix an overall rank with a subject
+  rank, and never return an undated ranking. Prefer the ranking publisher's current table; an
+  official university announcement may be used when it precisely names the table and edition.
+  Omit rankings and record the gap when current evidence cannot be verified.
+- program_profile: duration, total credits/ECTS, teaching language, prerequisites, admissions
+  process, required documents, application deadlines, tuition/fees, curriculum, and graduation
+  milestones. Use the exact program/regulations pages, and omit any unverified field.
+
 [Campus-life specifics — makes the story feel like THIS school, not "a university abroad"]
 When a specific school/department/program is given, actively search for these five additional,
 concrete, NAMED details so the Design Agent can write scenes that mention real things instead of
@@ -178,9 +191,13 @@ Output strictly this JSON structure, no extra text:
     "catalog": boolean, "handbook": boolean, "international_office": boolean, "tuition": boolean,
     "housing": boolean, "career": boolean, "student_forum": boolean
   },
+  "institution_profile": {
+    "official_name": "string|omit", "institution_type": "string|omit", "location": "string|omit",
+    "rankings": [{"system":"string", "edition":"string", "scope":"overall|subject|employability", "rank":"string", "subject":"string|omit", "note":"string|omit", "evidence_ids":["S01"]}]
+  },
   "program_profile": {
     "official_name": "string|omit", "degree_type": "string|omit", "department": "string|omit",
-    "duration": "string|omit", "delivery_mode": "string|omit", "visa_eligible_notes": "string|omit",
+    "duration": "string|omit", "credits": "string|omit", "delivery_mode": "string|omit", "visa_eligible_notes": "string|omit",
     "curriculum": ["string"], "milestones": ["string"], "prerequisites": ["string"],
     "admissions": ["string"], "deadlines": ["string"], "funding": ["string"]
   },
@@ -193,10 +210,10 @@ Output strictly this JSON structure, no extra text:
     "clubs": [{ "name": "string", "note": "string|omit", "url": "string|omit" }],
     "events": [{ "name": "string", "note": "string|omit", "url": "string|omit" }]
   },
-  "sources": [ { "title": "string", "url": "string", "source_type": "official_registry|program_official|department|catalog|handbook|international_office|tuition|housing|career|forum|third_party|reference", "confidence": "official_registry|high|medium|low", "used_for": ["academic","money","visa"] } ],
+  "sources": [ { "evidence_id": "S01", "title": "string", "url": "string", "source_type": "official_registry|program_official|department|catalog|handbook|international_office|tuition|housing|career|forum|third_party|reference", "confidence": "official_registry|high|medium|low", "used_for": ["precise supported claim"] } ],
   "gaps": ["explicit notes on missing/unconfirmed information, or which fallback tier was used"]
 }
-If school/department/program were not supplied, you may omit "program_profile", "career_profile",
+If school/department/program were not supplied, you may omit "institution_profile", "program_profile", "career_profile",
 "student_life_profile", "campus_life_profile", and "sources" (or return them mostly empty) but
 MUST still return "gameplay_signals" and note the missing granularity in "gaps".`;
 
@@ -298,7 +315,7 @@ export async function runSearchAgentLive(profile: UserProfile, runtimeConfig?: R
             : `${basePrompt}\n\nIMPORTANT: your previous reply could not be parsed as JSON (error: ${String(
                 lastError instanceof Error ? lastError.message : lastError,
               )}). Reply with ONLY the JSON object, no markdown fences, no citations or commentary before or after it.
-If the full report is too long to fit, DROP the optional "campus_life_profile"/"program_profile"/"student_life_profile"/"career_profile"/"sources"
+If the full report is too long to fit, DROP the optional "campus_life_profile"/"institution_profile"/"program_profile"/"student_life_profile"/"career_profile"/"sources"
 fields (or shorten "gaps"/lists) rather than truncating mid-object — the JSON must always be complete and parseable.`,
       });
     } catch (err) {
@@ -310,7 +327,7 @@ fields (or shorten "gaps"/lists) rather than truncating mid-object — the JSON 
     const jsonText = extractBalancedJson(text);
     if (jsonText) {
       try {
-        return JSON.parse(jsonText) as ResearchReport;
+        return normalizeResearchEvidence(JSON.parse(jsonText) as ResearchReport);
       } catch (err) {
         lastError = err;
         continue;
@@ -330,6 +347,34 @@ fields (or shorten "gaps"/lists) rather than truncating mid-object — the JSON 
   const finalError = lastError instanceof Error ? lastError : new Error(String(lastError));
   finalError.message = `${finalError.message} (raw output length=${lastRawText.length}; see server logs for a snippet)`;
   throw finalError;
+}
+
+function normalizeResearchEvidence(report: ResearchReport): ResearchReport {
+  const sources = (report.sources ?? []).map((source, index) => ({
+    ...source,
+    evidence_id: `S${String(index + 1).padStart(2, "0")}`,
+  }));
+  const valid = new Set(sources.map((source) => source.evidence_id));
+  const rankings = report.institution_profile?.rankings?.map((ranking) => {
+    let evidenceIds = (ranking.evidence_ids ?? []).filter((id) => valid.has(id));
+    if (!evidenceIds.length) {
+      const needle = `${ranking.system} ${ranking.edition} ${ranking.subject ?? ""}`.toLowerCase();
+      const matched = sources.filter((source) => {
+        const haystack = `${source.title} ${(source.used_for ?? []).join(" ")}`.toLowerCase();
+        return ranking.system.toLowerCase().split(/\s+/).filter((word) => word.length > 2).some((word) => haystack.includes(word))
+          && (haystack.includes(ranking.edition.toLowerCase()) || haystack.includes(needle));
+      });
+      evidenceIds = matched.map((source) => source.evidence_id);
+    }
+    return { ...ranking, evidence_ids: evidenceIds };
+  });
+  return {
+    ...report,
+    sources,
+    institution_profile: report.institution_profile
+      ? { ...report.institution_profile, rankings }
+      : undefined,
+  };
 }
 
 /**

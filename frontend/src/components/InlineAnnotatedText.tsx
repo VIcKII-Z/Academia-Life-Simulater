@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { fetchExchangeRate, type ExchangeRate } from "../lib/api";
-import type { PageTermAnnotation, StorySource, UserProfile } from "../types";
+import type { PageTermAnnotation, ReferenceProfiles, StorySource, UserProfile } from "../types";
 
 type Importance = NonNullable<PageTermAnnotation["importance"]>;
 
@@ -14,6 +14,12 @@ type InlineAnnotation = PageTermAnnotation & {
 type PopoverState = {
   annotation: InlineAnnotation;
   rect: DOMRect;
+};
+
+type DecisionFact = {
+  label: string;
+  value: string;
+  evidence_ids?: string[];
 };
 
 const importanceLabels: Record<Importance, string> = {
@@ -50,9 +56,9 @@ const entityAliases: Array<{
   category: EntitySeed["category"];
   explanation: (term: string) => string;
 }> = [
-  { pattern: /慕尼黑工业大学（TUM）|慕尼黑工业大学|Technische Universität München|Technical University of Munich/giu, category: "institution", explanation: () => "慕尼黑工业大学（TUM），本故事所对应的目标大学。" },
-  { pattern: /计算、信息与技术学院|TUM School of Computation, Information and Technology|TUM School of CIT/giu, category: "institution", explanation: () => "慕尼黑工业大学负责计算、信息和工程相关教学与管理的学院。" },
-  { pattern: /电子工程与信息技术硕士|电气工程与信息技术硕士|Electrical Engineering and Information Technology|Electrical and Computer Engineering/giu, category: "discipline", explanation: () => "本故事所对应的工程学科和硕士培养项目，课程及毕业要求应以该项目官方页面为准。" },
+  { pattern: /慕尼黑工业大学（TUM）|慕尼黑工业大学|Technische Universität München|Technical University of Munich/giu, category: "institution", explanation: () => "查看这所大学的类型、所在地，以及带榜单名称和年份的最新可核实排名。" },
+  { pattern: /计算、信息与技术学院|TUM School of Computation, Information and Technology|TUM School of CIT/giu, category: "institution", explanation: () => "查看该院系所属大学的可核实背景；具体培养与录取信息见专业资料卡。" },
+  { pattern: /电子工程与信息技术硕士|电气工程与信息技术硕士|Electrical Engineering and Information Technology|Electrical and Computer Engineering/giu, category: "discipline", explanation: () => "查看该项目的学制学分、授课语言、录取条件、申请期限、费用与毕业要求。" },
   { pattern: /德国|Germany/giu, category: "location", explanation: () => "本故事的留学目的地国家，其签证、居留和工作规定构成决策背景。" },
   { pattern: /慕尼黑|Munich/giu, category: "location", explanation: () => "本故事的留学城市；当地生活成本、住房和行政办理条件会影响学生决策。" },
 ];
@@ -77,10 +83,10 @@ function profileEntitySeeds(text: string, profile: UserProfile | undefined, sour
   if (profile) {
     push(profile.country, `${profile.country}是本故事的留学目的地国家；相关政策和生活条件构成决策背景。`, "location");
     push(profile.city, `${profile.city}是本故事的留学城市；当地成本、住房、交通和行政条件会影响选择。`, "location");
-    push(profile.school, `${profile.school}是本故事所对应的目标大学。`, "institution");
-    push(profile.department, `${profile.department}是负责该项目教学或管理的院系。`, "institution");
-    push(profile.program, `${profile.program}是本故事对应的具体学位项目，课程与毕业要求应以官方项目页面为准。`, "discipline");
-    push(profile.major, `${profile.major}是本故事对应的专业或学科方向。`, "discipline");
+    push(profile.school, `查看${profile.school}的类型、所在地和带年份的可核实排名。`, "institution");
+    push(profile.department, `查看${profile.department}所属大学的背景；具体录取和培养要求见专业资料卡。`, "institution");
+    push(profile.program, `查看${profile.program}的学制学分、语言、录取条件、期限、费用和毕业要求。`, "discipline");
+    push(profile.major, `查看${profile.major}相关项目的培养结构、录取门槛和完成要求。`, "discipline");
   }
 
   for (const alias of entityAliases) {
@@ -174,7 +180,7 @@ function annotationRanges(
     ...glossaryTerms,
     ...profileEntitySeeds(text, profile, sources).map((entity) => ({
       ...entity,
-      importance: "supplementary" as const,
+      importance: entity.category === "location" ? "supplementary" as const : "important" as const,
       importance_reason: entity.category === "location"
         ? "地点决定适用的生活条件、行政流程和政策环境。"
         : entity.category === "institution"
@@ -226,6 +232,61 @@ function formatConverted(amount: number, currency: "CNY" | "LKR"): string {
     currency,
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+function joined(values: string[] | undefined): string | null {
+  const normalized = values?.map((value) => value.trim()).filter(Boolean) ?? [];
+  return normalized.length ? normalized.join("；") : null;
+}
+
+function decisionFacts(
+  annotation: InlineAnnotation,
+  profiles: ReferenceProfiles | undefined,
+): { title: string; facts: DecisionFact[] } | null {
+  if (annotation.category === "institution") {
+    const institution = profiles?.institution;
+    const facts: DecisionFact[] = [];
+    for (const ranking of institution?.rankings ?? []) {
+      const subject = ranking.subject ? ` · ${ranking.subject}` : "";
+      const note = ranking.note ? `（${ranking.note}）` : "";
+      facts.push({
+        label: `${ranking.system} · ${ranking.edition}${subject}`,
+        value: `${ranking.rank}${note}`,
+        evidence_ids: ranking.evidence_ids,
+      });
+    }
+    if (!(institution?.rankings?.length)) {
+      facts.push({ label: "大学排名", value: "当前资料未确认带榜单名称和年份的可靠排名。" });
+    }
+    if (institution?.institution_type) facts.push({ label: "学校类型", value: institution.institution_type });
+    if (institution?.location) facts.push({ label: "所在地", value: institution.location });
+    return { title: "院校决策资料", facts };
+  }
+
+  if (annotation.category === "discipline") {
+    const program = profiles?.program;
+    const facts: DecisionFact[] = [];
+    const degree = [program?.degree_type, program?.official_name].filter(Boolean).join(" · ");
+    const length = [program?.duration, program?.credits].filter(Boolean).join(" · ");
+    if (degree) facts.push({ label: "项目与学位", value: degree });
+    const prerequisites = joined(program?.prerequisites);
+    const admissions = joined(program?.admissions);
+    const deadlines = joined(program?.deadlines);
+    const funding = joined(program?.funding);
+    const milestones = joined(program?.milestones);
+    if (prerequisites) facts.push({ label: "申请基础", value: prerequisites });
+    if (admissions) facts.push({ label: "录取与材料", value: admissions });
+    else facts.push({ label: "录取与材料", value: "当前资料未确认完整录取条件，请核对项目官方页面。" });
+    if (deadlines) facts.push({ label: "申请期限", value: deadlines });
+    if (program?.department) facts.push({ label: "所属院系", value: program.department });
+    if (length) facts.push({ label: "学制与学分", value: length });
+    if (program?.delivery_mode) facts.push({ label: "授课语言/形式", value: program.delivery_mode });
+    if (funding) facts.push({ label: "学费与资金", value: funding });
+    if (milestones) facts.push({ label: "培养与毕业", value: milestones });
+    return { title: "专业决策资料", facts };
+  }
+
+  return null;
 }
 
 function CurrencyConversion({ amount, currency }: { amount: number; currency: string }) {
@@ -282,6 +343,7 @@ export interface InlineAnnotatedTextProps {
   sources?: StorySource[];
   profile?: UserProfile;
   glossaryTerms?: PageTermAnnotation[];
+  referenceProfiles?: ReferenceProfiles;
 }
 
 export default function InlineAnnotatedText({
@@ -291,6 +353,7 @@ export default function InlineAnnotatedText({
   sources = [],
   profile,
   glossaryTerms = [],
+  referenceProfiles,
 }: InlineAnnotatedTextProps) {
   const annotations = useMemo(
     () => annotationRanges(text, terms, evidenceIds, profile, sources, glossaryTerms),
@@ -361,7 +424,14 @@ export default function InlineAnnotatedText({
   if (cursor < text.length) content.push(text.slice(cursor));
 
   const sourceMap = new Map(sources.map((source) => [source.evidence_id, source]));
-  const activeSources = popover?.annotation.evidence_ids.map((id) => ({ id, source: sourceMap.get(id) })) ?? [];
+  const activeDecisionCard = popover ? decisionFacts(popover.annotation, referenceProfiles) : null;
+  const activeEvidenceIds = popover
+    ? [...new Set([
+      ...popover.annotation.evidence_ids,
+      ...(activeDecisionCard?.facts.flatMap((fact) => fact.evidence_ids ?? []) ?? []),
+    ])]
+    : [];
+  const activeSources = activeEvidenceIds.map((id) => ({ id, source: sourceMap.get(id) }));
 
   return (
     <>
@@ -390,6 +460,19 @@ export default function InlineAnnotatedText({
           </div>
           <p>{popover.annotation.explanation}</p>
           {popover.annotation.importance_reason && <small className="termPopoverReason">为什么重要：{popover.annotation.importance_reason}</small>}
+          {activeDecisionCard && (
+            <section className="termPopoverDecisionCard">
+              <span>{activeDecisionCard.title}</span>
+              <dl>
+                {activeDecisionCard.facts.map((fact, index) => (
+                  <div key={`${fact.label}-${index}`}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
           {popover.annotation.monetary_amount && (
             <CurrencyConversion
               amount={popover.annotation.monetary_amount.amount}

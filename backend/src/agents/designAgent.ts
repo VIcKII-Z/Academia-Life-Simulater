@@ -667,6 +667,13 @@ export async function runDesignAgent(
           program: report.profile?.program,
           semesters: resolvedSemesters,
         };
+        // These are deterministic research artifacts, not creative output.
+        // Carry them through even when the text model omits unfamiliar fields.
+        doc.sources = report.sources;
+        doc.reference_profiles = {
+          institution: report.institution_profile,
+          program: report.program_profile,
+        };
         coerceToBraidedTopology(doc, topology);
         normalizeStats(doc);
         repairChoicelessNodes(doc);

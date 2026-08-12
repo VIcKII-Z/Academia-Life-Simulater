@@ -177,6 +177,7 @@ export default function PlayableDemoPage() {
                 sources={story.sources}
                 profile={story.user_profile}
                 glossaryTerms={storyGlossaryTerms}
+                referenceProfiles={story.reference_profiles}
               />
             </article>
 

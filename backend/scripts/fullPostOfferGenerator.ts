@@ -855,6 +855,7 @@ function researchBatchesFromReport(report: ResearchReport): JsonObject[] {
       ],
     },
   ];
+  if (report.institution_profile) batches.push({ batch: "institution_profile", ...report.institution_profile });
   if (report.program_profile) batches.push({ batch: "program_profile", ...report.program_profile });
   if (report.student_life_profile) batches.push({ batch: "student_life_profile", ...report.student_life_profile });
   if (report.career_profile) batches.push({ batch: "career_profile", ...report.career_profile });
@@ -932,7 +933,16 @@ function normalizeResearchSources(value: unknown): ResearchSource[] {
       sourceType = "reference";
       confidence = confidence === "low" ? "low" : "medium";
     } else if (
-      ["shiksha.com", "mastersportal.com", "studyportals.com", "topuniversities.com", "educations.com", "atlasmunich.de"].some(
+      ["topuniversities.com", "timeshighereducation.com", "shanghairanking.com"].some(
+        (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
+      )
+    ) {
+      // Ranking publishers are authoritative for their own dated tables only;
+      // they are not official evidence for admission, teaching, or fees.
+      sourceType = "third_party";
+      confidence = "medium";
+    } else if (
+      ["shiksha.com", "mastersportal.com", "studyportals.com", "educations.com", "atlasmunich.de"].some(
         (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
       )
     ) {
@@ -987,6 +997,40 @@ function collectFactStrings(value: unknown, prefix = ""): string[] {
   );
 }
 
+function uniqueFactStrings(...values: unknown[]): string[] {
+  return [...new Set(values.flatMap((value) => collectFactStrings(value)).map((value) => value.trim()).filter(Boolean))];
+}
+
+function firstFactText(...values: unknown[]): string | undefined {
+  for (const value of values) {
+    const text = factText(value);
+    if (text) return text;
+  }
+  return undefined;
+}
+
+function normalizeRankingEntries(value: unknown): NonNullable<NonNullable<ResearchReport["institution_profile"]>["rankings"]> {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((raw) => {
+    const ranking = objectRecord(raw);
+    const system = firstFactText(ranking.system, ranking.ranking_system, ranking.publisher);
+    const edition = firstFactText(ranking.edition, ranking.year);
+    const rank = firstFactText(ranking.rank, ranking.position);
+    if (!system || !edition || !rank) return [];
+    return [{
+      system,
+      edition,
+      scope: firstFactText(ranking.scope, ranking.type) ?? "overall",
+      rank,
+      subject: firstFactText(ranking.subject),
+      note: firstFactText(ranking.note),
+      evidence_ids: Array.isArray(ranking.evidence_ids)
+        ? ranking.evidence_ids.filter((id): id is string => typeof id === "string" && /^S\d+$/i.test(id))
+        : undefined,
+    }];
+  });
+}
+
 function findFactByLabel(value: unknown, label: string): unknown {
   const wanted = label.toLowerCase().replace(/[^a-z0-9]+/g, "");
   for (const [key, item] of Object.entries(objectRecord(value))) {
@@ -1017,24 +1061,39 @@ function standardizeResearchBatch(id: string, parsed: Partial<ResearchReport>): 
     gameplay_signals: parsed.gameplay_signals,
     gaps: Array.isArray(parsed.gaps) ? parsed.gaps.filter((gap): gap is string => typeof gap === "string" && Boolean(gap.trim())) : [],
   };
+  if (id === "institution") {
+    const incoming = objectRecord(parsed.institution_profile);
+    return {
+      ...base,
+      institution_profile: {
+        official_name: firstFactText(incoming.official_name, facts.official_name, REQUESTED_PROFILE.school),
+        institution_type: firstFactText(incoming.institution_type, facts.institution_type),
+        location: firstFactText(incoming.location, facts.location) ?? [REQUESTED_PROFILE.city, REQUESTED_PROFILE.country].filter(Boolean).join(", "),
+        rankings: normalizeRankingEntries(incoming.rankings ?? facts.rankings),
+      },
+    };
+  }
   if (id === "program") {
+    const incoming = objectRecord(parsed.program_profile);
+    const conditions = objectRecord(facts.application_conditions);
     const curriculum = objectRecord(facts.curriculum_structure);
     return {
       ...base,
       report: { academic: factText(facts, 2_400) } as ResearchReport["report"],
       program_profile: {
-        official_name: REQUESTED_PROFILE.program || REQUESTED_PROFILE.major,
-        degree_type: REQUESTED_PROFILE.grade,
-        department: REQUESTED_PROFILE.department || REQUESTED_PROFILE.major,
-        duration: factText(facts.degree_duration),
-        delivery_mode: factText(facts.language_of_instruction)
-          ? `Language of instruction: ${factText(facts.language_of_instruction)}`
-          : undefined,
-        curriculum: [...collectFactStrings(curriculum.core_areas), ...collectFactStrings(curriculum.modules)].slice(0, 30),
-        milestones: collectFactStrings(facts.compulsory_milestones).slice(0, 20),
-        admissions: collectFactStrings(facts.admission_requirements).slice(0, 20),
-        deadlines: collectFactStrings(facts.application_periods).slice(0, 12),
-        funding: collectFactStrings(facts.tuition_fees).slice(0, 12),
+        official_name: firstFactText(incoming.official_name, REQUESTED_PROFILE.program, REQUESTED_PROFILE.major),
+        degree_type: firstFactText(incoming.degree_type, facts.degree_type, REQUESTED_PROFILE.grade),
+        department: firstFactText(incoming.department, REQUESTED_PROFILE.department, REQUESTED_PROFILE.major),
+        duration: firstFactText(incoming.duration, facts.degree_duration, facts.duration),
+        credits: firstFactText(incoming.credits, facts.ects, facts.total_credits, facts.credits),
+        delivery_mode: firstFactText(incoming.delivery_mode, facts.language_of_instruction),
+        visa_eligible_notes: firstFactText(incoming.visa_eligible_notes, facts.visa_eligible_notes),
+        curriculum: uniqueFactStrings(incoming.curriculum, curriculum.core_areas, curriculum.modules).slice(0, 30),
+        milestones: uniqueFactStrings(incoming.milestones, facts.compulsory_milestones, facts.graduation_requirements).slice(0, 20),
+        prerequisites: uniqueFactStrings(incoming.prerequisites, facts.prerequisites, facts.eligibility_requirements, conditions.eligibility).slice(0, 20),
+        admissions: uniqueFactStrings(incoming.admissions, facts.admission_requirements, facts.application_process, conditions.admission_category, conditions.required_documents).slice(0, 20),
+        deadlines: uniqueFactStrings(incoming.deadlines, facts.application_periods, facts.application_deadlines, conditions.application_periods, conditions.deadlines).slice(0, 12),
+        funding: uniqueFactStrings(incoming.funding, facts.tuition_fees, facts.fees, conditions.tuition_fees).slice(0, 12),
       },
     };
   }
@@ -1187,7 +1246,9 @@ ${compact(REQUESTED_PROFILE, 4_000)}
 Return one strict JSON partial ResearchReport. Omit fields you did not verify.
 - Search the live web and prefer first-party institution, national/local government, and official student-service pages.
 - A source may be marked official/high only when its hostname belongs to the institution or public authority that issued the rule.
-- Wikipedia, rankings, commercial study portals, consultancies, and aggregators are never official sources. Use them only as low-confidence fallback and label them accurately.
+- Wikipedia, commercial study portals, consultancies, and aggregators are never official sources. A ranking publisher is authoritative only for its own named table: label it third_party/medium, always capture the edition/year and scope, and never treat it as evidence for admissions or teaching quality. An official university announcement may confirm a ranking only when it names the system, edition, scope, and rank exactly.
+- Build institution_profile as a decision card: institution type/location and only verified current rankings. Build program_profile as a decision card: duration, credits/ECTS, language, prerequisites, admissions process/documents, deadlines, fees, curriculum, and graduation milestones.
+- Never return an undated ranking or silently substitute an overall ranking for a subject ranking. Omit and record the gap when a current ranking or program requirement cannot be confirmed.
 - Every sources[].used_for item must be a short, precise factual claim directly supported by that exact URL, not a topic label.
 - Do not copy one source's claims onto another source. Do not invent URLs, amounts, deadlines, course names, rules, or services.
 - Record missing evidence in gaps instead of filling it with general knowledge.
@@ -1195,15 +1256,22 @@ Return one strict JSON partial ResearchReport. Omit fields you did not verify.
 
 Partial output shape:
 {
-  "report": {}, "program_profile": {}, "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {},
+  "report": {},
+  "institution_profile": {"official_name":"...","institution_type":"...","location":"...","rankings":[{"system":"...","edition":"2027","scope":"overall|subject|employability","rank":"...","subject":"optional","evidence_ids":["S01"]}]},
+  "program_profile": {"official_name":"...","degree_type":"...","department":"...","duration":"...","credits":"...","delivery_mode":"...","prerequisites":[],"admissions":[],"deadlines":[],"funding":[],"curriculum":[],"milestones":[]},
+  "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {},
   "source_coverage": {}, "gameplay_signals": {},
   "sources": [{"title":"...","url":"https://...","source_type":"program_official","confidence":"high","used_for":["precise supported claim"]}],
   "gaps": []
 }`;
   const batches = [
     {
+      id: "institution",
+      focus: `Research the exact university as a decision card. Verify its official name, institution type, and location. Then find the most recent verifiable overall ranking and, when available, a ranking directly relevant to the requested discipline or engineering subject. Every ranking must include the ranking system, exact edition/year, scope (overall/subject/employability), rank, subject when relevant, and evidence id. Prefer the ranking publisher's own current table or a precise official university announcement. Do not infer reputation or teaching quality from rank, do not mix scopes, and omit anything undated or unverified.`,
+    },
+    {
       id: "program",
-      focus: `Research the exact university, department, and degree on official university domains only. Verify degree duration/ECTS, language, curriculum or specialization structure, compulsory milestones, examination or progression rules, tuition/semester fees, application or enrolment conditions, and named academic/support services. Prefer the exact program page, academic regulations, module catalog, fee page, and international office.`,
+      focus: `Research the exact university, department, and degree on official university domains only. Verify degree duration and total credits/ECTS, language, curriculum or specialization structure, compulsory milestones and graduation requirements, examination or progression rules, tuition/semester fees, prerequisites, admission assessment, required application documents, application deadlines, enrolment conditions, and named academic/support services. Prefer the exact program page, academic regulations, module catalog, fee page, and international office.`,
     },
     {
       id: "immigration",
