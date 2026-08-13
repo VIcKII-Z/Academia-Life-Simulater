@@ -181,6 +181,14 @@ export interface ResearchReport {
     /** Real recurring campus events (festivals, hackathons, guest lectures, career fairs)
      * found via a campus events/news page. */
     events?: { name: string; note?: string; url?: string }[];
+    /** Real campus buildings or city landmarks suitable as visual grounding.
+     * Entries require a first-party university, municipal, or official tourism URL. */
+    visual_landmarks?: {
+      name: string;
+      kind?: "campus_building" | "campus_space" | "city_landmark" | string;
+      visual_note?: string;
+      url: string;
+    }[];
   };
   /** Per-claim provenance, ranked by search_agent_strategy.md's confidence tiers. */
   sources?: {
@@ -334,6 +342,9 @@ export interface StoryDocument {
   /** Research-stage glossary inherited by the whole story. Page annotations
    * may add scene-specific terms, but do not replace this world-book layer. */
   glossary_terms?: PageTermAnnotation[];
+  /** Sourced setting references used by the image agent. They are prompts,
+   * not claims that every scene literally occurs inside the landmark. */
+  visual_landmarks?: NonNullable<ResearchReport["campus_life_profile"]>["visual_landmarks"];
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;
 }

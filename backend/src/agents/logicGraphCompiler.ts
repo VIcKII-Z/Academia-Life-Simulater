@@ -212,6 +212,7 @@ export function compileLogicGraphToStoryDocument(
       program: report.program_profile,
     },
     glossary_terms: report.glossary_terms,
+    visual_landmarks: report.campus_life_profile?.visual_landmarks,
     logic: {
       flow_version: "post_offer_v1",
       start_node_id: graph.main_node_order[0],

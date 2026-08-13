@@ -46,6 +46,7 @@ const explicitDisciplinePattern = /专业|学科|硕士|博士|学士|工程|技
 
 type EntitySeed = {
   term: string;
+  aliases?: string[];
   explanation: string;
   category: NonNullable<PageTermAnnotation["category"]>;
   evidence_ids: string[];
@@ -189,7 +190,7 @@ function annotationRanges(
     })),
   ].flatMap((term) => [
     term,
-    ...(term.aliases ?? []).map((alias) => ({ ...term, term: alias, aliases: undefined })),
+    ...(term.aliases ?? []).map((alias: string) => ({ ...term, term: alias, aliases: undefined })),
   ]);
 
   for (const rawTerm of expandedTerms) {

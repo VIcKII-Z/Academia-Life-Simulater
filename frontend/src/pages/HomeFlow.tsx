@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PassportCard from "../components/PassportCard";
 import QuizFlow from "../components/QuizFlow";
@@ -9,8 +9,15 @@ import StatFlyers, { type StatFlyer } from "../components/StatFlyers";
 import PostcardEnding from "../components/PostcardEnding";
 import AdmissionLetter from "../components/AdmissionLetter";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import { buildRuntimeConfig, startFullGeneration, waitForFullGeneration } from "../lib/api";
+import GameTutorial, { type TutorialStep } from "../components/GameTutorial";
+import { buildRuntimeConfig, fetchCachedStories, startFullGeneration, waitForFullGeneration, type CachedStorySummary } from "../lib/api";
 import { loadImageGenerationPreference, saveImageGenerationPreference } from "../lib/storage";
+import {
+  HOME_TUTORIAL_COMPLETED_KEY,
+  STORY_TUTORIAL_PENDING_KEY,
+  readTutorialFlag,
+  writeTutorialFlag,
+} from "../lib/tutorialState";
 import { applyStatDelta, DEFAULT_STATS, getFailedStat } from "../lib/gameplay";
 import {
   applyLogicDelta,
@@ -26,7 +33,48 @@ import type { Choice, EndingNode, StatBlock, StoryDocument, StoryNode, UserProfi
 
 type FlowStage = "passport" | "quiz" | "admission" | "timeskip" | "play" | "error";
 
-const LAST_CACHED_STORY_ID = "technische_universit_t_m_nchen_full_f81bb5c0b506";
+const HOME_TUTORIAL_STEPS: TutorialStep[] = [
+  {
+    kicker: "欢迎来到留学预演室",
+    title: "先从你真正想去的地方开始",
+    body: "嗨，我是向导小鸮。这里不是测你适不适合留学，而是把目标院校的真实流程变成一条可以试走、可以回头的时间线。",
+  },
+  {
+    selector: '[data-tutorial="profile-flow"]',
+    kicker: "第一步 · 告诉我目的地",
+    title: "按顺序选择国家、城市、学校与项目",
+    body: "系统会用这些信息检索学校、签证、费用、课程和就业资料。目标越具体，后面的故事与专有名词解释就越贴近你。",
+  },
+  {
+    selector: '[data-tutorial="cached-library"]',
+    kicker: "想先试玩？",
+    title: "缓存故事可以直接打开",
+    body: "这里保存已完整生成的路线，不会再次调用模型或图片接口。你可以先挑一所学校看看成品，再决定是否生成自己的。",
+  },
+  {
+    selector: '[data-tutorial="image-toggle"]',
+    kicker: "插图开关",
+    title: "决定本轮是否生成场景插图",
+    body: "打开后，生成器会为关键场景、警告和结局制作插图；关闭则只生成文字，速度更快，也不会产生图片调用。",
+  },
+  {
+    selector: ".languageSwitcher",
+    kicker: "选择叙事语言",
+    title: "语言也会影响主角设定与货币提示",
+    body: "中文路线默认以中国女性为主角，并提供人民币换算；英文路线面向斯里兰卡女性，并提供相应的语言与货币参考。",
+  },
+  {
+    selector: '[data-tutorial="travel-key"]',
+    kicker: "生成凭证",
+    title: "需要时在这里配置 API",
+    body: "新生成会使用这里保存的服务配置；直接打开缓存不需要调用 API。密钥只应保存在本机配置中，不要分享在聊天或截图里。",
+  },
+  {
+    kicker: "首页认识完毕",
+    title: "生成后，我会在故事页继续带路",
+    body: "完成资料选择会先看到录取信，后台同时收集资料并生成故事。进入正式故事后，小鸮会继续介绍正文、红色术语、选项、插图与失败回退。",
+  },
+];
 
 function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
@@ -52,6 +100,8 @@ export default function HomeFlow() {
   const [reusedStory, setReusedStory] = useState(false);
   const [imageGenerationEnabled, setImageGenerationEnabled] = useState(loadImageGenerationPreference);
   const [flyers, setFlyers] = useState<StatFlyer[]>([]);
+  const [cachedStories, setCachedStories] = useState<CachedStorySummary[]>([]);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
   // Positions of each stat's sticker icon in the top app bar, so a flyer
   // animation can be aimed at (or launched from) the exact right spot.
   const statIconRefs = useRef<Partial<Record<keyof StatBlock, HTMLImageElement>>>({});
@@ -62,6 +112,23 @@ export default function HomeFlow() {
   // which shortens the total time-to-play whenever the letter + decision
   // takes longer than the agents still needed.
   const storyRequestRef = useRef<ReturnType<typeof waitForFullGeneration> | null>(null);
+
+  useEffect(() => {
+    if (stage !== "quiz") return;
+    void fetchCachedStories(2).then(setCachedStories);
+  }, [stage]);
+
+  useEffect(() => {
+    if (stage !== "quiz" || readTutorialFlag(HOME_TUTORIAL_COMPLETED_KEY)) return;
+    const timer = window.setTimeout(() => setTutorialOpen(true), 500);
+    return () => window.clearTimeout(timer);
+  }, [stage]);
+
+  function finishHomeTutorial() {
+    writeTutorialFlag(HOME_TUTORIAL_COMPLETED_KEY, true);
+    writeTutorialFlag(STORY_TUTORIAL_PENDING_KEY, true);
+    setTutorialOpen(false);
+  }
 
   function registerStatIcon(key: keyof StatBlock, el: HTMLImageElement | null) {
     if (el) statIconRefs.current[key] = el;
@@ -264,7 +331,7 @@ export default function HomeFlow() {
 
       {stage !== "passport" && !hasAppBar && (
         <>
-          <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)}>
+          <button className="apiKeyEditTrigger" onClick={() => setShowKeyEditor(true)} data-tutorial="travel-key">
             <img className="apiKeyEditTriggerIcon" src="/stickers/lock.svg" alt="" /> {t("top.travelKey")}
           </button>
           <button
@@ -273,6 +340,7 @@ export default function HomeFlow() {
             aria-pressed={imageGenerationEnabled}
             onClick={toggleImageGeneration}
             disabled={stage === "timeskip"}
+            data-tutorial="image-toggle"
           >
             <img className="imageGenerationToggleIcon" src="/stickers/sparkle.png" alt="" />
             {imageGenerationEnabled ? t("top.imagesOn") : t("top.imagesOff")}
@@ -287,18 +355,33 @@ export default function HomeFlow() {
       )}
 
       {!hasAppBar && (stage === "passport" || stage === "quiz") && (
-        <Link className="cachedDemoCallout" to={`/play-demo?storyId=${LAST_CACHED_STORY_ID}`}>
-          <img className="cachedDemoCalloutIcon" src="/stickers/book.png" alt="" />
-          <span>
-            <strong>{t("cacheDemo.title")}</strong>
-            <small>{t("cacheDemo.subtitle")}</small>
-          </span>
-        </Link>
+        <section className="cachedStoryLibrary" data-tutorial="cached-library" aria-label={t("cacheDemo.title")}>
+          <div className="cachedStoryLibraryHead">
+            <img className="cachedDemoCalloutIcon" src="/stickers/book.png" alt="" />
+            <span>
+              <strong>{t("cacheDemo.title")}</strong>
+              <small>{t("cacheDemo.subtitle")}</small>
+            </span>
+          </div>
+          <div className="cachedStoryList">
+            {cachedStories.map((item) => (
+              <Link className="cachedStoryOption" to={`/play-demo?storyId=${encodeURIComponent(item.storyId)}`} key={item.storyId}>
+                <span className="cachedStoryOptionFlag">{item.outputLanguage === "zh" ? "中文" : "EN"}</span>
+                <span>
+                  <strong>{item.school}</strong>
+                  <small>{[item.program, item.city].filter(Boolean).join(" · ")}</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+            {cachedStories.length === 0 && <small className="cachedStoryEmpty">正在整理故事书架…</small>}
+          </div>
+        </section>
       )}
 
       {stage === "passport" && <PassportCard onComplete={() => setStage("quiz")} />}
 
-      {stage === "quiz" && <QuizFlow onComplete={startStory} />}
+      {stage === "quiz" && <div data-tutorial="profile-flow"><QuizFlow onComplete={startStory} /></div>}
 
       {stage === "admission" && profile && <AdmissionLetter profile={profile} onAccept={acceptOffer} onDecline={restart} />}
 
@@ -372,6 +455,14 @@ export default function HomeFlow() {
       <Link className="devLink" to="/debug">
         dev
       </Link>
+      {stage === "quiz" && (
+        <>
+          <button className="homeTutorialReopen" type="button" onClick={() => setTutorialOpen(true)}>
+            <span aria-hidden="true">🦉</span> 新手指引
+          </button>
+          <GameTutorial open={tutorialOpen} onFinish={finishHomeTutorial} steps={HOME_TUTORIAL_STEPS} />
+        </>
+      )}
     </main>
   );
 }

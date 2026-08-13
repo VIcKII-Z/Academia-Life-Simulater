@@ -291,26 +291,30 @@
   flex-wrap: wrap;
 }
 
-.cachedDemoCallout {
+.cachedStoryLibrary {
   width: min(100%, 560px);
-  display: flex;
-  align-items: center;
-  gap: 14px;
   margin: 0 auto 18px;
   padding: 14px 18px;
   color: var(--ink);
-  text-decoration: none;
   background: rgba(255, 253, 248, 0.92);
   border: 1px solid rgba(184, 134, 59, 0.34);
   border-radius: 16px;
   box-shadow: 0 12px 26px rgba(44, 36, 24, 0.14);
-  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
 }
 
-.cachedDemoCallout:hover {
-  transform: translateY(-2px);
-  border-color: rgba(184, 134, 59, 0.65);
-  box-shadow: 0 16px 32px rgba(44, 36, 24, 0.18);
+/* The tutorial wrapper is itself a flex item. Without an explicit width it
+   shrink-wraps to whichever quiz step happens to be visible, so short steps
+   look narrower than the cache library above them. Keep both on one shared
+   560px content axis for every step and viewport. */
+.journal--onboarding > [data-tutorial="profile-flow"] {
+  width: min(100%, 560px);
+}
+
+.cachedStoryLibraryHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 11px;
 }
 
 .cachedDemoCalloutIcon {
@@ -321,21 +325,108 @@
   flex: 0 0 auto;
 }
 
-.cachedDemoCallout span {
+.cachedStoryLibraryHead > span {
   display: grid;
   gap: 3px;
   text-align: left;
 }
 
-.cachedDemoCallout strong {
+.cachedStoryLibraryHead strong {
   font-family: var(--font-display);
   font-size: 1.05rem;
 }
 
-.cachedDemoCallout small {
+.cachedStoryLibraryHead small {
   color: var(--ink-soft);
   font-size: 0.82rem;
   line-height: 1.35;
+}
+
+.cachedStoryList {
+  display: grid;
+  gap: 7px;
+  overflow: visible;
+}
+
+.cachedStoryOption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid rgba(77, 61, 43, 0.12);
+  border-radius: 11px;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.58);
+  text-decoration: none;
+  transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.cachedStoryOption:hover {
+  transform: translateX(3px);
+  border-color: rgba(184, 134, 59, 0.58);
+  background: #fff8e8;
+}
+
+.cachedStoryOption > span:nth-child(2) {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cachedStoryOption strong,
+.cachedStoryOption small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cachedStoryOption strong {
+  font-size: 0.85rem;
+}
+
+.cachedStoryOption small,
+.cachedStoryEmpty {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+}
+
+.cachedStoryOptionFlag {
+  border-radius: 999px;
+  padding: 4px 7px;
+  color: #755129;
+  background: rgba(248, 221, 151, 0.48);
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.cachedStoryEmpty {
+  padding: 10px;
+  text-align: center;
+}
+
+.homeTutorialReopen {
+  position: fixed;
+  right: 44px;
+  top: 176px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(44, 36, 24, 0.15);
+  border-radius: 999px;
+  padding: 7px 13px;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 248, 0.88);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.homeTutorialReopen:hover {
+  border-color: var(--gold);
+  color: var(--ink);
 }
 
 .journalError {
@@ -2269,8 +2360,18 @@
   }
   .languageSwitcher,
   .apiKeyEditTrigger,
-  .imageGenerationToggle {
+  .imageGenerationToggle,
+  .homeTutorialReopen {
     right: 14px;
+  }
+  .homeTutorialReopen {
+    top: 176px;
+  }
+  .cachedStoryLibrary {
+    padding: 12px;
+  }
+  .cachedStoryList {
+    max-height: 190px;
   }
   .statMeters {
     width: 100%;

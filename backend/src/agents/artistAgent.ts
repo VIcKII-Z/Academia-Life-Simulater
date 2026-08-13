@@ -37,8 +37,27 @@ function stylePrefix(runtimeConfig?: RuntimeConfig): string {
     `${protagonist} ` +
     "Warm hand-drawn storybook illustration in soft watercolor and colored-pencil style, gentle natural lighting, " +
     "cozy muted earthy palette, delicate linework, fine detail, subtle grain, and one consistent picture-book series aesthetic. " +
-    "Show one concrete scene unique to this page. No text, captions, logos, watermark, photorealism, character sheet, collage, or split panel. Scene: "
+    "Show one concrete scene unique to this page. Do not render any letters, words, numbers, signs, building names, document text, captions, " +
+    "logos, emblems, seals, or watermarks, even when the real landmark contains signage. No photorealism, character sheet, collage, or split panel. Scene: "
   );
+}
+
+function landmarkDirection(doc: StoryDocument, nodeId: string): string {
+  const landmarks = doc.visual_landmarks ?? [];
+  if (!landmarks.length) return "";
+  const seed = [...nodeId].reduce((sum, character) => sum + character.charCodeAt(0), 0);
+  const landmark = landmarks[seed % landmarks.length];
+  const visualNote = landmark.visual_note?.trim() ? ` Visible reference: ${landmark.visual_note.trim()}.` : "";
+  return (
+    ` When geographically and narratively plausible, use the real ${landmark.kind ?? "local landmark"} ` +
+    `${landmark.name} as recognizable background context.${visualNote} Omit all visible signage, lettering, logos, and emblems from the landmark; ` +
+    "do not invent architectural features; " +
+    "if the scene occurs elsewhere, show only a plausible distant glimpse or omit it rather than relocating the action."
+  );
+}
+
+export interface ArtistAgentObserver {
+  onImageRequest?: (details: { nodeId: string; requestNumber: number }) => void | Promise<void>;
 }
 
 function automaticSystemImagePrompt(doc: StoryDocument, nodeId: string, sceneText: string, kind: "warning" | "ending"): string {
@@ -74,13 +93,66 @@ function findPrecedingImage(doc: StoryDocument, targetNodeId: string): string | 
   return directPredecessor?.image_url;
 }
 
+const VISUAL_THEMES: Array<{ id: string; pattern: RegExp }> = [
+  { id: "visa", pattern: /visa|permit|immigra|consulate|embassy|residence|registration|arrival|coe|签证|居留|入境|登记/i },
+  { id: "housing", pattern: /housing|house|dorm|rent|apartment|commute|accommodation|住房|宿舍|租房|通勤/i },
+  { id: "money", pattern: /money|fund|tuition|deposit|bank|finance|scholarship|payment|cost|钱|资金|学费|押金|奖学金/i },
+  { id: "language", pattern: /language|german|english|chinese|communication|integration|语言|德语|英语|沟通/i },
+  { id: "career", pattern: /career|job|work|intern|employ|recruit|求职|工作|实习|就业/i },
+  { id: "wellbeing", pattern: /wellbeing|health|insurance|burnout|social|isolation|stress|医疗|保险|健康|压力|孤独/i },
+  { id: "time", pattern: /time|deadline|delay|late|disruption|时间|截止|延期|迟到/i },
+  { id: "school", pattern: /school|study|program|course|academic|exam|graduat|thesis|specialization|学校|课程|学业|考试|毕业|论文/i },
+  { id: "network", pattern: /network|mentor|advisor|professor|lab|research|alumni|人脉|导师|教授|实验室|科研|校友/i },
+];
+
+const NODE_ID_THEMES: Array<{ id: string; pattern: RegExp }> = [
+  { id: "money", pattern: /deposit|tuition|payment|fund|money|scholarship/i },
+  { id: "housing", pattern: /housing|house|dorm|rent|commute|accommodation/i },
+  { id: "visa", pattern: /visa|permit|immigra|consulate|embassy|residence|registration|arrival|bureaucr/i },
+  { id: "language", pattern: /language|german|english|communication|integration/i },
+  { id: "career", pattern: /career|job|part_time|intern|employ|recruit/i },
+  { id: "wellbeing", pattern: /wellbeing|health|insurance|burnout|social|isolation|stress/i },
+  { id: "time", pattern: /time|deadline|delay|late|disruption|crunch/i },
+  { id: "network", pattern: /network|mentor|advisor|professor|lab|research|alumni/i },
+  { id: "school", pattern: /offer_acceptance|school|study|program|course|academic|exam|graduat|thesis|specialization|final_choice/i },
+];
+
+function visualTheme(nodeId: string, node: StoryDocument["nodes"][string]): string | null {
+  const idTheme = NODE_ID_THEMES.find((theme) => theme.pattern.test(nodeId));
+  if (idTheme) return idTheme.id;
+  const text = `${nodeId} ${node.scene_text} ${node.image_prompt ?? ""}`;
+  return VISUAL_THEMES.find((theme) => theme.pattern.test(text))?.id ?? null;
+}
+
+/** Pick a previously generated system scene with the same real-world theme.
+ * Warning/failure/ending illustrations are already mandatory calls, so using
+ * them as the visual vocabulary for uncapped narrative pages produces useful
+ * variety without increasing the image budget. */
+function findThemedGeneratedImage(doc: StoryDocument, nodeId: string, node: StoryDocument["nodes"][string]): string | undefined {
+  const theme = visualTheme(nodeId, node);
+  if (!theme) return undefined;
+  const candidates = [
+    ...Object.entries(doc.nodes),
+    ...Object.entries(doc.endings),
+  ].filter(([candidateId, candidate]) => candidate.image_url && visualTheme(candidateId, candidate as StoryDocument["nodes"][string]) === theme);
+  if (!candidates.length) return undefined;
+  const warningCandidates = candidates.filter(([, candidate]) => candidate.logic_page_role === "warning");
+  const nonFailureCandidates = candidates.filter(([, candidate]) => candidate.logic_page_role !== "failure");
+  const pool = warningCandidates.length ? warningCandidates : nonFailureCandidates.length ? nonFailureCandidates : candidates;
+  const seed = [...nodeId].reduce((sum, character) => sum + character.charCodeAt(0), 0);
+  return pool[seed % pool.length]?.[1].image_url;
+}
+
 function coverNarrativePages(
   doc: StoryDocument,
   narrativeEntries: Array<[string, StoryDocument["nodes"][string]]>,
   generatedEntries: Array<[string, StoryDocument["nodes"][string]]>,
 ): void {
-  const generatedImages = generatedEntries
-    .map(([, node]) => node.image_url)
+  const generatedImages = [
+    ...Object.values(doc.nodes),
+    ...Object.values(doc.endings),
+  ]
+    .map((node) => node.image_url)
     .filter((url): url is string => Boolean(url));
 
   for (const [index, [nodeId, node]] of narrativeEntries.entries()) {
@@ -88,7 +160,8 @@ function coverNarrativePages(
       // Pages beyond the generation budget reuse the closest causal scene in
       // the logic graph. A deterministic generated fallback guarantees visual
       // coverage for a disconnected custom node without adding an API call.
-      node.image_url = findPrecedingImage(doc, nodeId)
+      node.image_url = findThemedGeneratedImage(doc, nodeId, node)
+        ?? findPrecedingImage(doc, nodeId)
         ?? generatedImages[index % generatedImages.length];
     }
     reuseDecisionImage(doc, node);
@@ -102,7 +175,11 @@ function coverNarrativePages(
  * nodes keep has_image as designed but simply have no image_url, and the frontend
  * renders a tone-based placeholder instead.
  */
-export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: RuntimeConfig): Promise<StoryDocument> {
+export async function runArtistAgent(
+  doc: StoryDocument,
+  runtimeConfig?: RuntimeConfig,
+  observer?: ArtistAgentObserver,
+): Promise<StoryDocument> {
   const imageGenerationEnabled =
     runtimeConfig?.features.enableImageGeneration ?? config.features.enableImageGeneration;
   if (!imageGenerationEnabled) {
@@ -134,9 +211,10 @@ export async function runArtistAgent(doc: StoryDocument, runtimeConfig?: Runtime
   if (entriesToGenerate.length > 0) {
     await fs.mkdir(ASSETS_DIR, { recursive: true });
     const client = getOpenAIClient(runtimeConfig, "image");
-    for (const [nodeId, node] of entriesToGenerate) {
+    for (const [index, [nodeId, node]] of entriesToGenerate.entries()) {
       const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
-      const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}`;
+      const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}${landmarkDirection(doc, nodeId)}`;
+      await observer?.onImageRequest?.({ nodeId, requestNumber: index + 1 });
       const result = await client.images.generate({
         model: getRuntimeModel(runtimeConfig, "image"),
         prompt,

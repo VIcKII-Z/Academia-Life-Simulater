@@ -154,6 +154,24 @@ export async function fetchStory(storyId: string): Promise<StoryDocument | null>
   return (await res.json()) as StoryDocument;
 }
 
+export interface CachedStorySummary {
+  storyId: string;
+  school: string;
+  program: string;
+  city: string;
+  country: string;
+  outputLanguage: "zh" | "en" | string;
+  updatedAt: string;
+  imageCount: number;
+}
+
+export async function fetchCachedStories(limit = 6): Promise<CachedStorySummary[]> {
+  const res = await fetch(`/api/stories?limit=${encodeURIComponent(String(limit))}`);
+  if (!res.ok) return [];
+  const payload = await res.json() as { stories?: CachedStorySummary[] };
+  return payload.stories ?? [];
+}
+
 export interface ExchangeRate {
   base: string;
   quote: "CNY" | "LKR";

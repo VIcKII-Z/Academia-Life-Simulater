@@ -149,6 +149,12 @@ export interface StoryDocument {
   sources?: StorySource[];
   reference_profiles?: ReferenceProfiles;
   glossary_terms?: PageTermAnnotation[];
+  visual_landmarks?: Array<{
+    name: string;
+    kind?: string;
+    visual_note?: string;
+    url: string;
+  }>;
   cached?: boolean;
   logic?: StoryLogicRuntime;
   logic_content_variants?: Record<string, LogicContentVariant[]>;

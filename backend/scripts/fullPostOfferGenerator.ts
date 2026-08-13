@@ -101,6 +101,7 @@ type SimulationResult = {
   steps: number;
   warnings: string[];
   state: Record<string, number>;
+  choice_ids: string[];
 };
 
 type ExhaustiveSimulationResult = {
@@ -128,6 +129,8 @@ type ValidationReport = {
     annotatedPages: number;
     evidenceReferences: number;
     failureRecoveries: number;
+    uniqueVisibleTexts: number;
+    uniqueFailureRecoveries: number;
   };
   requirements: {
     allPlayableNodesHaveThreeOptions: boolean;
@@ -139,6 +142,9 @@ type ValidationReport = {
     allEvidenceReferencesValid: boolean;
     allTermsExplainedAndCited: boolean;
     allFailurePagesHaveRecovery: boolean;
+    noDuplicateVisiblePages: boolean;
+    noDuplicateFailureRecoveries: boolean;
+    noChoicesLeakedIntoProse: boolean;
   };
   issues: string[];
   balanceNotes: string[];
@@ -199,8 +205,13 @@ const ENABLE_LIVE_RESEARCH = process.env.FULL_ENABLE_LIVE_RESEARCH !== "false";
 const ENABLE_IMAGE_GENERATION = process.env.FULL_ENABLE_IMAGE_GENERATION === "true";
 const FULL_MAX_IMAGES = Math.max(0, Number(process.env.FULL_MAX_IMAGES ?? 999));
 const OUTPUT_LANGUAGE: "en" | "zh" = process.env.FULL_OUTPUT_LANGUAGE === "en" ? "en" : "zh";
+const REGENERATE_TEXT_ONLY = process.env.FULL_REGENERATE_TEXT_ONLY === "true";
 const STORY_ID = process.env.FULL_DEMO_STORY_ID || `study_abroad_full_${Date.now()}`;
 const RUN_DIR = path.join(RUNS_DIR, STORY_ID);
+const GENERATION_STARTED_MS = Date.now();
+const API_CALLS = { research: 0, text: 0, image: 0 };
+const PRIOR_API_CALLS = { research: 0, text: 0, image: 0 };
+let METRICS_ORIGINAL_STARTED_MS = GENERATION_STARTED_MS;
 
 const OPTION_KINDS: LogicOptionKind[] = ["normal", "positive_extreme", "negative_extreme"];
 const BASE_VARIABLES: LogicVariableDefinition[] = [
@@ -681,7 +692,7 @@ function normalizeApiBaseURL(raw: string): string {
 }
 
 function compact(value: unknown, max = 18_000): string {
-  const raw = JSON.stringify(value, null, 2);
+  const raw = JSON.stringify(value, null, 2) ?? "null";
   return raw.length > max ? `${raw.slice(0, max)}\n...<truncated ${raw.length - max} chars>` : raw;
 }
 
@@ -738,6 +749,84 @@ async function writeJson(name: string, value: unknown): Promise<void> {
   await fs.writeFile(path.join(RUN_DIR, name), JSON.stringify(value, null, 2), "utf8");
 }
 
+async function writeRunMetrics(status: "running" | "completed" | "failed", error?: unknown): Promise<void> {
+  const finishedAt = Date.now();
+  const combined = {
+    research: PRIOR_API_CALLS.research + API_CALLS.research,
+    text: PRIOR_API_CALLS.text + API_CALLS.text,
+    image: PRIOR_API_CALLS.image + API_CALLS.image,
+  };
+  await writeJson("10_run_metrics.json", {
+    story_id: STORY_ID,
+    status,
+    started_at: new Date(METRICS_ORIGINAL_STARTED_MS).toISOString(),
+    finished_at: new Date(finishedAt).toISOString(),
+    duration_ms: finishedAt - METRICS_ORIGINAL_STARTED_MS,
+    api_calls: {
+      ...combined,
+      total: combined.research + combined.text + combined.image,
+    },
+    invocation_api_calls: {
+      ...API_CALLS,
+      total: API_CALLS.research + API_CALLS.text + API_CALLS.image,
+    },
+    mode: REGENERATE_TEXT_ONLY ? "text_only_regeneration" : "full_generation",
+    error: error instanceof Error ? error.message : error ? String(error) : undefined,
+  });
+}
+
+function reuseExistingImages<T extends StoryDocument>(doc: T, previous: StoryDocument): T {
+  let reused = 0;
+  for (const [pageId, page] of [
+    ...Object.entries(doc.nodes),
+    ...Object.entries(doc.endings),
+  ]) {
+    const prior = previous.nodes[pageId] ?? previous.endings[pageId];
+    if (!prior?.image_url) continue;
+    page.image_url = prior.image_url;
+    page.has_image = prior.has_image;
+    page.image_prompt = prior.image_prompt;
+    reused += 1;
+  }
+  void appendLog(`[text-only] reused existing image mappings for ${reused} pages`);
+  return doc;
+}
+
+async function initializeRunMetrics(): Promise<void> {
+  if (process.env.FULL_RESUME_CHECKPOINT !== "true") return;
+  try {
+    const prior = JSON.parse(await fs.readFile(path.join(RUN_DIR, "10_run_metrics.json"), "utf8")) as {
+      started_at?: string;
+      api_calls?: Partial<typeof PRIOR_API_CALLS>;
+    };
+    const originalStarted = prior.started_at ? Date.parse(prior.started_at) : Number.NaN;
+    if (Number.isFinite(originalStarted)) METRICS_ORIGINAL_STARTED_MS = originalStarted;
+    PRIOR_API_CALLS.research = Number(prior.api_calls?.research ?? 0);
+    PRIOR_API_CALLS.text = Number(prior.api_calls?.text ?? 0);
+    PRIOR_API_CALLS.image = Number(prior.api_calls?.image ?? 0);
+    // A deliberately stopped process cannot run its catch/finally handler.
+    // Reconstruct calls already sent from the append-only log so checkpoint
+    // resumes still report the full cost instead of silently resetting it.
+    const log = await fs.readFile(path.join(RUN_DIR, "full_generator.log"), "utf8").catch(() => "");
+    const count = (pattern: RegExp): number => log.match(pattern)?.length ?? 0;
+    PRIOR_API_CALLS.research = Math.max(
+      PRIOR_API_CALLS.research,
+      count(/\[api:00_live_research_(?:institution|program|immigration|life_career)\] started/g),
+    );
+    PRIOR_API_CALLS.text = Math.max(
+      PRIOR_API_CALLS.text,
+      count(/\[api:(?:01_research_adaptation|03_node_[^\]]+|04_supervisor|06_[^\]]+|07_variants_[^\]]+)\] started(?! retry=)/g)
+        + count(/\[api:(?:01_research_adaptation|03_node_[^\]]+|04_supervisor|06_[^\]]+|07_variants_[^\]]+)\] started retry=/g),
+    );
+    PRIOR_API_CALLS.image = Math.max(
+      PRIOR_API_CALLS.image,
+      count(/\[api:08_image:[^\]]+\] started request=/g),
+    );
+  } catch {
+    // No prior metrics means this checkpoint predates metrics collection.
+  }
+}
+
 async function readRunJson<T>(name: string): Promise<T | null> {
   try {
     return JSON.parse(await fs.readFile(path.join(RUN_DIR, name), "utf8")) as T;
@@ -778,6 +867,7 @@ async function chatJson<T extends JsonObject>(stage: string, messages: Array<{ r
     const attemptStarted = Date.now();
     await appendLog(`[api:${stage}] started${attempt > 1 ? ` retry=${attempt}` : ""}`);
     try {
+      API_CALLS.text += 1;
       const response = await fetch(`${TEXT_API_BASE_URL}/chat/completions`, {
         method: "POST",
         headers: {
@@ -1083,6 +1173,49 @@ function normalizeRankingEntries(value: unknown): NonNullable<NonNullable<Resear
   });
 }
 
+function normalizeCampusLifeProfile(value: unknown): ResearchReport["campus_life_profile"] | undefined {
+  const raw = objectRecord(value);
+  const named = (items: unknown, primaryKey: "name" | "title") => {
+    if (!Array.isArray(items)) return undefined;
+    const normalized = items.flatMap((item) => {
+      const entry = objectRecord(item);
+      const primary = firstFactText(entry[primaryKey]);
+      if (!primary) return [];
+      const url = firstFactText(entry.url);
+      return [{
+        [primaryKey]: primary,
+        ...(primaryKey === "title" && firstFactText(entry.code) ? { code: firstFactText(entry.code) } : {}),
+        ...(firstFactText(entry.note) ? { note: firstFactText(entry.note) } : {}),
+        ...(url && /^https?:\/\//i.test(url) ? { url } : {}),
+      }];
+    });
+    return normalized.length ? normalized : undefined;
+  };
+  const visualLandmarks = Array.isArray(raw.visual_landmarks)
+    ? raw.visual_landmarks.flatMap((item) => {
+        const entry = objectRecord(item);
+        const name = firstFactText(entry.name);
+        const url = firstFactText(entry.url);
+        if (!name || !url || !/^https?:\/\//i.test(url)) return [];
+        return [{
+          name,
+          kind: firstFactText(entry.kind) ?? "local_landmark",
+          visual_note: firstFactText(entry.visual_note, entry.note),
+          url,
+        }];
+      })
+    : [];
+  const profile: ResearchReport["campus_life_profile"] = {
+    notable_courses: named(raw.notable_courses, "title") as NonNullable<ResearchReport["campus_life_profile"]>["notable_courses"],
+    notable_faculty: named(raw.notable_faculty, "name") as NonNullable<ResearchReport["campus_life_profile"]>["notable_faculty"],
+    libraries: named(raw.libraries, "name") as NonNullable<ResearchReport["campus_life_profile"]>["libraries"],
+    clubs: named(raw.clubs, "name") as NonNullable<ResearchReport["campus_life_profile"]>["clubs"],
+    events: named(raw.events, "name") as NonNullable<ResearchReport["campus_life_profile"]>["events"],
+    visual_landmarks: visualLandmarks.length ? visualLandmarks : undefined,
+  };
+  return Object.values(profile).some(Boolean) ? profile : undefined;
+}
+
 function findFactByLabel(value: unknown, label: string): unknown {
   const wanted = label.toLowerCase().replace(/[^a-z0-9]+/g, "");
   for (const [key, item] of Object.entries(objectRecord(value))) {
@@ -1190,6 +1323,7 @@ function standardizeResearchBatch(id: string, parsed: Partial<ResearchReport>): 
       local_industry: factText(facts.career_services),
       language_or_networking_requirements: factText(facts.language_support),
     },
+    campus_life_profile: normalizeCampusLifeProfile(parsed.campus_life_profile),
   };
 }
 
@@ -1304,6 +1438,7 @@ Return one strict JSON partial ResearchReport. Omit fields you did not verify.
 - Wikipedia, commercial study portals, consultancies, and aggregators are never official sources. A ranking publisher is authoritative only for its own named table: label it third_party/medium, always capture the edition/year and scope, and never treat it as evidence for admissions or teaching quality. An official university announcement may confirm a ranking only when it names the system, edition, scope, and rank exactly.
 - Build institution_profile as a decision card: institution type/location and only verified current rankings. Build program_profile as a decision card: duration, credits/ECTS, language, prerequisites, admissions process/documents, deadlines, fees, curriculum, and graduation milestones.
 - Build glossary_terms as the reusable world-book terminology layer before story writing. For this batch, collect exact proper nouns and specialized terms a prospective student may see: official/local/translated university and department names, degree and discipline names, admissions or academic milestones, immigration/administrative terms, named services, and unusual fee/funding terms. Explain what each means in this exact institution/country and why it matters; include translated/local aliases and source evidence. Do not include generic words or unsourced definitions.
+- When this batch covers campus or city life, collect 2-5 visually recognizable real settings in campus_life_profile.visual_landmarks. Prefer named campus buildings, libraries, squares, bridges, towers, or skyline elements documented by the university, municipality, or official tourism authority. Every entry must include the exact landmark name, kind, a short objective visual_note, and the supporting first-party URL; omit it if no such source was found. These are image-setting references, not permission to relocate an unrelated scene.
 - Never return an undated ranking or silently substitute an overall ranking for a subject ranking. Omit and record the gap when a current ranking or program requirement cannot be confirmed.
 - Every sources[].used_for item must be a short, precise factual claim directly supported by that exact URL, not a topic label.
 - Do not copy one source's claims onto another source. Do not invent URLs, amounts, deadlines, course names, rules, or services.
@@ -1316,7 +1451,7 @@ Partial output shape:
   "institution_profile": {"official_name":"...","institution_type":"...","location":"...","rankings":[{"system":"...","edition":"2027","scope":"overall|subject|employability","rank":"...","subject":"optional","evidence_ids":["S01"]}]},
   "glossary_terms": [{"term":"exact proper noun","aliases":["translated/local spelling"],"explanation":"specific meaning and decision relevance","category":"location|institution|discipline|professional_term|money","importance":"critical|important|supplementary","importance_reason":"...","evidence_ids":["S01"]}],
   "program_profile": {"official_name":"...","degree_type":"...","department":"...","duration":"...","credits":"...","delivery_mode":"...","prerequisites":[],"admissions":[],"deadlines":[],"funding":[],"curriculum":[],"milestones":[]},
-  "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {},
+  "student_life_profile": {}, "career_profile": {}, "campus_life_profile": {"notable_courses":[],"notable_faculty":[],"libraries":[],"clubs":[],"events":[],"visual_landmarks":[{"name":"...","kind":"campus_building|campus_space|city_landmark","visual_note":"objective visible features","url":"https://official.example/..."}]},
   "source_coverage": {}, "gameplay_signals": {},
   "sources": [{"evidence_id":"S01","title":"...","url":"https://...","source_type":"program_official","confidence":"high","used_for":["precise supported claim"]}],
   "gaps": []
@@ -1336,26 +1471,37 @@ Partial output shape:
     },
     {
       id: "life_career",
-      focus: `Research housing, cost, commuting, student wellbeing, language support, safety/disruptions, internships, and career services. Prefer the university, official student-services organization, municipal/regional authority, and official university career pages. Capture named services and realistic pressure points only when supported.`,
+      focus: `Research housing, cost, commuting, student wellbeing, language support, safety/disruptions, internships, and career services. Also find 2-5 visually recognizable real campus or city settings suitable for grounded illustrations, using only official university, municipal, or official tourism pages; give each exact name, visual features, and source URL in campus_life_profile.visual_landmarks. Prefer the university, official student-services organization, municipal/regional authority, and official university career pages. Capture named services and realistic pressure points only when supported.`,
     },
   ];
   const parts: Partial<ResearchReport>[] = [];
+  const researchUsesResponsesApi = RESEARCH_API_BASE_URL.includes("api.openai.com");
   for (const batch of batches) {
-    const started = Date.now();
     const stage = `00_live_research_${batch.id}`;
-    await appendLog(`[api:${stage}] started model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
-    try {
-      const response = await fetch(`${RESEARCH_API_BASE_URL}/responses`, {
+    let accepted = false;
+    for (let attempt = 1; attempt <= 2 && !accepted; attempt += 1) {
+      const started = Date.now();
+      const retryLabel = attempt > 1 ? ` retry=${attempt}` : "";
+      await appendLog(`[api:${stage}] started${retryLabel} model=${RESEARCH_MODEL} baseURL=${RESEARCH_API_BASE_URL}`);
+      try {
+        API_CALLS.research += 1;
+        const researchInput = `${batch.focus}\n${attempt > 1 ? "The previous response yielded no usable first-party sources after validation. Use different, narrower official-domain queries and return at least one directly supporting source; if none exists, explicitly record that gap.\n" : ""}${sharedRules}`;
+        const response = await fetch(`${RESEARCH_API_BASE_URL}/${researchUsesResponsesApi ? "responses" : "chat/completions"}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${RESEARCH_API_KEY}`,
         },
-        body: JSON.stringify({
+        body: JSON.stringify(researchUsesResponsesApi ? {
           model: RESEARCH_MODEL,
           tools: [{ type: "web_search_preview" }],
           max_output_tokens: 8000,
-          input: `${batch.focus}\n${sharedRules}`,
+          input: researchInput,
+        } : {
+          model: RESEARCH_MODEL,
+          messages: [{ role: "user", content: researchInput }],
+          response_format: { type: "json_object" },
+          temperature: 0.2,
         }),
       });
       const raw = await response.text();
@@ -1366,27 +1512,40 @@ Partial output shape:
         raw_content: response.ok ? undefined : raw.slice(0, 2000),
       });
       if (!response.ok) {
-        await appendLog(`[api:${stage}] failed status=${response.status}; continuing with other research batches`);
+        if (/credit_balance_exhausted|insufficient_quota/i.test(raw)) {
+          throw new Error(`[research-fatal] Research API credit exhausted: ${raw.slice(0, 500)}`);
+        }
+        await appendLog(`[api:${stage}] failed status=${response.status}${attempt < 2 ? "; retrying" : "; continuing with other research batches"}`);
         continue;
       }
       const payload = JSON.parse(raw) as JsonObject;
-      const content = responseOutputText(payload);
+      const relayChoices = Array.isArray(payload.choices) ? payload.choices : [];
+      const relayContent = (relayChoices[0] as { message?: { content?: unknown } } | undefined)?.message?.content;
+      const content = researchUsesResponsesApi
+        ? responseOutputText(payload)
+        : typeof relayContent === "string" ? relayContent : "";
       await fs.writeFile(path.join(RUN_DIR, `api_${stage}_content.txt`), content, "utf8");
       const parsed = extractJsonObject(content) as Partial<ResearchReport>;
       const standardized = standardizeResearchBatch(batch.id, parsed);
+      const sourceCount = standardized.sources?.length ?? 0;
+      if (sourceCount === 0 && attempt < 2) {
+        await appendLog(`[api:${stage}] produced zero accepted sources in ${Date.now() - started}ms; retrying with narrower official queries`);
+        continue;
+      }
       parts.push(standardized);
       await writeJson(`api_${stage}_parsed.json`, parsed);
       await writeJson(`api_${stage}_standardized.json`, standardized);
-      await appendLog(`[api:${stage}] completed in ${Date.now() - started}ms sources=${standardized.sources?.length ?? 0}`);
-    } catch (error) {
-      await appendLog(`[api:${stage}] error; continuing with other research batches: ${error instanceof Error ? error.message : String(error)}`);
+      accepted = true;
+      await appendLog(`[api:${stage}] completed in ${Date.now() - started}ms sources=${sourceCount}`);
+      } catch (error) {
+        if (error instanceof Error && error.message.startsWith("[research-fatal]")) throw error;
+        await appendLog(`[api:${stage}] error${attempt < 2 ? "; retrying" : "; continuing with other research batches"}: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
   }
 
   if (parts.length === 0) {
-    await appendLog("[research] all live research batches failed; using profile-aware fallback packet");
-    await writeJson("00_research_report.json", PROFILE_RESEARCH_FALLBACK);
-    return PROFILE_RESEARCH_FALLBACK;
+    throw new Error("Live research failed: no batch produced usable current sources. Generation stopped instead of substituting the generic fallback packet.");
   }
   const report = mergeResearchReports(parts);
   await writeJson("api_00_live_research_parsed.json", report);
@@ -1940,7 +2099,7 @@ function proseLanguageName(): string {
 
 function nodeContentRules(nodeId: string): string {
   return OUTPUT_LANGUAGE === "zh"
-    ? `- Simplified Chinese only, second person.
+    ? `- Simplified Chinese only, second person. Do not add standalone English sentences or English headings; retain Latin text only when it is the exact official proper noun, acronym, course code, or sourced term.
 - Use a lively, playful, gently humorous narrative voice. Small jokes, vivid comparisons, and self-aware observations are welcome, but never joke away discrimination, health, legal status, money pressure, or academic failure.
 - Keep every sourced policy, amount, deadline, admission condition, and professional term literally accurate. Humor belongs in framing and reactions, never inside the factual claim.
 - Node page: 80-150 Chinese characters.
@@ -1958,7 +2117,7 @@ function nodeContentRules(nodeId: string): string {
 function systemContentRules(): string {
   const grounding = `${REQUESTED_PROFILE.school || REQUESTED_PROFILE.city} ${REQUESTED_PROFILE.major}`;
   return OUTPUT_LANGUAGE === "zh"
-    ? `- Simplified Chinese only, second person, grounded in the supplied ${grounding} research.
+    ? `- Simplified Chinese only, second person, grounded in the supplied ${grounding} research. Do not add standalone English sentences or English headings; retain Latin text only for exact official proper nouns, acronyms, course codes, and sourced terms.
 - Use a witty, nimble, gently absurd voice around the facts, while treating legal, financial, health, discrimination, and academic consequences with respect and literal accuracy.
 - Warning pages: 45-90 Chinese characters.
 - Endings: 90-160 Chinese characters.`
@@ -1970,7 +2129,7 @@ function systemContentRules(): string {
 
 function variantLanguageRule(): string {
   return OUTPUT_LANGUAGE === "zh"
-    ? "- Simplified Chinese only. Preserve the base page's lively, witty, gently humorous voice while keeping every factual claim exact."
+    ? "- Simplified Chinese only. Do not add standalone English sentences or headings; retain Latin text only for exact official names, acronyms, course codes, and sourced terms. Preserve the base page's lively, witty, gently humorous voice while keeping every factual claim exact."
     : "- English only. Preserve the base page's lively, witty, gently humorous voice while keeping every factual claim exact.";
 }
 
@@ -2157,6 +2316,85 @@ function ensureFailureRecoveries(graph: LogicGraphDocument): void {
   }
 }
 
+function normalizedCreativeText(value: string): string {
+  return value
+    .replace(/\{previous_node\}/g, "")
+    .toLocaleLowerCase()
+    .replace(/[\p{P}\p{S}\s]+/gu, "");
+}
+
+const RECOVERY_MOTIFS: Array<{ id: string; pattern: RegExp }> = [
+  { id: "bird", pattern: /鸽|鸟|纸鹤|天鹅|pigeon|bird|crane|swan/i },
+  { id: "otter", pattern: /水獭|otter/i },
+  { id: "animal", pattern: /土拨鼠|猫|狗|动物|marmot|cat|dog|animal/i },
+  { id: "dream", pattern: /梦|醒|睡|nightmare|dream|wake/i },
+  { id: "portal", pattern: /虫洞|黑洞|旋涡|漩涡|传送门|次元|平行宇宙|wormhole|black hole|portal|dimension/i },
+  { id: "printer", pattern: /打印机|碎纸机|printer|shredder/i },
+  { id: "clock", pattern: /闹钟|时钟|秒针|clock|alarm/i },
+  { id: "document", pattern: /护照|签证|申请表|成绩单|简历|拒信|passport|visa|form|transcript|résumé|resume/i },
+  { id: "magic", pattern: /幽灵|魔法|怪兽|书灵|雕像|ghost|magic|monster|spirit|statue/i },
+  { id: "alien", pattern: /外星|飞船|alien|spaceship/i },
+];
+
+function recoveryMotif(recovery: FailureRecovery): string {
+  const text = `${recovery.title} ${recovery.scene_text}`;
+  return RECOVERY_MOTIFS.find((motif) => motif.pattern.test(text))?.id ?? "other";
+}
+
+/** LLM output is accepted only once per page, so exact/near duplicate comic
+ * bridges are repaired deterministically instead of spending another call.
+ * The repair still keys off the failed condition and destination context. */
+function diversifyFailureRecoveries(graph: LogicGraphDocument): void {
+  const entries = [
+    ...Object.entries(graph.pages).filter(([, page]) => isFailurePage(page)),
+    ...Object.entries(graph.endings).filter(([, ending]) => isFailureEnding(ending)),
+  ] as Array<[string, { failure_recovery?: FailureRecovery }]>;
+  const used: string[] = [];
+  const motifCounts = new Map<string, number>();
+  for (const [entryIndex, [id, page]] of entries.entries()) {
+    const current = sanitizeFailureRecovery(page.failure_recovery, id);
+    const normalized = normalizedCreativeText(current.scene_text);
+    const motif = recoveryMotif(current);
+    const duplicated = used.some((seen) => seen === normalized || similarityRatio(seen, normalized) >= 0.72)
+      || (motif !== "other" && (motifCounts.get(motif) ?? 0) >= 2);
+    if (duplicated) {
+      let fallback = failureRecoveryFallback(`fresh_${STORY_ID.length}_${entryIndex}`);
+      for (let attempt = 1; attempt <= 18; attempt += 1) {
+        const candidate = failureRecoveryFallback(`fresh_${STORY_ID.length}_${entryIndex}_${attempt}`);
+        const candidateMotif = recoveryMotif(candidate);
+        if (candidateMotif === "other" || (motifCounts.get(candidateMotif) ?? 0) < 2) {
+          fallback = candidate;
+          break;
+        }
+      }
+      const destination = [REQUESTED_PROFILE.school, REQUESTED_PROFILE.city].filter(Boolean).join(" · ");
+      page.failure_recovery = {
+        title: `${fallback.title}${destination ? ` · ${REQUESTED_PROFILE.city}` : ""}`,
+        scene_text: OUTPUT_LANGUAGE === "zh"
+          ? `${fallback.scene_text.replace(/[。！？!?]\s*$/, "")}。这次宇宙维修单上写着“${labelFromId(id)}”，落款地点是${destination || "你的留学城市"}。`
+          : `${fallback.scene_text.replace(/[.!?]\s*$/, "")} The universe files this repair under “${labelFromId(id)}” in ${destination || "your study city"}.`,
+        return_choice_text: fallback.return_choice_text,
+      };
+    } else {
+      page.failure_recovery = current;
+    }
+    used.push(normalizedCreativeText(page.failure_recovery.scene_text));
+    const finalMotif = recoveryMotif(page.failure_recovery);
+    motifCounts.set(finalMotif, (motifCounts.get(finalMotif) ?? 0) + 1);
+  }
+}
+
+function similarityRatio(a: string, b: string): number {
+  if (!a || !b) return 0;
+  const bigrams = (value: string): Set<string> => new Set(Array.from({ length: Math.max(0, value.length - 1) }, (_, index) => value.slice(index, index + 2)));
+  const left = bigrams(a);
+  const right = bigrams(b);
+  if (!left.size || !right.size) return a === b ? 1 : 0;
+  let overlap = 0;
+  for (const item of left) if (right.has(item)) overlap += 1;
+  return (2 * overlap) / (left.size + right.size);
+}
+
 function allowedEvidenceIds(): Set<string> {
   return new Set((ACTIVE_RESEARCH.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
 }
@@ -2253,7 +2491,28 @@ function fallbackEndingAnnotation(ending: LogicEnding): PageAnnotation {
   };
 }
 
-function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnotation {
+function exactVisiblePhrase(pageText: string, phrase: string): string | undefined {
+  const exactIndex = pageText.toLocaleLowerCase().indexOf(phrase.toLocaleLowerCase());
+  if (exactIndex < 0) return undefined;
+  return pageText.slice(exactIndex, exactIndex + phrase.length);
+}
+
+function visibleTermAlias(pageText: string, term: string): string | undefined {
+  const direct = exactVisiblePhrase(pageText, term);
+  if (direct) return direct;
+  const normalizedTerm = term.toLocaleLowerCase();
+  for (const glossary of ACTIVE_RESEARCH.glossary_terms ?? []) {
+    const names = [glossary.term, ...(glossary.aliases ?? [])].filter((name): name is string => Boolean(name?.trim()));
+    if (!names.some((name) => name.toLocaleLowerCase() === normalizedTerm)) continue;
+    for (const name of names) {
+      const visible = exactVisiblePhrase(pageText, name);
+      if (visible) return visible;
+    }
+  }
+  return undefined;
+}
+
+function sanitizeAnnotation(value: unknown, fallback: PageAnnotation, pageText = ""): PageAnnotation {
   const raw = value && typeof value === "object" ? (value as Partial<PageAnnotation>) : {};
   const evidenceIds = cleanEvidenceIds(raw.evidence_ids);
   const terms = Array.isArray(raw.terms)
@@ -2298,8 +2557,10 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
             && /^[A-Za-z]{3}$/.test(rawMoney.currency.trim())
             ? { amount: rawMoney.amount, currency: rawMoney.currency.trim().toUpperCase() }
             : undefined;
+          const visibleTerm = pageText ? visibleTermAlias(pageText, candidate.term.trim()) : candidate.term.trim();
+          if (!visibleTerm) return null;
           return {
-            term: candidate.term.trim(),
+            term: visibleTerm,
             explanation: candidate.explanation.trim(),
             category,
             importance,
@@ -2311,6 +2572,7 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
           };
         })
         .filter((term): term is PageAnnotation["terms"][number] => Boolean(term))
+        .filter((term, index, terms) => terms.findIndex((candidate) => candidate.term.toLocaleLowerCase() === term.term.toLocaleLowerCase()) === index)
     : [];
   return {
     cause: annotationText(raw.cause, fallback.cause),
@@ -2324,10 +2586,10 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation): PageAnnot
 
 function ensurePageAnnotations(graph: LogicGraphDocument): void {
   for (const page of Object.values(graph.pages)) {
-    page.annotation = sanitizeAnnotation(page.annotation, fallbackPageAnnotation(page));
+    page.annotation = sanitizeAnnotation(page.annotation, fallbackPageAnnotation(page), page.text);
   }
   for (const ending of Object.values(graph.endings)) {
-    ending.annotation = sanitizeAnnotation(ending.annotation, fallbackEndingAnnotation(ending));
+    ending.annotation = sanitizeAnnotation(ending.annotation, fallbackEndingAnnotation(ending), ending.text);
   }
 }
 
@@ -2348,6 +2610,7 @@ Rules:
 ${nodeContentRules(node.id)}
 - Make the prose playful, imaginative, and lightly humorous rather than bureaucratic. Use concrete comic observation and fresh metaphors, but keep the real process easy to understand.
 - Make the situation concrete and readable, then place the decision at the end of the node page.
+- The node page's text must contain only scene narration and its closing decision question. Never copy, enumerate, summarize, or preview the option labels inside text; choices belong exclusively in the separate choices array. Never print option ids such as ${node.id}_O1 in prose.
 - Specific professional terms, policy rules, dates, fees, deadlines, named services, and authorization claims may appear only when supported by the evidence catalog.
 - Explain and annotate every named place, country, city, university, school/faculty/department, degree/program, academic discipline/major, named organization/service, and professional term used on the page in annotation.terms. Cite one or more allowed evidence ids for each.
 - annotation.terms[].term must copy the exact visible phrase from this page's text so the frontend can mark it inline.
@@ -2452,7 +2715,7 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
   for (const [pageId, pagePatch] of Object.entries(patch.pages ?? {})) {
     const page = graph.pages[pageId];
     if (!page) continue;
-    if (pagePatch.text?.trim()) page.text = pagePatch.text.trim();
+    if (pagePatch.text?.trim()) page.text = stripChoiceLeakage(pagePatch.text, graph.nodes[pageId]);
     if (pagePatch.insight?.trim()) page.insight = pagePatch.insight.trim();
     if (pagePatch.annotation) page.annotation = sanitizeAnnotation(pagePatch.annotation, fallbackPageAnnotation(page));
     if (isFailurePage(page)) {
@@ -2477,6 +2740,17 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
       ending.failure_recovery = sanitizeFailureRecovery(endingPatch.failure_recovery, ending.id);
     }
   }
+}
+
+function stripChoiceLeakage(text: string, node?: LogicNode): string {
+  let cleaned = text.trim();
+  const optionIds = (node?.options ?? []).map((option) => option.id).filter(Boolean);
+  if (optionIds.length) {
+    const escaped = optionIds.map((id) => id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    const optionBlock = new RegExp(`(?:\\r?\\n\\s*)+(?=(?:${escaped})\\s*[:：])[\\s\\S]*$`, "i");
+    cleaned = cleaned.replace(optionBlock, "").trim();
+  }
+  return cleaned;
 }
 
 function variantTargets(graph: LogicGraphDocument): Array<{ page: LogicPage; triggers: LogicVariantTrigger[] }> {
@@ -2530,7 +2804,17 @@ Output:
       },
     ]);
     for (const [pageId, variants] of Object.entries(response.variants ?? {})) {
-      output[pageId] = variants;
+      const node = graph.nodes[pageId];
+      output[pageId] = variants
+        .map((variant) => {
+          const legacyText = (variant as typeof variant & { text?: string }).text;
+          const sceneText = variant.scene_text || legacyText || "";
+          return {
+            ...variant,
+            scene_text: node ? stripChoiceLeakage(sceneText, node) : sceneText.trim(),
+          };
+        })
+        .filter((variant) => variant.scene_text);
     }
   }
   await writeJson("07_variable_variants.json", output);
@@ -2578,6 +2862,7 @@ function imageRuntimeConfig(): RuntimeConfig {
     provider,
     apiKey: IMAGE_API_KEY,
     baseURL: provider === "relay" ? IMAGE_API_BASE_URL : undefined,
+    outputLanguage: OUTPUT_LANGUAGE,
     models: {
       search: RESEARCH_MODEL,
       design: TEXT_MODEL,
@@ -2630,7 +2915,12 @@ async function maybeGenerateImages<T extends StoryDocument>(doc: T): Promise<T> 
   markImageAnchors(doc);
   await appendLog(`[api:08_images] started model=${IMAGE_MODEL} max=${FULL_MAX_IMAGES}`);
   try {
-    const withImages = (await runArtistAgent(doc, imageRuntimeConfig())) as T;
+    const withImages = (await runArtistAgent(doc, imageRuntimeConfig(), {
+      onImageRequest: async ({ nodeId, requestNumber }) => {
+        API_CALLS.image += 1;
+        await appendLog(`[api:08_image:${nodeId}] started request=${requestNumber}`);
+      },
+    })) as T;
     const generatedCount = [
       ...Object.values(withImages.nodes),
       ...Object.values(withImages.endings),
@@ -2641,7 +2931,7 @@ async function maybeGenerateImages<T extends StoryDocument>(doc: T): Promise<T> 
   } catch (error) {
     await writeJson("08_images_error.json", { error: error instanceof Error ? error.message : String(error) });
     await appendLog(`[api:08_images] failed: ${error instanceof Error ? error.message : String(error)}`);
-    return doc;
+    throw error;
   }
 }
 
@@ -2661,14 +2951,15 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
   const state: Record<string, number> = Object.fromEntries(variables.map((variable) => [variable.id, variable.initial]));
   const warningsSeen: Record<string, boolean> = {};
   const warnings: string[] = [];
+  const choiceIds: string[] = [];
   let current = doc.logic?.start_node_id ?? Object.keys(doc.nodes)[0];
   let resultReturn: string | null = null;
   let warningReturn: string | null = null;
 
   for (let step = 0; step < 120; step++) {
-    if (doc.endings[current]) return { ok: true, ending: current, steps: step, warnings, state };
+    if (doc.endings[current]) return { ok: true, ending: current, steps: step, warnings, state, choice_ids: choiceIds };
     const node = doc.nodes[current];
-    if (!node) return { ok: false, reason: `missing ${current}`, steps: step, warnings, state };
+    if (!node) return { ok: false, reason: `missing ${current}`, steps: step, warnings, state, choice_ids: choiceIds };
     if (doc.logic && node.choices[0]?.next_node === doc.logic.result_return_sentinel) {
       current = resultReturn ?? doc.logic.start_node_id;
       resultReturn = null;
@@ -2681,7 +2972,8 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
     }
     const index = strategy === "positive" ? 1 : strategy === "negative" ? 2 : strategy === "mixed" ? step % 3 : 0;
     const choice = node.choices[index] ?? node.choices[0];
-    if (!choice) return { ok: false, reason: `no choice at ${current}`, steps: step, warnings, state };
+    if (!choice) return { ok: false, reason: `no choice at ${current}`, steps: step, warnings, state, choice_ids: choiceIds };
+    if (choice.logic_choice_id) choiceIds.push(choice.logic_choice_id);
     const previous = { ...state };
     for (const [key, delta] of Object.entries(choice.logic_delta ?? {})) state[key] = clamp((state[key] ?? 70) + delta);
     if (choice.logic_planned_next_node) resultReturn = choice.logic_planned_next_node;
@@ -2692,7 +2984,8 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
     }
     const bad = variables.find((variable) => {
       if (warningsSeen[variable.id]) return false;
-      return logicBand(state[variable.id] ?? variable.initial) === "bad" && logicBand(previous[variable.id] ?? variable.initial) !== "critical";
+      const before = logicBand(previous[variable.id] ?? variable.initial);
+      return logicBand(state[variable.id] ?? variable.initial) === "bad" && before !== "bad" && before !== "critical";
     });
     if (bad) {
       warningsSeen[bad.id] = true;
@@ -2703,7 +2996,7 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
     }
     current = choice.next_node;
   }
-  return { ok: false, reason: "step limit", steps: 120, warnings, state };
+  return { ok: false, reason: "step limit", steps: 120, warnings, state, choice_ids: choiceIds };
 }
 
 function rebalanceNormalChoiceDeltas(graph: LogicGraphDocument): string[] {
@@ -2720,6 +3013,41 @@ function rebalanceNormalChoiceDeltas(graph: LogicGraphDocument): string[] {
     }
   }
   return notes;
+}
+
+function stabilizeNormalRoute(
+  graph: LogicGraphDocument,
+  variants: Record<string, VariantPatch["variants"][string]>,
+  notes: string[],
+): StoryDocument & { logic_content_variants?: Record<string, VariantPatch["variants"][string]> } {
+  const optionsById = new Map(
+    Object.values(graph.nodes).flatMap((node) => node.options.map((option) => [option.id, option] as const)),
+  );
+  let compiled = compileWithVariants(graph, variants);
+  for (let iteration = 1; iteration <= 24; iteration += 1) {
+    const result = simulate(compiled, "normal");
+    const ending = result.ending ? compiled.endings[result.ending] : undefined;
+    if (result.ok && ending && ending.logic_page_role !== "failure") return compiled;
+    const variableId = result.ending?.match(/^E_(.+)_critical$/)?.[1];
+    if (!variableId) return compiled;
+    const negativeOptions = result.choice_ids
+      .map((choiceId) => optionsById.get(choiceId))
+      .filter((option): option is NonNullable<typeof option> => Boolean(option && (option.delta[variableId] ?? 0) < 0));
+    if (!negativeOptions.length) return compiled;
+    const current = result.state[variableId] ?? 0;
+    let deficit = Math.max(1, 31 - current);
+    for (let index = 0; index < negativeOptions.length && deficit > 0; index += 1) {
+      const option = negativeOptions[index];
+      const before = option.delta[variableId] ?? 0;
+      const remaining = negativeOptions.length - index;
+      const increase = Math.min(-before, Math.max(1, Math.ceil(deficit / remaining)));
+      option.delta[variableId] = before + increase;
+      deficit -= increase;
+      notes.push(`normal-route ${option.id}.${variableId}: ${before} -> ${option.delta[variableId]}`);
+    }
+    compiled = compileWithVariants(graph, variants);
+  }
+  return compiled;
 }
 
 function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
@@ -2811,7 +3139,8 @@ function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
 
       const badVariable = variables.find((variable) => {
         if (state.warningsSeen[variable.id]) return false;
-        return logicBand(nextValues[variable.id] ?? variable.initial) === "bad";
+        const before = logicBand(state.values[variable.id] ?? variable.initial);
+        return logicBand(nextValues[variable.id] ?? variable.initial) === "bad" && before !== "bad" && before !== "critical";
       });
       if (badVariable) {
         walk(
@@ -2862,9 +3191,25 @@ function validateCompiledStory(
   let evidenceReferences = 0;
   let failureRecoveries = 0;
   let allFailurePagesHaveRecovery = true;
+  const visibleTextOwners = new Map<string, string>();
+  const visibleTexts: Array<{ pageId: string; text: string }> = [];
+  const recoveryTextOwners = new Map<string, string>();
+  let noDuplicateVisiblePages = true;
+  let noDuplicateFailureRecoveries = true;
+  let noChoicesLeakedIntoProse = true;
   const validEvidenceIds = new Set((doc.sources ?? []).map((source) => source.evidence_id).filter((id): id is string => Boolean(id)));
 
   function checkAnnotation(pageId: string, pageText: string, annotation: PageAnnotation | undefined): void {
+    const normalizedPageText = normalizedCreativeText(pageText);
+    const priorPage = visibleTextOwners.get(normalizedPageText)
+      ?? visibleTexts.find((entry) => similarityRatio(entry.text, normalizedPageText) >= 0.86)?.pageId;
+    if (normalizedPageText && priorPage) {
+      noDuplicateVisiblePages = false;
+      issues.push(`${pageId} duplicates or nearly duplicates visible prose from ${priorPage}.`);
+    } else if (normalizedPageText) {
+      visibleTextOwners.set(normalizedPageText, pageId);
+      visibleTexts.push({ pageId, text: normalizedPageText });
+    }
     if (
       !annotation ||
       !annotation.cause?.trim() ||
@@ -2926,6 +3271,14 @@ function validateCompiledStory(
       return;
     }
     failureRecoveries += 1;
+    const normalizedRecovery = normalizedCreativeText(recovery.scene_text);
+    const priorRecovery = recoveryTextOwners.get(normalizedRecovery);
+    if (normalizedRecovery && priorRecovery) {
+      noDuplicateFailureRecoveries = false;
+      issues.push(`${pageId} duplicates failure recovery from ${priorRecovery}.`);
+    } else if (normalizedRecovery) {
+      recoveryTextOwners.set(normalizedRecovery, pageId);
+    }
   }
 
   for (const [nodeId, node] of Object.entries(doc.nodes)) {
@@ -2940,6 +3293,24 @@ function validateCompiledStory(
       if (node.choices.length !== 3) {
         allPlayableNodesHaveThreeOptions = false;
         issues.push(`${nodeId} has ${node.choices.length} choices.`);
+      }
+      const leakedChoiceIds = node.choices
+        .map((choice) => choice.logic_choice_id?.trim())
+        .filter((choiceId): choiceId is string => Boolean(choiceId && node.scene_text.includes(choiceId)));
+      if (leakedChoiceIds.length) {
+        noChoicesLeakedIntoProse = false;
+        issues.push(`${nodeId} leaks choice ids into scene prose: ${leakedChoiceIds.join(", ")}.`);
+      }
+      for (const variant of doc.logic_content_variants?.[nodeId] ?? []) {
+        const legacyText = (variant as typeof variant & { text?: string }).text;
+        const variantText = variant.scene_text || legacyText || "";
+        const leakedVariantIds = node.choices
+          .map((choice) => choice.logic_choice_id?.trim())
+          .filter((choiceId): choiceId is string => Boolean(choiceId && variantText.includes(choiceId)));
+        if (leakedVariantIds.length) {
+          noChoicesLeakedIntoProse = false;
+          issues.push(`${variant.variant_id} leaks choice ids into variant prose: ${leakedVariantIds.join(", ")}.`);
+        }
       }
     }
     if (node.logic_page_role === "result") resultPages += 1;
@@ -3009,6 +3380,8 @@ function validateCompiledStory(
       annotatedPages,
       evidenceReferences,
       failureRecoveries,
+      uniqueVisibleTexts: visibleTextOwners.size,
+      uniqueFailureRecoveries: recoveryTextOwners.size,
     },
     requirements: {
       allPlayableNodesHaveThreeOptions,
@@ -3020,6 +3393,9 @@ function validateCompiledStory(
       allEvidenceReferencesValid,
       allTermsExplainedAndCited,
       allFailurePagesHaveRecovery,
+      noDuplicateVisiblePages,
+      noDuplicateFailureRecoveries,
+      noChoicesLeakedIntoProse,
     },
     issues,
     balanceNotes,
@@ -3030,6 +3406,8 @@ function validateCompiledStory(
 
 async function main(): Promise<void> {
   await ensureDirs();
+  await initializeRunMetrics();
+  await writeRunMetrics("running");
   await appendLog(`[start] story_id=${STORY_ID} output_language=${OUTPUT_LANGUAGE} text_model=${TEXT_MODEL} text_baseURL=${TEXT_API_BASE_URL}`);
   await writeJson("00_meta.json", {
     storyId: STORY_ID,
@@ -3047,6 +3425,7 @@ async function main(): Promise<void> {
     imageApiKeyProvided: Boolean(IMAGE_API_KEY),
     liveResearchEnabled: ENABLE_LIVE_RESEARCH,
     imageGenerationEnabled: ENABLE_IMAGE_GENERATION,
+    textOnlyRegeneration: REGENERATE_TEXT_ONLY,
   });
 
   let graph: LogicGraphDocument;
@@ -3064,6 +3443,23 @@ async function main(): Promise<void> {
     ? await readLatestMatchingRunJson<LogicGraphDocument>(/^04_after_.+\.json$/)
     : null;
   const savedGraph = savedBalancedGraph ?? savedPlannedGraph ?? savedPartialPlanning?.value ?? null;
+
+  if (REGENERATE_TEXT_ONLY && (!resumeRequested || !savedResearch || !savedBalancedGraph)) {
+    throw new Error("Text-only regeneration requires FULL_RESUME_CHECKPOINT=true plus existing research and balanced-graph checkpoints.");
+  }
+  const previousFinalStory = REGENERATE_TEXT_ONLY
+    ? await readRunJson<StoryDocument>("09_final_story.json")
+      ?? await (async () => {
+        try {
+          return JSON.parse(await fs.readFile(path.join(STORIES_DIR, `${STORY_ID}_final.json`), "utf8")) as StoryDocument;
+        } catch {
+          return null;
+        }
+      })()
+    : null;
+  if (REGENERATE_TEXT_ONLY && !previousFinalStory) {
+    throw new Error("Text-only regeneration requires an existing final story so image mappings can be reused without image calls.");
+  }
 
   if (savedResearch && savedGraph) {
     ACTIVE_RESEARCH = normalizeResearchReport(savedResearch);
@@ -3113,10 +3509,10 @@ async function main(): Promise<void> {
   }
 
   const priorSummaries: string[] = [];
-  const savedCompleteContent = resumeRequested
+  const savedCompleteContent = resumeRequested && !REGENERATE_TEXT_ONLY
     ? await readRunJson<LogicGraphDocument>("06_content_complete_graph.json")
     : null;
-  const savedPartialContent = resumeRequested && !savedCompleteContent
+  const savedPartialContent = resumeRequested && !REGENERATE_TEXT_ONLY && !savedCompleteContent
     ? await readLatestMatchingRunJson<LogicGraphDocument>(/^06_content_after_.+\.json$/)
     : null;
   if (savedCompleteContent) {
@@ -3149,9 +3545,21 @@ async function main(): Promise<void> {
   // Older resumable checkpoints predate generated rollback vignettes. Repair
   // them deterministically so every newly compiled cache has the same contract.
   ensureFailureRecoveries(graph);
+  diversifyFailureRecoveries(graph);
+  // The model can occasionally annotate a choice-only term or use a world-book
+  // alias that differs from the visible prose. Re-link aliases and retain only
+  // terms the frontend can actually highlight inline.
+  ensurePageAnnotations(graph);
 
   const variants = await generateVariants(graph);
-  const doc = await maybeGenerateImages(compileWithVariants(graph, variants));
+  const routeBalancedDoc = stabilizeNormalRoute(graph, variants, balanceNotes);
+  await writeJson("07_route_balanced_graph.json", graph);
+  const doc = REGENERATE_TEXT_ONLY
+    ? reuseExistingImages(routeBalancedDoc, previousFinalStory as StoryDocument)
+    : await maybeGenerateImages(routeBalancedDoc);
+  if (REGENERATE_TEXT_ONLY && (API_CALLS.research !== 0 || API_CALLS.image !== 0)) {
+    throw new Error(`Text-only safety guard blocked output: research=${API_CALLS.research}, image=${API_CALLS.image}.`);
+  }
   const simulation = {
     normal: simulate(doc, "normal"),
     positive: simulate(doc, "positive"),
@@ -3168,6 +3576,7 @@ async function main(): Promise<void> {
   await writeJson("09_validation_report.json", validation);
   await fs.writeFile(path.join(STORIES_DIR, `${STORY_ID}_final.json`), JSON.stringify(doc, null, 2), "utf8");
   await writeJson("09_final_story.json", doc);
+  await writeRunMetrics("completed");
   await appendLog(`[done] story=${path.join(STORIES_DIR, `${STORY_ID}_final.json`)}`);
   console.log(
     JSON.stringify(
@@ -3191,6 +3600,7 @@ async function main(): Promise<void> {
 
 main().catch(async (error) => {
   await ensureDirs().catch(() => undefined);
+  await writeRunMetrics("failed", error).catch(() => undefined);
   await appendLog(`[fatal] ${error instanceof Error ? error.stack || error.message : String(error)}`).catch(() => undefined);
   console.error(error);
   process.exit(1);

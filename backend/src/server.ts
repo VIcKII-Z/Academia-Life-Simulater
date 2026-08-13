@@ -869,6 +869,56 @@ app.get("/api/exchange-rate", async (req, res) => {
   }
 });
 
+/** Lists final story-cache entries for the home-page library. Only compact
+ * metadata is returned; the full story is still loaded on demand. */
+app.get("/api/stories", async (req, res) => {
+  // The home-page shelf is intentionally a tiny "recently generated" cache,
+  // not a debug archive. Old test stories remain addressable by id but are not
+  // exposed in the user-facing library.
+  const limit = 2;
+  try {
+    const entries = await fs.readdir(STORIES_DIR, { withFileTypes: true });
+    const stories = (await Promise.all(entries
+      .filter((entry) => entry.isFile() && entry.name.endsWith("_final.json"))
+      .map(async (entry) => {
+        try {
+          const filePath = path.join(STORIES_DIR, entry.name);
+          const [raw, stat] = await Promise.all([fs.readFile(filePath, "utf-8"), fs.stat(filePath)]);
+          const doc = JSON.parse(raw) as {
+            story_id?: string;
+            user_profile?: { school?: string; program?: string; major?: string; city?: string; country?: string };
+            full_generation?: { output_language?: string; generated_at?: string };
+            nodes?: Record<string, { image_url?: string }>;
+            endings?: Record<string, { image_url?: string }>;
+          };
+          if (!doc.story_id || !doc.user_profile) return null;
+          const pages = [...Object.values(doc.nodes ?? {}), ...Object.values(doc.endings ?? {})];
+          return {
+            storyId: doc.story_id,
+            school: doc.user_profile.school ?? "Cached university",
+            program: doc.user_profile.program ?? doc.user_profile.major ?? "Study-abroad route",
+            city: doc.user_profile.city ?? "",
+            country: doc.user_profile.country ?? "",
+            outputLanguage: doc.full_generation?.output_language ?? "en",
+            // Git checkouts assign new mtimes to every file. Prefer the
+            // generation timestamp embedded in the portable cache so the two
+            // truly newest stories remain stable after clone/deploy.
+            updatedAt: doc.full_generation?.generated_at ?? stat.mtime.toISOString(),
+            imageCount: new Set(pages.map((page) => page.image_url).filter(Boolean)).size,
+          };
+        } catch {
+          return null;
+        }
+      })))
+      .filter((item): item is NonNullable<typeof item> => Boolean(item))
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+      .slice(0, limit);
+    res.json({ stories });
+  } catch (error) {
+    res.status(500).json({ error: error instanceof Error ? error.message : "Could not list story cache." });
+  }
+});
+
 /** Returns only the final playable document. The player must not download all
  * intermediate prompts and per-node generation artifacts just to open a run. */
 app.get("/api/stories/:storyId", async (req, res) => {
@@ -948,8 +998,12 @@ app.post("/api/full-generate", async (req, res) => {
   const searchService = runtimeConfig?.services?.search;
   const imageService = runtimeConfig?.services?.image;
   const textApiKey = textService?.apiKey?.trim() || runtimeConfig?.apiKey?.trim() || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY || "";
-  const searchApiKey = searchService?.apiKey?.trim() || process.env.OPENAI_API_KEY || "";
-  const imageApiKey = imageService?.apiKey?.trim() || process.env.OPENAI_API_KEY || "";
+  const searchApiKey = searchService?.apiKey?.trim()
+    || (searchService?.provider === "relay" ? process.env.GCLI_API_KEY : process.env.OPENAI_API_KEY)
+    || "";
+  const imageApiKey = imageService?.apiKey?.trim()
+    || (imageService?.provider === "relay" ? process.env.GCLI_API_KEY : process.env.OPENAI_API_KEY)
+    || "";
   if (!textApiKey.trim()) {
     res.status(400).json({ error: "Full generator needs a text API key from the browser or backend .env." });
     return;

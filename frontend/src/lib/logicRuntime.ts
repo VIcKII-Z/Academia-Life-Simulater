@@ -45,15 +45,50 @@ export function findNewBadVariable(
   return (
     variables.find((variable) => {
       if (warningsSeen[variable.id]) return false;
+      const before = logicBand(previous[variable.id] ?? variable.initial);
       const after = logicBand(next[variable.id] ?? variable.initial);
-      // Warn every variable that is in the bad band exactly once. This is
-      // intentionally not limited to "newly crossed this click": one choice can
-      // push multiple variables into bad, and the UI can only show one warning
-      // interruption at a time. The next routed choice will catch the remaining
-      // bad-but-unwarned variable instead of losing it forever.
-      return after === "bad";
+      // A warning belongs to the decision that actually crosses the threshold.
+      // Do not attach a stale, previously-low variable to an unrelated later
+      // choice just because the UI can interrupt for only one variable at once.
+      return after === "bad" && before !== "bad" && before !== "critical";
     }) ?? null
   );
+}
+
+export type ChoiceRiskPreview = {
+  nextVars: LogicVars;
+  criticalVariables: StoryLogicRuntimeVariable[];
+  warningVariables: StoryLogicRuntimeVariable[];
+  approachingVariables: StoryLogicRuntimeVariable[];
+};
+
+/** Uses the exact same thresholds and ordering as the click runtime, but does
+ * not mutate state. The choice card can therefore warn before a click without
+ * maintaining a second, subtly different rules engine. */
+export function previewLogicDelta(
+  current: LogicVars,
+  delta: Record<string, number> | undefined,
+  variables: StoryLogicRuntimeVariable[],
+  warningsSeen: LogicWarningsSeen,
+): ChoiceRiskPreview {
+  const nextVars = applyLogicDelta(current, delta);
+  const changedDownward = new Set(Object.entries(delta ?? {}).filter(([, change]) => change < 0).map(([id]) => id));
+  return {
+    nextVars,
+    criticalVariables: variables.filter((variable) => logicBand(nextVars[variable.id] ?? variable.initial) === "critical"),
+    warningVariables: variables.filter((variable) => {
+      if (warningsSeen[variable.id]) return false;
+      const before = logicBand(current[variable.id] ?? variable.initial);
+      const after = logicBand(nextVars[variable.id] ?? variable.initial);
+      return after === "bad" && before !== "bad" && before !== "critical";
+    }),
+    approachingVariables: variables.filter((variable) => {
+      if (!changedDownward.has(variable.id)) return false;
+      const afterValue = nextVars[variable.id] ?? variable.initial;
+      const after = logicBand(afterValue);
+      return (after === "mid" && afterValue <= 55) || (after === "bad" && Boolean(warningsSeen[variable.id]));
+    }),
+  };
 }
 
 export function applyLogicContentVariant<T extends StoryNode | EndingNode>(

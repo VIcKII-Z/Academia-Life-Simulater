@@ -2,12 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { fetchStory } from "../lib/api";
 import InlineAnnotatedText from "../components/InlineAnnotatedText";
+import GameTutorial from "../components/GameTutorial";
+import {
+  STORY_TUTORIAL_COMPLETED_KEY,
+  STORY_TUTORIAL_PENDING_KEY,
+  readTutorialFlag,
+  writeTutorialFlag,
+} from "../lib/tutorialState";
 import {
   applyLogicContentVariant,
   applyLogicDelta,
   findCriticalVariable,
   findNewBadVariable,
   initLogicVars,
+  previewLogicDelta,
   type LogicVars,
   type LogicWarningsSeen,
 } from "../lib/logicRuntime";
@@ -34,6 +42,64 @@ function roleLabel(role?: string): string {
   if (role === "failure") return "失败结局";
   if (role === "ending") return "结局";
   return "剧情节点";
+}
+
+const LOGIC_LABELS: Record<string, string> = {
+  money: "钱包厚度",
+  time: "时间余量",
+  visa: "签证把握",
+  housing: "住房安稳度",
+  school: "学业状态",
+  wellbeing: "身心电量",
+  local_language: "当地语言熟练度",
+  career: "职业筹码",
+  academic_network: "学术人脉",
+  gpa: "成绩余量",
+};
+
+function friendlyVariableLabel(id: string, fallback?: string): string {
+  return LOGIC_LABELS[id] ?? fallback ?? id.split("_").join(" ");
+}
+
+function qualitativeChange(change: number): string {
+  const magnitude = Math.abs(change);
+  if (magnitude >= 16) return "一大截";
+  if (magnitude >= 8) return "一些";
+  return "一点点";
+}
+
+function choiceEffectLines(choice: Choice, story: StoryDocument, logicVars: LogicVars, warningsSeen: LogicWarningsSeen): { summary: string | null; warning: string | null; danger: boolean } {
+  const entries = Object.entries(choice.logic_delta ?? {}).filter(([, change]) => change !== 0);
+  const losses = entries.filter(([, change]) => change < 0).map(([id, change]) => `${qualitativeChange(change)}${friendlyVariableLabel(id)}`);
+  const gains = entries.filter(([, change]) => change > 0).map(([id, change]) => `${qualitativeChange(change)}${friendlyVariableLabel(id)}`);
+  let summary: string | null = null;
+  if (losses.length && gains.length) summary = `拿${losses.join("、")}，换${gains.join("、")}——宇宙不收现金，只收取舍。`;
+  else if (losses.length) summary = `会消耗${losses.join("、")}，这张选择看起来正在刷你的资源卡。`;
+  else if (gains.length) summary = `会收获${gains.join("、")}，属于命运难得主动发优惠券。`;
+
+  const preview = previewLogicDelta(logicVars, choice.logic_delta, story.logic?.variables ?? [], warningsSeen);
+  if (preview.criticalVariables.length) {
+    return {
+      summary,
+      warning: `${preview.criticalVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}会直接撞上极限；点下去将进入变量失败页。`,
+      danger: true,
+    };
+  }
+  if (preview.warningVariables.length) {
+    return {
+      summary,
+      warning: `${preview.warningVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}将滑入危险区，系统会先亮出警告牌。`,
+      danger: false,
+    };
+  }
+  if (preview.approachingVariables.length) {
+    return {
+      summary,
+      warning: `${preview.approachingVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}正在靠近危险区，再薅一次可能就要听见警报。`,
+      danger: false,
+    };
+  }
+  return { summary, warning: null, danger: false };
 }
 
 function sceneAsset(nodeId: string, node: StoryNode | EndingNode): string {
@@ -63,7 +129,7 @@ function checkpointLabel(story: StoryDocument, checkpoint: FailureCheckpoint): s
 }
 
 function recoveryText(recovery: FailureRecovery, story: StoryDocument, checkpoint: FailureCheckpoint): string {
-  return recovery.scene_text.replaceAll("{previous_node}", `“${checkpointLabel(story, checkpoint)}”`);
+  return recovery.scene_text.split("{previous_node}").join(`“${checkpointLabel(story, checkpoint)}”`);
 }
 
 export default function PlayableDemoPage() {
@@ -79,6 +145,7 @@ export default function PlayableDemoPage() {
   const [showingFailureRecovery, setShowingFailureRecovery] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,6 +179,14 @@ export default function PlayableDemoPage() {
     };
   }, [storyId]);
 
+  useEffect(() => {
+    if (!story || !currentNodeId) return;
+    const continuingFromHome = readTutorialFlag(STORY_TUTORIAL_PENDING_KEY);
+    if (!continuingFromHome && readTutorialFlag(STORY_TUTORIAL_COMPLETED_KEY)) return;
+    const timer = window.setTimeout(() => setTutorialOpen(true), 450);
+    return () => window.clearTimeout(timer);
+  }, [story, currentNodeId]);
+
   const rawCurrentNode = story ? story.nodes[currentNodeId] ?? story.endings[currentNodeId] ?? null : null;
   const currentNode = story && rawCurrentNode ? applyLogicContentVariant(story, currentNodeId, rawCurrentNode, logicVars) : null;
   const ending = currentNode && isEnding(currentNode) ? currentNode : null;
@@ -139,6 +214,12 @@ export default function PlayableDemoPage() {
     setResultReturnNodeId(null);
     setFailureCheckpoint(null);
     setShowingFailureRecovery(false);
+  }
+
+  function finishTutorial() {
+    writeTutorialFlag(STORY_TUTORIAL_COMPLETED_KEY, true);
+    writeTutorialFlag(STORY_TUTORIAL_PENDING_KEY, false);
+    setTutorialOpen(false);
   }
 
   function beginFailureRecovery() {
@@ -224,12 +305,12 @@ export default function PlayableDemoPage() {
             <div className="playDemoSceneHead">
               <span>{recoveryActive ? "时空回卷" : failureRecovery ? "失败页" : roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</span>
               <div className="playDemoSceneActions">
-                <Link to="/">回首页</Link>
-                <button type="button" onClick={restart}>重新开始</button>
+                <Link to="/" data-tutorial="home">回首页</Link>
+                <button type="button" onClick={restart} data-tutorial="restart">重新开始</button>
               </div>
             </div>
 
-            <article className={`playDemoText ${recoveryActive ? "playDemoText--recovery" : ""}`} aria-live="polite">
+            <article className={`playDemoText ${recoveryActive ? "playDemoText--recovery" : ""}`} aria-live="polite" data-tutorial="story">
               {recoveryActive && failureRecovery && failureCheckpoint ? (
                 <div className="playDemoRecovery" data-testid="failure-recovery-scene">
                   <span>纯属虚构的时间线维修插曲</span>
@@ -270,24 +351,31 @@ export default function PlayableDemoPage() {
             )}
 
             {!ending && !canRecover && !recoveryActive && (
-              <div className="playDemoDecision">
+              <div className="playDemoDecision" data-tutorial="choices">
                 <p className="playDemoDecisionPrompt">你会怎么做？</p>
                 <div className="playDemoChoices">
-                  {(currentNode as StoryNode).choices.map((choice, index) => (
-                    <button
-                      className={`playDemoChoice playDemoChoice--${index}`}
-                      key={`${choice.next_node}-${index}`}
-                      onClick={() => handleChoice(choice)}
-                    >
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                      <strong>{stripChoicePrefix(choice.text)}</strong>
-                    </button>
-                  ))}
+                  {(currentNode as StoryNode).choices.map((choice, index) => {
+                    const preview = choiceEffectLines(choice, story, logicVars, logicWarningsSeen);
+                    return (
+                      <button
+                        className={`playDemoChoice playDemoChoice--${index} ${preview.danger ? "playDemoChoice--danger" : ""}`}
+                        key={`${choice.next_node}-${index}`}
+                        onClick={() => handleChoice(choice)}
+                      >
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <span className="playDemoChoiceCopy">
+                          <strong>{stripChoicePrefix(choice.text)}</strong>
+                          {preview.summary && <small className="playDemoChoiceEffect">{preview.summary}</small>}
+                          {preview.warning && <small className="playDemoChoiceWarning">⚠ {preview.warning}</small>}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            <div className={`playDemoVisual ${recoveryActive ? "playDemoVisual--recovery" : ""}`} aria-hidden="true">
+            <div className={`playDemoVisual ${recoveryActive ? "playDemoVisual--recovery" : ""}`} aria-hidden="true" data-tutorial="visual">
               {currentNode.image_url ? (
                 <img src={currentNode.image_url} alt="" />
               ) : (
@@ -309,6 +397,13 @@ export default function PlayableDemoPage() {
               </div>
             )}
           </section>
+          <footer className="playDemoPageFooter">
+            <button type="button" onClick={() => setTutorialOpen(true)} data-testid="tutorial-reopen">
+              <span aria-hidden="true">🦉</span>
+              新手指引
+            </button>
+          </footer>
+          <GameTutorial open={tutorialOpen} onFinish={finishTutorial} />
         </section>
       )}
     </main>
