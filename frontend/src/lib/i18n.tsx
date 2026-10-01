@@ -1,18 +1,19 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { useEffect, createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
-export type Language = "en" | "es" | "zh";
+import { localizeEntity } from "./entities";
+import { translateCopy } from "./uiCopy";
+
+export type Language = "en" | "zh";
 
 const LANGUAGE_STORAGE_KEY = "fls.language";
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   en: "EN",
-  es: "ES",
   zh: "中文",
 };
 
 const DATE_LOCALES: Record<Language, string> = {
   en: "en-US",
-  es: "es-ES",
   zh: "zh-CN",
 };
 
@@ -27,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
     "top.imagesOn": "Images on",
     "top.imagesOff": "Images off",
     "cacheDemo.title": "Open recent generated stories",
-    "cacheDemo.subtitle": "Skip generation and open either of the two latest completed routes.",
+    "cacheDemo.subtitle": "Open a completed story in your selected language without waiting for generation.",
     "language.label": "Language",
     "language.aria": "Choose language",
     "passport.title": "Enter your travel key",
@@ -145,134 +146,6 @@ const translations: Record<Language, Record<string, string>> = {
     "keepsake.stats": "FINAL STATS",
     "keepsake.sources": "SOURCES",
   },
-  es: {
-    "common.cancel": "Cancelar",
-    "common.next": "Siguiente",
-    "common.skip": "Omitir",
-    "common.edit": "Editar",
-    "common.loadingCountries": "Cargando paises...",
-    "top.travelKey": "Clave de viaje",
-    "top.imagesOn": "Imagenes activadas",
-    "top.imagesOff": "Imagenes desactivadas",
-    "cacheDemo.title": "Abrir historias recientes",
-    "cacheDemo.subtitle": "Saltar la generación y abrir una de las dos rutas completadas más recientes.",
-    "language.label": "Idioma",
-    "language.aria": "Elegir idioma",
-    "passport.title": "Introduce tu clave de viaje",
-    "passport.titleCompact": "Actualiza tu clave de viaje",
-    "passport.lede": "Tu vida futura en el extranjero se genera solo para ti. Necesitamos una clave API para abrir tu diario; se queda en este navegador y nunca se escribe en nuestros logs.",
-    "passport.ledeCompact": "Cambia o vuelve a introducir tu clave API cuando quieras; se queda en este navegador y nunca se escribe en nuestros logs.",
-    "passport.providerAria": "Elegir proveedor",
-    "passport.relay": "Relay",
-    "passport.openai": "OpenAI oficial",
-    "passport.relayKeyError": "Introduce tu clave API del relay para abrir tu diario.",
-    "passport.openaiKeyError": "Introduce tu clave API de OpenAI para abrir tu diario.",
-    "passport.baseUrlError": "Introduce la URL base de tu relay.",
-    "passport.relayPlaceholder": "Clave API del relay...",
-    "passport.openaiPlaceholder": "sk-... (clave API de OpenAI)",
-    "passport.relayHint": "Usas un endpoint relay: introduce su URL base abajo. Puedes cambiar esto y otros ajustes en la pagina debug.",
-    "passport.openaiHint": "Usas la API oficial de OpenAI: no hace falta URL base. Algunas funciones, como Live Search, llaman directamente a la Responses API y pueden no funcionar con relays de terceros.",
-    "passport.baseUrlPlaceholder": "URL base del relay, p. ej. https://your-relay.example/v1",
-    "passport.saveKey": "Guardar clave",
-    "passport.openJournal": "Abrir mi diario",
-    "quiz.country.title": "En que parte del mundo?",
-    "quiz.country.subtitle": "Busca paises y elige uno de la lista.",
-    "quiz.country.placeholder": "Buscar paises...",
-    "quiz.country.noMatch": "No se encontro ningun pais.",
-    "quiz.city.title": "Que ciudad?",
-    "quiz.city.subtitle": "Busca ciudades en {country} y elige una de la lista.",
-    "quiz.city.placeholder": "Buscar ciudades... p. ej. Santa Barbara",
-    "quiz.city.loading": "Buscando ciudades en todo el mundo...",
-    "quiz.city.noMatch": "No se encontro una ciudad en {country}. Sigue escribiendo para buscar.",
-    "quiz.university.title": "Que universidad?",
-    "quiz.university.subtitle": "Busca universidades en {location} y elige una de la lista.",
-    "quiz.university.placeholder": "Buscar nombre de universidad...",
-    "quiz.university.loading": "Buscando universidades en todo el mundo...",
-    "quiz.university.noMatch": "No se encontro una universidad. Sigue escribiendo para buscar.",
-    "quiz.degree.title": "Que tipo de estudiante serias?",
-    "quiz.degree.subtitle": "Para imaginar el capitulo correcto de tu viaje.",
-    "quiz.customPlaceholder": "O escribe tu propia respuesta...",
-    "quiz.semesters.title": "Cuantos semestres dura tu estancia?",
-    "quiz.semesters.labelOne": "semestre",
-    "quiz.semesters.labelMany": "semestres",
-    "quiz.semesters.aria": "Numero de semestres",
-    "quiz.semesters.hintShort": "Una estancia corta y enfocada: uno o dos capitulos hacia un final claro.",
-    "quiz.semesters.hintMedium": "Uno o dos anos completos en el extranjero: tiempo para crear rutinas y relaciones reales.",
-    "quiz.semesters.hintLong": "Un viaje largo: mas espacio para especializarte y cambiar con el tiempo.",
-    "quiz.semesters.hintSaga": "Una saga de varios anos: la version mas rica, con un final moldeado por anos fuera.",
-    "quiz.details.title": "Sabes el departamento o programa exacto?",
-    "quiz.details.subtitle": "Opcional: danos un departamento o programa especifico y lo investigaremos como caso concreto. Dejalo en blanco para omitir.",
-    "quiz.details.department": "Departamento",
-    "quiz.details.departmentPlaceholder": "p. ej. Graduate School of Information Science",
-    "quiz.details.program": "Programa",
-    "quiz.details.programPlaceholder": "p. ej. MS in Computer Science",
-    "quiz.details.begin": "Empezar mi historia",
-    "quiz.done.country": "Pais",
-    "quiz.done.city": "Ciudad",
-    "quiz.done.university": "Universidad",
-    "quiz.done.degree": "Nivel",
-    "quiz.done.semesters": "Duracion",
-    "degree.Undergraduate": "Grado",
-    "degree.Taught Master": "Master profesional",
-    "degree.Graduate": "Posgrado",
-    "degree.PhD": "Doctorado",
-    "degree.Exchange Student": "Intercambio",
-    "admission.department": "Admisiones & Life Simulator",
-    "admission.fallbackUniversity": "una universidad en {city}",
-    "admission.salutation": "Estimado/a futuro/a estudiante de {grade}:",
-    "admission.congrats": "Felicidades!",
-    "admission.bodyStart": "Nos complace informarte de que el Comite de Admisiones te ha ofrecido una plaza en",
-    "admission.toPursue": "para cursar",
-    "admission.inDepartment": "en",
-    "admission.welcome": "Bienvenido/a a {university}!",
-    "admission.tagline": "Estamos deseando verte en {city}, {country}.",
-    "admission.closing": "Te espera una experiencia transformadora en el extranjero: nuevas rutinas, nuevas personas y decisiones que solo tu puedes tomar. Tu viaje empieza al pasar la pagina.",
-    "admission.accept": "Aceptar la oferta",
-    "admission.decline": "Rechazar la oferta",
-    "timeskip.line1": "Pasan unos meses mientras te preparas para salir...",
-    "timeskip.line2": "Tras un largo verano, por fin llega el dia de mudarte...",
-    "timeskip.line3": "Te instalas en {city} y aprendes a moverte por {school}...",
-    "timeskip.line4": "La semana de orientacion termina: tu primer semestre esta a punto de empezar...",
-    "timeskip.schoolFallback": "tu nueva universidad en {city}",
-    "timeskip.sub": "Tu primera escena esta en camino.",
-    "error.title": "Algo salio mal",
-    "error.tryAgain": "Intentarlo de nuevo",
-    "story.reused": "Estamos reutilizando una historia ya generada para este perfil exacto; no hace falta regenerarla.",
-    "story.gameOver": "Tu {stat} se agoto.",
-    "story.gameOverEnding": "{reason} Tu historia de estudio en el extranjero termina aqui; a veces la vida fuera no sale como se planea.",
-    "stats.health": "Salud",
-    "stats.group": "Estadisticas de vida",
-    "stats.mood": "Animo",
-    "stats.money": "Dinero",
-    "stats.school": "Estudios",
-    "scene.fieldNotes": "Notas de campo",
-    "scene.why": "Por que ocurre",
-    "scene.emptyNotes": "Cada escena de tu historia se genera con investigacion sobre la vida estudiantil en {caption}. Aqui veras por que aparecen estos desafios.",
-    "scene.about": "Sobre esta historia",
-    "scene.sources": "Fuentes",
-    "scene.choicePrompt": "que haces?",
-    "category.academics": "Academico",
-    "category.career": "Carrera",
-    "category.housing": "Alojamiento",
-    "category.social": "Vida social",
-    "category.events": "Eventos",
-    "category.campus": "Vida universitaria",
-    "ending.postmarked": "Matasellado desde {city}",
-    "ending.title": "Tu historia, sellada",
-    "ending.fieldNote": "Nota de campo",
-    "ending.restart": "Empezar un nuevo capitulo",
-    "ending.save": "Guardar esta historia",
-    "tone.hopeful": "Esperanzador",
-    "tone.bittersweet": "Agridulce",
-    "tone.challenging": "Desafiante",
-    "keepsake.title": "FUTURE LIFE SIMULATOR - TU HISTORIA, SELLADA",
-    "keepsake.postmarked": "Matasellado desde {city}, {country}",
-    "keepsake.tone": "Tono del final: {tone}",
-    "keepsake.fieldNote": "NOTA DE CAMPO - POR QUE OCURRE",
-    "keepsake.about": "SOBRE ESTA HISTORIA",
-    "keepsake.stats": "ESTADISTICAS FINALES",
-    "keepsake.sources": "FUENTES",
-  },
   zh: {
     "common.cancel": "取消",
     "common.next": "下一步",
@@ -282,25 +155,25 @@ const translations: Record<Language, Record<string, string>> = {
     "top.travelKey": "旅行钥匙",
     "top.imagesOn": "图片开启",
     "top.imagesOff": "图片关闭",
-    "cacheDemo.title": "查看最近生成的缓存",
-    "cacheDemo.subtitle": "不用重新生成，直接进入最近两条路线的完整可玩版本。",
+    "cacheDemo.title": "最近的留学故事",
+    "cacheDemo.subtitle": "直接打开当前语言的已完成故事，无需等待生成。",
     "language.label": "语言",
     "language.aria": "选择语言",
     "passport.title": "输入你的旅行钥匙",
     "passport.titleCompact": "更新旅行钥匙",
-    "passport.lede": "你的未来留学生活会为你专属生成。我们需要 API key 来打开日记；它只保存在这个浏览器里，不会写入日志。",
-    "passport.ledeCompact": "你可以随时修改或重新输入 API key；它只保存在这个浏览器里，不会写入日志。",
+    "passport.lede": "你的未来留学生活会为你专属生成。我们需要 接口密钥 来打开日记；它只保存在这个浏览器里，不会写入日志。",
+    "passport.ledeCompact": "你可以随时修改或重新输入 接口密钥；它只保存在这个浏览器里，不会写入日志。",
     "passport.providerAria": "选择服务提供方",
     "passport.relay": "中转站",
     "passport.openai": "OpenAI 官方",
-    "passport.relayKeyError": "请输入中转站 API key 来开启你的旅行日记。",
-    "passport.openaiKeyError": "请输入 OpenAI API key 来开启你的旅行日记。",
-    "passport.baseUrlError": "请输入中转站的 base URL。",
-    "passport.relayPlaceholder": "中转站 API key...",
-    "passport.openaiPlaceholder": "sk-...（OpenAI API key）",
-    "passport.relayHint": "你正在使用中转站，请在下方输入它的 base URL。也可以之后在 debug 页面修改这些设置。",
-    "passport.openaiHint": "你正在使用 OpenAI 官方 API，不需要 base URL。注意：Live Search 等功能会直接调用 OpenAI Responses API，部分第三方中转可能不支持。",
-    "passport.baseUrlPlaceholder": "中转站 base URL，例如 https://your-relay.example/v1",
+    "passport.relayKeyError": "请输入中转站 接口密钥 来开启你的旅行日记。",
+    "passport.openaiKeyError": "请输入 OpenAI 接口密钥 来开启你的旅行日记。",
+    "passport.baseUrlError": "请输入中转站的 服务地址。",
+    "passport.relayPlaceholder": "中转站 接口密钥...",
+    "passport.openaiPlaceholder": "sk-...（OpenAI 接口密钥）",
+    "passport.relayHint": "你正在使用中转站，请在下方输入它的 服务地址。也可以之后在 调试页面修改这些设置。",
+    "passport.openaiHint": "你正在使用 OpenAI 官方 API，不需要 服务地址。注意：实时搜索等功能会直接调用官方响应接口，部分第三方中转可能不支持。",
+    "passport.baseUrlPlaceholder": "中转站 服务地址，例如 https://your-relay.example/v1",
     "passport.saveKey": "保存钥匙",
     "passport.openJournal": "打开我的日记",
     "quiz.country.title": "你想去世界的哪里？",
@@ -309,7 +182,7 @@ const translations: Record<Language, Record<string, string>> = {
     "quiz.country.noMatch": "没有找到匹配的国家。",
     "quiz.city.title": "哪座城市？",
     "quiz.city.subtitle": "在 {country} 搜索城市，并从列表里选择一个。",
-    "quiz.city.placeholder": "搜索城市...例如 Santa Barbara",
+    "quiz.city.placeholder": "搜索城市...例如 圣巴巴拉",
     "quiz.city.loading": "正在全球搜索城市...",
     "quiz.city.noMatch": "没有在 {country} 找到匹配城市。继续输入试试。",
     "quiz.university.title": "哪所大学？",
@@ -331,9 +204,9 @@ const translations: Record<Language, Record<string, string>> = {
     "quiz.details.title": "知道具体院系或项目吗？",
     "quiz.details.subtitle": "可选：提供具体院系或项目后，我们会研究这个精确案例，而不是泛泛的学校概况。留空即可跳过。",
     "quiz.details.department": "院系",
-    "quiz.details.departmentPlaceholder": "例如 Graduate School of Information Science",
+    "quiz.details.departmentPlaceholder": "例如 信息科学研究生院",
     "quiz.details.program": "项目",
-    "quiz.details.programPlaceholder": "例如 MS in Computer Science",
+    "quiz.details.programPlaceholder": "例如 计算机科学硕士",
     "quiz.details.begin": "开始我的故事",
     "quiz.done.country": "国家",
     "quiz.done.city": "城市",
@@ -393,7 +266,7 @@ const translations: Record<Language, Record<string, string>> = {
     "tone.hopeful": "充满希望",
     "tone.bittersweet": "苦乐参半",
     "tone.challenging": "充满挑战",
-    "keepsake.title": "FUTURE LIFE SIMULATOR - 你的故事，已封存",
+    "keepsake.title": "留学人生模拟器 - 你的故事，已封存",
     "keepsake.postmarked": "寄自 {country} {city}",
     "keepsake.tone": "结局基调：{tone}",
     "keepsake.fieldNote": "田野笔记 - 为什么会发生",
@@ -406,6 +279,8 @@ const translations: Record<Language, Record<string, string>> = {
 interface I18nContextValue {
   language: Language;
   setLanguage: (language: Language) => void;
+  entity: (text: string) => string;
+  copy: (text: string) => string;
   t: (key: string, vars?: Record<string, string | number>) => string;
   dateLocale: string;
   languageLabels: Record<Language, string>;
@@ -414,20 +289,25 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 function loadLanguage(): Language {
-  const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  return stored === "es" || stored === "zh" || stored === "en" ? stored : "en";
+  try { return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "zh" ? "zh" : "en"; }
+  catch { return "en"; }
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(loadLanguage);
 
+  useEffect(() => {
+    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+    document.title = language === "zh" ? "留学人生模拟器" : "Future Life Simulator";
+  }, [language]);
+
   const value = useMemo<I18nContextValue>(() => {
     const setLanguage = (next: Language) => {
-      localStorage.setItem(LANGUAGE_STORAGE_KEY, next);
+      try { localStorage.setItem(LANGUAGE_STORAGE_KEY, next); } catch { /* Session-only preference. */ }
       setLanguageState(next);
     };
     const t = (key: string, vars?: Record<string, string | number>) => {
-      const template = translations[language][key] ?? translations.en[key] ?? key;
+      const template = translations[language][key] ?? translations.en[key] ?? (key.startsWith("degree.") ? key.slice(7) : key);
       if (!vars) return template;
       return Object.entries(vars).reduce(
         (current, [name, replacement]) => current.split(`{${name}}`).join(String(replacement)),
@@ -439,7 +319,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setLanguage,
       t,
       dateLocale: DATE_LOCALES[language],
-      languageLabels: LANGUAGE_LABELS,
+      languageLabels: language === "zh" ? { en: "英文", zh: "中文" } : { en: "English", zh: "Chinese" },
+      entity: (text) => localizeEntity(text, language),
+      copy: (text) => translateCopy(text, language),
     };
   }, [language]);
 

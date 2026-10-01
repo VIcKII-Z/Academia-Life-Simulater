@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useI18n } from "../lib/i18n";
 import { createPortal } from "react-dom";
 
 export type TutorialStep = {
@@ -30,7 +31,7 @@ export const STORY_TUTORIAL_STEPS: TutorialStep[] = [
     selector: '[data-tutorial="choices"]',
     kicker: "轮到你了",
     title: "选择会推动时间线",
-    body: "选项不只换一段文字，也可能改变后续路线。遇到警告或失败别慌——游戏会用一个小小的时空事故，把你送回上一步重新考虑。",
+    body: "这里以了解信息为目标。资源偏低会提示你查看支持建议，不会自动结束旅程；遇到严重后果，可以回看选择并再次尝试。",
   },
   {
     selector: '[data-tutorial="visual"]',
@@ -73,6 +74,7 @@ type TargetBox = {
 const VIEWPORT_GAP = 16;
 
 export default function GameTutorial({ open, onFinish, steps = STORY_TUTORIAL_STEPS }: GameTutorialProps) {
+  const { copy, language } = useI18n();
   const [stepIndex, setStepIndex] = useState(0);
   const [targetBox, setTargetBox] = useState<TargetBox | null>(null);
   const [cardStyle, setCardStyle] = useState<CSSProperties>({});
@@ -192,23 +194,23 @@ export default function GameTutorial({ open, onFinish, steps = STORY_TUTORIAL_ST
       >
         <div className="gameTutorialTopline">
           <span className="gameTutorialMascot" aria-hidden="true">🦉</span>
-          <span>{step.kicker}</span>
+          <span>{copy(step.kicker)}</span>
           <span>{stepIndex + 1} / {steps.length}</span>
         </div>
-        <h2 id="game-tutorial-title">{step.title}</h2>
-        <p id="game-tutorial-description">{step.body}</p>
+        <h2 id="game-tutorial-title">{copy(step.title)}</h2>
+        <p id="game-tutorial-description">{copy(step.body)}</p>
 
-        <div className="gameTutorialProgress" aria-label={`指引进度：第 ${stepIndex + 1} 步，共 ${steps.length} 步`}>
+        <div className="gameTutorialProgress" aria-label={language === "zh" ? `指引进度：第 ${stepIndex + 1} 步，共 ${steps.length} 步` : `Tutorial step ${stepIndex + 1} of ${steps.length}`}>
           {steps.map((item, index) => (
             <span className={index === stepIndex ? "is-active" : ""} key={item.title} />
           ))}
         </div>
 
         <div className="gameTutorialActions">
-          <button className="gameTutorialSkip" type="button" onClick={onFinish}>跳过指引</button>
+          <button className="gameTutorialSkip" type="button" onClick={onFinish}>{copy("跳过指引")}</button>
           <div>
             {stepIndex > 0 && (
-              <button type="button" onClick={() => setStepIndex((current) => current - 1)}>上一步</button>
+              <button type="button" onClick={() => setStepIndex((current) => current - 1)}>{copy("上一步")}</button>
             )}
             <button
               className="gameTutorialNext"
@@ -216,11 +218,11 @@ export default function GameTutorial({ open, onFinish, steps = STORY_TUTORIAL_ST
               onClick={() => isLast ? onFinish() : setStepIndex((current) => current + 1)}
               data-testid="game-tutorial-next"
             >
-              {isLast ? "开始探索" : "下一步"}
+              {copy(isLast ? "开始探索" : "下一步")}
             </button>
           </div>
         </div>
-        <small>也可以用 ← → 翻页，按 Esc 关闭</small>
+        <small>{copy("也可以用 ← → 翻页，按 Esc 关闭")}</small>
       </div>
     </div>,
     document.body,

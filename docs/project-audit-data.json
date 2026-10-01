@@ -1,0 +1,667 @@
+[
+  {
+    "storyId": "berkeley_2a64ae820c01",
+    "language": "en",
+    "pages": 10,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 9,
+    "endings": {
+      "ending": 241,
+      "stat:money": 8,
+      "stat:health": 1
+    }
+  },
+  {
+    "storyId": "berkeley_6243dfd9997b",
+    "language": "en",
+    "pages": 11,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 1.9,
+    "endings": {
+      "prove_yourself": 243,
+      "leave_job": 7
+    }
+  },
+  {
+    "storyId": "berkeley_6485ca9dae5a",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 13,
+    "endings": {
+      "node14": 242,
+      "stat:health": 4,
+      "stat:mood": 4
+    }
+  },
+  {
+    "storyId": "berkeley_ad3dca33eb04",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 13,
+    "endings": {
+      "node14": 250
+    }
+  },
+  {
+    "storyId": "berkeley_dbff20bbf457",
+    "language": "en",
+    "pages": 10,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 0,
+    "endings": {
+      "ending": 250
+    }
+  },
+  {
+    "storyId": "boston_7867de510c6a",
+    "language": "en",
+    "pages": 10,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 9,
+    "endings": {
+      "ending": 250
+    }
+  },
+  {
+    "storyId": "christchurch_2f60d590c7f4",
+    "language": "en",
+    "pages": 10,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 7,
+    "endings": {
+      "node9": 244,
+      "stat:health": 6
+    }
+  },
+  {
+    "storyId": "christchurch_c837d2a7c136",
+    "language": "en",
+    "pages": 24,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 20.5,
+    "endings": {
+      "stat:health": 73,
+      "node23": 176,
+      "stat:mood": 1
+    }
+  },
+  {
+    "storyId": "new_york_238442b176a5",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 16.9,
+    "endings": {
+      "ending": 138,
+      "stat:health": 89,
+      "stat:money": 17,
+      "stat:mood": 6
+    }
+  },
+  {
+    "storyId": "new_york_32f5ca101e67",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 23.9,
+    "endings": {
+      "ending": 243,
+      "stat:health": 7
+    }
+  },
+  {
+    "storyId": "oxford_8f549a3c05a4",
+    "language": "en",
+    "pages": 15,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 13,
+    "endings": {
+      "node14": 250
+    }
+  },
+  {
+    "storyId": "oxford_d062bd63a4c9",
+    "language": "en",
+    "pages": 12,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 9.9,
+    "endings": {
+      "node11": 199,
+      "stat:money": 51
+    }
+  },
+  {
+    "storyId": "qa_zh_eth_ee_20260812",
+    "language": "zh",
+    "pages": 119,
+    "languageIssueCount": 53,
+    "languageIssueExamples": [
+      "nodes.R_B01_focus.scene_text",
+      "nodes.R_B01_housing_hit.scene_text",
+      "nodes.P_B01_fix.scene_text",
+      "nodes.P_B01_extension.scene_text",
+      "nodes.P_B01_fail.scene_text",
+      "nodes.RB03_fine_paid.scene_text",
+      "nodes.RB03_eth_help.scene_text",
+      "nodes.RB03_ignored.scene_text"
+    ],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 7.4,
+    "endings": {
+      "E_wellbeing_critical": 15,
+      "E_time_critical": 104,
+      "E_visa_critical": 69,
+      "E_money_critical": 45,
+      "E_local_job": 5,
+      "E_burnout_graduation": 4,
+      "E_defer_or_pause": 7,
+      "E_return_home_stronger": 1
+    }
+  },
+  {
+    "storyId": "qa_zh_nus_ee_20260812",
+    "language": "zh",
+    "pages": 120,
+    "languageIssueCount": 78,
+    "languageIssueExamples": [
+      "nodes.R_B01_rush.scene_text",
+      "nodes.R_B01_loan.scene_text",
+      "nodes.R_B01_miss.scene_text",
+      "nodes.R_B01_installment.scene_text",
+      "nodes.R_B01_withdraw.scene_text",
+      "nodes.B04_res_tutor.scene_text",
+      "nodes.B04_res_isolation.scene_text",
+      "nodes.B04_res_failure.scene_text"
+    ],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 5.8,
+    "endings": {
+      "E_visa_critical": 61,
+      "E_money_critical": 111,
+      "E_school_critical": 12,
+      "E_time_critical": 48,
+      "E_burnout_graduation": 4,
+      "E_third_country_launch": 2,
+      "E_local_job": 8,
+      "E_wellbeing_critical": 4
+    }
+  },
+  {
+    "storyId": "technische_universit_t_m_nchen_full_f81bb5c0b506",
+    "language": "zh",
+    "pages": 122,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 8.3,
+    "endings": {
+      "E_visa_critical": 43,
+      "E_school_critical": 27,
+      "E_time_critical": 117,
+      "E_money_critical": 28,
+      "E_local_job": 13,
+      "E_wellbeing_critical": 6,
+      "E_third_country_launch": 9,
+      "E_return_home_stronger": 5,
+      "E_defer_or_pause": 1,
+      "E_career_critical": 1
+    }
+  },
+  {
+    "storyId": "tokyo_081c98fb82ae",
+    "language": "en",
+    "pages": 15,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 8.5,
+    "endings": {
+      "ending_challenging": 115,
+      "stat:money": 28,
+      "ending_hopeful": 87,
+      "stat:health": 20
+    }
+  },
+  {
+    "storyId": "tokyo_1784421385285",
+    "language": "en",
+    "pages": 17,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.3,
+    "endings": {
+      "neighborhood": 29,
+      "schedule": 69,
+      "japanese_class": 45,
+      "tech_club": 28,
+      "meetup": 16,
+      "academics_focus": 19,
+      "academic_prep": 23,
+      "applications": 21
+    }
+  },
+  {
+    "storyId": "tokyo_1784425016640",
+    "language": "en",
+    "pages": 19,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 2.9,
+    "endings": {
+      "balance_internship": 199,
+      "reassess": 46,
+      "push_through": 5
+    }
+  },
+  {
+    "storyId": "tokyo_7de137311842_1784428107505",
+    "language": "en",
+    "pages": 35,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 4.1,
+    "endings": {
+      "cheaper_outing": 28,
+      "more_classmates": 73,
+      "solo_activities": 69,
+      "feedback": 10,
+      "leisure_time": 15,
+      "complete_project": 1,
+      "reevaluate_social": 19,
+      "invest_resources": 10,
+      "study_boundaries": 15,
+      "clubs_for_balance": 10
+    }
+  },
+  {
+    "storyId": "tokyo_7de137311842",
+    "language": "en",
+    "pages": 35,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 4.2,
+    "endings": {
+      "solo_activities": 74,
+      "more_classmates": 55,
+      "cheaper_outing": 28,
+      "reevaluate_social": 13,
+      "feedback": 13,
+      "leisure_time": 14,
+      "clubs_for_balance": 19,
+      "complete_project": 1,
+      "invest_resources": 13,
+      "study_boundaries": 20
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345144913",
+    "language": "en",
+    "pages": 15,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3,
+    "endings": {
+      "academic_focus": 28,
+      "financial_advisor": 30,
+      "group_adventures": 37,
+      "student_loan": 33,
+      "student_services": 32,
+      "language_class": 31,
+      "cultural_engagement": 27,
+      "break": 32
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345279173",
+    "language": "en",
+    "pages": 10,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.1,
+    "endings": {
+      "ending_two": 130,
+      "ending_one": 49,
+      "ending_three": 71
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345758257",
+    "language": "en",
+    "pages": 9,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 2.5,
+    "endings": {
+      "difficult_path": 190,
+      "success": 60
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784419659129",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.6,
+    "endings": {
+      "success": 119,
+      "burnout": 61,
+      "failure": 70
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784420081538",
+    "language": "en",
+    "pages": 23,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 4.2,
+    "endings": {
+      "long_term_strategies": 37,
+      "continue_routine": 47,
+      "daily_practice": 102,
+      "short_term_goals": 45,
+      "take_day_off": 19
+    }
+  },
+  {
+    "storyId": "tokyo_cs_7247f3f3dbe8",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.6,
+    "endings": {
+      "burnout": 74,
+      "failure": 67,
+      "success": 109
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "language": "en",
+    "pages": 45,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 2.9,
+    "endings": {
+      "outlook_balance": 62,
+      "exams_over": 115,
+      "exam_focused": 73
+    }
+  },
+  {
+    "storyId": "tokyo_e97df6576289_1784425030201",
+    "language": "en",
+    "pages": 14,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 1.5,
+    "endings": {
+      "stat:money": 192,
+      "thesis_fear": 58
+    }
+  },
+  {
+    "storyId": "tokyo_e97df6576289",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.7,
+    "endings": {
+      "leave_early": 42,
+      "strain": 45,
+      "lead_organization": 60,
+      "failure": 59,
+      "success": 7,
+      "volunteer_festival": 22,
+      "meetings": 8,
+      "personal_focus": 3,
+      "share_tips": 4
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "language": "en",
+    "pages": 45,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.1,
+    "endings": {
+      "exams_over": 133,
+      "outlook_balance": 51,
+      "exam_focused": 66
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "language": "en",
+    "pages": 45,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.2,
+    "endings": {
+      "exams_over": 132,
+      "exam_focused": 72,
+      "outlook_balance": 46
+    }
+  },
+  {
+    "storyId": "toronto_business_1784345186541",
+    "language": "en",
+    "pages": 12,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 2.8,
+    "endings": {
+      "joining_study_group": 33,
+      "networking_classmates": 100,
+      "moving_downtown": 20,
+      "roommate_decision": 38,
+      "interview_process": 36,
+      "adapting_suburb": 23
+    }
+  },
+  {
+    "storyId": "toronto_business_1784345814794",
+    "language": "en",
+    "pages": 13,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.5,
+    "endings": {
+      "challenging_exit": 82,
+      "bittersweet_experience": 148,
+      "successful_internship": 20
+    }
+  },
+  {
+    "storyId": "toronto_business_1784419983152",
+    "language": "en",
+    "pages": 21,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.9,
+    "endings": {
+      "maintain_balance": 64,
+      "stat:health": 5,
+      "push_through": 173,
+      "stat:money": 8
+    }
+  },
+  {
+    "storyId": "toronto_business_ed698f9bb43e",
+    "language": "en",
+    "pages": 21,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 3.8,
+    "endings": {
+      "maintain_balance": 59,
+      "stat:health": 5,
+      "push_through": 180,
+      "stat:money": 6
+    }
+  },
+  {
+    "storyId": "utokyo_cs_full_1785770721",
+    "language": "zh",
+    "pages": 120,
+    "languageIssueCount": 46,
+    "languageIssueExamples": [
+      "nodes.R_B01_express.scene_text",
+      "nodes.R_B01_express.insight",
+      "nodes.R_B01_extension.scene_text",
+      "nodes.R_B01_extension.insight",
+      "nodes.R_B01_risky.scene_text",
+      "nodes.R_B01_risky.insight",
+      "nodes.R_B04_humble.scene_text",
+      "nodes.R_B04_humble.insight"
+    ],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 7.5,
+    "endings": {
+      "E_time_critical": 104,
+      "E_defer_or_pause": 40,
+      "E_money_critical": 82,
+      "E_third_country_launch": 4,
+      "E_wellbeing_critical": 10,
+      "E_visa_critical": 6,
+      "E_lab_reputation_critical": 1,
+      "E_tokyo_local_job": 2,
+      "E_career_critical": 1
+    }
+  },
+  {
+    "storyId": "visby_8bd2433f6b08",
+    "language": "en",
+    "pages": 25,
+    "languageIssueCount": 0,
+    "languageIssueExamples": [],
+    "dangling": [],
+    "routingErrors": [],
+    "sampledRoutes": 250,
+    "averageDecisions": 10,
+    "endings": {
+      "node11": 250
+    }
+  }
+]

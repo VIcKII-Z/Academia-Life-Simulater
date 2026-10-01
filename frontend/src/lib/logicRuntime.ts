@@ -1,3 +1,4 @@
+import { shouldWarn, isLearningStory } from "../../../shared/studyDesign";
 import type { EndingNode, StoryDocument, StoryLogicRuntimeVariable, StoryNode } from "../types";
 
 export type LogicVars = Record<string, number>;
@@ -20,6 +21,7 @@ export function applyLogicDelta(vars: LogicVars, delta?: Record<string, number>)
   if (!delta) return vars;
   const next = { ...vars };
   for (const [key, change] of Object.entries(delta)) {
+    if (!Number.isFinite(change) || !(key in vars)) continue;
     next[key] = clampLogicValue((next[key] ?? 70) + change);
   }
   return next;
@@ -41,16 +43,13 @@ export function findNewBadVariable(
   next: LogicVars,
   variables: StoryLogicRuntimeVariable[],
   warningsSeen: LogicWarningsSeen,
+  learning = false,
 ): StoryLogicRuntimeVariable | null {
   return (
     variables.find((variable) => {
       if (warningsSeen[variable.id]) return false;
-      const before = logicBand(previous[variable.id] ?? variable.initial);
-      const after = logicBand(next[variable.id] ?? variable.initial);
-      // A warning belongs to the decision that actually crosses the threshold.
-      // Do not attach a stale, previously-low variable to an unrelated later
-      // choice just because the UI can interrupt for only one variable at once.
-      return after === "bad" && before !== "bad" && before !== "critical";
+      // Learning mode also offers guidance for a direct jump into critical.
+      return shouldWarn(previous[variable.id] ?? variable.initial, next[variable.id] ?? variable.initial, false, learning);
     }) ?? null
   );
 }
@@ -70,23 +69,22 @@ export function previewLogicDelta(
   delta: Record<string, number> | undefined,
   variables: StoryLogicRuntimeVariable[],
   warningsSeen: LogicWarningsSeen,
+  learning = false,
 ): ChoiceRiskPreview {
   const nextVars = applyLogicDelta(current, delta);
   const changedDownward = new Set(Object.entries(delta ?? {}).filter(([, change]) => change < 0).map(([id]) => id));
   return {
     nextVars,
-    criticalVariables: variables.filter((variable) => logicBand(nextVars[variable.id] ?? variable.initial) === "critical"),
+    criticalVariables: learning ? [] : variables.filter((variable) => logicBand(nextVars[variable.id] ?? variable.initial) === "critical"),
     warningVariables: variables.filter((variable) => {
       if (warningsSeen[variable.id]) return false;
-      const before = logicBand(current[variable.id] ?? variable.initial);
-      const after = logicBand(nextVars[variable.id] ?? variable.initial);
-      return after === "bad" && before !== "bad" && before !== "critical";
+      return shouldWarn(current[variable.id] ?? variable.initial, nextVars[variable.id] ?? variable.initial, false, learning);
     }),
     approachingVariables: variables.filter((variable) => {
       if (!changedDownward.has(variable.id)) return false;
       const afterValue = nextVars[variable.id] ?? variable.initial;
       const after = logicBand(afterValue);
-      return (after === "mid" && afterValue <= 55) || (after === "bad" && Boolean(warningsSeen[variable.id]));
+      return (after === "mid" && afterValue <= 55) || ((after === "bad" || (learning && after === "critical")) && Boolean(warningsSeen[variable.id]));
     }),
   };
 }
@@ -101,6 +99,9 @@ export function applyLogicContentVariant<T extends StoryNode | EndingNode>(
   if (!variants || variants.length === 0) return node;
 
   for (const variant of variants) {
+    // Historical critical-band prose assumes automatic failure. Keep the base
+    // scene in learning mode; explicit consequence pages still apply.
+    if (isLearningStory(story) && Object.values(variant.conditions).includes("critical")) continue;
     let matches = true;
     for (const [variableId, expectedBand] of Object.entries(variant.conditions)) {
       const definition = story.logic?.variables.find((variable) => variable.id === variableId);

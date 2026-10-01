@@ -1,3 +1,4 @@
+import { inferStudyDuration, durationLabel } from "../../../shared/studyDesign";
 import { useMemo } from "react";
 import type { UserProfile } from "../types";
 import { useI18n } from "../lib/i18n";
@@ -39,9 +40,9 @@ export default function AdmissionLetter({
   onAccept: () => void;
   onDecline: () => void;
 }) {
-  const { t, dateLocale, language } = useI18n();
+  const { t, dateLocale, language, entity } = useI18n();
   const confetti = useConfetti(70);
-  const university = profile.school?.trim() || t("admission.fallbackUniversity", { city: profile.city });
+  const university = entity(profile.school?.trim() || "") || t("admission.fallbackUniversity", { city: entity(profile.city) });
   const programLine = profile.program?.trim() || profile.major?.trim() || "";
   const departmentLine = profile.department?.trim() && profile.department.trim() !== programLine
     ? profile.department.trim()
@@ -50,7 +51,7 @@ export default function AdmissionLetter({
     () => new Date().toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" }),
     [dateLocale],
   );
-  const knownDegrees = ["Undergraduate", "Taught Master"];
+  const knownDegrees = ["Undergraduate", "Taught Master", "Graduate", "PhD", "Exchange Student"];
   const gradeLabel = knownDegrees.includes(profile.grade) ? t(`degree.${profile.grade}`) : profile.grade;
   const salutationGrade = language === "en" ? gradeLabel.toLowerCase() : gradeLabel;
 
@@ -90,23 +91,24 @@ export default function AdmissionLetter({
           {programLine ? (
             <>
               {" "}
-              {t("admission.toPursue")} <strong>{programLine}</strong>
+              {t("admission.toPursue")} <strong>{entity(programLine)}</strong>
             </>
           ) : null}
           {departmentLine ? (
             <>
               {" "}
-              {t("admission.inDepartment")} <strong>{departmentLine}</strong>
+              {t("admission.inDepartment")} <strong>{entity(departmentLine)}</strong>
             </>
           ) : null}
           .
         </p>
 
+        <p className="admissionBody">{durationLabel(inferStudyDuration(profile), language)}</p>
         <div className="admissionBanner">
           <p className="admissionBannerTitle">{t("admission.welcome", { university })}</p>
         </div>
         <p className="admissionTagline">
-          {t("admission.tagline", { city: profile.city, country: profile.country })}
+          {t("admission.tagline", { city: entity(profile.city), country: entity(profile.country) })}
         </p>
 
         <p className="admissionBody admissionBody--closing">{t("admission.closing")}</p>

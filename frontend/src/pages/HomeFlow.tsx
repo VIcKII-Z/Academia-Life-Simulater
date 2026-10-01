@@ -83,7 +83,7 @@ function isEnding(node: StoryNode | EndingNode): node is EndingNode {
 let flyerSeq = 0;
 
 export default function HomeFlow() {
-  const { t, language } = useI18n();
+  const { t, language, copy, entity } = useI18n();
   const navigate = useNavigate();
   const [stage, setStage] = useState<FlowStage>("quiz");
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -101,6 +101,8 @@ export default function HomeFlow() {
   const [imageGenerationEnabled, setImageGenerationEnabled] = useState(loadImageGenerationPreference);
   const [flyers, setFlyers] = useState<StatFlyer[]>([]);
   const [cachedStories, setCachedStories] = useState<CachedStorySummary[]>([]);
+  const [shelfLoading, setShelfLoading] = useState(true);
+  const [shelfError, setShelfError] = useState(false);
   const [tutorialOpen, setTutorialOpen] = useState(false);
   // Positions of each stat's sticker icon in the top app bar, so a flyer
   // animation can be aimed at (or launched from) the exact right spot.
@@ -112,11 +114,20 @@ export default function HomeFlow() {
   // which shortens the total time-to-play whenever the letter + decision
   // takes longer than the agents still needed.
   const storyRequestRef = useRef<ReturnType<typeof waitForFullGeneration> | null>(null);
+  useEffect(() => () => { storyRequestRef.current = null; }, []);
+  useEffect(() => () => { storyRequestRef.current = null; }, []);
 
   useEffect(() => {
     if (stage !== "quiz") return;
-    void fetchCachedStories(2).then(setCachedStories);
-  }, [stage]);
+    let cancelled = false;
+    setCachedStories([]);
+    setShelfLoading(true);
+    setShelfError(false);
+    void fetchCachedStories(2, language).then((items) => { if (!cancelled) setCachedStories(items); })
+      .catch(() => { if (!cancelled) setShelfError(true); })
+      .finally(() => { if (!cancelled) setShelfLoading(false); });
+    return () => { cancelled = true; };
+  }, [stage, language]);
 
   useEffect(() => {
     if (stage !== "quiz" || readTutorialFlag(HOME_TUTORIAL_COMPLETED_KEY)) return;
@@ -208,10 +219,12 @@ export default function HomeFlow() {
       // reused from the cache.
       const minSkipTime = new Promise((resolve) => setTimeout(resolve, 4200));
       const [job] = await Promise.all([request, minSkipTime]);
+      if (request !== storyRequestRef.current) return;
       if (!job?.storyId || !job.hasFinalStory) throw new Error("Story generation did not return a playable result.");
       navigate(`/play-demo?storyId=${encodeURIComponent(job.storyId)}`, { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (request !== storyRequestRef.current) return;
+      setError(copy("生成暂时未能完成。请检查服务配置和网络，然后重试。"));
       setStage("error");
     }
   }
@@ -324,10 +337,10 @@ export default function HomeFlow() {
           </div>
         </header>
       ) : (
-        <img className="journalTitleImage" src="/branding/title.png" alt="Future Life Simulator — Live, Learn, Grow" />
+        <div className="journalTitleImage localizedBrand"><strong>{copy("留学人生模拟器")}</strong><small>{copy("生活、学习、成长")}</small></div>
       )}
 
-      {!hasAppBar && <LanguageSwitcher />}
+      {!hasAppBar && <LanguageSwitcher disabled={stage === "admission" || stage === "timeskip"} />}
 
       {stage !== "passport" && !hasAppBar && (
         <>
@@ -339,7 +352,7 @@ export default function HomeFlow() {
             type="button"
             aria-pressed={imageGenerationEnabled}
             onClick={toggleImageGeneration}
-            disabled={stage === "timeskip"}
+            disabled={stage === "admission" || stage === "timeskip"}
             data-tutorial="image-toggle"
           >
             <img className="imageGenerationToggleIcon" src="/stickers/sparkle.png" alt="" />
@@ -366,15 +379,15 @@ export default function HomeFlow() {
           <div className="cachedStoryList">
             {cachedStories.map((item) => (
               <Link className="cachedStoryOption" to={`/play-demo?storyId=${encodeURIComponent(item.storyId)}`} key={item.storyId}>
-                <span className="cachedStoryOptionFlag">{item.outputLanguage === "zh" ? "中文" : "EN"}</span>
+                <span className="cachedStoryOptionFlag">{language === "zh" ? "故事" : "Story"}</span>
                 <span>
-                  <strong>{item.school}</strong>
-                  <small>{[item.program, item.city].filter(Boolean).join(" · ")}</small>
+                  <strong>{entity(item.school)}</strong>
+                  <small>{[item.program, item.city].filter(Boolean).map(entity).join(" · ")}</small>
                 </span>
                 <span aria-hidden="true">→</span>
               </Link>
             ))}
-            {cachedStories.length === 0 && <small className="cachedStoryEmpty">正在整理故事书架…</small>}
+            {cachedStories.length === 0 && <small className="cachedStoryEmpty">{copy(shelfLoading ? "正在整理故事书架…" : shelfError ? "暂时无法加载故事书架，请稍后重试。" : "暂无当前语言的故事。你可以选择目的地生成新故事。")}</small>}
           </div>
         </section>
       )}
@@ -453,12 +466,12 @@ export default function HomeFlow() {
       )}
 
       <Link className="devLink" to="/debug">
-        dev
+        {copy("开发调试")}
       </Link>
       {stage === "quiz" && (
         <>
           <button className="homeTutorialReopen" type="button" onClick={() => setTutorialOpen(true)}>
-            <span aria-hidden="true">🦉</span> 新手指引
+            <span aria-hidden="true">🦉</span> {copy("新手指引")}
           </button>
           <GameTutorial open={tutorialOpen} onFinish={finishHomeTutorial} steps={HOME_TUTORIAL_STEPS} />
         </>

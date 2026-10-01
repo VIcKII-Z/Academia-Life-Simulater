@@ -1851,7 +1851,7 @@
     },
     "P01_branch_agent": {
       "type": "result",
-      "scene_text": "The agent finds a slot in a neighboring city. It costs a fortune, but the immediate crisis is averted. Now, you must face the tuition deposit. Variable-sensitive text marked for later split: money+visa (Result text should reflect changed variables.)",
+      "scene_text": "中介在邻近城市找到了一个预约名额。费用高得让你心疼，但眼前的危机总算解除。接下来，你还得面对学费押金。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -1883,7 +1883,7 @@
     },
     "P01_branch_crunch": {
       "type": "result",
-      "scene_text": "At 3 AM on a Tuesday, you find a slot. You're exhausted and irritable, but you have a date with the consulate. You still need to prove your funds, though. Variable-sensitive text marked for later split: wellbeing+time+visa (Result text should reflect changed variables.)",
+      "scene_text": "周二凌晨三点，你终于刷到了预约名额。你又累又烦，好在领事馆面谈的日期终于定下来了。不过，你仍需要准备资金证明。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -1915,7 +1915,7 @@
     },
     "P01_branch_passive": {
       "type": "result",
-      "scene_text": "The university's auto-reply simply points you back to the embassy website. Your visa stability is plummeting, and the semester start is looking increasingly unlikely. Variable-sensitive text marked for later split: time+visa (Result text should reflect changed variables.)",
+      "scene_text": "大学的自动回复只是把你指回使馆网站。签证进展越来越不稳，按时开学的希望也越来越渺茫。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2077,7 +2077,7 @@
     },
     "B01_res_normal": {
       "type": "result",
-      "scene_text": "The express fees were high, but the digital certificate arrives an hour before your embassy interview. Variable-sensitive text marked for later split: money+time+visa (Result text should reflect changed variables.)",
+      "scene_text": "加急费很高，但电子证明终于在使馆面谈前一小时抵达。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2109,7 +2109,7 @@
     },
     "B01_res_positive": {
       "type": "result",
-      "scene_text": "Your uncle in Munich provides the necessary paperwork. The embassy accepts it, and your liquidity is preserved. Variable-sensitive text marked for later split: money+visa+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "你在慕尼黑的叔叔提供了所需材料。使馆接受了这些证明，你也保住了手头可以周转的资金。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2141,7 +2141,7 @@
     },
     "B01_res_negative": {
       "type": "result",
-      "scene_text": "The funds didn't clear in time. The embassy returns your passport without a visa. Variable-sensitive text marked for later split: visa+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "资金没能及时到账。使馆退回了你的护照，里面没有签证。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2286,7 +2286,7 @@
     },
     "R_B01_late_arrival": {
       "type": "result",
-      "scene_text": "You arrive in Munich two weeks late. You've missed the orientation and the first set of lab sign-ups. The pressure is already mounting. Variable-sensitive text marked for later split: time+school+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "你晚了两周才抵达慕尼黑，错过了迎新活动和第一轮实验课报名。压力已经开始堆积。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2318,7 +2318,7 @@
     },
     "R_B01_deferred_start": {
       "type": "result",
-      "scene_text": "TUM approves your deferral. You stay home for another six months, ensuring every document is perfect for the next intake. Variable-sensitive text marked for later split: time+visa+money (Result text should reflect changed variables.)",
+      "scene_text": "慕尼黑工业大学批准了你的延期入学申请。你在家再等六个月，确保下一次入学所需的每份材料都准备妥当。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2350,7 +2350,7 @@
     },
     "R_B01_deportation_risk": {
       "type": "result",
-      "scene_text": "The KVR (Foreigners' Authority) in Munich informs you that you cannot convert a tourist visa into a study permit. You are ordered to leave the country. Variable-sensitive text marked for later split: visa+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "慕尼黑外事局告知你，不能把旅游签证转换成学习居留许可。你被要求离境。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2496,7 +2496,7 @@
     },
     "RB01_grind": {
       "type": "result",
-      "scene_text": "Exhausted, you finally find a landlord willing to take a chance on a new student. You rush to the KVR to register. Variable-sensitive text marked for later split: time+wellbeing+housing (Result text should reflect changed variables.)",
+      "scene_text": "筋疲力尽的你终于找到了一位愿意把房子租给新生的房东。你赶紧前往市政部门办理登记。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2528,7 +2528,7 @@
     },
     "RB01_agent": {
       "type": "result",
-      "scene_text": "The agent finds you a spot in a week. It costs a fortune, but you are now legally registered. Variable-sensitive text marked for later split: money+housing (Result text should reflect changed variables.)",
+      "scene_text": "中介在一周内帮你找到了住处。虽然价格令人心痛，但你总算完成了合法登记。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -2560,7 +2560,7 @@
     },
     "RB01_fail": {
       "type": "result",
-      "scene_text": "The deadline passes. Without registration, your health insurance cancels, and the university flags your enrollment. Variable-sensitive text marked for later split: housing+visa (Result text should reflect changed variables.)",
+      "scene_text": "截止日期过去了。由于没有完成登记，你的医疗保险被取消，大学也对你的注册状态提出了警示。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -3456,7 +3456,7 @@
     },
     "R_B03_workshops": {
       "type": "result",
-      "scene_text": "The TUM Language Center's specialized 'German for Engineers' course helps you finally understand the lecture scripts. Variable-sensitive text marked for later split: school+local_language+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "慕尼黑工业大学语言中心专门开设的“工程师德语”课程，终于帮你读懂了讲义。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -3488,7 +3488,7 @@
     },
     "R_B03_counseling": {
       "type": "result",
-      "scene_text": "A senior student helps you navigate the exam requirements. It's expensive and time-consuming, but your grades stabilize. Variable-sensitive text marked for later split: school+money+time (Result text should reflect changed variables.)",
+      "scene_text": "一位学长帮你理清了考试要求。虽然费钱又费时，你的成绩总算稳定下来。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -3520,7 +3520,7 @@
     },
     "R_B03_failed_exam": {
       "type": "result",
-      "scene_text": "You fail the second attempt at the core module exam. The university informs you that you can no longer continue your studies in this program. Variable-sensitive text marked for later split: school+wellbeing (Result text should reflect changed variables.)",
+      "scene_text": "你在核心模块考试的第二次尝试中再次失利。大学通知你，无法继续在这个项目中学习。",
       "image_prompt": null,
       "has_image": false,
       "choices": [
@@ -5552,7 +5552,7 @@
   },
   "endings": {
     "E_local_job": {
-      "scene_text": "Munich becomes home. 你顺利完成了TUM电气工程硕士的120个学分。凭借出色的学业成绩和在慕尼黑积累的工业实习经验，你成功在毕业后获得了当地科技巨头的录用。目前你已换发找工作签证，并正向欧盟蓝卡迈进，在慕尼黑开启了稳定的职业生涯。",
+      "scene_text": "你顺利完成了TUM电气工程硕士的120个学分。凭借出色的学业成绩和在慕尼黑积累的工业实习经验，你成功在毕业后获得了当地科技巨头的录用。目前你已换发找工作签证，并正向欧盟蓝卡迈进，在慕尼黑开启了稳定的职业生涯。",
       "image_prompt": "Munich international Electrical Engineering and Information Technology Taught Master student decision scene at Technische Universität München, page E_local_job, inspired by this story moment: Munich becomes home. 你顺利完成了TUM电气工程硕士的120个学分。凭借出色的学业成绩和在慕尼黑积累的工业实习经验，你成功在毕业后获得了当地科技巨头的录用。目前你已换发找工作签证，并正向欧盟蓝卡迈进，在慕尼黑开启了稳定的职业生涯。",
       "has_image": true,
       "tone": "hopeful",
@@ -5581,7 +5581,7 @@
       "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_local_job_da80221559.png"
     },
     "E_return_home_stronger": {
-      "scene_text": "Return home stronger. 你完成了在TUM的学业，带着含金量极高的硕士学位回国。虽然慕尼黑的生活充满挑战，但这段经历磨炼了你的专业技能和跨文化沟通能力。你在国内高端制造领域迅速找到了理想职位，留学经历成为了你职业晋升的加速器。",
+      "scene_text": "你完成了在TUM的学业，带着含金量极高的硕士学位回国。虽然慕尼黑的生活充满挑战，但这段经历磨炼了你的专业技能和跨文化沟通能力。你在国内高端制造领域迅速找到了理想职位，留学经历成为了你职业晋升的加速器。",
       "image_prompt": "Munich international Electrical Engineering and Information Technology Taught Master student decision scene at Technische Universität München, page E_return_home_stronger, inspired by this story moment: Return home stronger. 你完成了在TUM的学业，带着含金量极高的硕士学位回国。虽然慕尼黑的生活充满挑战，但这段经历磨炼了你的专业技能和跨文化沟通能力。你在国内高端制造领域迅速找到了理想职位，留学经历成为了你职业晋升的加速器。",
       "has_image": true,
       "tone": "bittersweet",
@@ -5609,7 +5609,7 @@
       "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_return_home_stronger_59f42d19f4.png"
     },
     "E_third_country_launch": {
-      "scene_text": "Third-country launch. 利用TUM在全球学术界的名望，你成功申请到了第三国的博士职位或研发岗位。慕尼黑的科研训练让你在国际竞争中脱颖而出。你带着在德国建立的学术网络，前往新的国家继续探索电气工程的前沿领域，开启了国际化的科研人生。",
+      "scene_text": "利用TUM在全球学术界的名望，你成功申请到了第三国的博士职位或研发岗位。慕尼黑的科研训练让你在国际竞争中脱颖而出。你带着在德国建立的学术网络，前往新的国家继续探索电气工程的前沿领域，开启了国际化的科研人生。",
       "image_prompt": "Munich international Electrical Engineering and Information Technology Taught Master student decision scene at Technische Universität München, page E_third_country_launch, inspired by this story moment: Third-country launch. 利用TUM在全球学术界的名望，你成功申请到了第三国的博士职位或研发岗位。慕尼黑的科研训练让你在国际竞争中脱颖而出。你带着在德国建立的学术网络，前往新的国家继续探索电气工程的前沿领域，开启了国际化的科研人生。",
       "has_image": true,
       "tone": "hopeful",
@@ -5638,7 +5638,7 @@
       "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_third_country_launch_81f5b295b9.png"
     },
     "E_defer_or_pause": {
-      "scene_text": "Defer or pause. 由于个人原因或行政延误，你不得不暂时中断在慕尼黑的学业。虽然未能按原计划毕业，但你保留了学籍并处理了紧迫的个人事务。这次停顿让你重新审视了目标，你计划在条件允许时重返TUM完成剩余的学分，学业之路尚未终结。",
+      "scene_text": "由于个人原因或行政延误，你不得不暂时中断在慕尼黑的学业。虽然未能按原计划毕业，但你保留了学籍并处理了紧迫的个人事务。这次停顿让你重新审视了目标，你计划在条件允许时重返TUM完成剩余的学分，学业之路尚未终结。",
       "image_prompt": "Munich international Electrical Engineering and Information Technology Taught Master student decision scene at Technische Universität München, page E_defer_or_pause, inspired by this story moment: Defer or pause. 由于个人原因或行政延误，你不得不暂时中断在慕尼黑的学业。虽然未能按原计划毕业，但你保留了学籍并处理了紧迫的个人事务。这次停顿让你重新审视了目标，你计划在条件允许时重返TUM完成剩余的学分，学业之路尚未终结。",
       "has_image": true,
       "tone": "bittersweet",
@@ -5667,7 +5667,7 @@
       "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_defer_or_pause_b2ef9cf661.png"
     },
     "E_burnout_graduation": {
-      "scene_text": "Graduated, but burned out. 你拿到了学位，但长期的过度压力让你感到精疲力竭。为了毕业，你牺牲了社交和健康，目前处于严重的心理倦怠期。虽然拥有了TUM的证书，但你决定先进行长时间的休整，而非立即投入高强度的职场竞争。这枚勋章的代价比预想中沉重。",
+      "scene_text": "你拿到了学位，但长期的过度压力让你感到精疲力竭。为了毕业，你牺牲了社交和健康，目前处于严重的心理倦怠期。虽然拥有了TUM的证书，但你决定先进行长时间的休整，而非立即投入高强度的职场竞争。这枚勋章的代价比预想中沉重。",
       "image_prompt": "Munich international Electrical Engineering and Information Technology Taught Master student decision scene at Technische Universität München, page E_burnout_graduation, inspired by this story moment: Graduated, but burned out. 你拿到了学位，但长期的过度压力让你感到精疲力竭。为了毕业，你牺牲了社交和健康，目前处于严重的心理倦怠期。虽然拥有了TUM的证书，但你决定先进行长时间的休整，而非立即投入高强度的职场竞争。这枚勋章的代价比预想中沉重。",
       "has_image": true,
       "tone": "challenging",
@@ -5696,7 +5696,7 @@
       "image_url": "/assets/generated/technische_universit_t_m_nchen_full_f81bb5c0b506_E_burnout_graduation_9c82cfda1c.png"
     },
     "E_money_critical": {
-      "scene_text": "Money collapse. 由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
+      "scene_text": "由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_money_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Money collapse. 由于限制账户资金彻底枯竭且未能获得新的资助，你无法证明有能力负担生活费用。慕尼黑外事局拒绝了你的居留许可延期申请，并下达了限期离境通知。你的留德之路因财务崩溃而被迫终结，未能完成TUM的学业。",
       "has_image": true,
       "tone": "challenging",
@@ -5731,7 +5731,7 @@
       }
     },
     "E_time_critical": {
-      "scene_text": "Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
+      "scene_text": "你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_time_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Time collapse. 你错过了TUM规定的核心模块最晚考核期限，且未能提供有效的延期理由。根据CIT学院的学籍管理条例，你已失去了继续参加考试的资格。由于无法在规定年限内修满学分，你被强制退学，留德学业以失败告终。",
       "has_image": true,
       "tone": "challenging",
@@ -5765,7 +5765,7 @@
       }
     },
     "E_visa_critical": {
-      "scene_text": "Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
+      "scene_text": "因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_visa_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Visa collapse. 因未能及时处理签证延期材料，或违反了学生签证的居留规定，你的居留许可被撤销。你被要求立即停止在德国的一切活动并限期离境。这一严重的行政失误不仅终结了你的学业，也为你未来的申根签证申请留下了负面记录。",
       "has_image": true,
       "tone": "challenging",
@@ -5800,7 +5800,7 @@
       }
     },
     "E_housing_critical": {
-      "scene_text": "Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
+      "scene_text": "在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_housing_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Housing collapse. 在慕尼黑失去住所后，你长期无法进行合法的地址登记，导致银行账户被冻结、保险失效且签证续签被拒。由于缺乏基本的生存保障，你无法继续专注于学业，最终只能选择退学并离开德国。住房危机彻底击垮了你的留学计划。",
       "has_image": true,
       "tone": "challenging",
@@ -5833,7 +5833,7 @@
       }
     },
     "E_school_critical": {
-      "scene_text": "School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
+      "scene_text": "你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_school_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: School collapse. 你在必修课的最终补考中再次失利，根据TUM的规定，你已永久失去了在德国攻读电气工程及相关专业的资格。尽管你付出了巨大努力，但学术要求的严苛程度超出了你的承受范围。你必须接受学业失败的现实，重新规划人生方向。",
       "has_image": true,
       "tone": "challenging",
@@ -5867,7 +5867,7 @@
       }
     },
     "E_wellbeing_critical": {
-      "scene_text": "Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
+      "scene_text": "长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_wellbeing_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Wellbeing collapse. 长期的精神高压和孤立导致了严重的健康危机，你已无法维持正常的学习和生活。在医生的建议下，你不得不选择无限期休学回国接受治疗。虽然学业中断令人遗憾，但保护生命健康成为了你当下的唯一选择。慕尼黑的寒冬终究没能熬过去。",
       "has_image": true,
       "tone": "challenging",
@@ -5901,7 +5901,7 @@
       }
     },
     "E_local_language_critical": {
-      "scene_text": "Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
+      "scene_text": "由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_local_language_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Local language collapse. 由于德语水平始终停滞不前，你不仅无法理解高深的核心课程，更在强制性实习申请中屡屡碰壁。由于无法完成教学大纲要求的实践环节，你无法获得毕业所需的学分。语言这道高墙最终让你在终点线前止步，未能获得硕士学位。",
       "has_image": true,
       "tone": "challenging",
@@ -5935,7 +5935,7 @@
       }
     },
     "E_career_critical": {
-      "scene_text": "Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
+      "scene_text": "在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_career_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Career collapse. 在多次尝试后，你仍未能找到符合要求的工业实习，且错过了所有关键的招聘周期。由于实习学分是提交硕士论文的前提，你的学业陷入僵局。面对高昂的延期费用和渺茫的就业前景，你最终失去了信心，决定放弃学位回国发展。",
       "has_image": true,
       "tone": "challenging",
@@ -5969,7 +5969,7 @@
       }
     },
     "E_academic_network_critical": {
-      "scene_text": "Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
+      "scene_text": "由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
       "image_prompt": "Technische Universität München, Munich, Germany student scene, page E_academic_network_critical. Show the concrete lived outcome of this route with a visually resolved emotional tone. Story moment: Academic network collapse. 由于长期游离于学术体系之外，你无法找到愿意接收你的教席进行硕士论文研究。在尝试联系多个实验室均被拒绝后，你发现自己陷入了无人指导的境地。缺乏学术背书让你在慕尼黑寸步难行，最终因无法完成论文而遗憾退学。",
       "has_image": true,
       "tone": "challenging",
@@ -6215,7 +6215,7 @@
       "degree_type": "Master of Science (M.Sc.)",
       "department": "TUM School of Computation, Information and Technology",
       "duration": "4个学期（全日制）",
-      "credits": "120 ECTS",
+      "credits": "120个欧洲学分",
       "delivery_mode": "德语授课；申请截止前须提交足够的德语能力证明",
       "curriculum": [
         "从自动化与机器人、生物与神经工程、通信工程、网络安全、电磁与微波、电子电路与系统、嵌入式系统、微纳电子、电力工程和量子工程等核心方向中选择模块"

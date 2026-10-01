@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import LanguageGate from "./components/LanguageGate";
 import HomeFlow from "./pages/HomeFlow";
 import DebugPage from "./pages/DebugPage";
 import PlayableDemoPage from "./pages/PlayableDemoPage";
@@ -8,11 +9,11 @@ import "./styles/journal.css";
 export default function App() {
   return (
     <LanguageProvider>
-      <Routes>
+      <LanguageGate><Routes>
         <Route path="/" element={<HomeFlow />} />
         <Route path="/debug" element={<DebugPage />} />
         <Route path="/play-demo" element={<PlayableDemoPage />} />
-      </Routes>
+      </Routes></LanguageGate>
     </LanguageProvider>
   );
 }

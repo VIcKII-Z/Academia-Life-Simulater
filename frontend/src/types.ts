@@ -1,3 +1,4 @@
+import type { StudyDuration, DurationEvidence, LEARNING_POLICY } from "../../shared/studyDesign";
 export interface Choice {
   /** Stable explicit id used by the post-offer if/else runtime and QA output. */
   logic_choice_id?: string;
@@ -116,6 +117,7 @@ export interface ReferenceProfiles {
     degree_type?: string;
     department?: string;
     duration?: string;
+    duration_evidence?: DurationEvidence;
     credits?: string;
     delivery_mode?: string;
     visa_eligible_notes?: string;
@@ -129,10 +131,15 @@ export interface ReferenceProfiles {
 }
 
 export interface StoryDocument {
+  learning_policy?: typeof LEARNING_POLICY;
+  study_duration?: StudyDuration;
+  protagonist?: { id: "china_zh" | "sri_lanka_en"; homeCountry: string; language: "zh" | "en"; gender: "woman"; homeCurrency: string };
+  full_generation?: { output_language?: "en" | "zh" };
   story_id: string;
   framework_type: "convergence" | "diverging" | "turning_point";
   framework_reason: string;
   user_profile: {
+    semesters?: number;
     country: string;
     city: string;
     grade: string;
@@ -205,7 +212,7 @@ export interface UserProfile {
   school?: string;
   department?: string;
   program?: string;
-  /** How many semesters the stay covers — scales story length; defaults to 1. */
+  /** Automatically inferred half-year planning blocks; never a player-selected difficulty. */
   semesters?: number;
 }
 

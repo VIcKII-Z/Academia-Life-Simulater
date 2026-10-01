@@ -1,3 +1,4 @@
+import type { StudyDuration, DurationEvidence, LEARNING_POLICY } from "../../shared/studyDesign";
 export interface UserProfile {
   country: string;
   city: string;
@@ -10,10 +11,7 @@ export interface UserProfile {
   school?: string;
   department?: string;
   program?: string;
-  /** How many semesters the player's stay covers — drives story length: the Design Agent
-   * scales total node count with this (see designAgent.ts's targetNodeCount), so a longer
-   * stay produces a longer, differently-paced story and a different kind of ending. Defaults
-   * to 1 semester (the original fixed 10-node story) when omitted. */
+  /** Automatically inferred half-year planning blocks; never a player-selected difficulty. */
   semesters?: number;
 }
 
@@ -78,6 +76,7 @@ export interface ResearchReport {
   grade: string;
   /** Optional, finer-grained profile echoed back from the request (Phase 0). */
   profile?: {
+    semesters?: number;
     country: string;
     city: string;
     school?: string;
@@ -127,6 +126,7 @@ export interface ResearchReport {
     degree_type?: string;
     department?: string;
     duration?: string;
+    duration_evidence?: DurationEvidence;
     credits?: string;
     delivery_mode?: string;
     visa_eligible_notes?: string;
@@ -323,6 +323,10 @@ export interface EndingNode {
 }
 
 export interface StoryDocument {
+  learning_policy?: typeof LEARNING_POLICY;
+  study_duration?: StudyDuration;
+  protagonist?: { id: "china_zh" | "sri_lanka_en"; homeCountry: string; language: "zh" | "en"; gender: "woman"; homeCurrency: string };
+  full_generation?: { output_language?: "en" | "zh"; [key: string]: unknown };
   story_id: string;
   framework_type: FrameworkType;
   framework_reason: string;
@@ -439,6 +443,7 @@ export interface LogicNode {
 }
 
 export interface LogicEnding {
+  text?: string;
   id: string;
   title: string;
   tone: Tone;

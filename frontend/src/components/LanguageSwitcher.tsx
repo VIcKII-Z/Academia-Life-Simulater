@@ -1,8 +1,8 @@
 import { type Language, useI18n } from "../lib/i18n";
 
-const LANGUAGES: Language[] = ["en", "es", "zh"];
+const LANGUAGES: Language[] = ["en", "zh"];
 
-export default function LanguageSwitcher({ inline = false }: { inline?: boolean }) {
+export default function LanguageSwitcher({ inline = false, disabled = false }: { inline?: boolean; disabled?: boolean }) {
   const { language, setLanguage, t, languageLabels } = useI18n();
 
   return (
@@ -11,6 +11,7 @@ export default function LanguageSwitcher({ inline = false }: { inline?: boolean 
       <div className="languageSwitcherButtons">
         {LANGUAGES.map((item) => (
           <button
+            disabled={disabled}
             key={item}
             type="button"
             className={item === language ? "active" : ""}

@@ -99,7 +99,11 @@ export function buildRuntimeConfig(
   outputLanguage: RuntimeConfig["outputLanguage"] = "en",
 ): RuntimeConfig {
   const { provider, apiKey, baseURL } = loadCredentials();
-  const models = { ...DEFAULT_MODELS, ...overrides };
+  const models = {
+    ...DEFAULT_MODELS,
+    design: provider === "openai" ? DEFAULT_MODELS.search : DEFAULT_MODELS.design,
+    ...overrides,
+  };
   const openaiApiKey = loadProviderApiKey("openai").trim();
   const textApiKey = apiKey.trim();
   const textBaseURL = provider === "relay" ? baseURL.trim() || DEFAULT_TEXT_RELAY_BASE_URL : undefined;
@@ -165,9 +169,9 @@ export interface CachedStorySummary {
   imageCount: number;
 }
 
-export async function fetchCachedStories(limit = 6): Promise<CachedStorySummary[]> {
-  const res = await fetch(`/api/stories?limit=${encodeURIComponent(String(limit))}`);
-  if (!res.ok) return [];
+export async function fetchCachedStories(limit = 6, language?: "en" | "zh"): Promise<CachedStorySummary[]> {
+  const res = await fetch(`/api/stories?limit=${encodeURIComponent(String(limit))}${language ? `&language=${language}` : ""}`);
+  if (!res.ok) throw new Error("Could not load stories");
   const payload = await res.json() as { stories?: CachedStorySummary[] };
   return payload.stories ?? [];
 }

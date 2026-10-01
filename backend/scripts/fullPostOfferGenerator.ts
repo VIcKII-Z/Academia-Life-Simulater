@@ -1,3 +1,7 @@
+import { inferStudyDuration, resolveStudyDuration, cohortForLanguage, cohortNarrativeRules, LEARNING_POLICY, LEARNING_GENERATION_RULES, shouldWarn, isLearningStory } from "../../shared/studyDesign.js";
+import { addStudyMilestones, learningDesignIssues, remapEvidenceIds, auditLearningRoutes } from "../src/agents/learningDesign.js";
+import { assertPublishableStory } from "../src/agents/storyPublication.js";
+import { proseMatchesLanguage, storyLanguageIssues, storyProseFields } from "../../shared/storyLanguage.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -191,6 +195,7 @@ function requestedProfileFromEnv(): UserProfile {
 }
 
 const REQUESTED_PROFILE = requestedProfileFromEnv();
+REQUESTED_PROFILE.semesters = inferStudyDuration(REQUESTED_PROFILE).semesters;
 
 const TEXT_API_KEY = process.env.TEXT_API_KEY || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY;
 const TEXT_API_BASE_URL = normalizeApiBaseURL(process.env.TEXT_BASE_URL || process.env.GCLI_BASE_URL || process.env.OPENAI_BASE_URL || "https://gcli.ggchan.dev/v1");
@@ -645,7 +650,7 @@ function fallbackResearchForProfile(profile: UserProfile): ResearchReport & { re
       official_name: profile.program || profile.department || profile.major,
       degree_type: profile.grade,
       department: profile.department || profile.major,
-      duration: profile.semesters ? `${profile.semesters} semesters selected by the user` : "Verify on the official program page",
+      duration: "Program duration is pending official verification; use the automatic provisional timeline only for narrative pacing.",
       delivery_mode: "Verify on the official program page",
       visa_eligible_notes: `Verify current student-status eligibility for ${profile.country}.`,
       curriculum: [],
@@ -859,7 +864,7 @@ function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function chatJson<T extends JsonObject>(stage: string, messages: Array<{ role: "system" | "user" | "assistant"; content: string }>): Promise<T> {
+async function chatJson<T extends object>(stage: string, messages: Array<{ role: "system" | "user" | "assistant"; content: string }>): Promise<T> {
   if (!TEXT_API_KEY) throw new Error("Set TEXT_API_KEY, GCLI_API_KEY, or OPENAI_API_KEY before running this script.");
   const started = Date.now();
   let lastError: unknown;
@@ -876,7 +881,7 @@ async function chatJson<T extends JsonObject>(stage: string, messages: Array<{ r
         },
         body: JSON.stringify({
           model: TEXT_MODEL,
-          messages,
+          messages: [{ role: "system", content: `${cohortNarrativeRules(OUTPUT_LANGUAGE, REQUESTED_PROFILE.grade)}\n${LEARNING_GENERATION_RULES}\nTimeline: ${JSON.stringify(resolveStudyDuration(REQUESTED_PROFILE, ACTIVE_RESEARCH.program_profile?.duration_evidence, ACTIVE_RESEARCH.sources))}. Keep stages chronological; first-year orientation precedes later study milestones, degree completion and graduate status. Describe a provisional duration as unverified, never as an official program fact. Preserve the requested JSON schema.` }, ...messages],
           response_format: { type: "json_object" },
           temperature: 0.45,
         }),
@@ -1271,6 +1276,7 @@ function standardizeResearchBatch(id: string, parsed: Partial<ResearchReport>): 
         degree_type: firstFactText(incoming.degree_type, facts.degree_type, REQUESTED_PROFILE.grade),
         department: firstFactText(incoming.department, REQUESTED_PROFILE.department, REQUESTED_PROFILE.major),
         duration: firstFactText(incoming.duration, facts.degree_duration, facts.duration),
+        duration_evidence: incoming.duration_evidence as NonNullable<ResearchReport["program_profile"]>["duration_evidence"],
         credits: firstFactText(incoming.credits, facts.ects, facts.total_credits, facts.credits),
         delivery_mode: firstFactText(incoming.delivery_mode, facts.language_of_instruction),
         visa_eligible_notes: firstFactText(incoming.visa_eligible_notes, facts.visa_eligible_notes),
@@ -1371,8 +1377,16 @@ function mergeResearchReports(parts: Partial<ResearchReport>[]): ResearchReport 
   };
   const report = normalizeResearchReport(raw);
   report.sources = normalizeResearchSources(parts.flatMap((part) => part.sources ?? []));
+  const programPart = parts.find((part) => part.program_profile?.duration_evidence);
+  const durationEvidence = programPart?.program_profile?.duration_evidence;
+  if (report.program_profile && durationEvidence && Array.isArray(durationEvidence.evidence_ids)) {
+    const remapped = remapEvidenceIds(durationEvidence.evidence_ids, programPart?.sources ?? [], report.sources ?? []);
+    report.program_profile.duration_evidence = remapped.length === durationEvidence.evidence_ids.length ? { ...durationEvidence, evidence_ids: remapped } : undefined;
+  }
   report.glossary_terms = normalizeWorldBookGlossary(parts.flatMap((part) => part.glossary_terms ?? []), report.sources);
   report.gaps = [...new Set(parts.flatMap((part) => part.gaps ?? []).filter(Boolean))];
+  const duration = resolveStudyDuration(REQUESTED_PROFILE, report.program_profile?.duration_evidence, report.sources);
+  report.profile = { ...report.profile, ...REQUESTED_PROFILE, semesters: duration.semesters };
   report.research_batches = researchBatchesFromReport(report);
   return report;
 }
@@ -1411,6 +1425,8 @@ function normalizeResearchReport(report: Partial<ResearchReport>): ResearchRepor
     sources: normalizeResearchSources(report.sources),
     research_batches: (report as { research_batches?: JsonObject[] }).research_batches,
   } as ResearchReport & { research_batches?: JsonObject[] };
+  const duration = resolveStudyDuration(REQUESTED_PROFILE, merged.program_profile?.duration_evidence, merged.sources);
+  merged.profile = { ...merged.profile, ...REQUESTED_PROFILE, semesters: duration.semesters };
   merged.glossary_terms = normalizeWorldBookGlossary(report.glossary_terms, merged.sources ?? []);
   merged.research_batches = merged.research_batches?.length ? merged.research_batches : researchBatchesFromReport(merged);
   return merged;
@@ -1431,11 +1447,13 @@ async function retrieveResearch(): Promise<ResearchReport & { research_batches?:
   const sharedRules = `
 Profile:
 ${compact(REQUESTED_PROFILE, 4_000)}
+Home-country cohort: ${compact(cohortForLanguage(OUTPUT_LANGUAGE))}. Check nationality-specific entry/document rules for this cohort; the selected country is the destination. Research STEM mentoring and support without assuming disadvantage or family opposition.
 
 Return one strict JSON partial ResearchReport. Omit fields you did not verify.
 - Search the live web and prefer first-party institution, national/local government, and official student-service pages.
 - A source may be marked official/high only when its hostname belongs to the institution or public authority that issued the rule.
 - Wikipedia, commercial study portals, consultancies, and aggregators are never official sources. A ranking publisher is authoritative only for its own named table: label it third_party/medium, always capture the edition/year and scope, and never treat it as evidence for admissions or teaching quality. An official university announcement may confirm a ranking only when it names the system, edition, scope, and rank exactly.
+- For the exact full-time program only, include program_profile.duration_evidence = {"months": number, "study_load":"full_time", "evidence_ids":["S01"]} when an official program page explicitly supports one duration. Convert years to months and semesters to six-month blocks; do not treat quarters or terms as semesters. Omit for ambiguous ranges, unmatched programs, part-time-only evidence or unknown duration. Never copy the provisional profile.semesters as evidence.
 - Build institution_profile as a decision card: institution type/location and only verified current rankings. Build program_profile as a decision card: duration, credits/ECTS, language, prerequisites, admissions process/documents, deadlines, fees, curriculum, and graduation milestones.
 - Build glossary_terms as the reusable world-book terminology layer before story writing. For this batch, collect exact proper nouns and specialized terms a prospective student may see: official/local/translated university and department names, degree and discipline names, admissions or academic milestones, immigration/administrative terms, named services, and unusual fee/funding terms. Explain what each means in this exact institution/country and why it matters; include translated/local aliases and source evidence. Do not include generic words or unsourced definitions.
 - When this batch covers campus or city life, collect 2-5 visually recognizable real settings in campus_life_profile.visual_landmarks. Prefer named campus buildings, libraries, squares, bridges, towers, or skyline elements documented by the university, municipality, or official tourism authority. Every entry must include the exact landmark name, kind, a short objective visual_note, and the supporting first-party URL; omit it if no such source was found. These are image-setting references, not permission to relocate an unrelated scene.
@@ -1624,7 +1642,7 @@ function makeFailureEnding(variable: LogicVariableDefinition): LogicEnding {
     id: variable.failure_page_id,
     title: `${variable.label} collapse`,
     tone: "challenging",
-    condition_summary: `${variable.label} reached the critical band and killed the current planning chain.`,
+    condition_summary: `Optional case study: a concrete, sourced severe consequence relating to ${variable.label}. Low scores alone never trigger this outcome.`,
   };
 }
 
@@ -1713,6 +1731,7 @@ function createInitialGraph(): LogicGraphDocument {
       variant_triggers: outline.variant_triggers,
     };
   }
+  addStudyMilestones(graph, resolveStudyDuration(REQUESTED_PROFILE, ACTIVE_RESEARCH.program_profile?.duration_evidence, ACTIVE_RESEARCH.sources).semesters);
   ensureSystemPages(graph);
   return graph;
 }
@@ -1967,7 +1986,7 @@ Hard rules:
 - The label should be concise and concrete. It will later be prefixed by id in the compiler.
 - Every option goes to its result_page_id first; result page then returns to planned_next_id unless variable warning/failure interrupts.
 - Use only these variable ids in delta: ${variableIds(graph).join(", ")}
-- Deltas should be meaningful but not random. Bad options may push a variable into bad or critical if semantically justified.
+- Deltas should be modest and meaningful. Low resources request guidance and never cause automatic failure. Keep every option realistic; at least two must continue the study route.
 - Decide by real-world semantics whether to return to next main node, enter a branch node, or enter an ending.
 - If you use a branch planned_next_id, include the full branch node under new_branch_nodes with its own 3 options and result pages.
 - Every introduced branch must be able to reach a known next main node or ending.
@@ -2032,6 +2051,23 @@ function collectGraphErrors(graph: LogicGraphDocument): string[] {
       }
     }
   }
+  if (!errors.length) {
+    // Enforce learning-route balance before spending calls on prose and images.
+    const planned = compileWithVariants(graph, {});
+    for (const page of Object.values(graph.pages)) {
+      if (planned.nodes[page.id] && isFailurePage(page)) planned.nodes[page.id].logic_page_role = "failure";
+    }
+    for (const ending of Object.values(graph.endings)) {
+      if (isFailureEnding(ending)) planned.endings[ending.id].logic_page_role = "failure";
+    }
+    const routeAudit = auditLearningRoutes(planned);
+    errors.push(...routeAudit.badExamples);
+    if (routeAudit.severeProbability > 0.2) errors.push("Severe-consequence probability exceeds 20%. Replace routine failure traps with credible supported continuation; keep rare severe cases optional.");
+    const duration = planned.study_duration!;
+    for (let stage = 2; stage <= duration.semesters; stage++) {
+      if (!graph.main_node_order.includes(`N_study_stage_${String(stage).padStart(2, "0")}`)) errors.push(`Restore study stage ${stage} in chronological order before graduation.`);
+    }
+  }
   return errors;
 }
 
@@ -2061,7 +2097,7 @@ Hard requirements:
 - Every playable node exactly 3 options: normal, positive_extreme, negative_extreme.
 - Every option has result_page_id, planned_next_id, route_decision, delta.
 - Every option chain reaches an ending.
-- Add warning pages for all variables and failure endings for critical variables.
+- Add support-note warning pages for all variables and optional severe-consequence case-study pages. Numeric critical bands never terminate the journey.
 - Runtime must be explicit ids and variable values only.
 - Preserve good existing node ids and option ids where possible.
 
@@ -2445,7 +2481,7 @@ function fallbackPageAnnotation(page: LogicPage): PageAnnotation {
       cause: "Your previous choice led directly to this result.",
       current_step: `This page explains what the action “${page.title}” produced in practice.`,
       consequence: "The action immediately consumes or restores resources and leaves a traceable outcome.",
-      next_impact: "Continue to the next study-abroad step connected to that choice; severe effects may first trigger a warning or failure.",
+      next_impact: "Continue to the next study-abroad step connected to that choice; low resources may first open a support note; numeric scores never end the journey.",
       terms: [],
       evidence_ids: [],
     };
@@ -2455,7 +2491,7 @@ function fallbackPageAnnotation(page: LogicPage): PageAnnotation {
       cause: "Earlier choices pushed a key condition into a state that now needs attention.",
       current_step: `This page explains why “${page.title}” is a practical risk.`,
       consequence: "The situation is still recoverable, but ignoring it will narrow later choices.",
-      next_impact: "You will return to the interrupted result; further deterioration can lead to a failure ending.",
+      next_impact: "You will return to the interrupted result; review the practical support action before continuing your learning journey.",
       terms: [],
       evidence_ids: [],
     };
@@ -2517,7 +2553,7 @@ function sanitizeAnnotation(value: unknown, fallback: PageAnnotation, pageText =
   const evidenceIds = cleanEvidenceIds(raw.evidence_ids);
   const terms = Array.isArray(raw.terms)
     ? raw.terms
-        .map((term) => {
+        .map((term): PageTermAnnotation | null => {
           if (!term || typeof term !== "object") return null;
           const candidate = term as {
             term?: unknown;
@@ -2672,8 +2708,8 @@ async function fillSystemContent(graph: LogicGraphDocument, priorSummaries: stri
       content: `Fill all warning pages and endings.
 
 Rules:
-- Warning pages mean a variable has entered the bad band once; write a warning, not a final failure.
-- Failure endings mean a variable reached critical and killed the chain.
+- Warning pages are one-time educational support notes for low resources, including the critical band. Explain the concern and a realistic support or information action; the journey continues.
+- Severe-outcome pages are optional case studies of a concrete sourced consequence, not the result of a numeric threshold. State the specific factual trigger and a practical next step.
 - Non-failure endings resolve the study-abroad route.
 ${systemContentRules()}
 - Keep warnings and real consequences direct and accurate, but give the surrounding narration a playful, human voice instead of administrative boilerplate.
@@ -2733,7 +2769,10 @@ function applyContentPatch(graph: LogicGraphDocument, patch: ContentPatch): void
   for (const [endingId, endingPatch] of Object.entries(patch.endings ?? {})) {
     const ending = graph.endings[endingId];
     if (!ending) continue;
-    if (endingPatch.text?.trim()) ending.condition_summary = endingPatch.text.trim();
+    if (endingPatch.text?.trim()) {
+      ending.text = endingPatch.text.trim();
+      ending.condition_summary = endingPatch.text.trim();
+    }
     if (endingPatch.insight?.trim()) ending.insight = endingPatch.insight.trim();
     if (endingPatch.annotation) ending.annotation = sanitizeAnnotation(endingPatch.annotation, fallbackEndingAnnotation(ending));
     if (isFailureEnding(ending)) {
@@ -2759,8 +2798,8 @@ function variantTargets(graph: LogicGraphDocument): Array<{ page: LogicPage; tri
     .map((page) => ({ page, triggers: page.variant_triggers ?? [] }));
 }
 
-async function generateVariants(graph: LogicGraphDocument): Promise<Record<string, VariantPatch["variants"][string]>> {
-  const output: Record<string, VariantPatch["variants"][string]> = {};
+async function generateVariants(graph: LogicGraphDocument): Promise<Record<string, NonNullable<VariantPatch["variants"]>[string]>> {
+  const output: Record<string, NonNullable<VariantPatch["variants"]>[string]> = {};
   const targets = variantTargets(graph);
   for (let i = 0; i < targets.length; i += 4) {
     const batch = targets.slice(i, i + 4);
@@ -2821,14 +2860,45 @@ Output:
   return output;
 }
 
+async function ensureOutputLanguage(doc: StoryDocument): Promise<void> {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const missing = storyProseFields(doc).filter((field) => !proseMatchesLanguage(field.text, OUTPUT_LANGUAGE));
+    if (!missing.length) return;
+    for (let offset = 0; offset < missing.length; offset += 20) {
+      const batch = missing.slice(offset, offset + 20);
+      const patch = await chatJson<{ translations?: Record<string, string> }>(`language_repair_${attempt}_${offset}`, [
+        { role: "system", content: `Translate supplied display text into ${proseLanguageName()}. Preserve every factual claim, amount, date, official name, identifier, and the literal {previous_node} token. Remove planner commentary such as 'Variable-sensitive text marked for later split'. Do not add advice or change story outcomes. Return strict JSON: {"translations":{"0":"..."}}.` },
+        { role: "user", content: JSON.stringify(Object.fromEntries(batch.map((field, i) => [String(i), field.text]))) },
+      ]);
+      batch.forEach((field, i) => {
+        const text = patch.translations?.[String(i)];
+        if (typeof text !== "string" || !text.trim() || !proseMatchesLanguage(text, OUTPUT_LANGUAGE)) return;
+        if (field.text.includes("{previous_node}") && !text.includes("{previous_node}")) return;
+        const numbers = (value: string) => JSON.stringify((value.match(/\d+(?:[.,]\d+)*/g) ?? []).sort());
+        if (numbers(field.text) !== numbers(text)) return;
+        let target = doc as unknown as Record<string, unknown>;
+        for (const part of field.path.slice(0, -1)) target = target[part] as Record<string, unknown>;
+        target[field.path[field.path.length - 1]] = text.trim();
+      });
+    }
+  }
+  const unresolved = storyLanguageIssues(doc, OUTPUT_LANGUAGE);
+  if (unresolved.length) throw new Error(`Untranslated story prose: ${unresolved.slice(0, 8).join(", ")}`);
+}
+
 function compileWithVariants(
   graph: LogicGraphDocument,
-  variants: Record<string, VariantPatch["variants"][string]>,
+  variants: Record<string, NonNullable<VariantPatch["variants"]>[string]>,
 ): StoryDocument & { logic_content_variants?: typeof variants; full_generation?: JsonObject } {
   const doc = compileLogicGraphToStoryDocument(graph, ACTIVE_RESEARCH, STORY_ID, OUTPUT_LANGUAGE) as StoryDocument & {
     logic_content_variants?: typeof variants;
     full_generation?: JsonObject;
   };
+  doc.learning_policy = LEARNING_POLICY;
+  doc.framework_reason = OUTPUT_LANGUAGE === "zh" ? "通过真实情境了解留学流程，比较合理选择，借助信息与支持完成学习旅程。" : "Explore real study-abroad situations, compare credible choices and progress with information and support.";
+  doc.protagonist = cohortForLanguage(OUTPUT_LANGUAGE);
+  doc.study_duration = resolveStudyDuration(REQUESTED_PROFILE, ACTIVE_RESEARCH.program_profile?.duration_evidence, ACTIVE_RESEARCH.sources);
+  doc.user_profile.semesters = doc.study_duration.semesters;
   doc.logic_content_variants = variants;
   doc.full_generation = {
     text_model: TEXT_MODEL,
@@ -2958,6 +3028,7 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
 
   for (let step = 0; step < 120; step++) {
     if (doc.endings[current]) return { ok: true, ending: current, steps: step, warnings, state, choice_ids: choiceIds };
+    if (isLearningStory(doc) && doc.nodes[current]?.failure_recovery) return { ok: true, ending: current, steps: step, warnings, state, choice_ids: choiceIds };
     const node = doc.nodes[current];
     if (!node) return { ok: false, reason: `missing ${current}`, steps: step, warnings, state, choice_ids: choiceIds };
     if (doc.logic && node.choices[0]?.next_node === doc.logic.result_return_sentinel) {
@@ -2978,14 +3049,14 @@ function simulate(doc: StoryDocument, strategy: "normal" | "positive" | "negativ
     for (const [key, delta] of Object.entries(choice.logic_delta ?? {})) state[key] = clamp((state[key] ?? 70) + delta);
     if (choice.logic_planned_next_node) resultReturn = choice.logic_planned_next_node;
     const critical = variables.find((variable) => logicBand(state[variable.id] ?? variable.initial) === "critical");
-    if (critical) {
+    if (critical && !isLearningStory(doc)) {
       current = critical.failure_page_id;
       continue;
     }
     const bad = variables.find((variable) => {
       if (warningsSeen[variable.id]) return false;
       const before = logicBand(previous[variable.id] ?? variable.initial);
-      return logicBand(state[variable.id] ?? variable.initial) === "bad" && before !== "bad" && before !== "critical";
+      return shouldWarn(previous[variable.id] ?? variable.initial, state[variable.id] ?? variable.initial, false, isLearningStory(doc));
     });
     if (bad) {
       warningsSeen[bad.id] = true;
@@ -3017,9 +3088,9 @@ function rebalanceNormalChoiceDeltas(graph: LogicGraphDocument): string[] {
 
 function stabilizeNormalRoute(
   graph: LogicGraphDocument,
-  variants: Record<string, VariantPatch["variants"][string]>,
+  variants: Record<string, NonNullable<VariantPatch["variants"]>[string]>,
   notes: string[],
-): StoryDocument & { logic_content_variants?: Record<string, VariantPatch["variants"][string]> } {
+): StoryDocument & { logic_content_variants?: Record<string, NonNullable<VariantPatch["variants"]>[string]> } {
   const optionsById = new Map(
     Object.values(graph.nodes).flatMap((node) => node.options.map((option) => [option.id, option] as const)),
   );
@@ -3051,6 +3122,7 @@ function stabilizeNormalRoute(
 }
 
 function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
+  if (isLearningStory(doc)) return auditLearningRoutes(doc);
   const logic = doc.logic;
   const result: ExhaustiveSimulationResult = {
     terminalPaths: 0,
@@ -3113,13 +3185,13 @@ function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
 
     if (node.logic_page_role === "warning") {
       if (!state.warningReturn) addBad(`Warning page ${state.current} had no stored return page.`);
-      walk({ ...state, current: state.warningReturn ?? logic.start_node_id, warningReturn: null }, depth + 1);
+      walk({ ...state, current: state.warningReturn ?? doc.logic!.start_node_id, warningReturn: null }, depth + 1);
       return;
     }
 
     if (node.logic_page_role === "result") {
       if (!state.resultReturn) addBad(`Result page ${state.current} had no stored planned return.`);
-      walk({ ...state, current: state.resultReturn ?? logic.start_node_id, resultReturn: null }, depth + 1);
+      walk({ ...state, current: state.resultReturn ?? doc.logic!.start_node_id, resultReturn: null }, depth + 1);
       return;
     }
 
@@ -3132,7 +3204,7 @@ function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
       const nextValues = applyDelta(state.values, choice.logic_delta);
       const resultReturn = choice.logic_planned_next_node ?? state.resultReturn;
       const critical = variables.find((variable) => logicBand(nextValues[variable.id] ?? variable.initial) === "critical");
-      if (critical) {
+      if (critical && !isLearningStory(doc)) {
         walk({ ...state, values: nextValues, resultReturn, warningReturn: null, current: critical.failure_page_id }, depth + 1);
         continue;
       }
@@ -3140,7 +3212,7 @@ function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
       const badVariable = variables.find((variable) => {
         if (state.warningsSeen[variable.id]) return false;
         const before = logicBand(state.values[variable.id] ?? variable.initial);
-        return logicBand(nextValues[variable.id] ?? variable.initial) === "bad" && before !== "bad" && before !== "critical";
+        return shouldWarn(state.values[variable.id] ?? variable.initial, nextValues[variable.id] ?? variable.initial, false, isLearningStory(doc));
       });
       if (badVariable) {
         walk(
@@ -3166,7 +3238,7 @@ function simulateAllPaths(doc: StoryDocument): ExhaustiveSimulationResult {
 }
 
 function validateCompiledStory(
-  doc: StoryDocument & { logic_content_variants?: Record<string, VariantPatch["variants"][string]> },
+  doc: StoryDocument & { logic_content_variants?: Record<string, NonNullable<VariantPatch["variants"]>[string]> },
   sampleSimulation: Record<"normal" | "positive" | "negative" | "mixed", SimulationResult>,
   exhaustiveSimulation: ExhaustiveSimulationResult,
   balanceNotes: string[],
@@ -3356,6 +3428,13 @@ function validateCompiledStory(
     comboVariants += pageVariants.filter((variant) => Object.keys(variant.conditions ?? {}).length > 1).length;
   }
 
+  issues.push(...learningDesignIssues(doc, OUTPUT_LANGUAGE));
+  for (let stage = 2; stage <= (doc.study_duration?.semesters ?? 1); stage++) {
+    const nodeId = `N_study_stage_${String(stage).padStart(2, "0")}`;
+    if (!doc.nodes[nodeId]?.choices.some((choice) => choice.logic_choice_id && sampleSimulation.normal.choice_ids.includes(choice.logic_choice_id))) {
+      issues.push(`The supported main route skips study stage ${stage}.`);
+    }
+  }
   const normalEnding = sampleSimulation.normal.ending ? doc.endings[sampleSimulation.normal.ending] : undefined;
   const normalStrategyReachesNaturalEnding = Boolean(sampleSimulation.normal.ok && normalEnding && normalEnding.logic_page_role !== "failure");
   if (!normalStrategyReachesNaturalEnding) {
@@ -3444,6 +3523,10 @@ async function main(): Promise<void> {
     : null;
   const savedGraph = savedBalancedGraph ?? savedPlannedGraph ?? savedPartialPlanning?.value ?? null;
 
+  if (savedGraph) {
+    const stages = resolveStudyDuration(REQUESTED_PROFILE, savedResearch?.program_profile?.duration_evidence, savedResearch?.sources).semesters;
+    if (stages > 1 && !savedGraph.nodes.N_study_stage_02) throw new Error("This checkpoint predates supported exploration. Start a fresh generation to rebuild the cohort and timeline.");
+  }
   if (REGENERATE_TEXT_ONLY && (!resumeRequested || !savedResearch || !savedBalancedGraph)) {
     throw new Error("Text-only regeneration requires FULL_RESUME_CHECKPOINT=true plus existing research and balanced-graph checkpoints.");
   }
@@ -3528,7 +3611,7 @@ async function main(): Promise<void> {
     .every((pageId) => Boolean(graph.pages[pageId]?.text?.trim()));
   for (const nodeId of orderedNodeIds) {
     if (nodeHasContent(nodeId)) {
-      const page = graph.pages[graph.nodes[nodeId].page_id];
+      const page = graph.pages[nodeId];
       priorSummaries.push(`${nodeId}: ${(page?.text || page?.placeholder || "").slice(0, 240)}`);
       continue;
     }
@@ -3553,10 +3636,9 @@ async function main(): Promise<void> {
 
   const variants = await generateVariants(graph);
   const routeBalancedDoc = stabilizeNormalRoute(graph, variants, balanceNotes);
+  await ensureOutputLanguage(routeBalancedDoc);
   await writeJson("07_route_balanced_graph.json", graph);
-  const doc = REGENERATE_TEXT_ONLY
-    ? reuseExistingImages(routeBalancedDoc, previousFinalStory as StoryDocument)
-    : await maybeGenerateImages(routeBalancedDoc);
+  const doc = routeBalancedDoc;
   if (REGENERATE_TEXT_ONLY && (API_CALLS.research !== 0 || API_CALLS.image !== 0)) {
     throw new Error(`Text-only safety guard blocked output: research=${API_CALLS.research}, image=${API_CALLS.image}.`);
   }
@@ -3574,6 +3656,11 @@ async function main(): Promise<void> {
   }
   await writeJson("08_simulation.json", { sample: simulation, exhaustive: exhaustiveSimulation });
   await writeJson("09_validation_report.json", validation);
+  assertPublishableStory(doc, validation.issues, OUTPUT_LANGUAGE);
+  // Spend image requests only after prose and routing have passed validation.
+  Object.assign(doc, REGENERATE_TEXT_ONLY
+    ? reuseExistingImages(doc, previousFinalStory as StoryDocument)
+    : await maybeGenerateImages(doc));
   await fs.writeFile(path.join(STORIES_DIR, `${STORY_ID}_final.json`), JSON.stringify(doc, null, 2), "utf8");
   await writeJson("09_final_story.json", doc);
   await writeRunMetrics("completed");

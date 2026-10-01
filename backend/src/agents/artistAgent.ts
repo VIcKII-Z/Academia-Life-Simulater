@@ -1,3 +1,4 @@
+import { cohortNarrativeRules } from "../../../shared/studyDesign.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -18,23 +19,24 @@ const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets", "generate
 const IMAGE_SIZE = "1536x1024" as const;
 
 const EAST_ASIAN_PROTAGONIST =
-  "The protagonist is always the same 24-year-old Chinese East Asian woman: oval face, warm light-medium skin, " +
+  "The protagonist is always the same young adult Chinese East Asian woman: oval face, warm light-medium skin, " +
   "straight shoulder-length black hair with a clean side part, dark-brown almond-shaped eyes, thin round dark-green glasses, " +
   "and a navy canvas backpack with one small yellow keychain. Keep her face, age, skin tone, hairstyle, glasses, and backpack " +
   "identical in every illustration.";
 
 const SRI_LANKAN_PROTAGONIST =
-  "The protagonist is always the same 24-year-old Sri Lankan South Asian woman: oval face, warm medium-deep brown skin, " +
+  "The protagonist is always the same young adult Sri Lankan South Asian woman: oval face, warm medium-deep brown skin, " +
   "dark-brown almond-shaped eyes, long wavy black hair tied in one low braid, small gold stud earrings, a teal scarf, " +
   "and a navy canvas backpack with one small yellow keychain. Keep her face, age, skin tone, hairstyle, earrings, scarf, " +
   "and backpack identical in every illustration.";
 
-function stylePrefix(runtimeConfig?: RuntimeConfig): string {
-  const protagonist = runtimeConfig?.outputLanguage === "zh" ? EAST_ASIAN_PROTAGONIST : SRI_LANKAN_PROTAGONIST;
+function stylePrefix(runtimeConfig: RuntimeConfig | undefined, doc: StoryDocument): string {
+  const language = doc.protagonist?.language ?? doc.full_generation?.output_language ?? runtimeConfig?.outputLanguage ?? "en";
+  const protagonist = language === "zh" ? EAST_ASIAN_PROTAGONIST : SRI_LANKAN_PROTAGONIST;
   return (
     "Create a 3:2 landscape illustration composed specifically for a 1536x1024 frame. " +
     "Keep the protagonist and all important action inside the central safe area; use a medium or wide shot, never an extreme close-up. " +
-    `${protagonist} ` +
+    `${cohortNarrativeRules(language, doc.user_profile.grade)} ${protagonist} This is one fictional individual, not a representative appearance of an entire nationality. Use ordinary contemporary clothing and show competence, agency and supportive peers. ` +
     "Warm hand-drawn storybook illustration in soft watercolor and colored-pencil style, gentle natural lighting, " +
     "cozy muted earthy palette, delicate linework, fine detail, subtle grain, and one consistent picture-book series aesthetic. " +
     "Show one concrete scene unique to this page. Do not render any letters, words, numbers, signs, building names, document text, captions, " +
@@ -213,7 +215,7 @@ export async function runArtistAgent(
     const client = getOpenAIClient(runtimeConfig, "image");
     for (const [index, [nodeId, node]] of entriesToGenerate.entries()) {
       const toneSuffix = "tone" in node ? `, ${(node as { tone: string }).tone} mood` : "";
-      const prompt = `${stylePrefix(runtimeConfig)}${node.image_prompt}${toneSuffix}${landmarkDirection(doc, nodeId)}`;
+      const prompt = `${stylePrefix(runtimeConfig, doc)}${node.image_prompt}${toneSuffix}${landmarkDirection(doc, nodeId)}`;
       await observer?.onImageRequest?.({ nodeId, requestNumber: index + 1 });
       const result = await client.images.generate({
         model: getRuntimeModel(runtimeConfig, "image"),

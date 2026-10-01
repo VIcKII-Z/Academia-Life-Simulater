@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { LEARNING_POLICY, isLearningStory, durationLabel } from "../../../shared/studyDesign";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { fetchStory } from "../lib/api";
 import InlineAnnotatedText from "../components/InlineAnnotatedText";
@@ -9,16 +10,12 @@ import {
   readTutorialFlag,
   writeTutorialFlag,
 } from "../lib/tutorialState";
-import {
-  applyLogicContentVariant,
-  applyLogicDelta,
-  findCriticalVariable,
-  findNewBadVariable,
-  initLogicVars,
-  previewLogicDelta,
-  type LogicVars,
-  type LogicWarningsSeen,
-} from "../lib/logicRuntime";
+import { applyLogicContentVariant, previewLogicDelta, type LogicVars, type LogicWarningsSeen } from "../lib/logicRuntime";
+import { advanceStory, initialPlayState, type PlayState, type Checkpoint as FailureCheckpoint } from "../lib/storyRuntime";
+import { DEFAULT_STATS } from "../lib/gameplay";
+import { useI18n, type Language } from "../lib/i18n";
+import { translateCopy } from "../lib/uiCopy";
+import { storyLanguage, storyLanguageIssues } from "../../../shared/storyLanguage";
 import type { Choice, EndingNode, FailureRecovery, StoryDocument, StoryNode } from "../types";
 import "../styles/playDemo.css";
 
@@ -32,8 +29,10 @@ function isEnding(node: StoryNode | EndingNode): node is EndingNode {
   return (node as EndingNode).tone !== undefined;
 }
 
-function stripChoicePrefix(text: string): string {
-  return text.replace(/^[^:：]+[:：]\s*/, "");
+function stripChoicePrefix(choice: Choice): string {
+  const prefix = choice.logic_choice_id;
+  if (!prefix || !choice.text.startsWith(prefix)) return choice.text;
+  return choice.text.slice(prefix.length).replace(/^\s*[:：]\s*/, "");
 }
 
 function roleLabel(role?: string): string {
@@ -57,45 +56,51 @@ const LOGIC_LABELS: Record<string, string> = {
   gpa: "成绩余量",
 };
 
-function friendlyVariableLabel(id: string, fallback?: string): string {
-  return LOGIC_LABELS[id] ?? fallback ?? id.split("_").join(" ");
+function friendlyVariableLabel(id: string, language: Language, fallback?: string): string {
+  return LOGIC_LABELS[id] ? translateCopy(LOGIC_LABELS[id], language) : fallback ?? (language === "zh" ? "资源" : "resource");
 }
 
-function qualitativeChange(change: number): string {
+function qualitativeChange(change: number, language: Language): string {
   const magnitude = Math.abs(change);
-  if (magnitude >= 16) return "一大截";
-  if (magnitude >= 8) return "一些";
-  return "一点点";
+  if (magnitude >= 16) return language === "zh" ? "一大截" : "a large amount of ";
+  if (magnitude >= 8) return language === "zh" ? "一些" : "some ";
+  return language === "zh" ? "一点点" : "a little ";
 }
 
-function choiceEffectLines(choice: Choice, story: StoryDocument, logicVars: LogicVars, warningsSeen: LogicWarningsSeen): { summary: string | null; warning: string | null; danger: boolean } {
+function choiceEffectLines(choice: Choice, story: StoryDocument, logicVars: LogicVars, warningsSeen: LogicWarningsSeen, language: Language): { summary: string | null; warning: string | null; danger: boolean } {
+  if (choice.next_node === story.logic?.warning_return_sentinel || choice.next_node === story.logic?.result_return_sentinel) return { summary: null, warning: null, danger: false };
   const entries = Object.entries(choice.logic_delta ?? {}).filter(([, change]) => change !== 0);
-  const losses = entries.filter(([, change]) => change < 0).map(([id, change]) => `${qualitativeChange(change)}${friendlyVariableLabel(id)}`);
-  const gains = entries.filter(([, change]) => change > 0).map(([id, change]) => `${qualitativeChange(change)}${friendlyVariableLabel(id)}`);
+  const target = story.nodes[choice.next_node] ?? story.endings[choice.next_node];
+  const planned = choice.logic_planned_next_node ? story.nodes[choice.logic_planned_next_node] ?? story.endings[choice.logic_planned_next_node] : undefined;
+  if (target?.failure_recovery || planned?.failure_recovery || target?.logic_page_role === "failure" || planned?.logic_page_role === "failure") {
+    return { summary: null, warning: language === "zh" ? "这条路线包含严重后果案例；可以了解后回看选择、再次尝试。" : "This route includes a serious consequence; you can learn from it, review your decision and retry.", danger: true };
+  }
+  const losses = entries.filter(([, change]) => change < 0).map(([id, change]) => `${qualitativeChange(change, language)}${friendlyVariableLabel(id, language)}`);
+  const gains = entries.filter(([, change]) => change > 0).map(([id, change]) => `${qualitativeChange(change, language)}${friendlyVariableLabel(id, language)}`);
   let summary: string | null = null;
-  if (losses.length && gains.length) summary = `拿${losses.join("、")}，换${gains.join("、")}——宇宙不收现金，只收取舍。`;
-  else if (losses.length) summary = `会消耗${losses.join("、")}，这张选择看起来正在刷你的资源卡。`;
-  else if (gains.length) summary = `会收获${gains.join("、")}，属于命运难得主动发优惠券。`;
+  if (losses.length && gains.length) summary = language === "zh" ? `拿${losses.join("、")}，换${gains.join("、")}。` : `Trade ${losses.join(", ")} for ${gains.join(", ")}.`;
+  else if (losses.length) summary = language === "zh" ? `会消耗${losses.join("、")}。` : `Uses ${losses.join(", ")}.`;
+  else if (gains.length) summary = language === "zh" ? `会收获${gains.join("、")}。` : `Gains ${gains.join(", ")}.`;
 
-  const preview = previewLogicDelta(logicVars, choice.logic_delta, story.logic?.variables ?? [], warningsSeen);
+  const preview = previewLogicDelta(logicVars, choice.logic_delta, story.logic?.variables ?? [], warningsSeen, isLearningStory(story));
   if (preview.criticalVariables.length) {
     return {
       summary,
-      warning: `${preview.criticalVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}会直接撞上极限；点下去将进入变量失败页。`,
+      warning: `${preview.criticalVariables.map((variable) => friendlyVariableLabel(variable.id, language, variable.label)).join(language === "zh" ? "、" : ", ")}${language === "zh" ? "会直接撞上极限；点下去将进入变量失败页。" : " will reach a critical limit and lead to failure."}`,
       danger: true,
     };
   }
   if (preview.warningVariables.length) {
     return {
       summary,
-      warning: `${preview.warningVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}将滑入危险区，系统会先亮出警告牌。`,
+      warning: `${preview.warningVariables.map((variable) => friendlyVariableLabel(variable.id, language, variable.label)).join(language === "zh" ? "、" : ", ")}${language === "zh" ? "需要关注；了解提示后可以继续探索。" : " needs attention; read the guidance, then continue exploring."}`,
       danger: false,
     };
   }
   if (preview.approachingVariables.length) {
     return {
       summary,
-      warning: `${preview.approachingVariables.map((variable) => friendlyVariableLabel(variable.id, variable.label)).join("、")}正在靠近危险区，再薅一次可能就要听见警报。`,
+      warning: `${preview.approachingVariables.map((variable) => friendlyVariableLabel(variable.id, language, variable.label)).join(language === "zh" ? "、" : ", ")}${language === "zh" ? "需要提前规划；可以留意后续的支持建议。" : " needs some planning; look for support in the next steps."}`,
       danger: false,
     };
   }
@@ -114,14 +119,6 @@ function sceneAsset(nodeId: string, node: StoryNode | EndingNode): string {
   return "/branding/mascot.png";
 }
 
-type FailureCheckpoint = {
-  nodeId: string;
-  logicVars: LogicVars;
-  logicWarningsSeen: LogicWarningsSeen;
-  warningReturnNodeId: string | null;
-  resultReturnNodeId: string | null;
-};
-
 function checkpointLabel(story: StoryDocument, checkpoint: FailureCheckpoint): string {
   const page = story.nodes[checkpoint.nodeId] ?? story.endings[checkpoint.nodeId];
   const label = page?.annotation?.current_step?.trim() || page?.scene_text?.split(/[。！？.!?]/)[0]?.trim() || checkpoint.nodeId;
@@ -133,15 +130,13 @@ function recoveryText(recovery: FailureRecovery, story: StoryDocument, checkpoin
 }
 
 export default function PlayableDemoPage() {
+  const { language, copy, t } = useI18n();
   const [searchParams] = useSearchParams();
   const storyId = searchParams.get("storyId")?.trim() || DEMO_STORY_ID;
   const [story, setStory] = useState<StoryDocument | null>(null);
-  const [currentNodeId, setCurrentNodeId] = useState("");
-  const [logicVars, setLogicVars] = useState<LogicVars>({});
-  const [logicWarningsSeen, setLogicWarningsSeen] = useState<LogicWarningsSeen>({});
-  const [warningReturnNodeId, setWarningReturnNodeId] = useState<string | null>(null);
-  const [resultReturnNodeId, setResultReturnNodeId] = useState<string | null>(null);
-  const [failureCheckpoint, setFailureCheckpoint] = useState<FailureCheckpoint | null>(null);
+  const [playState, setPlayState] = useState<PlayState | null>(null);
+  const { nodeId: currentNodeId = "", logicVars = {}, logicWarningsSeen = {}, failureCheckpoint = null } = playState ?? {};
+  const choiceLock = useRef(false);
   const [showingFailureRecovery, setShowingFailureRecovery] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -153,22 +148,20 @@ export default function PlayableDemoPage() {
       try {
         setLoading(true);
         setStory(null);
-        setCurrentNodeId("");
+        setPlayState(null);
         setError(null);
-        const doc = await fetchStory(storyId);
-        if (!isStoryDocument(doc)) throw new Error(`没有找到 ${storyId} 的最终故事文件。`);
+        const fetched = await fetchStory(storyId);
+        const doc = { ...fetched, learning_policy: LEARNING_POLICY };
+        if (!isStoryDocument(doc)) throw new Error("missing");
+        if (storyLanguage(doc) !== language || storyLanguageIssues(doc, language).length) throw new Error("language");
         if (cancelled) return;
+        const initial = initialPlayState(doc);
         setStory(doc);
-        setCurrentNodeId(doc.logic?.start_node_id ?? Object.keys(doc.nodes)[0] ?? "");
-        setLogicVars(initLogicVars(doc));
-        setLogicWarningsSeen({});
-        setWarningReturnNodeId(null);
-        setResultReturnNodeId(null);
-        setFailureCheckpoint(null);
+        setPlayState(initial);
         setShowingFailureRecovery(false);
         setError(null);
       } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : String(err));
+        if (!cancelled) setError(copy(err instanceof Error && err.message === "language" ? "此故事的正文语言与当前选择不一致，请返回首页选择同语言故事。" : "无法打开这个故事，请返回首页选择其他故事。"));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -177,7 +170,9 @@ export default function PlayableDemoPage() {
     return () => {
       cancelled = true;
     };
-  }, [storyId]);
+  }, [storyId, language]);
+
+  useEffect(() => { choiceLock.current = false; }, [currentNodeId]);
 
   useEffect(() => {
     if (!story || !currentNodeId) return;
@@ -207,12 +202,9 @@ export default function PlayableDemoPage() {
 
   function restart() {
     if (!story) return;
-    setCurrentNodeId(story.logic?.start_node_id ?? Object.keys(story.nodes)[0] ?? "");
-    setLogicVars(initLogicVars(story));
-    setLogicWarningsSeen({});
-    setWarningReturnNodeId(null);
-    setResultReturnNodeId(null);
-    setFailureCheckpoint(null);
+    setPlayState(initialPlayState(story));
+    choiceLock.current = false;
+    setError(null);
     setShowingFailureRecovery(false);
   }
 
@@ -229,94 +221,52 @@ export default function PlayableDemoPage() {
 
   function returnFromFailure() {
     if (!failureCheckpoint) return;
-    setCurrentNodeId(failureCheckpoint.nodeId);
-    setLogicVars({ ...failureCheckpoint.logicVars });
-    setLogicWarningsSeen({ ...failureCheckpoint.logicWarningsSeen });
-    setWarningReturnNodeId(failureCheckpoint.warningReturnNodeId);
-    setResultReturnNodeId(failureCheckpoint.resultReturnNodeId);
-    setFailureCheckpoint(null);
+    setPlayState({ ...failureCheckpoint, failureCheckpoint: null, failedStat: null });
+    choiceLock.current = false;
     setShowingFailureRecovery(false);
   }
 
   function handleChoice(choice: Choice) {
-    if (!story) return;
-    if (story.logic && choice.next_node === story.logic.warning_return_sentinel) {
-      const target = warningReturnNodeId ?? story.logic.start_node_id;
-      setCurrentNodeId(target);
-      setWarningReturnNodeId(null);
-      return;
-    }
-
-    if (story.logic && choice.next_node === story.logic.result_return_sentinel) {
-      const target = resultReturnNodeId ?? story.logic.start_node_id;
-      setCurrentNodeId(target);
-      setResultReturnNodeId(null);
-      return;
-    }
-
-    if (story.logic) {
-      const checkpoint: FailureCheckpoint = {
-        nodeId: currentNodeId,
-        logicVars: { ...logicVars },
-        logicWarningsSeen: { ...logicWarningsSeen },
-        warningReturnNodeId,
-        resultReturnNodeId,
-      };
-      const directTarget = story.nodes[choice.next_node] ?? story.endings[choice.next_node];
-      const plannedTarget = choice.logic_planned_next_node
-        ? story.nodes[choice.logic_planned_next_node] ?? story.endings[choice.logic_planned_next_node]
-        : undefined;
-      const leadsToRecoverableFailure = Boolean(directTarget?.failure_recovery || plannedTarget?.failure_recovery);
-      if (leadsToRecoverableFailure) setFailureCheckpoint(checkpoint);
-      else setFailureCheckpoint(null);
+    if (!story || !playState || choiceLock.current) return;
+    choiceLock.current = true;
+    try {
+      setPlayState(advanceStory(story, playState, choice));
       setShowingFailureRecovery(false);
-
-      const nextLogicVars = applyLogicDelta(logicVars, choice.logic_delta);
-      setLogicVars(nextLogicVars);
-      if (choice.logic_planned_next_node) setResultReturnNodeId(choice.logic_planned_next_node);
-
-      const critical = findCriticalVariable(nextLogicVars, story.logic.variables);
-      if (critical) {
-        setFailureCheckpoint(checkpoint);
-        setCurrentNodeId(critical.failure_page_id);
-        return;
-      }
-
-      const newlyBad = findNewBadVariable(logicVars, nextLogicVars, story.logic.variables, logicWarningsSeen);
-      if (newlyBad) {
-        setLogicWarningsSeen((current) => ({ ...current, [newlyBad.id]: true }));
-        setWarningReturnNodeId(choice.next_node);
-        setCurrentNodeId(newlyBad.warning_page_id);
-        return;
-      }
+    } catch {
+      choiceLock.current = false;
+      setError(copy("故事的下一页不存在，请重新开始或返回首页。"));
     }
-
-    setCurrentNodeId(choice.next_node);
   }
 
   return (
     <main className="playDemo">
-      {loading && <section className="playDemoState">正在加载生成好的故事...</section>}
-      {error && <section className="playDemoState playDemoState--error">{error}</section>}
+      {loading && <section className="playDemoState">{copy("正在加载生成好的故事...")}</section>}
+      {error && <section className="playDemoState playDemoState--error"><p>{error}</p><Link to="/">{copy("回首页")}</Link></section>}
 
-      {story && currentNode && (
+      {story && currentNode && !error && (
         <section className="playDemoGrid">
           <section className={`playDemoScene ${ending ? "playDemoScene--ending" : ""}`}>
             <div className="playDemoSceneHead">
-              <span>{recoveryActive ? "时空回卷" : failureRecovery ? "失败页" : roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</span>
+              <span>{recoveryActive ? copy("时空回卷") : failureRecovery ? copy("失败页") : copy(roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node")))}</span>
               <div className="playDemoSceneActions">
-                <Link to="/" data-tutorial="home">回首页</Link>
-                <button type="button" onClick={restart} data-tutorial="restart">重新开始</button>
+                <Link to="/" data-tutorial="home">{copy("回首页")}</Link>
+                <button type="button" onClick={restart} data-tutorial="restart">{copy("重新开始")}</button>
               </div>
             </div>
 
+            <p className="playDemoDecisionPrompt" data-testid="learning-mode">{language === "zh" ? "学习模式：资源数值只用于提示，不会自动终止旅程。遇到严重后果，可以回看并重新选择。" : "Learning mode: resource scores give guidance and never automatically end your journey. Review and retry when a serious consequence occurs."}</p>
+            {story.study_duration && <p className="playDemoDecisionPrompt">{durationLabel(story.study_duration, language)}</p>}
+            {!story.logic && <div className="legacyStats" aria-label={t("stats.group")}>
+              {Object.entries(playState?.stats ?? DEFAULT_STATS).map(([key, value]) => <span key={key}>{t(`stats.${key}`)}: {value}</span>)}
+            </div>}
+            {playState?.failedStat && <div className="playDemoState"><p>{t("story.gameOver", { stat: t(`stats.${playState.failedStat}`) })}</p><button onClick={restart}>{copy("再玩一轮")}</button></div>}
             <article className={`playDemoText ${recoveryActive ? "playDemoText--recovery" : ""}`} aria-live="polite" data-tutorial="story">
               {recoveryActive && failureRecovery && failureCheckpoint ? (
                 <div className="playDemoRecovery" data-testid="failure-recovery-scene">
-                  <span>纯属虚构的时间线维修插曲</span>
+                  <span>{copy("纯属虚构的时间线维修插曲")}</span>
                   <h2>{failureRecovery.title}</h2>
                   <p>{recoveryText(failureRecovery, story, failureCheckpoint)}</p>
-                  <small>现实中的签证、学业、健康与财务后果不会自动撤销；这里的回卷只服务于游戏重试。</small>
+                  <small>{copy("现实中的签证、学业、健康与财务后果不会自动撤销；这里的回卷只服务于游戏重试。")}</small>
                 </div>
               ) : (
                 <InlineAnnotatedText
@@ -342,29 +292,30 @@ export default function PlayableDemoPage() {
 
             {!recoveryActive && canRecover && (
               <div className="playDemoDecision playDemoRecoveryAction">
-                <p className="playDemoDecisionPrompt">这条时间线撞墙了。要不要看看宇宙准备了什么补丁？</p>
+                <p className="playDemoDecisionPrompt">{language === "zh" ? "你已经了解这条路线的后果。可以回到决定前，继续尝试。" : "You have learned the consequence of this route. Return to the decision and explore another approach."}</p>
+                <button className="playDemoChoice playDemoChoice--recovery" type="button" onClick={returnFromFailure} data-testid="learning-retry"><span>↶</span><strong>{language === "zh" ? "回看选择，继续探索" : "Review the decision and keep exploring"}</strong></button>
                 <button className="playDemoChoice playDemoChoice--recovery" type="button" onClick={beginFailureRecovery} data-testid="failure-recovery-open">
                   <span>🌀</span>
-                  <strong>打开失败页附赠的时空回卷</strong>
+                  <strong>{copy("打开失败页附赠的时空回卷")}</strong>
                 </button>
               </div>
             )}
 
-            {!ending && !canRecover && !recoveryActive && (
+            {!ending && !playState?.failedStat && !canRecover && !recoveryActive && (
               <div className="playDemoDecision" data-tutorial="choices">
-                <p className="playDemoDecisionPrompt">你会怎么做？</p>
+                <p className="playDemoDecisionPrompt">{copy("你会怎么做？")}</p>
                 <div className="playDemoChoices">
                   {(currentNode as StoryNode).choices.map((choice, index) => {
-                    const preview = choiceEffectLines(choice, story, logicVars, logicWarningsSeen);
+                    const preview = choiceEffectLines(choice, story, logicVars, logicWarningsSeen, language);
                     return (
                       <button
                         className={`playDemoChoice playDemoChoice--${index} ${preview.danger ? "playDemoChoice--danger" : ""}`}
                         key={`${choice.next_node}-${index}`}
-                        onClick={() => handleChoice(choice)}
+                        onClick={(event) => { if (event.detail <= 1) handleChoice(choice); }}
                       >
                         <span>{String(index + 1).padStart(2, "0")}</span>
                         <span className="playDemoChoiceCopy">
-                          <strong>{stripChoicePrefix(choice.text)}</strong>
+                          <strong>{stripChoicePrefix(choice)}</strong>
                           {preview.summary && <small className="playDemoChoiceEffect">{preview.summary}</small>}
                           {preview.warning && <small className="playDemoChoiceWarning">⚠ {preview.warning}</small>}
                         </span>
@@ -382,25 +333,24 @@ export default function PlayableDemoPage() {
                 <div className="playDemoVisualFallback">
                   <div className="playDemoVisualCard">
                     <img src={sceneAsset(currentNodeId, currentNode)} alt="" />
-                    <strong>{roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node"))}</strong>
-                    <span>{currentNodeId}</span>
+                    <strong>{copy(roleLabel(currentNode.logic_page_role ?? (ending ? "ending" : "node")))}</strong>
                   </div>
                 </div>
               )}
-              {recoveryActive && <span className="playDemoRecoveryStamp">TIMELINE<br />REPAIRED</span>}
+              {recoveryActive && <span className="playDemoRecoveryStamp">{copy("时间线已修复")}</span>}
             </div>
 
             {ending && !canRecover && !recoveryActive && (
-              <div className={`playDemoEnding playDemoEnding--${ending.tone}`}>
+              <div className={`playDemoEnding playDemoEnding--${t(`tone.${ending.tone}`)}`}>
                 <span>{ending.tone}</span>
-                <button type="button" onClick={restart}>再玩一轮</button>
+                <button type="button" onClick={restart}>{copy("再玩一轮")}</button>
               </div>
             )}
           </section>
           <footer className="playDemoPageFooter">
             <button type="button" onClick={() => setTutorialOpen(true)} data-testid="tutorial-reopen">
               <span aria-hidden="true">🦉</span>
-              新手指引
+              {copy("新手指引")}
             </button>
           </footer>
           <GameTutorial open={tutorialOpen} onFinish={finishTutorial} />

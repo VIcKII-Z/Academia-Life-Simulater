@@ -1,0 +1,594 @@
+[
+  {
+    "storyId": "berkeley_2a64ae820c01",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 242,
+      "severe": 8,
+      "averageDecisions": 8.98,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 9,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "berkeley_6243dfd9997b",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.07,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.07,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "berkeley_6485ca9dae5a",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 243,
+      "severe": 7,
+      "averageDecisions": 12.97,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 13,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "berkeley_ad3dca33eb04",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 13,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 13,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "berkeley_dbff20bbf457",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 0,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 0,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "boston_7867de510c6a",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 9,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 9,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "christchurch_2f60d590c7f4",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 248,
+      "severe": 2,
+      "averageDecisions": 7,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 7,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "christchurch_c837d2a7c136",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 194,
+      "severe": 56,
+      "averageDecisions": 21.02,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 22,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "new_york_238442b176a5",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 138,
+      "severe": 112,
+      "averageDecisions": 16.64,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 19,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "new_york_32f5ca101e67",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 244,
+      "severe": 6,
+      "averageDecisions": 23.9,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 24,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "oxford_8f549a3c05a4",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 13,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 13,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "oxford_d062bd63a4c9",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 192,
+      "severe": 58,
+      "averageDecisions": 9.92,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 10,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "qa_zh_eth_ee_20260812",
+    "logicGraph": true,
+    "baseline": {
+      "complete": 22,
+      "severe": 228,
+      "averageDecisions": 7.4,
+      "errors": []
+    },
+    "learning": {
+      "complete": 143,
+      "severe": 107,
+      "averageDecisions": 10.56,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "qa_zh_nus_ee_20260812",
+    "logicGraph": true,
+    "baseline": {
+      "complete": 16,
+      "severe": 234,
+      "averageDecisions": 6.17,
+      "errors": []
+    },
+    "learning": {
+      "complete": 91,
+      "severe": 159,
+      "averageDecisions": 9.78,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "technische_universit_t_m_nchen_full_f81bb5c0b506",
+    "logicGraph": true,
+    "baseline": {
+      "complete": 24,
+      "severe": 226,
+      "averageDecisions": 8.5,
+      "errors": []
+    },
+    "learning": {
+      "complete": 86,
+      "severe": 164,
+      "averageDecisions": 10.19,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_081c98fb82ae",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 203,
+      "severe": 47,
+      "averageDecisions": 8.56,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 9,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_1784421385285",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.27,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.27,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_1784425016640",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.94,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.94,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_7de137311842_1784428107505",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.08,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.08,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_7de137311842",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.08,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.08,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345144913",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345279173",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.15,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.15,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784345758257",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.5,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.5,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784419659129",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.63,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.63,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_1784420081538",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.15,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 4.15,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_cs_7247f3f3dbe8",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.63,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.63,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_e97df6576289_1784425030201",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 73,
+      "severe": 177,
+      "averageDecisions": 1.5,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.96,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_e97df6576289",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.79,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.79,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "tokyo_dbe4bd2c2a96",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.16,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "toronto_business_1784345186541",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.71,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 2.71,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "toronto_business_1784345814794",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.55,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.55,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "toronto_business_1784419983152",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 235,
+      "severe": 15,
+      "averageDecisions": 3.94,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.97,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "toronto_business_ed698f9bb43e",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 235,
+      "severe": 15,
+      "averageDecisions": 3.94,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 3.97,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "utokyo_cs_full_1785770721",
+    "logicGraph": true,
+    "baseline": {
+      "complete": 47,
+      "severe": 203,
+      "averageDecisions": 7.92,
+      "errors": []
+    },
+    "learning": {
+      "complete": 222,
+      "severe": 28,
+      "averageDecisions": 11.95,
+      "errors": []
+    }
+  },
+  {
+    "storyId": "visby_8bd2433f6b08",
+    "logicGraph": false,
+    "baseline": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 10,
+      "errors": []
+    },
+    "learning": {
+      "complete": 250,
+      "severe": 0,
+      "averageDecisions": 10,
+      "errors": []
+    }
+  }
+]

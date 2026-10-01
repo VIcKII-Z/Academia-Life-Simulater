@@ -1,3 +1,4 @@
+import { inferStudyDuration, durationLabel } from "../../../shared/studyDesign";
 import { useEffect, useState } from "react";
 import type { UserProfile } from "../types";
 import {
@@ -20,25 +21,22 @@ import { useI18n } from "../lib/i18n";
  * (see search_agent_strategy.md's Phase 0 school/department/program
  * targeting for why school-level detail matters).
  */
-type StepKey = "country" | "city" | "university" | "degree" | "semesters" | "details";
-const STEP_ORDER: StepKey[] = ["country", "city", "university", "degree", "semesters", "details"];
+type StepKey = "country" | "city" | "university" | "degree" | "details";
+const STEP_ORDER: StepKey[] = ["country", "city", "university", "degree", "details"];
 
 const DEGREE_OPTIONS = ["Undergraduate", "Taught Master"];
-const MIN_SEMESTERS = 1;
-const MAX_SEMESTERS = 8;
 
 type Answers = {
   country?: string;
   city?: string;
   school?: string;
   grade?: string;
-  semesters?: number;
   department?: string;
   program?: string;
 };
 
 export default function QuizFlow({ onComplete }: { onComplete: (profile: UserProfile) => void }) {
-  const { t } = useI18n();
+  const { t, entity, language } = useI18n();
   const [answers, setAnswers] = useState<Answers>({});
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -65,7 +63,7 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
 
   function finish(details: { department: string; program: string }) {
     const trimmed = Object.fromEntries(
-      Object.entries(details).filter(([, value]) => value && value.trim().length > 0),
+      Object.entries(details).map(([key, value]) => [key, value.trim()]).filter(([, value]) => value.length > 0),
     );
     onComplete({
       country: answers.country ?? "",
@@ -77,19 +75,20 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
       // read `major` (search prompt, loading copy) have something to show.
       major: trimmed.program ?? trimmed.department ?? "",
       school: answers.school,
-      semesters: answers.semesters ?? 1,
+      semesters: inferStudyDuration({ country: answers.country ?? "", city: answers.city, school: answers.school, grade: answers.grade ?? "" }).semesters,
       ...trimmed,
     });
   }
 
   return (
     <div className="journalCard">
+      {answers.grade && <p className="journalHint" data-testid="automatic-duration">{durationLabel(inferStudyDuration({ country: answers.country ?? "", city: answers.city, school: answers.school, grade: answers.grade }), language)}<br />{language === "zh" ? "学制自动确定，无需选择；生成时优先使用具体项目资料。阶段用于叙事，不代表学校实际学期安排。" : "Duration is automatic; program evidence takes priority during generation. Story stages do not specify the university’s academic calendar."}</p>}
       <div className="quizStack">
         {STEP_ORDER.map((key, index) => {
           if (index > activeIndex) return null;
           if (index < activeIndex) {
             return (
-              <DoneRow key={key} label={doneLabel(key, t)} value={doneValue(key, answers, t)} onEdit={() => goToStep(index)} />
+              <DoneRow key={key} label={doneLabel(key, t)} value={entity(doneValue(key, answers, t))} onEdit={() => goToStep(index)} />
             );
           }
           // The active (currently open) step.
@@ -126,15 +125,6 @@ export default function QuizFlow({ onComplete }: { onComplete: (profile: UserPro
                   onSubmit={(grade) => advance({ grade })}
                 />
               );
-            case "semesters":
-              return (
-                <SemesterStep
-                  key={key}
-                  initial={answers.semesters ?? 2}
-                  onBack={() => goToStep(index - 1)}
-                  onSubmit={(semesters) => advance({ semesters })}
-                />
-              );
             case "details":
               return <DetailsStep key={key} onBack={() => goToStep(index - 1)} onSkip={() => finish({ department: "", program: "" })} onSubmit={finish} />;
             default:
@@ -162,8 +152,6 @@ function doneLabel(key: StepKey, t: (key: string, vars?: Record<string, string |
       return t("quiz.done.university");
     case "degree":
       return t("quiz.done.degree");
-    case "semesters":
-      return t("quiz.done.semesters");
     default:
       return "";
   }
@@ -178,11 +166,7 @@ function doneValue(key: StepKey, answers: Answers, t: (key: string, vars?: Recor
     case "university":
       return answers.school ?? "";
     case "degree":
-      return answers.grade ? t(`degree.${answers.grade}`) : "";
-    case "semesters":
-      return answers.semesters
-        ? `${answers.semesters} ${t(answers.semesters === 1 ? "quiz.semesters.labelOne" : "quiz.semesters.labelMany")}`
-        : "";
+      return answers.grade ? (DEGREE_OPTIONS.includes(answers.grade) ? t(`degree.${answers.grade}`) : answers.grade) : "";
     default:
       return "";
   }
@@ -192,7 +176,7 @@ function doneValue(key: StepKey, answers: Answers, t: (key: string, vars?: Recor
  * step (instead of being replaced by it) so the whole multi-layer chain
  * builds up on one page; "Edit" reopens it (and clears everything after). */
 function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdit: () => void }) {
-  const { t } = useI18n();
+  const { t, entity } = useI18n();
   return (
     <div className="quizStepDone">
       <span className="quizStepDoneText">
@@ -215,7 +199,7 @@ function DoneRow({ label, value, onEdit }: { label: string; value: string; onEdi
  *    every country, not just our curated eight. The player must click an
  *    actual suggestion; the text input only narrows the search. */
 function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
-  const { t } = useI18n();
+  const { t, entity } = useI18n();
   const [draft, setDraft] = useState("");
   const [allCountries, setAllCountries] = useState<string[]>([]);
 
@@ -232,12 +216,12 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
   const curatedCountries = getCountries();
   const query = draft.trim().toLowerCase();
   const filteredCurated = query
-    ? curatedCountries.filter((country) => country.toLowerCase().includes(query))
+    ? curatedCountries.filter((country) => (country.toLowerCase().includes(query) || entity(country).toLowerCase().includes(query)))
     : curatedCountries;
 
   const curatedLower = new Set(curatedCountries.map((c) => c.toLowerCase()));
   const filteredOthers = query
-    ? allCountries.filter((country) => country.toLowerCase().includes(query) && !curatedLower.has(country.toLowerCase()))
+    ? allCountries.filter((country) => (country.toLowerCase().includes(query) || entity(country).toLowerCase().includes(query)) && !curatedLower.has(country.toLowerCase()))
     : [];
 
   return (
@@ -253,16 +237,16 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
       />
       <div className="quizChips">
         {filteredCurated.map((country) => (
-          <button key={country} className="quizChip" onClick={() => onSubmit(country)}>
-            {country}
+          <button key={entity(country)} className="quizChip" onClick={() => onSubmit(country)}>
+            {entity(country)}
           </button>
         ))}
       </div>
       {filteredOthers.length > 0 && (
         <div className="universitySuggestions">
           {filteredOthers.slice(0, 8).map((country) => (
-            <button key={country} className="universitySuggestion" onClick={() => onSubmit(country)}>
-              <span className="universitySuggestionName">{country}</span>
+            <button key={entity(country)} className="universitySuggestion" onClick={() => onSubmit(country)}>
+              <span className="universitySuggestionName">{entity(country)}</span>
             </button>
           ))}
         </div>
@@ -289,16 +273,17 @@ function CountryStep({ onSubmit }: { onSubmit: (country: string) => void }) {
  * result); the text input is for narrowing the search only, so every
  * chosen city is a real, backend-verified place. */
 function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () => void; onSubmit: (city: string) => void }) {
-  const { t } = useI18n();
+  const { t, entity } = useI18n();
   const [draft, setDraft] = useState("");
   const [liveResults, setLiveResults] = useState<string[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
   const curatedCities = getCitiesForCountry(country);
 
   const query = draft.trim().toLowerCase();
-  const filteredCurated = query ? curatedCities.filter((city) => city.toLowerCase().includes(query)) : curatedCities;
+  const filteredCurated = query ? curatedCities.filter((city) => (city.toLowerCase().includes(query) || entity(city).toLowerCase().includes(query))) : curatedCities;
 
   useEffect(() => {
+    let cancelled = false;
     setLiveResults([]);
     if (query.length < 2) {
       setLiveLoading(false);
@@ -309,17 +294,19 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
       const results = await searchCitiesLive(country, draft.trim());
       // Don't repeat cities already shown as curated chips.
       const curatedLower = new Set(curatedCities.map((c) => c.toLowerCase()));
-      setLiveResults(results.filter((city) => !curatedLower.has(city.toLowerCase())));
-      setLiveLoading(false);
+      if (!cancelled) {
+        setLiveResults(results.filter((city) => !curatedLower.has(city.toLowerCase())));
+        setLiveLoading(false);
+      }
     }, 400);
-    return () => window.clearTimeout(timer);
+    return () => { cancelled = true; window.clearTimeout(timer); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, country]);
 
   return (
     <div className="quizStepActive">
       <h2>{t("quiz.city.title")}</h2>
-      <p>{t("quiz.city.subtitle", { country })}</p>
+      <p>{t("quiz.city.subtitle", { country: entity(country) })}</p>
 
       <input
         className="journalInput"
@@ -331,8 +318,8 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
 
       <div className="quizChips">
         {filteredCurated.map((city) => (
-          <button key={city} className="quizChip" onClick={() => onSubmit(city)}>
-            {city}
+          <button key={entity(city)} className="quizChip" onClick={() => onSubmit(city)}>
+            {entity(city)}
           </button>
         ))}
       </div>
@@ -342,16 +329,16 @@ function CityStep({ country, onBack, onSubmit }: { country: string; onBack: () =
       {liveResults.length > 0 && (
         <div className="universitySuggestions">
           {liveResults.map((city) => (
-            <button key={city} className="universitySuggestion" onClick={() => onSubmit(city)}>
-              <span className="universitySuggestionName">{city}</span>
-              <span className="universitySuggestionMeta">{country}</span>
+            <button key={entity(city)} className="universitySuggestion" onClick={() => onSubmit(city)}>
+              <span className="universitySuggestionName">{entity(city)}</span>
+              <span className="universitySuggestionMeta">{entity(country)}</span>
             </button>
           ))}
         </div>
       )}
 
       {filteredCurated.length === 0 && liveResults.length === 0 && !liveLoading && query.length > 0 && (
-        <p className="journalHint">{t("quiz.city.noMatch", { country })}</p>
+        <p className="journalHint">{t("quiz.city.noMatch", { country: entity(country) })}</p>
       )}
     </div>
   );
@@ -377,7 +364,7 @@ function UniversityStep({
   onBack: () => void;
   onSubmit: (school: string) => void;
 }) {
-  const { t } = useI18n();
+  const { t, entity } = useI18n();
   const [query, setQuery] = useState("");
   const [liveResults, setLiveResults] = useState<{ name: string; country: string }[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
@@ -386,10 +373,11 @@ function UniversityStep({
   // a default pick list (matching the city-step dropdown pattern); once
   // they type, narrow to a scoped text search within the same country+city.
   const localMatches: UniversityEntry[] =
-    query.trim().length > 0 ? searchUniversitiesScoped(query, country, city) : getUniversitiesForCity(country, city);
+    query.trim().length > 0 ? getUniversitiesForCity(country, city, 100).filter((entry) => entry.name.toLowerCase().includes(query.trim().toLowerCase()) || entity(entry.name).includes(query.trim())) : getUniversitiesForCity(country, city);
   const hasLocalMatch = localMatches.length > 0;
 
   useEffect(() => {
+    let cancelled = false;
     setLiveResults([]);
     if (hasLocalMatch || query.trim().length < 2) {
       setLiveLoading(false);
@@ -398,10 +386,9 @@ function UniversityStep({
     setLiveLoading(true);
     const timer = window.setTimeout(async () => {
       const results = await searchUniversitiesLive(query.trim(), country, city);
-      setLiveResults(results);
-      setLiveLoading(false);
+      if (!cancelled) { setLiveResults(results); setLiveLoading(false); }
     }, 450);
-    return () => window.clearTimeout(timer);
+    return () => { cancelled = true; window.clearTimeout(timer); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, hasLocalMatch, country, city]);
 
@@ -409,7 +396,7 @@ function UniversityStep({
     <div className="quizStepActive">
       <h2>{t("quiz.university.title")}</h2>
       <p>
-        {t("quiz.university.subtitle", { location: `${city ? `${city}, ` : ""}${country}` })}
+        {t("quiz.university.subtitle", { location: `${city ? `${entity(city)}, ` : ""}${entity(country)}` })}
       </p>
 
       <input
@@ -423,10 +410,10 @@ function UniversityStep({
       {localMatches.length > 0 && (
         <div className="universitySuggestions">
           {localMatches.map((entry) => (
-            <button key={entry.name} className="universitySuggestion" onClick={() => onSubmit(entry.name)}>
-              <span className="universitySuggestionName">{entry.name}</span>
+            <button key={entity(entry.name)} className="universitySuggestion" onClick={() => onSubmit(entry.name)}>
+              <span className="universitySuggestionName">{entity(entry.name)}</span>
               <span className="universitySuggestionMeta">
-                {entry.city}, {entry.country}
+                {entity(entry.city)}, {entity(entry.country)}
               </span>
             </button>
           ))}
@@ -438,9 +425,9 @@ function UniversityStep({
       {!hasLocalMatch && liveResults.length > 0 && (
         <div className="universitySuggestions">
           {liveResults.map((entry) => (
-            <button key={`${entry.name}-${entry.country}`} className="universitySuggestion" onClick={() => onSubmit(entry.name)}>
-              <span className="universitySuggestionName">{entry.name}</span>
-              <span className="universitySuggestionMeta">{entry.country}</span>
+            <button key={`${entity(entry.name)}-${entity(entry.country)}`} className="universitySuggestion" onClick={() => onSubmit(entry.name)}>
+              <span className="universitySuggestionName">{entity(entry.name)}</span>
+              <span className="universitySuggestionMeta">{entity(entry.country)}</span>
             </button>
           ))}
         </div>
@@ -453,8 +440,7 @@ function UniversityStep({
   );
 }
 
-/** Shared chip-picker step, used for both the degree-level and major
- * layers — pick a suggestion or type a custom answer. */
+/** The experiment supports undergraduate and taught-master degree journeys. */
 function ChipStep({
   title,
   subtitle,
@@ -468,8 +454,7 @@ function ChipStep({
   onBack: () => void;
   onSubmit: (value: string) => void;
 }) {
-  const { t } = useI18n();
-  const [draft, setDraft] = useState("");
+  const { t, entity } = useI18n();
   return (
     <div className="quizStepActive">
       <h2>{title}</h2>
@@ -481,86 +466,8 @@ function ChipStep({
           </button>
         ))}
       </div>
-      <input
-        className="journalInput"
-        placeholder={t("quiz.customPlaceholder")}
-        value={draft}
-        onChange={(event) => setDraft(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && draft.trim()) onSubmit(draft.trim());
-        }}
-      />
-      <div className="journalButtonRow">
-        <button className="journalButton" disabled={!draft.trim()} onClick={() => onSubmit(draft.trim())}>
-          {t("common.next")}
-        </button>
-      </div>
     </div>
   );
-}
-
-/** Layer 5: how long the stay lasts, picked with a single slider (1-8
- * semesters) instead of a row of 8 chips — a drag gesture reads faster than
- * scanning/tapping eight options, and the live "N semesters" readout plus a
- * short blurb per length keeps the choice's story impact (longer stay =
- * longer, differently-shaped journey and ending) visible while dragging. */
-function SemesterStep({
-  initial,
-  onBack,
-  onSubmit,
-}: {
-  initial: number;
-  onBack: () => void;
-  onSubmit: (value: number) => void;
-}) {
-  const { t } = useI18n();
-  const [value, setValue] = useState(() => Math.min(MAX_SEMESTERS, Math.max(MIN_SEMESTERS, initial)));
-  const percent = ((value - MIN_SEMESTERS) / (MAX_SEMESTERS - MIN_SEMESTERS)) * 100;
-
-  return (
-    <div className="quizStepActive">
-      <h2>{t("quiz.semesters.title")}</h2>
-
-      <div className="semesterSlider">
-        <div className="semesterSliderReadout">
-          <span className="semesterSliderValue">{value}</span>
-          <span className="semesterSliderLabel">{t(value === 1 ? "quiz.semesters.labelOne" : "quiz.semesters.labelMany")}</span>
-        </div>
-        <input
-          className="semesterSliderInput"
-          type="range"
-          min={MIN_SEMESTERS}
-          max={MAX_SEMESTERS}
-          step={1}
-          value={value}
-          onChange={(event) => setValue(Number.parseInt(event.target.value, 10))}
-          style={{ ["--semester-fill" as string]: `${percent}%` }}
-          aria-label={t("quiz.semesters.aria")}
-        />
-        <div className="semesterSliderTicks">
-          {Array.from({ length: MAX_SEMESTERS - MIN_SEMESTERS + 1 }, (_, index) => MIN_SEMESTERS + index).map((tick) => (
-            <span key={tick} className={tick === value ? "active" : ""}>
-              {tick}
-            </span>
-          ))}
-        </div>
-        <p className="semesterSliderHint">{semesterHint(value, t)}</p>
-      </div>
-
-      <div className="journalButtonRow">
-        <button className="journalButton" onClick={() => onSubmit(value)}>
-          {t("common.next")}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function semesterHint(value: number, t: (key: string) => string): string {
-  if (value <= 2) return t("quiz.semesters.hintShort");
-  if (value <= 4) return t("quiz.semesters.hintMedium");
-  if (value <= 6) return t("quiz.semesters.hintLong");
-  return t("quiz.semesters.hintSaga");
 }
 
 /** Final layer: optional department/program refinement, then finalize
@@ -576,7 +483,7 @@ function DetailsStep({
   onSkip: () => void;
   onSubmit: (details: { department: string; program: string }) => void;
 }) {
-  const { t } = useI18n();
+  const { t, entity } = useI18n();
   const [department, setDepartment] = useState("");
   const [program, setProgram] = useState("");
 

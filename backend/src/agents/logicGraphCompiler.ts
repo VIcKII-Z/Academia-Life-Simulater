@@ -102,8 +102,8 @@ function compileResultNode(graph: LogicGraphDocument, page: LogicPage, outputLan
   const label =
     options.length > 1
       ? outputLanguage === "zh"
-        ? `继续进入后续路线（共享结果：${options.map((option) => option.id).join(", ")}）`
-        : `Continue to the next route (shared result: ${options.map((option) => option.id).join(", ")})`
+        ? "继续进入后续路线"
+        : "Continue to the next route"
       : outputLanguage === "zh"
         ? "继续进入后续路线"
         : "Continue to the next route";
@@ -165,7 +165,7 @@ export function compileLogicGraphToStoryDocument(
   const endings: StoryDocument["endings"] = {};
   for (const ending of Object.values(graph.endings)) {
     endings[ending.id] = {
-      scene_text: `${ending.title}. ${ending.condition_summary}`,
+      scene_text: ending.text?.trim() || `${ending.title}. ${ending.condition_summary}`,
       image_prompt: null,
       has_image: false,
       tone: ending.tone,
@@ -196,7 +196,7 @@ export function compileLogicGraphToStoryDocument(
       school: report.profile?.school,
       department: report.profile?.department,
       program: report.profile?.program,
-      semesters: 1,
+      semesters: report.profile?.semesters ?? 1,
     },
     initial_stats: {
       health: graph.base_variables.find((variable) => variable.id === "wellbeing")?.initial ?? 70,

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true, "types": ["node"] },
+  "include": ["src", "scripts/fullPostOfferGenerator.ts", "../tests/runtime.test.ts", "../scripts/audit-project.ts", "../scripts/audit-learning.ts"]
+}

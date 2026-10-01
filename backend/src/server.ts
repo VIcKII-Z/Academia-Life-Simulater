@@ -1,4 +1,7 @@
+import { inferStudyDuration } from "../../shared/studyDesign.js";
 import "dotenv/config";
+import { storyLanguage, storyLanguageIssues } from "../../shared/storyLanguage.js";
+import { fullGenerationCachePayload } from "./generationCache.js";
 import express from "express";
 import cors from "cors";
 import { exec, spawn } from "node:child_process";
@@ -31,7 +34,7 @@ const STORIES_DIR = path.resolve(process.cwd(), "..", "data", "stories");
 const ASSETS_DIR = path.resolve(process.cwd(), "..", "data", "assets");
 const RUNS_DIR = path.resolve(process.cwd(), "..", "data", "runs");
 const STORY_STRUCTURE_VERSION = "post-offer-v1-variable-gated";
-const FULL_GENERATOR_VERSION = "full-post-offer-v4-normalized-official-research";
+const FULL_GENERATOR_VERSION = "full-post-offer-v6-supported-cohorts";
 const MANUAL_FULL_GENERATOR_PROFILE: UserProfile = {
   country: "Japan",
   city: "Tokyo",
@@ -230,8 +233,9 @@ async function readFullGeneratorLogTail(storyId: string): Promise<string[]> {
 
 async function hasFullGeneratorFinalStory(storyId: string): Promise<boolean> {
   try {
-    await fs.access(path.join(RUNS_DIR, storyId, "09_final_story.json"));
-    return true;
+    const raw = await fs.readFile(path.join(RUNS_DIR, storyId, "09_final_story.json"), "utf8");
+    const doc = JSON.parse(raw) as StoryDocument;
+    return Boolean(doc.nodes && Object.keys(doc.nodes).length && doc.endings && storyLanguageIssues(doc).length === 0);
   } catch {
     return false;
   }
@@ -330,18 +334,9 @@ function buildCacheStoryId(
 function buildFullGenerationStoryId(
   profile: UserProfile | undefined,
   runtimeConfig: RuntimeConfig | undefined,
+  model: string,
 ): string {
-  const keyPayload = canonicalize(
-    {
-      generatorVersion: FULL_GENERATOR_VERSION,
-      profile,
-      models: runtimeConfig?.models,
-      outputLanguage: runtimeConfig?.outputLanguage ?? "en",
-      imageGeneration: runtimeConfig?.features.enableImageGeneration ?? false,
-      maxImagesPerStory: runtimeConfig?.features.maxImagesPerStory ?? 0,
-    },
-    true,
-  );
+  const keyPayload = canonicalize(fullGenerationCachePayload(profile, runtimeConfig, model, FULL_GENERATOR_VERSION), true);
   const hash = createHash("sha1").update(JSON.stringify(keyPayload)).digest("hex").slice(0, 12);
   const seed = profile?.school || profile?.city || "study_abroad";
   return `${sanitizeStoryId(seed)}_full_${hash}`;
@@ -392,8 +387,8 @@ function prepareCachedStoryForResponse(cached: unknown, rawRuntimeConfig: unknow
   if (enableImageGeneration) return cached as object;
 
   const doc = JSON.parse(JSON.stringify(cached)) as {
-    nodes?: Record<string, { image_url?: string }>;
-    endings?: Record<string, { image_url?: string }>;
+    nodes?: Record<string, { image_url?: string; scene_text?: string }>;
+    endings?: Record<string, { image_url?: string; scene_text?: string }>;
   };
   for (const node of Object.values(doc.nodes ?? {})) delete node.image_url;
   for (const ending of Object.values(doc.endings ?? {})) delete ending.image_url;
@@ -875,7 +870,9 @@ app.get("/api/stories", async (req, res) => {
   // The home-page shelf is intentionally a tiny "recently generated" cache,
   // not a debug archive. Old test stories remain addressable by id but are not
   // exposed in the user-facing library.
-  const limit = 2;
+  const requestedLimit = Number(req.query.limit ?? 2);
+  const limit = Number.isFinite(requestedLimit) ? Math.max(1, Math.min(50, Math.floor(requestedLimit))) : 2;
+  const language = req.query.language === "zh" ? "zh" : req.query.language === "en" ? "en" : undefined;
   try {
     const entries = await fs.readdir(STORIES_DIR, { withFileTypes: true });
     const stories = (await Promise.all(entries
@@ -888,10 +885,11 @@ app.get("/api/stories", async (req, res) => {
             story_id?: string;
             user_profile?: { school?: string; program?: string; major?: string; city?: string; country?: string };
             full_generation?: { output_language?: string; generated_at?: string };
-            nodes?: Record<string, { image_url?: string }>;
-            endings?: Record<string, { image_url?: string }>;
+            nodes?: Record<string, { image_url?: string; scene_text?: string }>;
+            endings?: Record<string, { image_url?: string; scene_text?: string }>;
           };
           if (!doc.story_id || !doc.user_profile) return null;
+          if (language && (storyLanguage(doc) !== language || storyLanguageIssues(doc, language).length > 0)) return null;
           const pages = [...Object.values(doc.nodes ?? {}), ...Object.values(doc.endings ?? {})];
           return {
             storyId: doc.story_id,
@@ -899,7 +897,7 @@ app.get("/api/stories", async (req, res) => {
             program: doc.user_profile.program ?? doc.user_profile.major ?? "Study-abroad route",
             city: doc.user_profile.city ?? "",
             country: doc.user_profile.country ?? "",
-            outputLanguage: doc.full_generation?.output_language ?? "en",
+            outputLanguage: storyLanguage(doc),
             // Git checkouts assign new mtimes to every file. Prefer the
             // generation timestamp embedded in the portable cache so the two
             // truly newest stories remain stable after clone/deploy.
@@ -945,7 +943,7 @@ app.get("/api/stories/:storyId", async (req, res) => {
 app.post("/api/full-generate", async (req, res) => {
   const {
     runtimeConfig: rawRuntimeConfig,
-    profile,
+    profile: rawProfile,
     storyId: requestedStoryId,
     regenerate,
     model: requestedModel,
@@ -957,6 +955,11 @@ app.post("/api/full-generate", async (req, res) => {
     model?: string;
   };
 
+  if (rawProfile && (typeof rawProfile.country !== "string" || !rawProfile.country.trim() || !["Undergraduate", "Taught Master"].includes(rawProfile.grade))) {
+    res.status(400).json({ error: "Choose a destination and a supported degree (Undergraduate or Taught Master)." });
+    return;
+  }
+  const profile = rawProfile ? { ...rawProfile, semesters: inferStudyDuration(rawProfile).semesters } : undefined;
   let runtimeConfig: RuntimeConfig | undefined;
   try {
     runtimeConfig = resolveRuntimeConfig(rawRuntimeConfig, "live_search");
@@ -965,7 +968,8 @@ app.post("/api/full-generate", async (req, res) => {
     return;
   }
 
-  const baseStoryId = buildFullGenerationStoryId(profile, runtimeConfig);
+  const model = requestedModel?.trim() || runtimeConfig?.services?.text?.model?.trim() || process.env.GCLI_MODEL || config.models.design;
+  const baseStoryId = buildFullGenerationStoryId(profile, runtimeConfig, model);
   const storyId =
     typeof requestedStoryId === "string" && requestedStoryId.trim()
       ? sanitizeStoryId(requestedStoryId)
@@ -995,6 +999,12 @@ app.post("/api/full-generate", async (req, res) => {
   }
 
   const textService = runtimeConfig?.services?.text;
+  // Recheck after the asynchronous cache lookup to avoid launching duplicate jobs.
+  const concurrentJob = fullGenerationJobs.get(storyId);
+  if (concurrentJob?.status === "running") {
+    res.json(await fullGenerationStatus(concurrentJob));
+    return;
+  }
   const searchService = runtimeConfig?.services?.search;
   const imageService = runtimeConfig?.services?.image;
   const textApiKey = textService?.apiKey?.trim() || runtimeConfig?.apiKey?.trim() || process.env.GCLI_API_KEY || process.env.OPENAI_API_KEY || "";
@@ -1009,7 +1019,6 @@ app.post("/api/full-generate", async (req, res) => {
     return;
   }
 
-  const model = requestedModel?.trim() || textService?.model?.trim() || process.env.GCLI_MODEL || "gemini-3-flash-preview";
   const now = new Date().toISOString();
   const job: FullGenerationJob = {
     storyId,

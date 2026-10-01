@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useI18n, type Language } from "../lib/i18n";
+import { translateCopy } from "../lib/uiCopy";
+import { localizeEntity } from "../lib/entities";
 import { createPortal } from "react-dom";
 import { fetchExchangeRate, type ExchangeRate } from "../lib/api";
 import type { PageTermAnnotation, ReferenceProfiles, StorySource, UserProfile } from "../types";
@@ -82,12 +85,12 @@ function profileEntitySeeds(text: string, profile: UserProfile | undefined, sour
   };
 
   if (profile) {
-    push(profile.country, `${profile.country}是本故事的留学目的地国家；相关政策和生活条件构成决策背景。`, "location");
-    push(profile.city, `${profile.city}是本故事的留学城市；当地成本、住房、交通和行政条件会影响选择。`, "location");
-    push(profile.school, `查看${profile.school}的类型、所在地和带年份的可核实排名。`, "institution");
-    push(profile.department, `查看${profile.department}所属大学的背景；具体录取和培养要求见专业资料卡。`, "institution");
-    push(profile.program, `查看${profile.program}的学制学分、语言、录取条件、期限、费用和毕业要求。`, "discipline");
-    push(profile.major, `查看${profile.major}相关项目的培养结构、录取门槛和完成要求。`, "discipline");
+    push(profile.country, "本故事的留学目的地国家，其签证、居留和工作规定构成决策背景。", "location");
+    push(profile.city, "本故事的留学城市；当地生活成本、住房和行政办理条件会影响学生决策。", "location");
+    push(profile.school, "查看这所大学的类型、所在地，以及带榜单名称和年份的最新可核实排名。", "institution");
+    push(profile.department, "查看该院系所属大学的可核实背景；具体培养与录取信息见专业资料卡。", "institution");
+    push(profile.program, "查看该项目的学制学分、授课语言、录取条件、申请期限、费用与毕业要求。", "discipline");
+    push(profile.major, "查看该项目的学制学分、授课语言、录取条件、申请期限、费用与毕业要求。", "discipline");
   }
 
   for (const alias of entityAliases) {
@@ -123,12 +126,11 @@ function inferCategory(term: PageTermAnnotation): NonNullable<PageTermAnnotation
 
 function currencyFromText(value: string): string | null {
   if (/欧元|EUR|€/i.test(value)) return "EUR";
-  if (/美元|USD|US\$|\$/i.test(value)) return "USD";
+  if (/美元|USD|US\$/i.test(value)) return "USD";
   if (/英镑|GBP|£/i.test(value)) return "GBP";
   if (/日元|JPY/i.test(value)) return "JPY";
   if (/斯里兰卡卢比|卢比|LKR|Rs\.?/i.test(value)) return "LKR";
   if (/人民币|CNY|RMB|CN¥/i.test(value)) return "CNY";
-  if (/¥/.test(value)) return "CNY";
   return null;
 }
 
@@ -173,6 +175,7 @@ function annotationRanges(
   profile: UserProfile | undefined,
   sources: StorySource[],
   glossaryTerms: PageTermAnnotation[],
+  language: Language,
 ): InlineAnnotation[] {
   const candidates: InlineAnnotation[] = [];
 
@@ -227,11 +230,14 @@ function annotationRanges(
     if (accepted.some((current) => candidate.start < current.end && candidate.end > current.start)) continue;
     accepted.push(candidate);
   }
-  return accepted.sort((a, b) => a.start - b.start);
+  return accepted.sort((a, b) => a.start - b.start).map((term) => ({ ...term,
+    explanation: translateCopy(term.explanation, language),
+    importance_reason: term.importance_reason ? translateCopy(term.importance_reason, language) : undefined,
+  }));
 }
 
-function formatConverted(amount: number, currency: "CNY" | "LKR"): string {
-  return new Intl.NumberFormat(currency === "CNY" ? "zh-CN" : "en-LK", {
+function formatConverted(amount: number, currency: "CNY" | "LKR", language: Language): string {
+  return new Intl.NumberFormat(language === "zh" ? "zh-CN" : "en-LK", {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
@@ -246,7 +252,10 @@ function joined(values: string[] | undefined): string | null {
 function decisionFacts(
   annotation: InlineAnnotation,
   profiles: ReferenceProfiles | undefined,
+  language: Language,
 ): { title: string; facts: DecisionFact[] } | null {
+  const copy = (text: string) => translateCopy(text, language);
+  const entity = (text: string | undefined) => localizeEntity(text ?? "", language);
   if (annotation.category === "institution") {
     const institution = profiles?.institution;
     const facts: DecisionFact[] = [];
@@ -260,40 +269,41 @@ function decisionFacts(
       });
     }
     if (!(institution?.rankings?.length)) {
-      facts.push({ label: "大学排名", value: "当前资料未确认带榜单名称和年份的可靠排名。" });
+      facts.push({ label: copy("大学排名"), value: copy("当前资料未确认带榜单名称和年份的可靠排名。") });
     }
-    if (institution?.institution_type) facts.push({ label: "学校类型", value: institution.institution_type });
-    if (institution?.location) facts.push({ label: "所在地", value: institution.location });
-    return { title: "院校决策资料", facts };
+    if (institution?.institution_type) facts.push({ label: copy("学校类型"), value: institution.institution_type });
+    if (institution?.location) facts.push({ label: copy("所在地"), value: institution.location.split(/[,，]/).map((part) => entity(part.trim())).join(language === "zh" ? "，" : ", ") });
+    return { title: copy("院校决策资料"), facts };
   }
 
   if (annotation.category === "discipline") {
     const program = profiles?.program;
     const facts: DecisionFact[] = [];
-    const degree = [program?.degree_type, program?.official_name].filter(Boolean).join(" · ");
+    const degree = [program?.degree_type, program?.official_name].filter(Boolean).map(entity).join(" · ");
     const length = [program?.duration, program?.credits].filter(Boolean).join(" · ");
-    if (degree) facts.push({ label: "项目与学位", value: degree });
+    if (degree) facts.push({ label: copy("项目与学位"), value: degree });
     const prerequisites = joined(program?.prerequisites);
     const admissions = joined(program?.admissions);
     const deadlines = joined(program?.deadlines);
     const funding = joined(program?.funding);
     const milestones = joined(program?.milestones);
-    if (prerequisites) facts.push({ label: "申请基础", value: prerequisites });
-    if (admissions) facts.push({ label: "录取与材料", value: admissions });
-    else facts.push({ label: "录取与材料", value: "当前资料未确认完整录取条件，请核对项目官方页面。" });
-    if (deadlines) facts.push({ label: "申请期限", value: deadlines });
-    if (program?.department) facts.push({ label: "所属院系", value: program.department });
-    if (length) facts.push({ label: "学制与学分", value: length });
-    if (program?.delivery_mode) facts.push({ label: "授课语言/形式", value: program.delivery_mode });
-    if (funding) facts.push({ label: "学费与资金", value: funding });
-    if (milestones) facts.push({ label: "培养与毕业", value: milestones });
-    return { title: "专业决策资料", facts };
+    if (prerequisites) facts.push({ label: copy("申请基础"), value: prerequisites });
+    if (admissions) facts.push({ label: copy("录取与材料"), value: admissions });
+    else facts.push({ label: copy("录取与材料"), value: copy("当前资料未确认完整录取条件，请核对项目官方页面。") });
+    if (deadlines) facts.push({ label: copy("申请期限"), value: deadlines });
+    if (program?.department) facts.push({ label: copy("所属院系"), value: entity(program.department) });
+    if (length) facts.push({ label: copy("学制与学分"), value: length });
+    if (program?.delivery_mode) facts.push({ label: copy("授课语言/形式"), value: program.delivery_mode });
+    if (funding) facts.push({ label: copy("学费与资金"), value: funding });
+    if (milestones) facts.push({ label: copy("培养与毕业"), value: milestones });
+    return { title: copy("专业决策资料"), facts };
   }
 
   return null;
 }
 
 function CurrencyConversion({ amount, currency }: { amount: number; currency: string }) {
+  const { copy, language } = useI18n();
   const [rates, setRates] = useState<ExchangeRate[]>([]);
   const [failed, setFailed] = useState(false);
 
@@ -301,7 +311,7 @@ function CurrencyConversion({ amount, currency }: { amount: number; currency: st
     let cancelled = false;
     setRates([]);
     setFailed(false);
-    Promise.all(["CNY", "LKR"].map((quote) => fetchExchangeRate(currency, quote)))
+    Promise.all([language === "zh" ? "CNY" : "LKR"].map((quote) => fetchExchangeRate(currency, quote)))
       .then((result) => {
         if (!cancelled) setRates(result);
       })
@@ -311,18 +321,18 @@ function CurrencyConversion({ amount, currency }: { amount: number; currency: st
     return () => {
       cancelled = true;
     };
-  }, [amount, currency]);
+  }, [amount, currency, language]);
 
-  if (failed) return <p className="termPopoverRateState">暂时无法取得参考汇率，请以付款当日汇率为准。</p>;
-  if (!rates.length) return <p className="termPopoverRateState">正在换算人民币和斯里兰卡卢比…</p>;
+  if (failed) return <p className="termPopoverRateState">{copy("暂时无法取得参考汇率，请以付款当日汇率为准。")}</p>;
+  if (!rates.length) return <p className="termPopoverRateState">{language === "zh" ? "正在换算人民币…" : "Converting to Sri Lankan rupees…"}</p>;
 
   return (
     <div className="termPopoverRates">
-      <span>参考换算</span>
+      <span>{copy("参考换算")}</span>
       {rates.map((rate) => (
-        <strong key={rate.quote}>约 {formatConverted(amount * rate.rate, rate.quote as "CNY" | "LKR")}</strong>
+        <strong key={rate.quote}>{copy("约")} {formatConverted(amount * rate.rate, rate.quote as "CNY" | "LKR", language)}</strong>
       ))}
-      <small>汇率日期 {rates[0].date} · 仅供参考</small>
+      <small>{copy("汇率日期")} {rates[0].date} · {copy("仅供参考")}</small>
     </div>
   );
 }
@@ -359,9 +369,11 @@ export default function InlineAnnotatedText({
   glossaryTerms = [],
   referenceProfiles,
 }: InlineAnnotatedTextProps) {
+  const { copy, language } = useI18n();
+  const displayText = text.replace(/\*\*([^*]+)\*\*/g, "$1");
   const annotations = useMemo(
-    () => annotationRanges(text, terms, evidenceIds, profile, sources, glossaryTerms),
-    [evidenceIds, glossaryTerms, profile, sources, terms, text],
+    () => annotationRanges(displayText, terms, evidenceIds, profile, sources, glossaryTerms, language),
+    [evidenceIds, glossaryTerms, profile, sources, terms, displayText, language],
   );
   const [popover, setPopover] = useState<PopoverState | null>(null);
   const closeTimer = useRef<number | null>(null);
@@ -406,29 +418,29 @@ export default function InlineAnnotatedText({
   const content: ReactNode[] = [];
   let cursor = 0;
   for (const annotation of annotations) {
-    if (annotation.start > cursor) content.push(text.slice(cursor, annotation.start));
+    if (annotation.start > cursor) content.push(displayText.slice(cursor, annotation.start));
     content.push(
       <span
         className={`inlineTerm inlineTerm--${annotation.importance}`}
         key={`${annotation.start}-${annotation.end}`}
         tabIndex={0}
         role="button"
-        aria-label={`${annotation.term}，${annotation.category ? categoryLabels[annotation.category] : "术语"}，${importanceLabels[annotation.importance]}。查看注释`}
+        aria-label={`${annotation.term} · ${annotation.category ? copy(categoryLabels[annotation.category]) : copy("术语")} · ${copy(importanceLabels[annotation.importance])} · ${copy("查看注释")}`}
         onMouseEnter={(event) => open(annotation, event.currentTarget)}
         onMouseLeave={scheduleClose}
         onFocus={(event) => open(annotation, event.currentTarget)}
         onBlur={scheduleClose}
         onClick={(event) => open(annotation, event.currentTarget)}
       >
-        {text.slice(annotation.start, annotation.end)}
+        {displayText.slice(annotation.start, annotation.end)}
       </span>,
     );
     cursor = annotation.end;
   }
-  if (cursor < text.length) content.push(text.slice(cursor));
+  if (cursor < displayText.length) content.push(displayText.slice(cursor));
 
   const sourceMap = new Map(sources.map((source) => [source.evidence_id, source]));
-  const activeDecisionCard = popover ? decisionFacts(popover.annotation, referenceProfiles) : null;
+  const activeDecisionCard = popover ? decisionFacts(popover.annotation, referenceProfiles, language) : null;
   const activeEvidenceIds = popover
     ? [...new Set([
       ...popover.annotation.evidence_ids,
@@ -441,11 +453,11 @@ export default function InlineAnnotatedText({
     <>
       <p>{content}</p>
       {annotations.length > 0 && (
-        <div className="inlineTermLegend" aria-label="正文标注重要性说明">
-          <span><i className="inlineTermLegendDot inlineTermLegendDot--critical" />核心</span>
-          <span><i className="inlineTermLegendDot inlineTermLegendDot--important" />重要</span>
-          <span><i className="inlineTermLegendDot inlineTermLegendDot--supplementary" />补充</span>
-          <small>悬停或点击红色文字查看注释</small>
+        <div className="inlineTermLegend" aria-label={copy("正文标注重要性说明")}>
+          <span><i className="inlineTermLegendDot inlineTermLegendDot--critical" />{copy("核心")}</span>
+          <span><i className="inlineTermLegendDot inlineTermLegendDot--important" />{copy("重要")}</span>
+          <span><i className="inlineTermLegendDot inlineTermLegendDot--supplementary" />{copy("补充")}</span>
+          <small>{copy("悬停或点击红色文字查看注释")}</small>
         </div>
       )}
       {popover && createPortal(
@@ -459,11 +471,11 @@ export default function InlineAnnotatedText({
           onBlur={scheduleClose}
         >
           <div className="termPopoverHead">
-            <span>{popover.annotation.category ? categoryLabels[popover.annotation.category] : "术语"} · {importanceLabels[popover.annotation.importance]}</span>
+            <span>{popover.annotation.category ? copy(categoryLabels[popover.annotation.category]) : copy("术语")} · {copy(importanceLabels[popover.annotation.importance])}</span>
             <strong>{popover.annotation.term}</strong>
           </div>
           <p>{popover.annotation.explanation}</p>
-          {popover.annotation.importance_reason && <small className="termPopoverReason">为什么重要：{popover.annotation.importance_reason}</small>}
+          {popover.annotation.importance_reason && <small className="termPopoverReason">{copy("为什么重要：")}{popover.annotation.importance_reason}</small>}
           {activeDecisionCard && (
             <section className="termPopoverDecisionCard">
               <span>{activeDecisionCard.title}</span>
@@ -485,9 +497,9 @@ export default function InlineAnnotatedText({
           )}
           {activeSources.length > 0 && (
             <div className="termPopoverSources">
-              <span>资料来源</span>
+              <span>{copy("资料来源")}</span>
               {activeSources.map(({ id, source }) => source?.url ? (
-                <a href={source.url} target="_blank" rel="noreferrer" key={id}>{id} · {source.title}</a>
+                <a href={source.url} target="_blank" rel="noreferrer" key={id}>{copy("资料来源")} {activeSources.findIndex((item) => item.id === id) + 1}</a>
               ) : <small key={id}>{id}</small>)}
             </div>
           )}

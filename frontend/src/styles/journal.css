@@ -79,6 +79,15 @@
   background-attachment: fixed;
 }
 
+/* The scrapbook raster contains English handwriting. Chinese screens use
+   the text-free paper treatment instead of embedding untranslated labels. */
+html[lang="zh-CN"] .journal--onboarding {
+  background-image:
+    radial-gradient(ellipse at 12% 20%, rgba(184, 134, 59, 0.13), transparent 44%),
+    radial-gradient(ellipse at 90% 75%, rgba(193, 104, 63, 0.10), transparent 46%),
+    repeating-linear-gradient(0deg, rgba(44, 36, 24, 0.018) 0 1px, transparent 1px 4px);
+}
+
 /* ---- Centered single-card stages (admission / time-skip / error) --
    These sit in the same viewport as onboarding but should read as a
    standalone "interstitial" screen — vertically centered in the middle of
@@ -2392,3 +2401,11 @@
     padding: 18px 14px 0;
   }
 }
+/* Text branding follows the chosen language; raster lettering cannot. */
+.localizedBrand { text-align: center; color: var(--ink, #26384a); }
+.localizedBrand strong { display: block; font-size: clamp(24px, 4vw, 42px); }
+.localizedBrand small { display: block; margin-top: 8px; font-size: 15px; }
+.languageWelcome .journalCard { text-align: center; width: min(600px, 94vw); }
+.languageWelcome .journalButtonRow { justify-content: center; }
+.languageWelcome h1 { font-size: clamp(20px, 3vw, 30px); }
+.legacyStats { display: flex; gap: 16px; flex-wrap: wrap; padding: 12px 20px; }
